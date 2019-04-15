@@ -1,25 +1,31 @@
-apiVersion: apps/v1beta1
+apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: {{ include "mailhog.fullname" . }}
   labels:
-    app: {{ template "mailhog.name" . }}
-    chart: {{ template "mailhog.chart" . }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
-  name: {{ template "mailhog.fullname" . }}
+    app.kubernetes.io/name: {{ include "mailhog.name" . }}
+    helm.sh/chart: {{ include "mailhog.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ include "mailhog.name" . }}
+      app.kubernetes.io/instance: {{ .Release.Name }}
   template:
     metadata:
-    {{- if .Values.podAnnotations }}
+      {{- with .Values.podAnnotations }}
       annotations:
-{{ toYaml .Values.podAnnotations | indent 8 }}
-    {{- end }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       labels:
-        app: {{ template "mailhog.name" . }}
-        release: {{ .Release.Name }}
+        app.kubernetes.io/name: {{ include "mailhog.name" . }}
+        app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
       securityContext:
         runAsUser: 1000
+        fsGroup: 1000
+        runAsNonRoot: true
       containers:
         - name: {{ template "mailhog.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
@@ -33,9 +39,8 @@ spec:
             - name: MH_AUTH_FILE
               value: /authdir/{{ .Values.auth.fileName }}
           {{- end }}
-          {{- range $key, $value := .Values.env }}
-            - name: "{{ $key }}"
-              value: "{{ $value }}"
+          {{- with .Values.extraEnv }}
+            {{- toYaml . | nindent 12 }}
           {{- end }}
           ports:
             - name: http
@@ -59,10 +64,18 @@ spec:
               readOnly: true
           {{- end }}
           resources:
-{{ toYaml .Values.resources | indent 12 }}
-    {{- if .Values.nodeSelector }}
+            {{- toYaml .Values.resources | nindent 12 }}
+    {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.nodeSelector }}
       nodeSelector:
-{{ toYaml .Values.nodeSelector | indent 8 }}
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
     {{- end }}
     {{- if .Values.auth.enabled }}
       volumes:
