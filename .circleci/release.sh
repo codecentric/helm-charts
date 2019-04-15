@@ -58,7 +58,7 @@ main() {
 
 find_latest_tag() {
     if ! git describe --tags --abbrev=0 2> /dev/null; then
-        git rev-list --max-parents=0 HEAD
+        git rev-list --max-parents=0 --first-parent HEAD
     fi
 }
 
