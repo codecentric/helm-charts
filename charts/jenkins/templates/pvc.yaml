@@ -1,0 +1,21 @@
+{{- if and .Values.persistence.enabled (not .Values.persistence.existingClaim) -}}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "jenkins.fullname" . }}
+  labels:
+    {{- include "jenkins.masterLabels" . | nindent 4 }}
+{{- with .Values.persistence.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+{{- end }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: "{{ .Values.persistence.size }}"
+{{- with .Values.persistence.storageClass }}
+  storageClassName: {{ if (eq "-" .) }}""{{ else }}{{ . }}{{ end }}
+{{- end }}
+{{- end -}}

@@ -1,0 +1,21 @@
+apiVersion: v1
+name: jenkins
+description: The leading open source automation server
+version: 1.0.0
+appVersion: 2.164.2
+home: https://jenkins.io/
+icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
+sources:
+  - https://github.com/jenkinsci/jenkins
+  - https://github.com/jenkinsci/docker
+  - https://github.com/jenkinsci/docker-jnlp-slave
+keywords:
+  - ci
+  - continuous integration
+  - continuous delivery
+  - continuous deployment
+  - devops
+  - automation
+maintainers:
+  - name: unguiculus
+    email: unguiculus@gmail.com
