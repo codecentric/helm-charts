@@ -1,30 +1,32 @@
 apiVersion: v1
 kind: Service
 metadata:
-{{- if .Values.service.annotations }}
+  name: {{ include "mailhog.fullname" . }}
+  {{- with .Values.service.annotations }}
   annotations:
-{{ toYaml .Values.service.annotations | indent 4 }}
-{{- end }}
+    {{- toYaml | nindent 4 }}
+  {{- end }}
   labels:
-    app: {{ template "mailhog.name" . }}
-    chart: {{ template "mailhog.chart" . }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
-  name: {{ template "mailhog.fullname" . }}
+    app.kubernetes.io/name: {{ include "mailhog.name" . }}
+    helm.sh/chart: {{ include "mailhog.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
 spec:
   type: "{{ .Values.service.type }}"
-  clusterIP: "{{ .Values.service.clusterIP }}"
-{{- if .Values.service.externalIPs }}
+  {{- with .Values.service.clusterIP }}
+  clusterIP: "{{ . }}"
+  {{- end }}
+  {{- with .Values.service.externalIPs }}
   externalIPs:
-{{ toYaml .Values.service.externalIPs | indent 4 }}
-{{- end }}
-{{- if .Values.service.loadBalancerIP }}
-  loadBalancerIP: "{{ .Values.service.loadBalancerIP }}"
-{{- end }}
-{{- if .Values.service.loadBalancerSourceRanges }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .Values.service.loadBalancerIP }}
+  loadBalancerIP: "{{ . }}"
+  {{- end }}
+  {{- with .Values.service.loadBalancerSourceRanges }}
   loadBalancerSourceRanges:
-{{ toYaml .Values.service.loadBalancerSourceRanges | indent 4 }}
-{{- end }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   ports:
     - name: http
       port: {{ .Values.service.port.http }}
@@ -41,5 +43,5 @@ spec:
       nodePort: {{ .Values.service.nodePort.smtp }}
       {{- end }}
   selector:
-    app: {{ template "mailhog.name" . }}
-    release: {{ .Release.Name }}
+    app.kubernetes.io/name: {{ include "mailhog.name" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
