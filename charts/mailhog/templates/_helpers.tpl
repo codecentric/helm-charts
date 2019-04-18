@@ -35,20 +35,9 @@ Create chart name and version as used by the chart label.
 Create the name for the auth secret.
 */}}
 {{- define "mailhog.authFileSecret" -}}
-    {{- if .Values.auth.existingKeySecret -}}
-        {{- .Values.auth.existingKeySecret -}}
+    {{- if .Values.auth.existingSecret -}}
+        {{- .Values.auth.existingSecret -}}
     {{- else -}}
         {{- template "mailhog.fullname" . -}}-auth
-    {{- end -}}
-{{- end -}}
-
-{{/*
-Create the name for the tls secret.
-*/}}
-{{- define "mailhog.tlsSecret" -}}
-    {{- if .Values.ingress.tls.existingSecret -}}
-        {{- .Values.ingress.tls.existingSecret -}}
-    {{- else -}}
-        {{- template "mailhog.fullname" . -}}-tls
     {{- end -}}
 {{- end -}}
