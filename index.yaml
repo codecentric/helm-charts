@@ -1,9 +1,35 @@
 apiVersion: v1
 entries:
+  jenkins:
+  - apiVersion: v1
+    appVersion: 2.164.2
+    created: "2019-04-26T15:06:31.598152131Z"
+    description: The leading open source automation server
+    digest: f73552b0895f7611e5892de00390931f74b5d013e6829b3c4ab5b02fab82c1da
+    home: https://jenkins.io/
+    icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
+    keywords:
+    - ci
+    - continuous integration
+    - continuous delivery
+    - continuous deployment
+    - devops
+    - automation
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: jenkins
+    sources:
+    - https://github.com/jenkinsci/jenkins
+    - https://github.com/jenkinsci/docker
+    - https://github.com/jenkinsci/docker-jnlp-slave
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.0.0/jenkins-1.0.0.tgz
+    version: 1.0.0
   mailhog:
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2019-04-18T10:15:46.317228558Z"
+    created: "2019-04-26T15:06:31.724075763Z"
     description: An e-mail testing tool for developers
     digest: f6780364403a63cd3904e84e7d15fabe98708a634dc823f4bab1b9fdbd913cb1
     home: http://iankent.uk/project/mailhog/
@@ -24,4 +50,4 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/mailhog-3.0.0/mailhog-3.0.0.tgz
     version: 3.0.0
-generated: "2019-04-18T10:15:45.86315682Z"
+generated: "2019-04-26T15:06:31.164907244Z"
