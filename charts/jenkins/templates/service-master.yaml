@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "jenkins.fullname" . }}-master
+  labels:
+    {{- include "jenkins.masterLabels" . | nindent 4 }}
+{{- with .Values.service.master.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+{{- end }}
+spec:
+  type: {{ .Values.service.master.type }}
+{{- with .Values.service.master.clusterIP }}
+  clusterIP: "{{ . }}"
+{{- end }}
+{{- with .Values.service.master.externalIPs }}
+  externalIPs:
+    {{- toYaml . | nindent 4 }}
+{{- end }}
+{{- with .Values.service.master.loadBalancerIP }}
+  loadBalancerIP: "{{ . }}"
+{{- end }}
+{{- with .Values.service.master.loadBalancerSourceRanges }}
+  loadBalancerSourceRanges:
+    {{- toYaml . | nindent 4 }}
+{{- end }}
+{{- with .Values.service.master.externalTrafficPolicy }}
+  externalTrafficPolicy: "{{ . }}"
+{{- end }}
+  ports:
+    - port: {{ .Values.service.master.port }}
+      targetPort: http
+      protocol: TCP
+      name: http
+    {{- if (and (eq .Values.service.master.type "NodePort") (not (empty .Values.service.master.nodePort))) }}
+      nodePort: {{ .Values.service.master.nodePort }}
+    {{- end }}
+  selector:
+    {{- include "jenkins.selectorLabels" . | nindent 4 }}

@@ -1,0 +1,174 @@
+nameOverride: ""
+fullnameOverride: ""
+
+image:
+  repository: jenkins/jenkins
+  tag: 2.164.2-alpine
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: []
+# - my-pull-secret
+
+# Annotations for the Jenkins pod
+podAnnotations: {}
+
+# JVM options
+javaOpts: >-
+  -Dhudson.slaves.NodeProvisioner.initialDelay=0
+  -Dhudson.model.LoadStatistics.decay=0.7
+  -Dhudson.slaves.NodeProvisioner.MARGIN=30
+  -Dhudson.slaves.NodeProvisioner.MARGIN0=0.6
+  -XX:+UnlockExperimentalVMOptions
+  -XX:+UseCGroupMemoryLimitForHeap
+  -XX:MaxRAMFraction=2
+  -XshowSettings:vm
+
+# Additional environment variables
+extraEnv: |
+
+livenessProbe:
+  httpGet:
+    path: /login
+    port: http
+  initialDelaySeconds: 90
+
+readinessProbe:
+  httpGet:
+    path: /login
+    port: http
+  initialDelaySeconds: 15
+
+resources: {}
+# requests:
+#   cpu: 1
+#   memory: 1Gi
+# limits:
+#   cpu: 2
+#   memory: 2Gi
+
+affinity: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+terminationGracePeriodSeconds: 30
+
+securityContext:
+  runAsUser: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
+
+serviceAccount:
+  master:
+    # Specifies whether a ServiceAccount should be created
+    create: false
+    # The name of the ServiceAccount to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name: ""
+
+  # agent-foo:
+  #   # Specifies whether a ServiceAccount should be created
+  #   create: true
+  #   # The name of the ServiceAccount to use.
+  #   # If not set and create is true, a name is generated using the fullname template
+  #   name: ""
+
+  # agent-bar:
+  #   # Specifies whether a ServiceAccount should be created
+  #   create: true
+  #   # The name of the ServiceAccount to use.
+  #   # If not set and create is true, a name is generated using the fullname template
+  #   name: "bar-account"
+
+rbac:
+  master:
+    # Specifies whether RBAC resources should be created
+    create: false
+    rules: []
+
+  # agent-foo:
+  #   create: true
+  #   rules: []
+
+  # agent-bar:
+  #   create: true
+  #   rules:
+  #     - apiGroups:
+  #         - ""
+  #       resources:
+  #         - nodes
+  #       verbs:
+  #         - get
+  #     - apiGroups:
+  #         - ""
+  #       resources:
+  #         - services
+  #       verbs:
+  #         - get
+  #         - list
+  #         - update
+  #         - watch
+
+service:
+  master:
+    type: ClusterIP
+    clusterIP: ""
+    externalIPs: []
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    externalTrafficPolicy: ""
+    annotations: {}
+    port: 8080
+    nodePort:
+  agent:
+    clusterIP: ""
+    annotations: {}
+    port: 50000
+
+persistence:
+  enabled: true
+  ## If defined, storageClassName: <storageClass>.
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning.
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ## set, choosing the default provisioner (gp2 on AWS, standard on GKE, AWS, and OpenStack).
+  storageClass: ""
+  size: 10Gi
+  existingClaim: ""
+  annotations: {}
+
+ingress:
+  enabled: false
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+  paths: []
+  hosts:
+    - jenkins.example.com
+  tls: []
+    # - secretName: jenkins-tls
+    #   hosts:
+    #     - jenkins.example.com
+
+k8sCredentials: []
+
+casc:
+  existingSecret: ""
+  secrets: {}
+
+referenceContent: []
+
+forcePluginUpdates: false
+
+test:
+  enabled: false
+  image:
+    repository: unguiculus/docker-python3-phantomjs-selenium
+    tag: v1
+    pullPolicy: IfNotPresent
+  resources: {}
+  #  requests:
+  #    cpu: 200m
+  #    memory: 512Mi
+  #  limits:
+  #    cpu: 200m
+  #    memory: 512Mi

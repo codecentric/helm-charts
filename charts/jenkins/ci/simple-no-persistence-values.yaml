@@ -1,0 +1,7 @@
+terminationGracePeriodSeconds: 0
+
+persistence:
+  enabled: false
+
+test:
+  enabled: true

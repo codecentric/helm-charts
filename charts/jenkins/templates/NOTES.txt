@@ -1,0 +1,52 @@
+
+************************************************************************
+*                                                                      *
+*                 Jenkins Helm Chart by codecentric AG                 *
+*                                                                      *
+************************************************************************
+
+In case the chart was installed with the default configuration and you did not
+configure an admin user, Jenkins creates one per default. The initial password
+is logged and also stored in '/var/jenkins_home/secrets/initialAdminPassword'.
+
+Use the following command to retrieve it:
+
+export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "jenkins.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+kubectl exec --namespace {{ .Release.Namespace }} "$POD_NAME" cat /var/jenkins_home/secrets/initialAdminPassword
+
+
+Accessing your Jenkins server:
+
+{{ if .Values.ingress.enabled -}}
+
+{{- range $host := .Values.ingress.hosts }}
+  {{- range $.Values.ingress.paths -}}
+
+http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $host }}{{ . }}
+
+  {{- end -}}
+{{- end -}}
+
+{{- else if eq "NodePort" .Values.service.master.type -}}
+
+export NODE_PORT=$(kubectl get service --namespace {{ .Release.Namespace }} -o jsonpath="{.spec.ports[0].nodePort}" {{ include "jenkins.fullname" . }}-master)
+export NODE_IP=$(kubectl get nodes --namespace {{ .Release.Namespace }} -o jsonpath="{.items[0].status.addresses[0].address}")
+echo "http://$NODE_IP:$NODE_PORT"
+
+{{- else if eq "LoadBalancer" .Values.service.master.type -}}
+
+NOTE:
+It may take a few minutes for the LoadBalancer IP to be available.
+You can watch the status by running 'kubectl get service --namespace {{ .Release.Namespace }} --watch {{ include "jenkins.fullname" . }}-master'
+
+export SERVICE_IP=$(kubectl get service --namespace {{ .Release.Namespace }} {{ include "jenkins.fullname" . }}-master -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
+echo "http://$SERVICE_IP:{{ .Values.service.master.port }}"
+
+{{- else if eq "ClusterIP" .Values.service.master.type -}}
+
+Create port forwarding to access Jenkins at http://127.0.0.1:8080
+
+export POD_NAME=$(kubectl get pods --namespace {{ .Release.Namespace }} -l "app.kubernetes.io/name={{ include "jenkins.name" . }},app.kubernetes.io/instance={{ .Release.Name }}" -o jsonpath="{.items[0].metadata.name}")
+kubectl port-forward --namespace {{ .Release.Namespace }} "$POD_NAME" 8080:8080
+
+{{- end }}

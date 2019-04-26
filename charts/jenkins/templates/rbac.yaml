@@ -1,0 +1,19 @@
+{{- $context := dict "Values" $.Values "Chart" $.Chart "Release" $.Release }}
+{{- range $key, $value := .Values.rbac }}
+  {{- $_ := set $context "fullname" (printf "%s-%s" (include "jenkins.fullname" $) $key) }}
+  {{- $_ := set $context "name" $key }}
+  {{- $_ := set $context "create" .create }}
+  {{- $_ := set $context "rules" .rules }}
+
+  {{- with $value }}
+    {{- if .create }}
+      {{- if.rules }}
+        {{- print "---" | nindent 0 }}
+        {{- include "jenkins.clusterRole" $context | nindent 0 }}
+      {{- end }}
+
+      {{- print "---" | nindent 0 }}
+      {{- include "jenkins.clusterRoleBinding" $context | nindent 0 }}
+    {{- end }}
+  {{- end }}
+{{- end }}
