@@ -1,7 +1,7 @@
 apiVersion: v1
 name: jenkins
 description: The leading open source automation server
-version: 1.0.0
+version: 1.0.1
 appVersion: 2.164.2
 home: https://jenkins.io/
 icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
