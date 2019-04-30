@@ -89,6 +89,7 @@ Parameter | Description | Default
 `keycloak.service.nodePort` | The node port used if the service is of type `NodePort` | `""`
 `keycloak.ingress.enabled` | if `true`, an ingress is created | `false`
 `keycloak.ingress.annotations` | annotations for the ingress | `{}`
+`keycloak.ingress.labels` | Additional labels for the Keycloak ingress | `{}`
 `keycloak.ingress.path` | if `true`, an ingress is created | `/`
 `keycloak.ingress.hosts` | a list of ingress hosts | `[keycloak.example.com]`
 `keycloak.ingress.tls` | a list of [IngressTLS](https://v1-9.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.9/#ingresstls-v1beta1-extensions) items | `[]`

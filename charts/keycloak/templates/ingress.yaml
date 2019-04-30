@@ -13,6 +13,9 @@ metadata:
     chart: {{ template "keycloak.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
+{{- with $ingress.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
 {{- if $ingress.tls }}
   tls:
