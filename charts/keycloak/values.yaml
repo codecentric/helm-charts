@@ -195,6 +195,9 @@ keycloak:
       # kubernetes.io/tls-acme: "true"
       # ingress.kubernetes.io/affinity: cookie
 
+    labels: {}
+    # key: value
+
     ## List of hosts for the ingress
     hosts:
       - keycloak.example.com
