@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-readonly CT_VERSION=v2.3.0
+readonly CT_VERSION=v2.3.3
 readonly KIND_VERSION=0.2.1
 readonly CLUSTER_NAME=chart-testing
 readonly K8S_VERSION=v1.14.0
@@ -76,6 +76,13 @@ main() {
     run_ct_container
     trap cleanup EXIT
 
+    changed=$(docker_exec ct list-changed)
+    if [[ -z "$changed" ]]; then
+        echo 'No chart changes detected.'
+        return
+    fi
+
+    echo 'Chart changes detected.'
     create_kind_cluster
     install_local_path_provisioner
     install_tiller
