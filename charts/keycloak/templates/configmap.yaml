@@ -42,8 +42,6 @@ data:
 
 {{ tpl .logging $ | indent 4 }}
 
-{{ tpl .reverseProxy $ | indent 4 }}
-
 {{ tpl .datasource $ | indent 4 }}
 
 {{- if $highAvailability }}

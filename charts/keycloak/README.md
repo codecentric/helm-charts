@@ -56,7 +56,7 @@ Parameter | Description | Default
 `keycloak.existingSecretKey` |  The key in `keycloak.existingSecret` that stores the admin password | `password`
 `keycloak.extraInitContainers` | Additional init containers, e. g. for providing themes, etc. Passed through the `tpl` function and thus to be configured a string | `""`
 `keycloak.extraContainers` | Additional sidecar containers, e. g. for a database proxy, such as Google's cloudsql-proxy. Passed through the `tpl` function and thus to be configured a string | `""`
-`keycloak.extraEnv` | Allows the specification of additional environment variables for Keycloak. Passed through the `tpl` function and thus to be configured a string | `""`
+`keycloak.extraEnv` | Allows the specification of additional environment variables for Keycloak. Passed through the `tpl` function and thus to be configured a string | `PROXY_ADDRESS_FORWARDING="true"`
 `keycloak.extraVolumeMounts` | Add additional volumes mounts, e. g. for custom themes. Passed through the `tpl` function and thus to be configured a string | `""`
 `keycloak.extraVolumes` | Add additional volumes, e. g. for custom themes. Passed through the `tpl` function and thus to be configured a string | `""`
 `keycloak.extraPorts` | Add additional ports, e. g. for custom admin console port. Passed through the `tpl` function and thus to be configured a string | `""`
@@ -79,7 +79,6 @@ Parameter | Description | Default
 `keycloak.readinessProbe.timeoutSeconds` | Readiness Probe `timeoutSeconds` | `1`
 `keycloak.cli.nodeIdentifier` | WildFly CLI script for setting the node identifier | See `values.yaml`
 `keycloak.cli.logging` | WildFly CLI script for logging configuration | See `values.yaml`
-`keycloak.cli.reverseProxy` | WildFly CLI script for reverse proxy configuration | See `values.yaml`
 `keycloak.cli.ha` | Settings for HA setups | See `values.yaml`
 `keycloak.cli.custom` | Additional custom WildFly CLI script | `""`
 `keycloak.service.annotations` | Annotations for the Keycloak service | `{}`
