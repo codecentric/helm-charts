@@ -5,7 +5,7 @@ metadata:
   name: {{ template "keycloak.fullname" . }}-http
 {{- with $service.annotations }}
   annotations:
-{{ toYaml . | indent 4 }}
+    {{- toYaml . | nindent 4 }}
 {{- end }}
   labels:
     app: {{ template "keycloak.name" . }}
@@ -13,7 +13,7 @@ metadata:
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
 {{- with $service.labels }}
-{{ toYaml . | indent 4 }}
+    {{- toYaml . | nindent 4 }}
 {{- end }}
 spec:
   type: {{ $service.type }}

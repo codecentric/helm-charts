@@ -13,5 +13,5 @@ spec:
     matchLabels:
       app: {{ template "keycloak.name" . }}
       release: {{ .Release.Name }}
-{{ toYaml .Values.keycloak.podDisruptionBudget | indent 2 }}
+  {{- toYaml .Values.keycloak.podDisruptionBudget | nindent 2 }}
 {{- end -}}
