@@ -4,3 +4,6 @@ keycloak:
   persistence:
     deployPostgres: true
     dbVendor: postgres
+
+postgresql:
+  postgresPassword: keycloak
