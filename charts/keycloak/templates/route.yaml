@@ -1,0 +1,35 @@
+{{- $route := .Values.keycloak.route -}}
+{{- if $route.enabled -}}
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: {{ template "keycloak.fullname" . }}
+{{- with $route.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
+  labels:
+    app: {{ template "keycloak.name" . }}
+    chart: {{ template "keycloak.chart" . }}
+    heritage: {{ .Release.Service }}
+    release: {{ .Release.Name }}
+{{- with $route.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
+spec:
+{{- if $route.host }}
+  host: {{ $route.host }}
+{{- end }}
+  path: {{ $route.path }}
+  port:
+    targetPort: http
+  to:
+    kind: Service
+    name: {{ template "keycloak.fullname" $ }}-http
+    weight: 100
+  {{- if $route.tls.enabled }}
+  tls:
+    insecureEdgeTerminationPolicy: {{ $route.tls.insecureEdgeTerminationPolicy }}
+    termination: {{ $route.tls.termination }}
+  {{- end }}
+{{- end -}}
