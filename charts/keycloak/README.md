@@ -73,7 +73,7 @@ Parameter | Description | Default
 `keycloak.serviceAccount.create` | If `true`, a new service account is created | `false`
 `keycloak.securityContext` | Security context for the entire pod. Every container running in the pod will inherit this security context. This might be relevant when other components of the environment inject additional containers into running pods (service meshs are the most prominent example for this) | `{fsGroup: 1000}`
 `keycloak.containerSecurityContext` | Security context for containers running in the pod. Will not be inherited by additionally injected containers | `{runAsUser: 1000, runAsNonRoot: true}`
-`keycloak.preStartScript` | Custom script to run before Keycloak starts up | ``
+`keycloak.startupScripts` | Custom startup scripts to run before Keycloak starts up | `[]`
 `keycloak.lifecycleHooks` | Container lifecycle hooks. Passed through the `tpl` function and thus to be configured a string | ``
 `keycloak.extraArgs` | Additional arguments to the start command | ``
 `keycloak.livenessProbe.initialDelaySeconds` | Liveness Probe `initialDelaySeconds` | `120`

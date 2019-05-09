@@ -51,9 +51,6 @@ keycloak:
   ## Additional sidecar containers, e. g. for a database proxy, such as Google's cloudsql-proxy
   extraContainers: |
 
-  ## Custom script that is run before Keycloak is started.
-  preStartScript:
-
   ## lifecycleHooks defines the container lifecycle hooks
   lifecycleHooks: |
     # postStart:
@@ -166,6 +163,13 @@ keycloak:
 
     # Custom CLI script
     custom: |
+
+  ## Custom startup scripts to run before Keycloak starts up
+  startupScripts:
+    # mystartup.sh: |
+    #   #!/bin/sh
+    #
+    #   echo 'Hello from my custom startup script!'
 
   ## Add additional volumes and mounts, e. g. for custom themes
   extraVolumes: |

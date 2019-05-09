@@ -7,7 +7,15 @@ keycloak:
   podAnnotations:
     test-annotation: test-annotation-value
 
-  preStartScript: "echo 'Hello from pre-start script!'"
+  startupScripts:
+    hello.sh: |
+      #!/bin/sh
+
+      echo '********************************************************************************'
+      echo '*                                                                              *'
+      echo '*                        Hello from my startup script!                         *'
+      echo '*                                                                              *'
+      echo '********************************************************************************'
 
   lifecycleHooks: |
     postStart:
