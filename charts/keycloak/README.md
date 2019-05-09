@@ -41,7 +41,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 Parameter | Description | Default
 --- | --- | ---
 `init.image.repository` | Init image repository | `alpine`
-`init.image.tag` | Init image tag | `3.8`
+`init.image.tag` | Init image tag | `3.9`
 `init.image.pullPolicy` | Init image pull policy | `IfNotPresent`
 `clusterDomain` | The internal Kubernetes cluster domain | `cluster.local`
 `keycloak.replicas` | The number of Keycloak replicas | `1`
