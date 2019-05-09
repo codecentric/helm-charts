@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "keycloak.fullname" . }}
+  name: {{ template "keycloak.fullname" . }}-sh
   labels:
     app: {{ template "keycloak.name" . }}
     chart: {{ template "keycloak.chart" . }}
@@ -15,11 +15,6 @@ data:
     set -eu
 
     /opt/jboss/keycloak/bin/jboss-cli.sh --file=/scripts/keycloak.cli
-
-  {{- with .Values.keycloak.preStartScript }}
-    echo 'Running custom pre-start script...'
-    {{- . | nindent 4 }}
-  {{- end }}
 
     exec /opt/jboss/tools/docker-entrypoint.sh -b 0.0.0.0 {{ .Values.keycloak.extraArgs }}{{- if $highAvailability }} -c standalone-ha.xml{{ else }} -c standalone.xml{{ end }}
     exit "$?"

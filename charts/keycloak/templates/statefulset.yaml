@@ -27,10 +27,11 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       annotations:
-        checksum/config: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum }}
-        {{- with .Values.keycloak.podAnnotations }}
-          {{- toYaml . | nindent 8 }}
-        {{- end }}
+        checksum/config-sh: {{ include (print .Template.BasePath "/configmap-sh.yaml") . | sha256sum }}
+        checksum/config-startup: {{ include (print .Template.BasePath "/configmap-startup.yaml") . | sha256sum }}
+      {{- with .Values.keycloak.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       {{- with .Values.keycloak.hostAliases }}
       hostAliases:
@@ -105,8 +106,10 @@ spec:
             {{- tpl . $ | nindent 12 }}
           {{- end }}
           volumeMounts:
-            - name: scripts
+            - name: sh
               mountPath: /scripts
+            - name: startup
+              mountPath: /opt/jboss/startup-scripts
           {{- with .Values.keycloak.extraVolumeMounts }}
             {{- tpl . $ | nindent 12 }}
           {{- end }}
@@ -156,9 +159,13 @@ spec:
       {{- end }}
       terminationGracePeriodSeconds: 60
       volumes:
-        - name: scripts
+        - name: sh
           configMap:
-            name: {{ template "keycloak.fullname" . }}
+            name: {{ template "keycloak.fullname" . }}-sh
+            defaultMode: 0555
+        - name: startup
+          configMap:
+            name: {{ template "keycloak.fullname" . }}-startup
             defaultMode: 0555
       {{- with .Values.keycloak.extraVolumes }}
         {{- tpl . $ | nindent 8 }}
