@@ -69,6 +69,7 @@ Parameter | Description | Default
 `keycloak.podLabels` | Extra labels to add to pod | `{}`
 `keycloak.podAnnotations` | Extra annotations to add to pod | `{}`
 `keycloak.hostAliases` | Mapping between IP and hostnames that will be injected as entries in the pod's hosts files | `[]`
+`keycloak.enableServiceLinks` | Indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links | `false`
 `keycloak.securityContext` | Security context for the pod | `{runAsUser: 1000, fsGroup: 1000, runAsNonRoot: true}`
 `keycloak.preStartScript` | Custom script to run before Keycloak starts up | ``
 `keycloak.lifecycleHooks` | Container lifecycle hooks. Passed through the `tpl` function and thus to be configured a string | ``
