@@ -26,6 +26,8 @@ keycloak:
   #    hostnames:
   #      - "my.host.com"
 
+  enableServiceLinks: false
+
   securityContext:
     runAsUser: 1000
     fsGroup: 1000
