@@ -29,8 +29,10 @@ keycloak:
   enableServiceLinks: false
 
   securityContext:
-    runAsUser: 1000
     fsGroup: 1000
+
+  containerSecurityContext:
+    runAsUser: 1000
     runAsNonRoot: true
 
   ## The path keycloak will be served from. To serve keycloak from the root path, use two quotes (e.g. "").
@@ -265,6 +267,7 @@ test:
     tag: v1
     pullPolicy: IfNotPresent
   securityContext:
-    runAsUser: 1000
     fsGroup: 1000
+  containerSecurityContext:
+    runAsUser: 1000
     runAsNonRoot: true
