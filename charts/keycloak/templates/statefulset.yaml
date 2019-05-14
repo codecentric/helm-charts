@@ -3,8 +3,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ template "keycloak.fullname" . }}
-  annotations:
-    checksum/config: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum }}
   labels:
     app: {{ template "keycloak.name" . }}
     chart: {{ template "keycloak.chart" . }}
@@ -28,8 +26,9 @@ spec:
       {{- if .Values.keycloak.podLabels }}
 {{ toYaml .Values.keycloak.podLabels | indent 8 }}
       {{- end }}
-{{- if .Values.keycloak.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum }}
+{{- if .Values.keycloak.podAnnotations }}
 {{ toYaml .Values.keycloak.podAnnotations | indent 8 }}
 {{- end }}
     spec:
