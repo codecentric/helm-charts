@@ -32,6 +32,17 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
+Create name of the service account to use
+*/}}
+{{- define "keycloak.serviceAccountName" -}}
+{{- if .Values.keycloak.serviceAccount.create -}}
+    {{ default (include "keycloak.fullname" .) .Values.keycloak.serviceAccount.name }}
+{{- else -}}
+    {{ default "default" .Values.keycloak.serviceAccount.name }}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create a default fully qualified app name for the postgres requirement.
 */}}
 {{- define "keycloak.postgresql.fullname" -}}
