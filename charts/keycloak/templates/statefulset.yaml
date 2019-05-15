@@ -37,6 +37,7 @@ spec:
 {{ toYaml . | indent 8 }}
 {{- end }}
       enableServiceLinks: {{ .Values.keycloak.enableServiceLinks }}
+      serviceAccountName: {{ template "keycloak.serviceAccountName" . }}
       securityContext:
 {{ toYaml .Values.keycloak.securityContext | indent 8 }}
     {{- with .Values.keycloak.image.pullSecrets }}
