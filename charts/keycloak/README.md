@@ -70,9 +70,9 @@ Parameter | Description | Default
 `keycloak.podAnnotations` | Extra annotations to add to pod | `{}`
 `keycloak.hostAliases` | Mapping between IP and hostnames that will be injected as entries in the pod's hosts files | `[]`
 `keycloak.enableServiceLinks` | Indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links | `false`
-`keycloak.serviceAccount.create` | If `true`, a new service account is created | `true`
-`keycloak.serviceAccount.name` | Service Account to be used. If not set and `keycloak.serviceAccount.create` is `true`, a name is generated using the fullname template |
-`keycloak.securityContext` | Security context for the pod | `{runAsUser: 1000, fsGroup: 1000, runAsNonRoot: true}`
+`keycloak.serviceAccount.create` | If `true`, a new service account is created | `false`
+`keycloak.securityContext` | Security context for the entire pod. Every container running in the pod will inherit this security context. This might be relevant when other components of the environment inject additional containers into running pods (service meshs are the most prominent example for this) | `{fsGroup: 1000}`
+`keycloak.containerSecurityContext` | Security context for containers running in the pod. Will not be inherited by additionally injected containers | `{runAsUser: 1000, runAsNonRoot: true}`
 `keycloak.preStartScript` | Custom script to run before Keycloak starts up | ``
 `keycloak.lifecycleHooks` | Container lifecycle hooks. Passed through the `tpl` function and thus to be configured a string | ``
 `keycloak.extraArgs` | Additional arguments to the start command | ``
@@ -119,7 +119,8 @@ Parameter | Description | Default
 `test.image.repository` | Test image repository | `unguiculus/docker-python3-phantomjs-selenium`
 `test.image.tag` | Test image tag | `v1`
 `test.image.pullPolicy` | Test image pull policy | `IfNotPresent`
-`test.securityContext` | Security context for the test pod | `{runAsUser: 1000, fsGroup: 1000, runAsNonRoot: true}`
+`test.securityContext` | Security context for the test pod. Every container running in the pod will inherit this security context. This might be relevant when other components of the environment inject additional containers into the running pod (service meshs are the most prominent example for this) | `{fsGroup: 1000}`
+`test.containerSecurityContext` | Security context for containers running in the test pod. Will not be inherited by additionally injected containers | `{runAsUser: 1000, runAsNonRoot: true}`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
