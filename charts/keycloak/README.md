@@ -118,7 +118,8 @@ Parameter | Description | Default
 `test.image.repository` | Test image repository | `unguiculus/docker-python3-phantomjs-selenium`
 `test.image.tag` | Test image tag | `v1`
 `test.image.pullPolicy` | Test image pull policy | `IfNotPresent`
-`test.securityContext` | Security context for the test pod | `{runAsUser: 1000, fsGroup: 1000, runAsNonRoot: true}`
+`test.securityContext` | Security context for the test pod. Every container running in the pod will inherit this security context. This might be relevant when other components of the environment inject additional containers into the running pod (service meshs are the most prominent example for this) | `{fsGroup: 1000}`
+`test.containerSecurityContext` | Security context for containers running in the test pod. Will not be inherited by additionally injected containers | `{runAsUser: 1000, runAsNonRoot: true}`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
