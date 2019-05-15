@@ -3,7 +3,7 @@ fullnameOverride: ""
 
 image:
   repository: jenkins/jenkins
-  tag: 2.164.2-alpine
+  tag: 2.164.3-alpine
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []

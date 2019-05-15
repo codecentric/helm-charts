@@ -42,7 +42,7 @@ The following table lists the configurable parameters of the Jenkins chart and t
 Parameter | Description | Default
 --- | --- | ---
 `image.repository` | The Jenkins image repository | `jenkins/jenkins`
-`image.tag` | The Jenkins image tag | `2.164.2-alpine`
+`image.tag` | The Jenkins image tag | `2.164.3-alpine`
 `image.pullPolicy` | The Jenkins image pull policy | `IfNotPresent`
 `imagePullSecrets` | Image pull secrets | `[]`
 `podAnnotations` | Annotations for the Jenkins pod | `{}`
