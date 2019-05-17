@@ -160,6 +160,18 @@ referenceContent:
 
 The example above will create `/var/jenkins_home/foo.txt` and `/var/jenkins_home/bar/baz.txt`.
 
+For adding custom scripts that should be executable, the `defaultMode` can be set on the volume:
+
+```yaml
+referenceContent:
+  - relativeDir: my-scripts
+    defaultMode: 0555
+    data:
+      - fileName: foo.sh
+        fileContent: |
+          echo foo
+```
+
 #### Plugins
 
 Reference content may be used to configure plugins to be installed with the [mechanism](https://github.com/jenkinsci/docker/blob/master/README.md#preinstalling-plugins) that comes with the Jenkins Docker image.
