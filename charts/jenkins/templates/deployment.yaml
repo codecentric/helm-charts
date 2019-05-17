@@ -146,6 +146,9 @@ spec:
         - name: {{ include "jenkins.configmapSuffix" . }}
           configMap:
             name: {{ include "jenkins.fullname" $ }}-{{ include "jenkins.configmapSuffix" . }}
+          {{- with .defaultMode }}
+            defaultMode: {{ . }}
+          {{- end }}
       {{- end }}
       {{- with .Values.extraVolumes }}
         {{- tpl . $ | nindent 8 }}
