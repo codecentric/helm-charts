@@ -91,7 +91,7 @@ Parameter | Description | Default
 `casc.existingSecret` | An existing secret containing casc secrets. If specified, `casc.secrets` is ignored | `{}`
 `referenceContent` | Reference content to be copied to `JENKINS_HOME` before startup | `[]`
 `forcePluginUpdates` | Specifies whether to update plugins at restart if `referenceContent` contains a `plugins.txt` file | `false`
-
+`k8sCredentials` | Credentials to be configured as Kubernetes secrets (see examples below). | `[]`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
@@ -331,6 +331,7 @@ referenceContent:
 The chart supports the [kubernetes-credentials-provider-plugin](https://jenkinsci.github.io/kubernetes-credentials-provider-plugin/).
 A list of credentials may be configured which are stored as Kubernetes secrets.
 The plugin automatially makes these secrets available as credentials in Jenkins.
+Note that the individual values are rendered using the `tpl` function.
 
 ```yaml
 referenceContent:

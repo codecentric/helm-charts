@@ -133,6 +133,14 @@ k8sCredentials:
     data:
       username: foo
       password: secret
+  - nameSuffix: text
+    type: secretText
+    description: Some username
+    data:
+      text: |
+        ds sdfsd dsfds fsdfdsfs dsf dsf
+        sdf fdsf dsf fdsfsfsdf sf sd
+        sdf fsf dsfsf sdfs fsdf f
 
 test:
   enabled: true
