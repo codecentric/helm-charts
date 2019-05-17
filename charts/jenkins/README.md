@@ -45,6 +45,9 @@ Parameter | Description | Default
 `image.tag` | The Jenkins image tag | `2.164.3-alpine`
 `image.pullPolicy` | The Jenkins image pull policy | `IfNotPresent`
 `imagePullSecrets` | Image pull secrets | `[]`
+`extraInitContainers` | Additional init containers. Passed through the `tpl` function and thus to be configured as string | `""`
+`extraVolumeMounts` | Add additional volumes mounts. Passed through the `tpl` function and thus to be configured as string | `""`
+`extraVolumes` | Add additional volumes. Passed through the `tpl` function and thus to be configured as string | `""`
 `podAnnotations` | Annotations for the Jenkins pod | `{}`
 `javaOpts` | `JAVA_OPTS` for the Jenkins process | `-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=2 -XshowSettings:vm`
 `extraEnv` | Allows the specification of additional environment variables for Jenkins. Passed through the `tpl` function and thus to be configured as string | `""`
