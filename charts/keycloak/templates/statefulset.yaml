@@ -25,6 +25,8 @@ spec:
       labels:
         app: {{ template "keycloak.name" . }}
         release: "{{ .Release.Name }}"
+        k8sMajor: {{ .Capabilities.KubeVersion.Major }}
+        k8sGit: {{ .Capabilities.KubeVersion.GitVersion }}
       {{- if .Values.keycloak.podLabels }}
 {{ toYaml .Values.keycloak.podLabels | indent 8 }}
       {{- end }}
@@ -37,7 +39,9 @@ spec:
       hostAliases:
 {{ toYaml . | indent 8 }}
 {{- end }}
+      {{- if (semverCompare ">=1.13.0" .Capabilities.KubeVersion.GitVersion) }}
       enableServiceLinks: {{ .Values.keycloak.enableServiceLinks }}
+      {{- end }}
       securityContext:
 {{ toYaml .Values.keycloak.securityContext | indent 8 }}
     {{- with .Values.keycloak.image.pullSecrets }}
