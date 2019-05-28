@@ -42,11 +42,14 @@ The following table lists the configurable parameters of the Jenkins chart and t
 Parameter | Description | Default
 --- | --- | ---
 `image.repository` | The Jenkins image repository | `jenkins/jenkins`
-`image.tag` | The Jenkins image tag | `2.164.2-alpine`
+`image.tag` | The Jenkins image tag | `2.164.3-alpine`
 `image.pullPolicy` | The Jenkins image pull policy | `IfNotPresent`
 `imagePullSecrets` | Image pull secrets | `[]`
+`extraInitContainers` | Additional init containers. Passed through the `tpl` function and thus to be configured as string | `""`
+`extraVolumeMounts` | Add additional volumes mounts. Passed through the `tpl` function and thus to be configured as string | `""`
+`extraVolumes` | Add additional volumes. Passed through the `tpl` function and thus to be configured as string | `""`
 `podAnnotations` | Annotations for the Jenkins pod | `{}`
-`javaOpts` | `JAVA_OPTS` for the Jenkins process | `-XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=2 -XshowSettings:vm`
+`javaOpts` | `JAVA_OPTS` for the Jenkins process | see below and `values.yaml` for defaults
 `extraEnv` | Allows the specification of additional environment variables for Jenkins. Passed through the `tpl` function and thus to be configured as string | `""`
 `livenessProbe` | Liveness probe configuration | see `values.yaml` for defaults
 `readinessProbe` | Readiness probe configuration | see `values.yaml` for defaults
@@ -91,7 +94,7 @@ Parameter | Description | Default
 `casc.existingSecret` | An existing secret containing casc secrets. If specified, `casc.secrets` is ignored | `{}`
 `referenceContent` | Reference content to be copied to `JENKINS_HOME` before startup | `[]`
 `forcePluginUpdates` | Specifies whether to update plugins at restart if `referenceContent` contains a `plugins.txt` file | `false`
-
+`k8sCredentials` | Credentials to be configured as Kubernetes secrets (see examples below). | `[]`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
@@ -115,6 +118,10 @@ By default, the following `JAVA_OPTS` are configured as environment variable:
 
 ```yaml
 javaOpts: >-
+  -Dhudson.slaves.NodeProvisioner.initialDelay=0
+  -Dhudson.model.LoadStatistics.decay=0.7
+  -Dhudson.slaves.NodeProvisioner.MARGIN=30
+  -Dhudson.slaves.NodeProvisioner.MARGIN0=0.6
   -XX:+UnlockExperimentalVMOptions
   -XX:+UseCGroupMemoryLimitForHeap
   -XX:MaxRAMFraction=2
@@ -124,6 +131,10 @@ javaOpts: >-
 This allows the JVM to be configured using memory settings for the container. 
 By default, the JVM uses 50 % of the container's available memory.
 Note that the JVM will also need off-heap memory.
+
+Agent provisioning can be configured with a set of system properties.
+
+### Resources
 
 Resource requests and limits should be configured.
 If your Jenkins JVM should get 1 GiB of max. heap, the container should be set to 2 GiB.
@@ -157,6 +168,18 @@ referenceContent:
 
 The example above will create `/var/jenkins_home/foo.txt` and `/var/jenkins_home/bar/baz.txt`.
 
+For adding custom scripts that should be executable, the `defaultMode` can be set on the volume:
+
+```yaml
+referenceContent:
+  - relativeDir: my-scripts
+    defaultMode: 0555
+    data:
+      - fileName: foo.sh
+        fileContent: |
+          echo foo
+```
+
 #### Plugins
 
 Reference content may be used to configure plugins to be installed with the [mechanism](https://github.com/jenkinsci/docker/blob/master/README.md#preinstalling-plugins) that comes with the Jenkins Docker image.
@@ -182,13 +205,13 @@ The file must list the plugins to be installed.
 Versions are optional and must be delimited by a colon.
 Since it may not be desirable that plugins are updated when the pod is restarted, the Helm chart implements the following logic:
 
-![plugins state diagram](assets/plugins.png)
+![plugins state diagram](plugins.png)
 
 
 It is advisable to use an LTS version of Jenkins.
 LTS versions have their own update centers with compatible plugin versions only.
 Don't specify versions in order to get the latest compatible versions.
-In order to avoid unexpected plugin updates in case the pod is rescheduled, set `forcePluginsUpdates` to `false`, which is the default, and only set it to `true` temporarily in order to update plugins.
+In order to avoid unexpected plugin updates in case the pod is rescheduled, set `forcePluginUpdates` to `false`, which is the default, and only set it to `true` temporarily in order to update plugins.
 
 #### Configuration as Code
 
@@ -331,6 +354,7 @@ referenceContent:
 The chart supports the [kubernetes-credentials-provider-plugin](https://jenkinsci.github.io/kubernetes-credentials-provider-plugin/).
 A list of credentials may be configured which are stored as Kubernetes secrets.
 The plugin automatially makes these secrets available as credentials in Jenkins.
+Note that the individual values are rendered using the `tpl` function.
 
 ```yaml
 referenceContent:
@@ -371,3 +395,72 @@ However, if your Jenkins Master or any of the agents need to access the Kubernet
 
 The chart allows configuring ServiceAccounts and RBAC resources for the master as well as for any agents.
 ServiceAcounts for agents can then be assigned in pod templates.
+
+### Updating Java's Truststore
+
+In order to add a certificate to the truststore, we can copy it to a different location, add the certificate, and configure Java to use the updated truststore.
+
+You need to create a configmap containing the certificate.
+This has to be done upfront and is not part of the Helm chart.
+
+```console
+kubectl create configmap my-cert-configmap --from-file=my-ca.cer --dry-run --output yaml | kubectl apply -f -
+```
+
+Next, we need an init-container that mounts the configmap, `JENKINS_HOME`, and a shared empty dir that's also mounted into the Jenkins container.
+The shared dir will contain the updated truststore.
+A shell script that's added as reference content is executed in the init container and performs the truststore update.
+The path to the new truststore is added as system property.
+
+```yaml
+referenceContent:
+  - relativeDir: custom-init-scripts
+    defaultMode: 0555
+    data:
+      - fileName: truststore.sh
+        fileContent: |
+          #!/usr/bin/env bash
+
+          echo 'Adding CA certificate to Java truststore...'
+          cd /etc/jenkins_ca/truststore
+          cp /etc/ssl/certs/java/cacerts .
+          chmod 666 /etc/jenkins_ca/truststore/cacerts
+          keytool -keystore cacerts -storepass changeit -noprompt -trustcacerts -importcert -alias my-ca -file ../my-ca/my-ca.cer
+          chmod 444 /etc/jenkins_ca/truststore/cacerts
+
+extraInitContainers: |
+  - name: jenkins-truststore-init
+    image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+    imagePullPolicy: {{ .Values.image.pullPolicy }}
+    command:
+      - /var/jenkins_home/custom-init-scripts/truststore.sh
+    volumeMounts:
+      - name: jenkins-home
+        mountPath: /var/jenkins_home
+      - name: my-ca
+        mountPath: /etc/jenkins_ca/my-ca
+      - name: truststore
+        mountPath: /etc/jenkins_ca/truststore
+
+extraVolumeMounts: |
+  - name: truststore
+    mountPath: /etc/jenkins_ca/truststore
+
+extraVolumes: |
+  - name: my-ca
+    configMap:
+      name: my-ca
+  - name: truststore
+    emptyDir: {}
+
+javaOpts: >-
+  -Dhudson.slaves.NodeProvisioner.initialDelay=0
+  -Dhudson.model.LoadStatistics.decay=0.7
+  -Dhudson.slaves.NodeProvisioner.MARGIN=30
+  -Dhudson.slaves.NodeProvisioner.MARGIN0=0.6
+  -XX:+UnlockExperimentalVMOptions
+  -XX:+UseCGroupMemoryLimitForHeap
+  -XX:MaxRAMFraction=2
+  -XshowSettings:vm
+  -Djavax.net.ssl.trustStore=/etc/jenkins_ca/truststore/cacerts
+```

@@ -3,11 +3,14 @@ fullnameOverride: ""
 
 image:
   repository: jenkins/jenkins
-  tag: 2.164.2-alpine
+  tag: 2.164.3-alpine
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
 # - my-pull-secret
+
+## Additional init containers, e. g. for providing custom themes
+extraInitContainers: |
 
 # Annotations for the Jenkins pod
 podAnnotations: {}
@@ -80,6 +83,10 @@ serviceAccount:
   #   # The name of the ServiceAccount to use.
   #   # If not set and create is true, a name is generated using the fullname template
   #   name: "bar-account"
+
+## Add additional volumes and mounts
+extraVolumes: |
+extraVolumeMounts: |
 
 rbac:
   master:

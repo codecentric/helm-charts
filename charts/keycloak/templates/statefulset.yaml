@@ -3,8 +3,6 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ template "keycloak.fullname" . }}
-  annotations:
-    checksum/config: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum }}
   labels:
     app: {{ template "keycloak.name" . }}
     chart: {{ template "keycloak.chart" . }}
@@ -28,8 +26,9 @@ spec:
       {{- if .Values.keycloak.podLabels }}
 {{ toYaml .Values.keycloak.podLabels | indent 8 }}
       {{- end }}
-{{- if .Values.keycloak.podAnnotations }}
       annotations:
+        checksum/config: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum }}
+{{- if .Values.keycloak.podAnnotations }}
 {{ toYaml .Values.keycloak.podAnnotations | indent 8 }}
 {{- end }}
     spec:
@@ -40,6 +39,7 @@ spec:
       {{- if (semverCompare ">=1.13.0" .Capabilities.KubeVersion.GitVersion) }}
       enableServiceLinks: {{ .Values.keycloak.enableServiceLinks }}
       {{- end }}
+      serviceAccountName: {{ template "keycloak.serviceAccountName" . }}
       securityContext:
 {{ toYaml .Values.keycloak.securityContext | indent 8 }}
     {{- with .Values.keycloak.image.pullSecrets }}
@@ -54,6 +54,8 @@ spec:
         - name: wait-for-postgresql
           image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
           imagePullPolicy: {{ .Values.init.image.pullPolicy }}
+          securityContext:
+{{ toYaml .Values.keycloak.containerSecurityContext | indent 12 }}
           command:
             - sh
             - -c
@@ -72,6 +74,8 @@ spec:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.keycloak.image.repository }}:{{ .Values.keycloak.image.tag }}"
           imagePullPolicy: {{ .Values.keycloak.image.pullPolicy }}
+          securityContext:
+{{ toYaml .Values.keycloak.containerSecurityContext | indent 12 }}
           command:
             - /scripts/keycloak.sh
         {{- if .Values.keycloak.lifecycleHooks }}

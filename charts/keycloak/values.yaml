@@ -28,9 +28,18 @@ keycloak:
 
   enableServiceLinks: false
 
+  serviceAccount:
+    # Specifies whether a service account should be created
+    create: false
+    # The name of the service account to use.
+    # If not set and create is true, a name is generated using the fullname template
+    name:
+
   securityContext:
-    runAsUser: 1000
     fsGroup: 1000
+
+  containerSecurityContext:
+    runAsUser: 1000
     runAsNonRoot: true
 
   ## The path keycloak will be served from. To serve keycloak from the root path, use two quotes (e.g. "").
@@ -212,6 +221,29 @@ keycloak:
     #     - keycloak.example.com
     #   secretName: tls-keycloak
 
+  ## OpenShift route configuration.
+  ## ref: https://docs.openshift.com/container-platform/3.11/architecture/networking/routes.html
+  route:
+    enabled: false
+    path: /
+
+    annotations: {}
+      # kubernetes.io/tls-acme: "true"
+      # haproxy.router.openshift.io/disable_cookies: "true"
+      # haproxy.router.openshift.io/balance: roundrobin
+
+    labels: {}
+      # key: value
+
+    # Host name for the route
+    host:
+
+    # TLS configuration
+    tls:
+      enabled: true
+      insecureEdgeTerminationPolicy: Redirect
+      termination: edge
+
   ## Persistence configuration
   persistence:
     # If true, the Postgres chart is deployed
@@ -265,6 +297,7 @@ test:
     tag: v1
     pullPolicy: IfNotPresent
   securityContext:
-    runAsUser: 1000
     fsGroup: 1000
+  containerSecurityContext:
+    runAsUser: 1000
     runAsNonRoot: true

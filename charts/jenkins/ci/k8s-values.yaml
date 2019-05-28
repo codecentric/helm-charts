@@ -133,6 +133,24 @@ k8sCredentials:
     data:
       username: foo
       password: secret
+  - nameSuffix: text
+    type: secretText
+    description: Some username
+    data:
+      text: |
+        ds sdfsd dsfds fsdfdsfs dsf dsf
+        sdf fdsf dsf fdsfsfsdf sf sd
+        sdf fsf dsfsf sdfs fsdf f
+
+extraInitContainers: |
+  - name: jenkins-extra-init
+    image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+    imagePullPolicy: {{ .Values.image.pullPolicy }}
+    command:
+      - "sh"
+    args:
+      - "-c"
+      - "echo 'Hello from extra init container!'"
 
 test:
   enabled: true

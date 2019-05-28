@@ -13,11 +13,13 @@ metadata:
     "helm.sh/hook": test-success
 spec:
   securityContext:
-{{ toYaml .Values.test.securityContext | indent 8 }}
+{{ toYaml .Values.test.securityContext | indent 4 }}
   containers:
     - name: {{ .Chart.Name }}-test
       image: "{{ .Values.test.image.repository }}:{{ .Values.test.image.tag }}"
       imagePullPolicy: {{ .Values.test.image.pullPolicy }}
+      securityContext:
+{{ toYaml .Values.test.containerSecurityContext | indent 8 }}
       command:
         - python3
         - /tests/test.py
@@ -27,7 +29,11 @@ spec:
         - name: KEYCLOAK_PASSWORD
           valueFrom:
             secretKeyRef:
+            {{- if .Values.keycloak.existingSecret }}
+              name: {{ .Values.keycloak.existingSecret }}
+            {{- else }}
               name: {{ template "keycloak.fullname" . }}-http
+            {{- end }}
               key: password
       volumeMounts:
         - name: tests

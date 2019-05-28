@@ -48,6 +48,9 @@ spec:
           resources:
             {{- toYaml . | nindent 12 }}
         {{- end }}
+      {{- with .Values.extraInitContainers }}
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
       containers:
         - name: jenkins-master
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
@@ -90,6 +93,9 @@ spec:
             - name: casc-secrets
               mountPath: /casc-secrets
               readOnly: true
+          {{- end }}
+          {{- with .Values.extraVolumeMounts }}
+            {{- tpl . $ | nindent 12 }}
           {{- end }}
         {{- with .Values.resources }}
           resources:
@@ -140,4 +146,10 @@ spec:
         - name: {{ include "jenkins.configmapSuffix" . }}
           configMap:
             name: {{ include "jenkins.fullname" $ }}-{{ include "jenkins.configmapSuffix" . }}
+          {{- with .defaultMode }}
+            defaultMode: {{ . }}
+          {{- end }}
+      {{- end }}
+      {{- with .Values.extraVolumes }}
+        {{- tpl . $ | nindent 8 }}
       {{- end }}
