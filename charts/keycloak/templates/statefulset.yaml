@@ -36,7 +36,9 @@ spec:
       hostAliases:
 {{ toYaml . | indent 8 }}
 {{- end }}
+      {{- if (semverCompare ">=1.13-0" .Capabilities.KubeVersion.GitVersion) }}
       enableServiceLinks: {{ .Values.keycloak.enableServiceLinks }}
+      {{- end }}
       serviceAccountName: {{ template "keycloak.serviceAccountName" . }}
       securityContext:
 {{ toYaml .Values.keycloak.securityContext | indent 8 }}
