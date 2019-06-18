@@ -28,6 +28,8 @@ keycloak:
 
   enableServiceLinks: false
 
+  restartPolicy: Always
+
   serviceAccount:
     # Specifies whether a service account should be created
     create: false
