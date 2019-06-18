@@ -1,0 +1,26 @@
+{{- if .Values.keycloak.rbac.create -}}
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: RoleBinding
+metadata:
+  name: {{ template "keycloak.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "keycloak.name" . }}
+    chart: {{ template "keycloak.chart" . }}
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ template "keycloak.fullname" . }}
+subjects:
+- kind: ServiceAccount
+  name: {{ template "keycloak.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+{{- if .Values.keycloak.rbac.namespaced }}
+roleRef:
+  kind: Role
+  name: {{ template "keycloak.fullname" . }}
+  apiGroup: rbac.authorization.k8s.io
+{{- end }}
+{{- end -}}

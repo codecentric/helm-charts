@@ -57,7 +57,7 @@ spec:
           image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
           imagePullPolicy: {{ .Values.init.image.pullPolicy }}
           securityContext:
-            {{ toYaml .Values.keycloak.containerSecurityContext | indent 12 }}
+            {{- toYaml .Values.keycloak.containerSecurityContext | nindent 12 -}}
           command:
             - sh
             - -c
@@ -77,7 +77,7 @@ spec:
           image: "{{ .Values.keycloak.image.repository }}:{{ .Values.keycloak.image.tag }}"
           imagePullPolicy: {{ .Values.keycloak.image.pullPolicy }}
           securityContext:
-            {{ toYaml .Values.keycloak.containerSecurityContext | indent 12 }}
+            {{- toYaml .Values.keycloak.containerSecurityContext | nindent 12 -}}
           command:
             - /scripts/keycloak.sh
           {{- with .Values.keycloak.lifecycleHooks }}
@@ -85,7 +85,7 @@ spec:
             {{- tpl . $ | nindent 12 }}
           {{- end }}
           env:
-          {{- if .Release.IsInstall }}
+          {{- if or .Release.IsInstall .Values.keycloak.sidecar.realms.enabled }}
             - name: KEYCLOAK_USER
               value: {{ .Values.keycloak.username }}
             - name: KEYCLOAK_PASSWORD
@@ -97,6 +97,12 @@ spec:
                   name: {{ template "keycloak.fullname" . }}-http
                 {{- end }}
                   key: {{ .Values.keycloak.existingSecretKey }}
+          {{- end }}
+          {{- if .Values.keycloak.sidecar.realms.enabled }}
+            - name: REALMS_FOLDER
+              value: "{{ .Values.keycloak.sidecar.realms.folder }}{{- with .Values.keycloak.sidecar.realms.defaultFolderName }}/{{ . }}{{- end }}"
+            - name: REALM_UPDATER_INTERVAL
+              value: "{{ .Values.keycloak.sidecar.realms.interval }}"
           {{- end }}
           {{- if $highAvailability }}
             - name: JGROUPS_DISCOVERY_PROTOCOL
@@ -113,6 +119,10 @@ spec:
               mountPath: /scripts
             - name: startup
               mountPath: /opt/jboss/startup-scripts
+          {{- if .Values.keycloak.sidecar.realms.enabled }}
+            - name: sc-realms-volume
+              mountPath: {{ .Values.keycloak.sidecar.realms.folder | quote }}
+          {{- end }}
           {{- with .Values.keycloak.extraVolumeMounts }}
             {{- tpl . $ | nindent 12 }}
           {{- end }}
@@ -142,6 +152,25 @@ spec:
             timeoutSeconds: {{ .Values.keycloak.readinessProbe.timeoutSeconds }}
           resources:
             {{- toYaml .Values.keycloak.resources | nindent 12 }}
+      {{- if .Values.keycloak.sidecar.realms.enabled }}
+        - name: {{ .Chart.Name }}-sc-realms
+          image: "{{ .Values.keycloak.sidecar.image.repository }}:{{ .Values.keycloak.sidecar.image.tag }}"
+          imagePullPolicy: {{ .Values.keycloak.sidecar.image.pullPolicy }}
+          env:
+            - name: LABEL
+              value: "{{ .Values.keycloak.sidecar.realms.label }}"
+            - name: FOLDER
+              value: "{{ .Values.keycloak.sidecar.realms.folder }}{{- with .Values.keycloak.sidecar.realms.defaultFolderName }}/{{ . }}{{- end }}"
+          {{- if .Values.keycloak.sidecar.realms.searchNamespace }}
+            - name: NAMESPACE
+              value: "{{ .Values.keycloak.sidecar.realms.searchNamespace }}"
+          {{- end }}
+          resources:
+            {{- toYaml .Values.keycloak.sidecar.resources | nindent 12 }}
+          volumeMounts:
+            - name: sc-realms-volume
+              mountPath: {{ .Values.keycloak.sidecar.realms.folder | quote }}
+      {{- end }}
       {{- with .Values.keycloak.extraContainers }}
         {{- tpl . $ | nindent 8 }}
       {{- end }}
@@ -170,6 +199,10 @@ spec:
           configMap:
             name: {{ template "keycloak.fullname" . }}-startup
             defaultMode: 0555
+      {{- if .Values.keycloak.sidecar.realms.enabled }}
+        - name: sc-realms-volume
+          emptyDir: {}
+      {{- end }}
       {{- with .Values.keycloak.extraVolumes }}
         {{- tpl . $ | nindent 8 }}
       {{- end }}

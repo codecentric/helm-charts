@@ -1,0 +1,20 @@
+{{- if .Values.keycloak.rbac.create -}}
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: Role
+metadata:
+  name: {{ template "keycloak.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: {{ template "keycloak.name" . }}
+    chart: {{ template "keycloak.chart" . }}
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+{{- if and .Values.keycloak.rbac.namespaced .Values.keycloak.sidecar.realms.enabled }}
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["configmaps"]
+  verbs: ["get", "watch", "list"]
+{{- else }}
+rules: []
+{{- end }}
+{{- end }}

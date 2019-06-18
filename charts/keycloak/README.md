@@ -103,6 +103,17 @@ Parameter | Description | Default
 `keycloak.route.tls.enabled` | If `true`, TLS is enabled for the route | `true`
 `keycloak.route.tls.insecureEdgeTerminationPolicy` | Insecure edge termination policy of the route. Can be `None`, `Redirect` or `Allow` | `Redirect`
 `keycloak.route.tls.termination` | TLS termination of the route. Can be `edge`, `passthrough` or `reencrypt` | `edge`
+`keycloak.rbac.create` | Create and use RBAC resources | `false`
+`keycloak.rbac.namespaced` | Creates Role and Rolebinding instead of the default ClusterRole and ClusteRoleBindings for the keycloak instance  | `false`
+`keycloak.sidecar.image` | Sidecar image | `kiwigrid/k8s-sidecar:0.0.16`
+`keycloak.sidecar.imagePullPolicy` | Sidecar image pull policy | `IfNotPresent`
+`keycloak.sidecar.resources` | Sidecar resources | `{}`
+`keycloak.sidecar.realms.enabled` | Enable the sidecar search for configmap realms and add/update them in keycloak | `false`
+`keycloak.sidecar.realms.interval` | The interval between checking for realms placed in `keycloak.sidecar.realms.folder` by the sidecar | `10`
+`keycloak.sidecar.realms.label` | Label that config maps with realms should have to be added | `keycloak_realm`
+`keycloak.sidecar.realms.folder` | Folder in the pod that should hold the collected realms (unless `sidecar.realms.defaultFolderName` is set). This path will be mounted. | `/realms`
+`keycloak.sidecar.realms.defaultFolderName` | The default folder name, it will create a subfolder under the `sidecar.realms.folder` and put realms in there instead | `nil`
+`keycloak.sidecar.realms.searchNamespace` | If specified, the sidecar will search for realm config-maps inside this namespace. Otherwise the namespace in which the sidecar is running will be used. It's also possible to specify ALL to search in all namespaces | `nil`
 `keycloak.persistence.deployPostgres` | If true, the PostgreSQL chart is installed | `false`
 `keycloak.persistence.existingSecret` | Name of an existing secret to be used for the database password (if `keycloak.persistence.deployPostgres=false`). Otherwise a new secret is created | `""`
 `keycloak.persistence.existingSecretKey` | The key for the database password in the existing secret (if `keycloak.persistence.deployPostgres=false`) | `password`

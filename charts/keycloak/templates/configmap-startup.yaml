@@ -44,6 +44,11 @@ data:
     run-batch
     stop-embedded-server
 
+{{ if .Values.keycloak.sidecar.realms.enabled }}
+  realm-importer.sh: |
+    {{- tpl .Values.keycloak.realmImporter $ | nindent 4 }}
+{{- end }}
+
 {{- with .Values.keycloak.startupScripts }}
 {{ toYaml . | nindent 2 }}
 {{- end }}

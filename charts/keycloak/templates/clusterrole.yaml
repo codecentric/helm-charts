@@ -1,0 +1,19 @@
+{{- if and .Values.keycloak.rbac.create (not .Values.keycloak.rbac.namespaced) }}
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  labels:
+    app: {{ template "keycloak.name" . }}
+    chart: {{ template "keycloak.chart" . }}
+    release: "{{ .Release.Name }}"
+    heritage: "{{ .Release.Service }}"
+  name: {{ template "keycloak.fullname" . }}-clusterrole
+{{- if .Values.keycloak.sidecar.realms.enabled }}
+rules:
+- apiGroups: [""] # "" indicates the core API group
+  resources: ["configmaps"]
+  verbs: ["get", "watch", "list"]
+{{- else }}
+rules: []
+{{- end}}
+{{- end}}
