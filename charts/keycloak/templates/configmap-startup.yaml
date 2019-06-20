@@ -27,8 +27,6 @@ data:
 
     {{- tpl .logging $ | nindent 4 }}
 
-    {{- tpl .reverseProxy $ | nindent 4 }}
-
     {{- tpl .datasource $ | nindent 4 }}
 
     {{- if $highAvailability }}

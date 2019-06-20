@@ -152,9 +152,6 @@ keycloak:
     logging: |
       {{ .Files.Get "scripts/logging.cli" }}
 
-    reverseProxy: |
-      {{ .Files.Get "scripts/reverse-proxy.cli" }}
-
     ha: |
       {{ .Files.Get "scripts/ha.cli" }}
 
