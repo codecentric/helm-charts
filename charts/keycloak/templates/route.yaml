@@ -6,16 +6,16 @@ metadata:
   name: {{ template "keycloak.fullname" . }}
 {{- with $route.annotations }}
   annotations:
-{{ toYaml . | indent 4 }}
+    {{ toYaml . | nindent 4 }}
 {{- end }}
   labels:
     app: {{ template "keycloak.name" . }}
     chart: {{ template "keycloak.chart" . }}
     heritage: {{ .Release.Service }}
     release: {{ .Release.Name }}
-{{- with $route.labels }}
-{{ toYaml . | indent 4 }}
-{{- end }}
+  {{- with $route.labels }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
 {{- if $route.host }}
   host: {{ $route.host }}

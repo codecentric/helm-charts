@@ -19,7 +19,7 @@ spec:
       image: "{{ .Values.test.image.repository }}:{{ .Values.test.image.tag }}"
       imagePullPolicy: {{ .Values.test.image.pullPolicy }}
       securityContext:
-{{ toYaml .Values.test.containerSecurityContext | indent 8 }}
+        {{- toYaml .Values.test.containerSecurityContext | nindent 8 }}
       command:
         - python3
         - /tests/test.py

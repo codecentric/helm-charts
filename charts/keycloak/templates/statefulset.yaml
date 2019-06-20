@@ -54,7 +54,7 @@ spec:
           image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
           imagePullPolicy: {{ .Values.init.image.pullPolicy }}
           securityContext:
-{{ toYaml .Values.keycloak.containerSecurityContext | indent 12 }}
+            {{- toYaml .Values.keycloak.containerSecurityContext | nindent 12 }}
           command:
             - sh
             - -c
@@ -74,7 +74,7 @@ spec:
           image: "{{ .Values.keycloak.image.repository }}:{{ .Values.keycloak.image.tag }}"
           imagePullPolicy: {{ .Values.keycloak.image.pullPolicy }}
           securityContext:
-{{ toYaml .Values.keycloak.containerSecurityContext | indent 12 }}
+            {{- toYaml .Values.keycloak.containerSecurityContext | nindent 12 }}
           command:
             - /scripts/keycloak.sh
           {{- with .Values.keycloak.lifecycleHooks }}

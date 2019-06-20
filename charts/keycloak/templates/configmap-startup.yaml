@@ -45,5 +45,5 @@ data:
     stop-embedded-server
 
 {{- with .Values.keycloak.startupScripts }}
-{{ toYaml . | nindent 2 }}
+  {{- toYaml . | nindent 2 }}
 {{- end }}
