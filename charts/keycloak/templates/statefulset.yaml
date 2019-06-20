@@ -39,6 +39,7 @@ spec:
       {{- if (semverCompare ">=1.13-0" .Capabilities.KubeVersion.GitVersion) }}
       enableServiceLinks: {{ .Values.keycloak.enableServiceLinks }}
       {{- end }}
+      restartPolicy: {{ .Values.keycloak.restartPolicy }}
       serviceAccountName: {{ template "keycloak.serviceAccountName" . }}
       securityContext:
 {{ toYaml .Values.keycloak.securityContext | indent 8 }}
