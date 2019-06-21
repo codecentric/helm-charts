@@ -10,12 +10,13 @@ $ helm install codecentric/keycloak
 
 ## Introduction
 
-This chart bootstraps a [Keycloak](http://www.keycloak.org/) StatefulSet on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager. It provisions a fully featured Keycloak installation.
+This chart bootstraps a [Keycloak](http://www.keycloak.org/) StatefulSet on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+It provisions a fully featured Keycloak installation.
 For more information on Keycloak and its capabilities, see its [documentation](http://www.keycloak.org/documentation.html).
 
 ## Prerequisites Details
 
-The chart has an optional dependency on the [PostgreSQL](https://github.com/kubernetes/charts/tree/master/codecentric/postgresql) chart.
+The chart has an optional dependency on the [PostgreSQL](https://github.com/kubernetes/charts/tree/master/stable/postgresql) chart.
 By default, the PostgreSQL chart requires PV support on underlying infrastructure (may be disabled).
 
 ## Installing the Chart
@@ -43,6 +44,7 @@ Parameter | Description | Default
 `init.image.repository` | Init image repository | `alpine`
 `init.image.tag` | Init image tag | `3.9`
 `init.image.pullPolicy` | Init image pull policy | `IfNotPresent`
+`init.resources` | Pod resource requests and limits for the init container | `{}`
 `clusterDomain` | The internal Kubernetes cluster domain | `cluster.local`
 `keycloak.replicas` | The number of Keycloak replicas | `1`
 `keycloak.image.repository` | The Keycloak image repository | `jboss/keycloak`
@@ -133,7 +135,8 @@ $ helm install --name keycloak -f values.yaml codecentric/keycloak
 
 ### Usage of the `tpl` Function
 
-The `tpl` function allows us to pass string values from `values.yaml` through the templating engine. It is used for the following values:
+The `tpl` function allows us to pass string values from `values.yaml` through the templating engine.
+It is used for the following values:
 
 * `keycloak.extraInitContainers`
 * `keycloak.extraContainers`
@@ -142,7 +145,8 @@ The `tpl` function allows us to pass string values from `values.yaml` through th
 * `keycloak.extraVolumeMounts`
 * `keycloak.extraVolumes`
 
-It is important that these values be configured as strings. Otherwise, installation will fail. See example for Google Cloud Proxy or default affinity configuration in `values.yaml`.
+It is important that these values be configured as strings.
+Otherwise, installation will fail. See example for Google Cloud Proxy or default affinity configuration in `values.yaml`.
 
 ### Database Setup
 
@@ -154,7 +158,10 @@ Please refer to this chart for additional PostgreSQL configuration options.
 
 #### Using an External Database
 
-The Keycloak Docker image supports PostgreSQL, MySQL, MariaDB, and H2. The password for the database user is read from a Kubernetes secret. It is possible to specify an existing secret that is not managed with this chart. The key in the secret the password is read from may be specified as well (defaults to `password`).
+The Keycloak Docker image supports PostgreSQL, MySQL, MariaDB, and H2.
+The password for the database user is read from a Kubernetes secret.
+It is possible to specify an existing secret that is not managed with this chart.
+The key in the secret the password is read from may be specified as well (defaults to `password`).
 
 ```yaml
 keycloak:
@@ -206,7 +213,8 @@ keycloak:
 
 ### Providing a Custom Theme
 
-One option is certainly to provide a custom Keycloak image that includes the theme. However, if you prefer to stick with the official Keycloak image, you can use an init container as theme provider.
+One option is certainly to provide a custom Keycloak image that includes the theme.
+However, if you prefer to stick with the official Keycloak image, you can use an init container as theme provider.
 
 Create your own theme and package it up into a Docker image.
 
@@ -270,7 +278,9 @@ After startup the web admin console for the realm should be available on the pat
 
 ### Using Google Cloud SQL Proxy
 
-Depending on your environment you may need a local proxy to connect to the database. This is, e. g., the case for Google Kubernetes Engine when using Google Cloud SQL. Create the secret for the credentials as documented [here](https://cloud.google.com/sql/docs/postgres/connect-kubernetes-engine) and configure the proxy as a sidecar.
+Depending on your environment you may need a local proxy to connect to the database.
+This is, e. g., the case for Google Kubernetes Engine when using Google Cloud SQL.
+Create the secret for the credentials as documented [here](https://cloud.google.com/sql/docs/postgres/connect-kubernetes-engine) and configure the proxy as a sidecar.
 
 Because `keycloak.extraContainers` is a string that is passed through the `tpl` function, it is possible to create custom values and use them in the string.
 
@@ -316,13 +326,37 @@ keycloak:
 WildFly can be configured via its [command line interface (CLI)](https://docs.jboss.org/author/display/WFLY/Command+Line+Interface).
 This chart uses the official Keycloak Docker image and customizes the installation running CLI scripts at server startup.
 
+#### Customizing CLI Scripts
+
 In order to make further customization easier, the CLI commands are separated by their concerns into smaller scripts.
-Everything is in `values.yaml` and can be overridden. Additional CLI commands may be added via `keycloak.cli.custom`, which is empty by default.
+Everything is in `values.yaml` and can be overridden.
+Additional CLI commands may be added via `keycloak.cli.custom`, which is empty by default.
+
+#### Disabling CLI Changes
+
+The CLI changes the chart makes may not be desirable in all cases, especially when a custom Keycloak image is used that already incorporates a complete configuration that doesn't need any adjustments.
+In this case, the CLI scripts the chart runs by default can either be disabled en bloc or on and individual basis.
+
+##### Disabling all CLI Changes en Bloc:
+
+```yaml
+keycloak:
+  cli: {}
+```
+
+##### Disabling an Individual Script:
+
+```yaml
+keycloak:
+  cli:
+    logging: ""
+```
 
 ### High Availability and Clustering
 
 For high availability, Keycloak should be run with multiple replicas (`keycloak.replicas > 1`).
-WildFly uses Infinispan for caching. These caches can be replicated across all instances forming a cluster.
+WildFly uses Infinispan for caching.
+These caches can be replicated across all instances forming a cluster.
 If `keycloak.replicas > 1`, JGroups' DNS_PING is configured for cluster discovery and Keycloak is started with `--server-config standalone-ha.xml`.
 
 ## Why StatefulSet?
