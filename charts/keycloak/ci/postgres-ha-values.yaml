@@ -27,4 +27,7 @@ keycloak:
     dbVendor: postgres
 
 postgresql:
-  postgresPassword: keycloak
+  postgresqlPassword: keycloak
+  persistence:
+    enabled: true
+    storageClass: local-path

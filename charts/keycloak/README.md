@@ -112,9 +112,9 @@ Parameter | Description | Default
 `keycloak.persistence.dbPort` | The database host port (if `deployPostgres=false`) | `5432`
 `keycloak.persistence.dbUser` |The database user (if `deployPostgres=false`) | `keycloak`
 `keycloak.persistence.dbPassword` |The database password (if `deployPostgres=false`) | `""`
-`postgresql.postgresUser` | The PostgreSQL user (if `keycloak.persistence.deployPostgres=true`) | `keycloak`
-`postgresql.postgresPassword` | The PostgreSQL password (if `keycloak.persistence.deployPostgres=true`) | `""`
-`postgresql.postgresDatabase` | The PostgreSQL database (if `keycloak.persistence.deployPostgres=true`) | `keycloak`
+`postgresql.postgresqlUser` | The PostgreSQL user (if `keycloak.persistence.deployPostgres=true`) | `keycloak`
+`postgresql.postgresqlPassword` | The PostgreSQL password (if `keycloak.persistence.deployPostgres=true`) | `""`
+`postgresql.postgresqlDatabase` | The PostgreSQL database (if `keycloak.persistence.deployPostgres=true`) | `keycloak`
 `test.enabled` | If `true`, test pods get scheduled | `true`
 `test.image.repository` | Test image repository | `unguiculus/docker-python3-phantomjs-selenium`
 `test.image.tag` | Test image tag | `v1`
