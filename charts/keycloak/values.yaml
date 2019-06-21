@@ -3,6 +3,13 @@ init:
     repository: alpine
     tag: 3.8
     pullPolicy: IfNotPresent
+  resources: {}
+    # limits:
+    #   cpu: "10m"
+    #   memory: "32Mi"
+    # requests:
+    #   cpu: "10m"
+    #   memory: "32Mi"
 
 clusterDomain: cluster.local
 

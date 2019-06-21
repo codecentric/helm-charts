@@ -66,6 +66,8 @@ spec:
               done;
 
               echo 'PostgreSQL OK ✓'
+          resources:
+            {{- toYaml .Values.init.resources | nindent 12 }}
       {{- end }}
       {{- if .Values.keycloak.extraInitContainers }}
 {{ tpl .Values.keycloak.extraInitContainers . | indent 8 }}
