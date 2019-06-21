@@ -2,16 +2,12 @@
 apiVersion: policy/v1beta1
 kind: PodDisruptionBudget
 metadata:
-  labels:
-    app: {{ template "keycloak.name" . }}
-    chart: {{ template "keycloak.chart" . }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
   name: {{ template "keycloak.fullname" . }}
+  labels:
+    {{- include "keycloak.commonLabels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: {{ template "keycloak.name" . }}
-      release: {{ .Release.Name }}
+      {{- include "keycloak.selectorLabels" . | nindent 6 }}
   {{- toYaml .Values.keycloak.podDisruptionBudget | nindent 2 }}
 {{- end -}}

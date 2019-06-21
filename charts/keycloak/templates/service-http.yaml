@@ -3,18 +3,15 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ template "keycloak.fullname" . }}-http
-{{- with $service.annotations }}
+  {{- with $service.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
-{{- end }}
+  {{- end }}
   labels:
-    app: {{ template "keycloak.name" . }}
-    chart: {{ template "keycloak.chart" . }}
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
-{{- with $service.labels }}
+    {{- include "keycloak.commonLabels" . | nindent 4 }}
+    {{- with $service.labels }}
     {{- toYaml . | nindent 4 }}
-{{- end }}
+    {{- end }}
 spec:
   type: {{ $service.type }}
   ports:
@@ -26,5 +23,4 @@ spec:
     {{- end }}
       protocol: TCP
   selector:
-    app: {{ template "keycloak.name" . }}
-    release: "{{ .Release.Name }}"
+    {{- include "keycloak.selectorLabels" . | nindent 4 }}

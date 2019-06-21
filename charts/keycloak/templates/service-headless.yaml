@@ -4,10 +4,7 @@ kind: Service
 metadata:
   name: {{ template "keycloak.fullname" . }}-headless
   labels:
-    app: {{ template "keycloak.name" . }}
-    chart: {{ template "keycloak.chart" . }}
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "keycloak.commonLabels" . | nindent 4 }}
 spec:
   type: ClusterIP
   clusterIP: None
@@ -23,5 +20,4 @@ spec:
       protocol: TCP
   {{- end }}
   selector:
-    app: {{ template "keycloak.name" . }}
-    release: "{{ .Release.Name }}"
+    {{- include "keycloak.selectorLabels" . | nindent 4 }}

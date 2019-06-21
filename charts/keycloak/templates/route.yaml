@@ -9,13 +9,10 @@ metadata:
     {{ toYaml . | nindent 4 }}
 {{- end }}
   labels:
-    app: {{ template "keycloak.name" . }}
-    chart: {{ template "keycloak.chart" . }}
-    heritage: {{ .Release.Service }}
-    release: {{ .Release.Name }}
-  {{- with $route.labels }}
+    {{- include "keycloak.commonLabels" . | nindent 4 }}
+    {{- with $route.labels }}
     {{- toYaml . | nindent 4 }}
-  {{- end }}
+    {{- end }}
 spec:
 {{- if $route.host }}
   host: {{ $route.host }}

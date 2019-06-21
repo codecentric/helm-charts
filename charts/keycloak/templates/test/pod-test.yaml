@@ -4,10 +4,7 @@ kind: Pod
 metadata:
   name: "{{ template "keycloak.fullname" . }}-test-{{ randAlphaNum 5 | lower }}"
   labels:
-    app: {{ template "keycloak.name" . }}
-    chart: {{ template "keycloak.chart" . }}
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "keycloak.commonLabels" . | nindent 4 }}
     role: test
   annotations:
     "helm.sh/hook": test-success

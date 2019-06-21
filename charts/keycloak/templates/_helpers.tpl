@@ -32,6 +32,25 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
+{{/*
+Create common labels.
+*/}}
+{{- define "keycloak.commonLabels" -}}
+app.kubernetes.io/name: {{ include "keycloak.name" . }}
+helm.sh/chart: {{ include "keycloak.chart" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Create the label selector.
+*/}}
+{{- define "keycloak.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "keycloak.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{/*
 Create name of the service account to use
 */}}
 {{- define "keycloak.serviceAccountName" -}}

@@ -104,8 +104,7 @@ keycloak:
       requiredDuringSchedulingIgnoredDuringExecution:
         - labelSelector:
             matchLabels:
-              app:  {{ template "keycloak.name" . }}
-              release: "{{ .Release.Name }}"
+              {{- include "keycloak.selectorLabels" . | nindent 10 }}
             matchExpressions:
               - key: role
                 operator: NotIn
@@ -117,8 +116,7 @@ keycloak:
           podAffinityTerm:
             labelSelector:
               matchLabels:
-                app:  {{ template "keycloak.name" . }}
-                release: "{{ .Release.Name }}"
+                {{- include "keycloak.selectorLabels" . | nindent 12 }}
               matchExpressions:
                 - key: role
                   operator: NotIn

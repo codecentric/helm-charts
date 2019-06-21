@@ -4,10 +4,7 @@ kind: ConfigMap
 metadata:
   name: {{ template "keycloak.fullname" . }}-test
   labels:
-    app: {{ template "keycloak.name" . }}
-    chart: {{ template "keycloak.chart" . }}
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "keycloak.commonLabels" . | nindent 4 }}
 data:
   test.py: |
     import os
