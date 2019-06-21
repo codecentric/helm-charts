@@ -341,7 +341,8 @@ In this case, the CLI scripts the chart runs by default can either be disabled e
 
 ```yaml
 keycloak:
-  cli: {}
+  cli:
+    enabled: false
 ```
 
 ##### Disabling an Individual Script:

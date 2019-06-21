@@ -1,3 +1,4 @@
+{{- if or .Values.keycloak.cli.enabled .Values.keycloak.startupScripts -}}
 {{- $highAvailability := gt (int .Values.keycloak.replicas) 1 -}}
 apiVersion: v1
 kind: ConfigMap
@@ -42,3 +43,4 @@ data:
 {{- with .Values.keycloak.startupScripts }}
   {{- toYaml . | nindent 2 }}
 {{- end }}
+{{- end -}}
