@@ -3,7 +3,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ template "keycloak.fullname" . }}
+  name: {{ include "keycloak.fullname" . }}
   {{- with $ingress.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
@@ -31,7 +31,7 @@ spec:
         paths:
           - path: {{ $ingress.path }}
             backend:
-              serviceName: {{ template "keycloak.fullname" $ }}-http
+              serviceName: {{ include "keycloak.fullname" $ }}-http
               servicePort: http
   {{- end }}
 {{- end -}}

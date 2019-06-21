@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ template "keycloak.fullname" . }}-http
+  name: {{ include "keycloak.fullname" . }}-http
   {{- with $service.annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}

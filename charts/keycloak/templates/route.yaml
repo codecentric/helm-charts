@@ -3,11 +3,11 @@
 apiVersion: route.openshift.io/v1
 kind: Route
 metadata:
-  name: {{ template "keycloak.fullname" . }}
-{{- with $route.annotations }}
+  name: {{ include "keycloak.fullname" . }}
+  {{- with $route.annotations }}
   annotations:
-    {{ toYaml . | nindent 4 }}
-{{- end }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   labels:
     {{- include "keycloak.commonLabels" . | nindent 4 }}
     {{- with $route.labels }}
@@ -22,7 +22,7 @@ spec:
     targetPort: http
   to:
     kind: Service
-    name: {{ template "keycloak.fullname" $ }}-http
+    name: {{ include "keycloak.fullname" $ }}-http
     weight: 100
   {{- if $route.tls.enabled }}
   tls:

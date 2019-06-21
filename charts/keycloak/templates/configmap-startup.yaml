@@ -2,7 +2,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ template "keycloak.fullname" . }}-startup
+  name: {{ include "keycloak.fullname" . }}-startup
   labels:
     {{- include "keycloak.commonLabels" . | nindent 4 }}
 data:

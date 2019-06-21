@@ -2,7 +2,7 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ template "keycloak.fullname" . }}
+  name: {{ include "keycloak.fullname" . }}
   labels:
     {{- include "keycloak.commonLabels" . | nindent 4 }}
 spec:
@@ -10,7 +10,7 @@ spec:
     matchLabels:
       {{- include "keycloak.selectorLabels" . | nindent 6 }}
   replicas: {{ .Values.keycloak.replicas }}
-  serviceName: {{ template "keycloak.fullname" . }}-headless
+  serviceName: {{ include "keycloak.fullname" . }}-headless
   podManagementPolicy: Parallel
   updateStrategy:
     type: RollingUpdate
@@ -36,7 +36,7 @@ spec:
       enableServiceLinks: {{ .Values.keycloak.enableServiceLinks }}
       {{- end }}
       restartPolicy: {{ .Values.keycloak.restartPolicy }}
-      serviceAccountName: {{ template "keycloak.serviceAccountName" . }}
+      serviceAccountName: {{ include "keycloak.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.keycloak.securityContext | nindent 8 }}
     {{- with .Values.keycloak.image.pullSecrets }}
@@ -57,7 +57,7 @@ spec:
             - sh
             - -c
             - |
-              until printf "." && nc -z -w 2 {{ template "keycloak.postgresql.fullname" . }} {{ .Values.postgresql.service.port }}; do
+              until printf "." && nc -z -w 2 {{ include "keycloak.postgresql.fullname" . }} {{ .Values.postgresql.service.port }}; do
                   sleep 2;
               done;
 
@@ -91,7 +91,7 @@ spec:
                 {{- if .Values.keycloak.existingSecret }}
                   name: {{ .Values.keycloak.existingSecret }}
                 {{- else }}
-                  name: {{ template "keycloak.fullname" . }}-http
+                  name: {{ include "keycloak.fullname" . }}-http
                 {{- end }}
                   key: {{ .Values.keycloak.existingSecretKey }}
           {{- end }}
@@ -99,7 +99,7 @@ spec:
             - name: JGROUPS_DISCOVERY_PROTOCOL
               value: "dns.DNS_PING"
             - name: JGROUPS_DISCOVERY_PROPERTIES
-              value: "dns_query={{ template "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
+              value: "dns_query={{ include "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
           {{- end }}
             {{- include "keycloak.dbEnvVars" . | nindent 12 }}
           {{- with .Values.keycloak.extraEnv }}
@@ -161,11 +161,11 @@ spec:
       volumes:
         - name: sh
           configMap:
-            name: {{ template "keycloak.fullname" . }}-sh
+            name: {{ include "keycloak.fullname" . }}-sh
             defaultMode: 0555
         - name: startup
           configMap:
-            name: {{ template "keycloak.fullname" . }}-startup
+            name: {{ include "keycloak.fullname" . }}-startup
             defaultMode: 0555
       {{- with .Values.keycloak.extraVolumes }}
         {{- tpl . $ | nindent 8 }}

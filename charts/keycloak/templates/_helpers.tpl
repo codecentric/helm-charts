@@ -66,7 +66,7 @@ Create a default fully qualified app name for the postgres requirement.
 */}}
 {{- define "keycloak.postgresql.fullname" -}}
 {{- $postgresContext := dict "Values" .Values.postgresql "Release" .Release "Chart" (dict "Name" "postgresql") -}}
-{{ template "postgresql.fullname" $postgresContext }}
+{{ include "postgresql.fullname" $postgresContext }}
 {{- end -}}
 
 {{/*
@@ -76,7 +76,7 @@ Create the name for the database secret.
 {{- if .Values.keycloak.persistence.existingSecret -}}
   {{- .Values.keycloak.persistence.existingSecret -}}
 {{- else -}}
-  {{- template "keycloak.fullname" . -}}-db
+  {{- include "keycloak.fullname" . -}}-db
 {{- end -}}
 {{- end -}}
 
@@ -102,7 +102,7 @@ Create environment variables for database configuration.
 - name: DB_VENDOR
   value: postgres
 - name: DB_ADDR
-  value: {{ template "keycloak.postgresql.fullname" . }}
+  value: {{ include "keycloak.postgresql.fullname" . }}
 - name: DB_PORT
   value: "5432"
 - name: DB_DATABASE
@@ -112,7 +112,7 @@ Create environment variables for database configuration.
 - name: DB_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ template "keycloak.postgresql.fullname" . }}
+      name: {{ include "keycloak.postgresql.fullname" . }}
       key: postgresql-password
 {{- else }}
 - name: DB_VENDOR
@@ -129,7 +129,7 @@ Create environment variables for database configuration.
 - name: DB_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ template "keycloak.externalDbSecret" . }}
+      name: {{ include "keycloak.externalDbSecret" . }}
       key: {{ include "keycloak.dbPasswordKey" . | quote }}
 {{- end }}
 {{- end }}
