@@ -37,7 +37,10 @@ spec:
       hostAliases:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      {{- if .Values.keycloak.enableServiceLinks }}
       enableServiceLinks: {{ .Values.keycloak.enableServiceLinks }}
+      {{- end }}
+      restartPolicy: {{ .Values.keycloak.restartPolicy }}
       serviceAccountName: {{ template "keycloak.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.keycloak.securityContext | nindent 8 }}
@@ -64,6 +67,8 @@ spec:
               done;
 
               echo 'PostgreSQL OK ✓'
+          resources:
+            {{- toYaml .Values.init.resources | nindent 12 }}
       {{- end }}
       {{- with .Values.keycloak.extraInitContainers }}
         {{- tpl . $ | nindent 8 }}

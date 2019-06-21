@@ -3,6 +3,13 @@ init:
     repository: alpine
     tag: 3.9
     pullPolicy: IfNotPresent
+  resources: {}
+    # limits:
+    #   cpu: "10m"
+    #   memory: "32Mi"
+    # requests:
+    #   cpu: "10m"
+    #   memory: "32Mi"
 
 clusterDomain: cluster.local
 
@@ -27,6 +34,8 @@ keycloak:
   #      - "my.host.com"
 
   enableServiceLinks: false
+
+  restartPolicy: Always
 
   serviceAccount:
     # Specifies whether a service account should be created
@@ -162,7 +171,7 @@ keycloak:
     custom: |
 
   ## Custom startup scripts to run before Keycloak starts up
-  startupScripts:
+  startupScripts: {}
     # mystartup.sh: |
     #   #!/bin/sh
     #
