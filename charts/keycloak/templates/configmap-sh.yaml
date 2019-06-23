@@ -9,7 +9,7 @@ data:
   keycloak.sh: |
     #!/usr/bin/env bash
 
-    set -eu
+    set -o errexit
+    set -o nounset
 
     exec /opt/jboss/tools/docker-entrypoint.sh -b 0.0.0.0 {{ .Values.keycloak.extraArgs }}{{- if $highAvailability }} -c standalone-ha.xml{{ else }} -c standalone.xml{{ end }}
-    exit "$?"

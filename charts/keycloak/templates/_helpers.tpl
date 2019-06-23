@@ -43,7 +43,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{/*
-Create the label selector.
+Create selector labels.
 */}}
 {{- define "keycloak.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "keycloak.name" . }}
@@ -70,6 +70,17 @@ Create a default fully qualified app name for the postgres requirement.
 {{- end -}}
 
 {{/*
+Create the name for the Keycloak secret.
+*/}}
+{{- define "keycloak.secret" -}}
+{{- if .Values.keycloak.existingSecret -}}
+  {{- .Values.keycloak.existingSecret -}}
+{{- else -}}
+  {{- include "keycloak.fullname" . -}}-http
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create the name for the database secret.
 */}}
 {{- define "keycloak.externalDbSecret" -}}
@@ -81,7 +92,29 @@ Create the name for the database secret.
 {{- end -}}
 
 {{/*
+Create the Keycloak password.
+*/}}
+{{- define "keycloak.password" -}}
+{{- if .Values.keycloak.password -}}
+  {{- .Values.keycloak.password | b64enc | quote -}}
+{{- else -}}
+  {{- randAlphaNum 16 | b64enc | quote -}}
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create the name for the password secret key.
+*/}}
+{{- define "keycloak.passwordKey" -}}
+{{- if .Values.keycloak.existingSecret -}}
+  {{- .Values.keycloak.existingSecretKey -}}
+{{- else -}}
+  password
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create the name for the database password secret key.
 */}}
 {{- define "keycloak.dbPasswordKey" -}}
 {{- if .Values.keycloak.persistence.existingSecret -}}

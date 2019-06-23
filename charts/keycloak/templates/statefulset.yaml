@@ -82,19 +82,10 @@ spec:
             {{- tpl . $ | nindent 12 }}
           {{- end }}
           env:
-          {{- if .Release.IsInstall }}
             - name: KEYCLOAK_USER
               value: {{ .Values.keycloak.username }}
-            - name: KEYCLOAK_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                {{- if .Values.keycloak.existingSecret }}
-                  name: {{ .Values.keycloak.existingSecret }}
-                {{- else }}
-                  name: {{ include "keycloak.fullname" . }}-http
-                {{- end }}
-                  key: {{ .Values.keycloak.existingSecretKey }}
-          {{- end }}
+            - name: KEYCLOAK_PASSWORD_FILE
+              value: /secrets/{{ include "keycloak.passwordKey" . }}
           {{- if $highAvailability }}
             - name: JGROUPS_DISCOVERY_PROTOCOL
               value: "dns.DNS_PING"
@@ -108,9 +99,14 @@ spec:
           volumeMounts:
             - name: sh
               mountPath: /scripts
+              readOnly: true
+            - name: secrets
+              mountPath: /secrets
+              readOnly: true
             {{- if or .Values.keycloak.cli.enabled .Values.keycloak.startupScripts }}
             - name: startup
               mountPath: /opt/jboss/startup-scripts
+              readOnly: true
             {{- end }}
             {{- with .Values.keycloak.extraVolumeMounts }}
             {{- tpl . $ | nindent 12 }}
@@ -165,6 +161,9 @@ spec:
           configMap:
             name: {{ include "keycloak.fullname" . }}-sh
             defaultMode: 0555
+        - name: secrets
+          secret:
+            secretName: {{ include "keycloak.secret" . }}
       {{- if or .Values.keycloak.cli.enabled .Values.keycloak.startupScripts }}
         - name: startup
           configMap:
