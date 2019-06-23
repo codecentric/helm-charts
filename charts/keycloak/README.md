@@ -337,7 +337,7 @@ Additional CLI commands may be added via `keycloak.cli.custom`, which is empty b
 The CLI changes the chart makes may not be desirable in all cases, especially when a custom Keycloak image is used that already incorporates a complete configuration that doesn't need any adjustments.
 In this case, the CLI scripts the chart runs by default can either be disabled en bloc or on and individual basis.
 
-##### Disabling all CLI Changes en Bloc:
+##### Disabling all CLI Changes en Bloc
 
 ```yaml
 keycloak:
@@ -345,7 +345,7 @@ keycloak:
     enabled: false
 ```
 
-##### Disabling an Individual Script:
+##### Disabling an Individual Script
 
 ```yaml
 keycloak:
