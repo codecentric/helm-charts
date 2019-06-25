@@ -38,7 +38,6 @@ referenceContent:
       - fileName: plugins.txt
         fileContent: |
           configuration-as-code
-          configuration-as-code-support
           workflow-aggregator
           kubernetes
           kubernetes-credentials-provider
@@ -80,9 +79,6 @@ referenceContent:
                         - name: jnlp
                           image: jenkinsci/jnlp-slave:3.27-1
                           ttyEnabled: true
-          security:
-            remotingCLI:
-              enabled: false
           unclassified:
             timestamperConfig:
               systemTimeFormat: "'<b>'yyyy-MM-dd HH:mm:ss.SSS'</b> '"

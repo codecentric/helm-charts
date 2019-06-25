@@ -42,7 +42,7 @@ The following table lists the configurable parameters of the Jenkins chart and t
 Parameter | Description | Default
 --- | --- | ---
 `image.repository` | The Jenkins image repository | `jenkins/jenkins`
-`image.tag` | The Jenkins image tag | `2.164.3-alpine`
+`image.tag` | The Jenkins image tag | `2.176.1-alpine`
 `image.pullPolicy` | The Jenkins image pull policy | `IfNotPresent`
 `imagePullSecrets` | Image pull secrets | `[]`
 `extraInitContainers` | Additional init containers. Passed through the `tpl` function and thus to be configured as string | `""`
@@ -205,8 +205,7 @@ The file must list the plugins to be installed.
 Versions are optional and must be delimited by a colon.
 Since it may not be desirable that plugins are updated when the pod is restarted, the Helm chart implements the following logic:
 
-![plugins state diagram](plugins.png)
-
+![plugins state diagram](https://raw.githubusercontent.com/codecentric/helm-charts/master/charts/jenkins/assets/plugins.png)
 
 It is advisable to use an LTS version of Jenkins.
 LTS versions have their own update centers with compatible plugin versions only.
