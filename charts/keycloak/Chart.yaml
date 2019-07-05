@@ -1,6 +1,6 @@
 name: keycloak
-version: 4.16.0
-appVersion: 5.0.0
+version: 5.0.0
+appVersion: 6.0.1
 description: Open Source Identity and Access Management For Modern Applications and Services
 keywords:
   - sso
@@ -12,6 +12,7 @@ keywords:
 home: https://www.keycloak.org/
 icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
 sources:
+  - https://github.com/codecentric/helm-charts
   - https://github.com/jboss-dockerfiles/keycloak
 maintainers:
   - name: unguiculus

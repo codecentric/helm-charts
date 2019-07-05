@@ -1,9 +1,33 @@
 keycloak:
   replicas: 2
   password: keycloak
+
+  podLabels:
+    test-label: test-label-value
+  podAnnotations:
+    test-annotation: test-annotation-value
+
+  startupScripts:
+    hello.sh: |
+      #!/bin/sh
+
+      echo '********************************************************************************'
+      echo '*                                                                              *'
+      echo '*                        Hello from my startup script!                         *'
+      echo '*                                                                              *'
+      echo '********************************************************************************'
+
+  lifecycleHooks: |
+    postStart:
+      exec:
+        command: ["/bin/sh", "-c", "echo 'Hello from lifecycle hook!'"]
+
   persistence:
     deployPostgres: true
     dbVendor: postgres
 
 postgresql:
-  postgresPassword: keycloak
+  postgresqlPassword: keycloak
+  persistence:
+    enabled: true
+    storageClass: local-path
