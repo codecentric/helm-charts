@@ -83,6 +83,7 @@ Parameter | Description | Default
 `keycloak.livenessProbe.timeoutSeconds` | Liveness Probe `timeoutSeconds` | `5`
 `keycloak.readinessProbe.initialDelaySeconds` | Readiness Probe `initialDelaySeconds` | `30`
 `keycloak.readinessProbe.timeoutSeconds` | Readiness Probe `timeoutSeconds` | `1`
+`keycloak.cli.enabled` | Set to `false` if no CLI changes should be performed by the chart | `true`
 `keycloak.cli.nodeIdentifier` | WildFly CLI script for setting the node identifier | See `values.yaml`
 `keycloak.cli.logging` | WildFly CLI script for logging configuration | See `values.yaml`
 `keycloak.cli.ha` | Settings for HA setups | See `values.yaml`
