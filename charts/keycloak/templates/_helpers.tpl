@@ -32,6 +32,25 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
+{{/*
+Create common labels.
+*/}}
+{{- define "keycloak.commonLabels" -}}
+app.kubernetes.io/name: {{ include "keycloak.name" . }}
+helm.sh/chart: {{ include "keycloak.chart" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Create selector labels.
+*/}}
+{{- define "keycloak.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "keycloak.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end -}}
+
+{{/*
 Create name of the service account to use
 */}}
 {{- define "keycloak.serviceAccountName" -}}
@@ -47,7 +66,18 @@ Create a default fully qualified app name for the postgres requirement.
 */}}
 {{- define "keycloak.postgresql.fullname" -}}
 {{- $postgresContext := dict "Values" .Values.postgresql "Release" .Release "Chart" (dict "Name" "postgresql") -}}
-{{ template "postgresql.fullname" $postgresContext }}
+{{ include "postgresql.fullname" $postgresContext }}
+{{- end -}}
+
+{{/*
+Create the name for the Keycloak secret.
+*/}}
+{{- define "keycloak.secret" -}}
+{{- if .Values.keycloak.existingSecret -}}
+  {{- .Values.keycloak.existingSecret -}}
+{{- else -}}
+  {{- include "keycloak.fullname" . -}}-http
+{{- end -}}
 {{- end -}}
 
 {{/*
@@ -57,12 +87,34 @@ Create the name for the database secret.
 {{- if .Values.keycloak.persistence.existingSecret -}}
   {{- .Values.keycloak.persistence.existingSecret -}}
 {{- else -}}
-  {{- template "keycloak.fullname" . -}}-db
+  {{- include "keycloak.fullname" . -}}-db
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create the Keycloak password.
+*/}}
+{{- define "keycloak.password" -}}
+{{- if .Values.keycloak.password -}}
+  {{- .Values.keycloak.password | b64enc | quote -}}
+{{- else -}}
+  {{- randAlphaNum 16 | b64enc | quote -}}
 {{- end -}}
 {{- end -}}
 
 {{/*
 Create the name for the password secret key.
+*/}}
+{{- define "keycloak.passwordKey" -}}
+{{- if .Values.keycloak.existingSecret -}}
+  {{- .Values.keycloak.existingSecretKey -}}
+{{- else -}}
+  password
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create the name for the database password secret key.
 */}}
 {{- define "keycloak.dbPasswordKey" -}}
 {{- if .Values.keycloak.persistence.existingSecret -}}
@@ -83,18 +135,18 @@ Create environment variables for database configuration.
 - name: DB_VENDOR
   value: postgres
 - name: DB_ADDR
-  value: {{ template "keycloak.postgresql.fullname" . }}
+  value: {{ include "keycloak.postgresql.fullname" . }}
 - name: DB_PORT
   value: "5432"
 - name: DB_DATABASE
-  value: {{ .Values.postgresql.postgresDatabase | quote }}
+  value: {{ .Values.postgresql.postgresqlDatabase | quote }}
 - name: DB_USER
-  value: {{ .Values.postgresql.postgresUser | quote }}
+  value: {{ .Values.postgresql.postgresqlUsername | quote }}
 - name: DB_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ template "keycloak.postgresql.fullname" . }}
-      key: postgres-password
+      name: {{ include "keycloak.postgresql.fullname" . }}
+      key: postgresql-password
 {{- else }}
 - name: DB_VENDOR
   value: {{ .Values.keycloak.persistence.dbVendor | quote }}
@@ -110,7 +162,7 @@ Create environment variables for database configuration.
 - name: DB_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ template "keycloak.externalDbSecret" . }}
+      name: {{ include "keycloak.externalDbSecret" . }}
       key: {{ include "keycloak.dbPasswordKey" . | quote }}
 {{- end }}
 {{- end }}

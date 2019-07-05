@@ -2,47 +2,43 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ template "keycloak.fullname" . }}
+  name: {{ include "keycloak.fullname" . }}
   labels:
-    app: {{ template "keycloak.name" . }}
-    chart: {{ template "keycloak.chart" . }}
-    release: "{{ .Release.Name }}"
-    heritage: "{{ .Release.Service }}"
+    {{- include "keycloak.commonLabels" . | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      app: {{ template "keycloak.name" . }}
-      release: "{{ .Release.Name }}"
+      {{- include "keycloak.selectorLabels" . | nindent 6 }}
   replicas: {{ .Values.keycloak.replicas }}
-  serviceName: {{ template "keycloak.fullname" . }}-headless
+  serviceName: {{ include "keycloak.fullname" . }}-headless
   podManagementPolicy: Parallel
   updateStrategy:
     type: RollingUpdate
   template:
     metadata:
       labels:
-        app: {{ template "keycloak.name" . }}
-        release: "{{ .Release.Name }}"
-      {{- if .Values.keycloak.podLabels }}
-{{ toYaml .Values.keycloak.podLabels | indent 8 }}
-      {{- end }}
+        {{- include "keycloak.selectorLabels" . | nindent 8 }}
+        {{- with .Values.keycloak.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
       annotations:
-        checksum/config: {{ include (print .Template.BasePath "/configmap.yaml") . | sha256sum }}
-{{- if .Values.keycloak.podAnnotations }}
-{{ toYaml .Values.keycloak.podAnnotations | indent 8 }}
-{{- end }}
+        checksum/config-sh: {{ include (print .Template.BasePath "/configmap-sh.yaml") . | sha256sum }}
+        checksum/config-startup: {{ include (print .Template.BasePath "/configmap-startup.yaml") . | sha256sum }}
+        {{- with .Values.keycloak.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
-{{- with .Values.keycloak.hostAliases }}
+      {{- with .Values.keycloak.hostAliases }}
       hostAliases:
-{{ toYaml . | indent 8 }}
-{{- end }}
-      {{- if (semverCompare ">=1.13-0" .Capabilities.KubeVersion.GitVersion) }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- if .Values.keycloak.enableServiceLinks }}
       enableServiceLinks: {{ .Values.keycloak.enableServiceLinks }}
       {{- end }}
       restartPolicy: {{ .Values.keycloak.restartPolicy }}
-      serviceAccountName: {{ template "keycloak.serviceAccountName" . }}
+      serviceAccountName: {{ include "keycloak.serviceAccountName" . }}
       securityContext:
-{{ toYaml .Values.keycloak.securityContext | indent 8 }}
+        {{- toYaml .Values.keycloak.securityContext | nindent 8 }}
     {{- with .Values.keycloak.image.pullSecrets }}
       imagePullSecrets:
       {{- range . }}
@@ -56,12 +52,12 @@ spec:
           image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
           imagePullPolicy: {{ .Values.init.image.pullPolicy }}
           securityContext:
-{{ toYaml .Values.keycloak.containerSecurityContext | indent 12 }}
+            {{- toYaml .Values.keycloak.containerSecurityContext | nindent 12 }}
           command:
             - sh
             - -c
             - |
-              until printf "." && nc -z -w 2 {{ template "keycloak.postgresql.fullname" . }} {{ .Values.postgresql.service.port }}; do
+              until printf "." && nc -z -w 2 {{ include "keycloak.postgresql.fullname" . }} {{ .Values.postgresql.service.port }}; do
                   sleep 2;
               done;
 
@@ -69,8 +65,8 @@ spec:
           resources:
             {{- toYaml .Values.init.resources | nindent 12 }}
       {{- end }}
-      {{- if .Values.keycloak.extraInitContainers }}
-{{ tpl .Values.keycloak.extraInitContainers . | indent 8 }}
+      {{- with .Values.keycloak.extraInitContainers }}
+        {{- tpl . $ | nindent 8 }}
       {{- end }}
     {{- end }}
       containers:
@@ -78,43 +74,43 @@ spec:
           image: "{{ .Values.keycloak.image.repository }}:{{ .Values.keycloak.image.tag }}"
           imagePullPolicy: {{ .Values.keycloak.image.pullPolicy }}
           securityContext:
-{{ toYaml .Values.keycloak.containerSecurityContext | indent 12 }}
+            {{- toYaml .Values.keycloak.containerSecurityContext | nindent 12 }}
           command:
             - /scripts/keycloak.sh
-        {{- if .Values.keycloak.lifecycleHooks }}
+          {{- with .Values.keycloak.lifecycleHooks }}
           lifecycle:
-{{ tpl .Values.keycloak.lifecycleHooks . | indent 12 }}
-        {{- end }}
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
           env:
-          {{- if .Release.IsInstall }}
             - name: KEYCLOAK_USER
               value: {{ .Values.keycloak.username }}
-            - name: KEYCLOAK_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  {{- if .Values.keycloak.existingSecret }}
-                  name: {{ .Values.keycloak.existingSecret }}
-                  {{- else }}
-                  name: {{ template "keycloak.fullname" . }}-http
-                  {{- end }}
-                  key: {{ .Values.keycloak.existingSecretKey }}
-          {{- end }}
+            - name: KEYCLOAK_PASSWORD_FILE
+              value: /secrets/{{ include "keycloak.passwordKey" . }}
           {{- if $highAvailability }}
             - name: JGROUPS_DISCOVERY_PROTOCOL
               value: "dns.DNS_PING"
             - name: JGROUPS_DISCOVERY_PROPERTIES
-              value: "dns_query={{ template "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
+              value: "dns_query={{ include "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
           {{- end }}
-{{ include "keycloak.dbEnvVars" . | indent 12 }}
-{{- with .Values.keycloak.extraEnv }}
-{{ tpl . $ | indent 12 }}
-{{- end }}
+            {{- include "keycloak.dbEnvVars" . | nindent 12 }}
+          {{- with .Values.keycloak.extraEnv }}
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
           volumeMounts:
-            - name: scripts
+            - name: sh
               mountPath: /scripts
-{{- with .Values.keycloak.extraVolumeMounts }}
-{{ tpl . $ | indent 12 }}
-{{- end }}
+              readOnly: true
+            - name: secrets
+              mountPath: /secrets
+              readOnly: true
+            {{- if or .Values.keycloak.cli.enabled .Values.keycloak.startupScripts }}
+            - name: startup
+              mountPath: /opt/jboss/startup-scripts
+              readOnly: true
+            {{- end }}
+            {{- with .Values.keycloak.extraVolumeMounts }}
+            {{- tpl . $ | nindent 12 }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
@@ -124,9 +120,9 @@ spec:
               containerPort: 7600
               protocol: TCP
           {{- end }}
-{{- with .Values.keycloak.extraPorts }}
-{{ tpl . $ | indent 12 }}
-{{- end }}
+          {{- with .Values.keycloak.extraPorts }}
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
           livenessProbe:
             httpGet:
               path: {{ if ne .Values.keycloak.basepath "" }}/{{ .Values.keycloak.basepath }}{{ end }}/
@@ -140,31 +136,40 @@ spec:
             initialDelaySeconds: {{ .Values.keycloak.readinessProbe.initialDelaySeconds }}
             timeoutSeconds: {{ .Values.keycloak.readinessProbe.timeoutSeconds }}
           resources:
-{{ toYaml .Values.keycloak.resources | indent 12 }}
-{{- with .Values.keycloak.extraContainers }}
-{{ tpl . $ | indent 8 }}
-{{- end }}
-    {{- with .Values.keycloak.affinity }}
+            {{- toYaml .Values.keycloak.resources | nindent 12 }}
+      {{- with .Values.keycloak.extraContainers }}
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      {{- with .Values.keycloak.affinity }}
       affinity:
-{{ tpl . $ | indent 8 }}
-    {{- end }}
-    {{- with .Values.keycloak.nodeSelector }}
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
+      {{- with .Values.keycloak.nodeSelector }}
       nodeSelector:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-    {{- with .Values.keycloak.tolerations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.keycloak.tolerations }}
       tolerations:
-{{ toYaml . | indent 8 }}
-    {{- end }}
-{{- if .Values.keycloak.priorityClassName }}
-      priorityClassName: {{ .Values.keycloak.priorityClassName }}
-{{- end }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.keycloak.priorityClassName }}
+      priorityClassName: {{ . }}
+      {{- end }}
       terminationGracePeriodSeconds: 60
       volumes:
-        - name: scripts
+        - name: sh
           configMap:
-            name: {{ template "keycloak.fullname" . }}
+            name: {{ include "keycloak.fullname" . }}-sh
             defaultMode: 0555
-{{- with .Values.keycloak.extraVolumes }}
-{{ tpl . $ | indent 8 }}
-{{- end }}
+        - name: secrets
+          secret:
+            secretName: {{ include "keycloak.secret" . }}
+      {{- if or .Values.keycloak.cli.enabled .Values.keycloak.startupScripts }}
+        - name: startup
+          configMap:
+            name: {{ include "keycloak.fullname" . }}-startup
+            defaultMode: 0555
+      {{- end }}
+      {{- with .Values.keycloak.extraVolumes }}
+        {{- tpl . $ | nindent 8 }}
+      {{- end }}
