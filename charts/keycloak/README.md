@@ -369,3 +369,40 @@ We would have to truncate the chart's fullname to six characters because pods ge
 Using a StatefulSet allows us to truncate to 20 characters leaving room for up to 99 replicas, which is much better.
 Additionally, we get stable values for `jboss.node.name` which can be advantageous for cluster discovery.
 The headless service that governs the StatefulSet is used for DNS discovery.
+
+## Upgrading
+
+### From chart versions < 5.0.0
+
+Version 5.0.0 is a major update.
+
+* The chart now follows the new Kubernetes label recommendations:
+https://kubernetes.io/docs/concepts/overview/working-with-objects/common-labels/
+* Several changes to the StatefulSet render an out-of-the-box upgrade impossible because StatefulSets only allow updates to a limited set of fields
+* The chart uses the new support for running scripts at startup that has been added to Keycloak's Docker image.
+If you use this feature, you will have to adjust your configuration
+
+However, with the following manual steps an automatic upgrade is still possible:
+
+1. Adjust chart configuration as necessary (e. g. startup scripts)
+1. Perform a non-cascading deletion of the StatefulSet which keeps the pods running
+1. Add the new labels to the pods
+1. Run `helm upgrade`
+
+Use a script like the following to add labels and to delete the StatefulSet:
+
+```console
+#!/bin/sh
+
+release=<release>
+namespace=<release_namespace>
+
+kubectl delete statefulset -n "$namespace" -l app=keycloak -l release="$release" --cascade=false
+
+kubectl label pod -n "$namespace" -l app=keycloak -l release="$release" app.kubernetes.io/name=keycloak
+kubectl label pod -n "$namespace" -l app=keycloak -l release="$release" app.kubernetes.io/instance="$release"
+```
+
+**NOTE:** Version 5.0.0 also updates the Postgresql dependency which has received a major upgrade as well.
+In case you use this dependency, the database must be upgraded first.
+Please refer to the Postgresql chart's upgrading section in its README for instructions.
