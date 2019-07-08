@@ -25,6 +25,13 @@ We truncate to 20 characters because this is used to set the node identifier in 
 {{- end -}}
 
 {{/*
+Create the service DNS name.
+*/}}
+{{- define "keycloak.serviceDnsName" -}}
+{{ include "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
+{{- end -}}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "keycloak.chart" -}}
