@@ -3,7 +3,7 @@ entries:
   jenkins:
   - apiVersion: v1
     appVersion: 2.176.1
-    created: "2019-07-10T18:36:44.85761993Z"
+    created: "2019-07-10T20:52:19.58392974Z"
     description: The leading open source automation server
     digest: b5aae361f7cf0fe65ee93c645060e3811fd38455799c99720b802413684cfa32
     home: https://jenkins.io/
@@ -29,7 +29,7 @@ entries:
     version: 1.4.0
   - apiVersion: v1
     appVersion: 2.164.3
-    created: "2019-07-10T18:36:45.848909407Z"
+    created: "2019-07-10T20:52:20.705050465Z"
     description: The leading open source automation server
     digest: 9f1eac312d50b2196d9c72298f54d8afe4c6481ce9b3c4aa5933a13f1951d134
     home: https://jenkins.io/
@@ -54,7 +54,7 @@ entries:
     version: 1.3.1
   - apiVersion: v1
     appVersion: 2.164.3
-    created: "2019-07-10T18:36:46.07547396Z"
+    created: "2019-07-10T20:52:20.935637685Z"
     description: The leading open source automation server
     digest: 4b6b4456b4689d6440aa5335a4e4769e6464a2ad2ef77199c8cdebcc64a50d91
     home: https://jenkins.io/
@@ -79,7 +79,7 @@ entries:
     version: 1.3.0
   - apiVersion: v1
     appVersion: 2.164.3
-    created: "2019-07-10T18:36:46.237705612Z"
+    created: "2019-07-10T20:52:21.167322401Z"
     description: The leading open source automation server
     digest: 820bf58f564876dc7a98e9aaaa8f617fc93d07eabb6fa05438ea39aa0c995cf0
     home: https://jenkins.io/
@@ -104,7 +104,7 @@ entries:
     version: 1.2.0
   - apiVersion: v1
     appVersion: 2.164.3
-    created: "2019-07-10T18:36:46.434214119Z"
+    created: "2019-07-10T20:52:21.387109989Z"
     description: The leading open source automation server
     digest: d3a24fe839b9c123f0f2dba1dffa622c459d38be520e8b73f452417f32d76cca
     home: https://jenkins.io/
@@ -129,7 +129,7 @@ entries:
     version: 1.1.0
   - apiVersion: v1
     appVersion: 2.164.3
-    created: "2019-07-10T18:36:47.005881414Z"
+    created: "2019-07-10T20:52:22.049940798Z"
     description: The leading open source automation server
     digest: 21f3cdcc7fdde611e0b7e3477fdc61f58f72565b6918a335e1dccb61acc1528f
     home: https://jenkins.io/
@@ -154,7 +154,7 @@ entries:
     version: 1.0.2
   - apiVersion: v1
     appVersion: 2.164.2
-    created: "2019-07-10T18:36:48.243114405Z"
+    created: "2019-07-10T20:52:23.547993127Z"
     description: The leading open source automation server
     digest: 8dca04aea67988e1a1d3b8265431308d306dfd63c2979a1e2d95e4a99b614014
     home: https://jenkins.io/
@@ -179,7 +179,7 @@ entries:
     version: 1.0.1
   - apiVersion: v1
     appVersion: 2.164.2
-    created: "2019-07-10T18:36:48.604268882Z"
+    created: "2019-07-10T20:52:24.019931178Z"
     description: The leading open source automation server
     digest: f73552b0895f7611e5892de00390931f74b5d013e6829b3c4ab5b02fab82c1da
     home: https://jenkins.io/
@@ -204,7 +204,33 @@ entries:
     version: 1.0.0
   keycloak:
   - appVersion: 6.0.1
-    created: "2019-07-10T18:36:44.127963351Z"
+    created: "2019-07-10T20:52:18.730285902Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 8585a44a227a243571910a0358e6518f568f3c135b89c1c77ad6777fd1c69fa9
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.1/keycloak-5.1.1.tgz
+    version: 5.1.1
+  - appVersion: 6.0.1
+    created: "2019-07-10T20:52:18.954230162Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: c2a1c3b2ad22de453e75ace4905377b736795e7daef71592e528e91f52e5b625
@@ -230,7 +256,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.0/keycloak-5.1.0.tgz
     version: 5.1.0
   - appVersion: 6.0.1
-    created: "2019-07-10T18:36:44.257396626Z"
+    created: "2019-07-10T20:52:19.145334339Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: 2eecd1126c2a24352f5f4b11a4c674c97107b3c8e4bffae8354f969f99c94c2d
@@ -256,7 +282,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.0.1/keycloak-5.0.1.tgz
     version: 5.0.1
   - appVersion: 6.0.1
-    created: "2019-07-10T18:36:44.462472973Z"
+    created: "2019-07-10T20:52:19.367333113Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: a88f3393a267dd90c63bf716ef1b929713b14dc99538b267137744e45dfc71c5
@@ -282,7 +308,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.0.0/keycloak-5.0.0.tgz
     version: 5.0.0
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:45.073668137Z"
+    created: "2019-07-10T20:52:19.818198115Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: 10e98549dc8aa4d01a03ae9236b7824a6fa3ba0387593b84b1008384705e5711
@@ -307,7 +333,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.16.0/keycloak-4.16.0.tgz
     version: 4.16.0
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:45.203417088Z"
+    created: "2019-07-10T20:52:20.036529014Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: 4ca77dce30ee7bafaaa31f403d9ba48db4b8df1baab1ddf628ecbd81ecb0ed9e
@@ -332,7 +358,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.15.0/keycloak-4.15.0.tgz
     version: 4.15.0
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:45.374572341Z"
+    created: "2019-07-10T20:52:20.243603733Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: 8d4f4c85c56fccb0928ea619307a834254cdeb42769bb62defacf8667cd22f67
@@ -357,7 +383,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.14.2/keycloak-4.14.2.tgz
     version: 4.14.2
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:45.609284006Z"
+    created: "2019-07-10T20:52:20.461520306Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: bbfbb89395a367e446e856386eba202d64092da6ff954d68eb1f00502157cea9
@@ -382,7 +408,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.14.1/keycloak-4.14.1.tgz
     version: 4.14.1
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:46.604470658Z"
+    created: "2019-07-10T20:52:21.61981963Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: d0e53ebc9b1c8b951abb9664aec1c5f8a1d31b63cb1cec245df4b6c29c965455
@@ -407,7 +433,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.14.0/keycloak-4.14.0.tgz
     version: 4.14.0
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:46.807029652Z"
+    created: "2019-07-10T20:52:21.831157114Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: 4db35953bee5a4b93081154d7fc511954e11b89bddbc4fb93c963f2642401328
@@ -432,7 +458,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.13.2/keycloak-4.13.2.tgz
     version: 4.13.2
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:47.219950563Z"
+    created: "2019-07-10T20:52:22.264925217Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: 6c795a77d8ee1da0bbc3838ac085b2b3e1e98df70771e91280d25fd5ce94ed84
@@ -457,7 +483,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.13.1/keycloak-4.13.1.tgz
     version: 4.13.1
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:47.421522205Z"
+    created: "2019-07-10T20:52:22.485418827Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: 4d2b67bbdc371141ef031a5883f046aa8b1c3733e05c54f3e3766254b1887c1a
@@ -482,7 +508,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.13.0/keycloak-4.13.0.tgz
     version: 4.13.0
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:47.635053152Z"
+    created: "2019-07-10T20:52:22.689966467Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: 47fd1943c45dde570dc0282cd0300efd3086a096b9172f345f21ebbaddbeb11d
@@ -507,7 +533,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.12.0/keycloak-4.12.0.tgz
     version: 4.12.0
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:47.789680276Z"
+    created: "2019-07-10T20:52:22.932895251Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: 244eccd4158cddc3c7ce2fdf7f17ee89319fa0290f21b4442b2ca2793ea36bc9
@@ -532,7 +558,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.11.2/keycloak-4.11.2.tgz
     version: 4.11.2
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:47.959740751Z"
+    created: "2019-07-10T20:52:23.145403823Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: 430ad13bc5b7c5e0e8b9b81cb4830a4b7c3840cfb45f63e187b145e6d88f38a7
@@ -557,7 +583,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.11.1/keycloak-4.11.1.tgz
     version: 4.11.1
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:48.101792746Z"
+    created: "2019-07-10T20:52:23.342174926Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: 862d7db3ca0e2f2746145bfbacce4b85dbd73ab60f87093526af8ab1741260a2
@@ -582,7 +608,7 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.11.0/keycloak-4.11.0.tgz
     version: 4.11.0
   - appVersion: 5.0.0
-    created: "2019-07-10T18:36:48.421182081Z"
+    created: "2019-07-10T20:52:23.764292079Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
     digest: 6cd562f1ef0c5d10d98163fb0b44bddd04bf51ff0371a4c83729c38ac4546f14
@@ -609,7 +635,7 @@ entries:
   mailhog:
   - apiVersion: v1
     appVersion: 1.0.0
-    created: "2019-07-10T18:36:48.763782667Z"
+    created: "2019-07-10T20:52:24.231797744Z"
     description: An e-mail testing tool for developers
     digest: f6780364403a63cd3904e84e7d15fabe98708a634dc823f4bab1b9fdbd913cb1
     home: http://iankent.uk/project/mailhog/
@@ -630,4 +656,4 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/mailhog-3.0.0/mailhog-3.0.0.tgz
     version: 3.0.0
-generated: "2019-07-10T18:36:43.518374996Z"
+generated: "2019-07-10T20:52:17.680427564Z"
