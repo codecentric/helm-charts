@@ -90,7 +90,9 @@ spec:
             - name: JGROUPS_DISCOVERY_PROTOCOL
               value: "dns.DNS_PING"
             - name: JGROUPS_DISCOVERY_PROPERTIES
-              value: "dns_query={{ include "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
+              value: "dns_query={{ include "keycloak.serviceDnsName" . }}"
+            - name: KEYCLOAK_SERVICE_DNS_NAME
+              value: "{{ include "keycloak.serviceDnsName" . }}"
           {{- end }}
             {{- include "keycloak.dbEnvVars" . | nindent 12 }}
           {{- with .Values.keycloak.extraEnv }}
