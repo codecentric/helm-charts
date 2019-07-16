@@ -93,12 +93,8 @@ spec:
               value: "dns_query={{ include "keycloak.serviceDnsName" . }}"
             - name: KEYCLOAK_SERVICE_DNS_NAME
               value: "{{ include "keycloak.serviceDnsName" . }}"
-            - name: POD_IP
-              valueFrom:
-                fieldRef:
-                  fieldPath: status.podIP
             - name: BIND
-              value: "0.0.0.0 $(POD_IP)"
+              value: "0.0.0.0"
           {{- end }}
             {{- include "keycloak.dbEnvVars" . | nindent 12 }}
           {{- with .Values.keycloak.extraEnv }}
