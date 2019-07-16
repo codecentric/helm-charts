@@ -1,0 +1,16 @@
+{{ if and (.Values.prometheus.operator.prometheusRules.enabled) (.Values.prometheus.operator.prometheusRules.rules) }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ template "keycloak.fullname" . }}
+  {{- if .Values.prometheus.operator.prometheusRules.namespace }}
+  namespace: {{ .Values.prometheus.operator.prometheusRules.namespace }}
+  {{- end }}
+  labels:
+{{ toYaml .Values.prometheus.operator.prometheusRules.selector | indent 4 }}
+spec:
+  groups:
+  - name: {{ template "keycloak.fullname" . }}
+    rules:
+{{ toYaml .Values.prometheus.operator.prometheusRules.rules | indent 6 }}
+{{- end }}

@@ -1,0 +1,25 @@
+{{ if and .Values.prometheus.operator.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: {{ template "keycloak.fullname" . }}
+  {{- if .Values.prometheus.operator.serviceMonitor.namespace }}
+  namespace: {{ .Values.prometheus.operator.serviceMonitor.namespace }}
+  {{- end }}
+  labels:
+{{ toYaml .Values.prometheus.operator.serviceMonitor.selector | indent 4 }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ template "keycloak.name" . }}
+      release: "{{ .Release.Name }}"
+      service: http
+  endpoints:
+  - port: http
+    path: {{ .Values.prometheus.operator.serviceMonitor.path }}
+    interval: {{ .Values.prometheus.operator.serviceMonitor.interval }}
+  {{- if .Values.prometheus.operator.serviceMonitor.scrapeTimeout }}
+    scrapeTimeout: {{ .Values.prometheus.operator.serviceMonitor.scrapeTimeout }}
+  {{- end }}
+{{ end }}
+

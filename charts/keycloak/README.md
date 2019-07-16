@@ -127,6 +127,14 @@ Parameter | Description | Default
 `test.image.pullPolicy` | Test image pull policy | `IfNotPresent`
 `test.securityContext` | Security context for the test pod. Every container running in the pod will inherit this security context. This might be relevant when other components of the environment inject additional containers into the running pod (service meshs are the most prominent example for this) | `{fsGroup: 1000}`
 `test.containerSecurityContext` | Security context for containers running in the test pod. Will not be inherited by additionally injected containers | `{runAsUser: 1000, runAsNonRoot: true}`
+`prometheus.operator.enabled` | Enable the Prometheus Operator features of the chart | `false`
+`prometheus.operator.serviceMonitor.selector` | Labels to add to the Prometheus Operator ServiceMonitor depending on your Operator configuration | `release: prometheus`
+`prometheus.operator.serviceMonitor.interval` | How often Prometheus should poll the metrics endpoint | `10s`
+`prometheus.operator.serviceMonitor.scrapeTimeout` | How long the Prometheus metrics endpoint timeout should be | `10s`
+`prometheus.operator.serviceMonitor.path` | The path of the Prometheus metrics endpoint on Keycloak | `/auth/realms/master/metrics`
+`prometheus.operator.prometheusRules.enabled` | Whether to create Prometheus Operator PrometheusRules object | `false`
+`prometheus.operator.prometheusRules.selector` | Labels to add to the Prometheus Operator PrometheusRules object depending on your Operator configuration | `{app: prometheus-operator", release: prometheus}`
+`prometheus.operator.prometheusRules.rules` | The Prometheus Operator rules to configure | `{}`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
