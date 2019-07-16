@@ -373,6 +373,36 @@ WildFly uses Infinispan for caching.
 These caches can be replicated across all instances forming a cluster.
 If `keycloak.replicas > 1`, JGroups' DNS_PING is configured for cluster discovery and Keycloak is started with `--server-config standalone-ha.xml`.
 
+### Prometheus Operator Support
+
+It is possible to monitor Keycloak with Prometheus through the use of plugins such as [keycloak-metrics-spi](https://github.com/aerogear/keycloak-metrics-spi). The plugin can be added with configuration like this:
+```
+  extraInitContainers: |
+    - name: extensions
+      image: busybox
+      imagePullPolicy: IfNotPresent
+      command:
+        - sh
+      args:
+        - -c
+        - |
+          echo "Copying extensions..."
+          wget -O /deployments/keycloak-metrics-spi.jar https://github.com/aerogear/keycloak-metrics-spi/releases/download/1.0.1/keycloak-metrics-spi-1.0.1.jar
+      volumeMounts:
+        - name: deployments
+          mountPath: /deployments
+
+  extraVolumeMounts: |
+    - name: deployments
+      mountPath: /opt/jboss/keycloak/standalone/deployments
+
+  extraVolumes: |
+    - name: deployments
+      emptyDir: {}
+```
+
+You can then either configure Prometheus to scrape the `/auth/realms/master/metrics` path on the normal HTTP port of JBoss, or if you are using the [Prometheus Operator](https://github.com/helm/charts/tree/master/stable/prometheus-operator) you can enable prometheus.operator.enabled in `values.yaml` and use the example configuration. If you are using Prometheus Operator for configuring Prometheus Rules, the chart also supports this; see prometheus.operator.prometheusRules in `values.yaml` for more details.
+
 ## Why StatefulSet?
 
 The chart sets node identifiers to the system property `jboss.node.name` which is in fact the pod name.
