@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-: "${CH_TOKEN:?Environment variable CH_TOKEN must be set}"
+: "${CR_TOKEN:?Environment variable CR_TOKEN must be set}"
 : "${GIT_REPOSITORY_URL:?Environment variable GIT_REPO_URL must be set}"
 : "${GIT_USERNAME:?Environment variable GIT_USERNAME must be set}"
 : "${GIT_EMAIL:?Environment variable GIT_EMAIL must be set}"
@@ -33,8 +33,11 @@ main() {
         exit
     fi
 
-    rm -rf .deploy
-    mkdir -p .deploy
+    rm -rf .cr-release-packages
+    mkdir -p .cr-release-packages
+
+    rm -rf .cr-index
+    mkdir -p .cr-index
 
     echo "Identifying changed charts since tag '$latest_tag'..."
 
@@ -65,21 +68,21 @@ find_latest_tag() {
 package_chart() {
     local chart="$1"
     helm dependency build "$chart"
-    helm package "$chart" --destination .deploy
+    helm package "$chart" --destination .cr-release-packages
 }
 
 release_charts() {
-    chart-releaser upload -o codecentric -r helm-charts -p .deploy
+    cr upload -o codecentric -r helm-charts
 }
 
 update_index() {
-    chart-releaser index -o codecentric -r helm-charts -p .deploy/index.yaml
+    cr index -o codecentric -r helm-charts
 
     git config user.email "$GIT_EMAIL"
     git config user.name "$GIT_USERNAME"
 
     git checkout gh-pages
-    cp --force .deploy/index.yaml index.yaml
+    cp --force .cr-index/index.yaml index.yaml
     git add index.yaml
     git commit --message="Update index.yaml" --signoff
     git push "$GIT_REPOSITORY_URL" gh-pages
