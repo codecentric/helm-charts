@@ -27,4 +27,737 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.4.1/jenkins-1.4.1.tgz
     version: 1.4.1
-generated: "2019-07-22T19:58:41.936207039Z"
+  - apiVersion: v1
+    appVersion: 2.176.1
+    created: "2019-07-16T20:04:20.195402581Z"
+    description: The leading open source automation server
+    digest: b5aae361f7cf0fe65ee93c645060e3811fd38455799c99720b802413684cfa32
+    home: https://jenkins.io/
+    icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
+    keywords:
+    - ci
+    - continuous integration
+    - continuous delivery
+    - continuous deployment
+    - devops
+    - automation
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: jenkins
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jenkinsci/jenkins
+    - https://github.com/jenkinsci/docker
+    - https://github.com/jenkinsci/docker-jnlp-slave
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.4.0/jenkins-1.4.0.tgz
+    version: 1.4.0
+  - apiVersion: v1
+    appVersion: 2.164.3
+    created: "2019-07-16T20:04:20.961496159Z"
+    description: The leading open source automation server
+    digest: 9f1eac312d50b2196d9c72298f54d8afe4c6481ce9b3c4aa5933a13f1951d134
+    home: https://jenkins.io/
+    icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
+    keywords:
+    - ci
+    - continuous integration
+    - continuous delivery
+    - continuous deployment
+    - devops
+    - automation
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: jenkins
+    sources:
+    - https://github.com/jenkinsci/jenkins
+    - https://github.com/jenkinsci/docker
+    - https://github.com/jenkinsci/docker-jnlp-slave
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.3.1/jenkins-1.3.1.tgz
+    version: 1.3.1
+  - apiVersion: v1
+    appVersion: 2.164.3
+    created: "2019-07-16T20:04:21.105514224Z"
+    description: The leading open source automation server
+    digest: 4b6b4456b4689d6440aa5335a4e4769e6464a2ad2ef77199c8cdebcc64a50d91
+    home: https://jenkins.io/
+    icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
+    keywords:
+    - ci
+    - continuous integration
+    - continuous delivery
+    - continuous deployment
+    - devops
+    - automation
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: jenkins
+    sources:
+    - https://github.com/jenkinsci/jenkins
+    - https://github.com/jenkinsci/docker
+    - https://github.com/jenkinsci/docker-jnlp-slave
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.3.0/jenkins-1.3.0.tgz
+    version: 1.3.0
+  - apiVersion: v1
+    appVersion: 2.164.3
+    created: "2019-07-16T20:04:21.275451461Z"
+    description: The leading open source automation server
+    digest: 820bf58f564876dc7a98e9aaaa8f617fc93d07eabb6fa05438ea39aa0c995cf0
+    home: https://jenkins.io/
+    icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
+    keywords:
+    - ci
+    - continuous integration
+    - continuous delivery
+    - continuous deployment
+    - devops
+    - automation
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: jenkins
+    sources:
+    - https://github.com/jenkinsci/jenkins
+    - https://github.com/jenkinsci/docker
+    - https://github.com/jenkinsci/docker-jnlp-slave
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.2.0/jenkins-1.2.0.tgz
+    version: 1.2.0
+  - apiVersion: v1
+    appVersion: 2.164.3
+    created: "2019-07-16T20:04:21.423991566Z"
+    description: The leading open source automation server
+    digest: d3a24fe839b9c123f0f2dba1dffa622c459d38be520e8b73f452417f32d76cca
+    home: https://jenkins.io/
+    icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
+    keywords:
+    - ci
+    - continuous integration
+    - continuous delivery
+    - continuous deployment
+    - devops
+    - automation
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: jenkins
+    sources:
+    - https://github.com/jenkinsci/jenkins
+    - https://github.com/jenkinsci/docker
+    - https://github.com/jenkinsci/docker-jnlp-slave
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.1.0/jenkins-1.1.0.tgz
+    version: 1.1.0
+  - apiVersion: v1
+    appVersion: 2.164.3
+    created: "2019-07-16T20:04:21.995655643Z"
+    description: The leading open source automation server
+    digest: 21f3cdcc7fdde611e0b7e3477fdc61f58f72565b6918a335e1dccb61acc1528f
+    home: https://jenkins.io/
+    icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
+    keywords:
+    - ci
+    - continuous integration
+    - continuous delivery
+    - continuous deployment
+    - devops
+    - automation
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: jenkins
+    sources:
+    - https://github.com/jenkinsci/jenkins
+    - https://github.com/jenkinsci/docker
+    - https://github.com/jenkinsci/docker-jnlp-slave
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.0.2/jenkins-1.0.2.tgz
+    version: 1.0.2
+  - apiVersion: v1
+    appVersion: 2.164.2
+    created: "2019-07-16T20:04:23.07098435Z"
+    description: The leading open source automation server
+    digest: 8dca04aea67988e1a1d3b8265431308d306dfd63c2979a1e2d95e4a99b614014
+    home: https://jenkins.io/
+    icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
+    keywords:
+    - ci
+    - continuous integration
+    - continuous delivery
+    - continuous deployment
+    - devops
+    - automation
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: jenkins
+    sources:
+    - https://github.com/jenkinsci/jenkins
+    - https://github.com/jenkinsci/docker
+    - https://github.com/jenkinsci/docker-jnlp-slave
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.0.1/jenkins-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v1
+    appVersion: 2.164.2
+    created: "2019-07-16T20:04:23.578488087Z"
+    description: The leading open source automation server
+    digest: f73552b0895f7611e5892de00390931f74b5d013e6829b3c4ab5b02fab82c1da
+    home: https://jenkins.io/
+    icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
+    keywords:
+    - ci
+    - continuous integration
+    - continuous delivery
+    - continuous deployment
+    - devops
+    - automation
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: jenkins
+    sources:
+    - https://github.com/jenkinsci/jenkins
+    - https://github.com/jenkinsci/docker
+    - https://github.com/jenkinsci/docker-jnlp-slave
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.0.0/jenkins-1.0.0.tgz
+    version: 1.0.0
+  keycloak:
+  - appVersion: 6.0.1
+    created: "2019-07-16T20:04:19.206250492Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: bd2aa879ebf62bd2318d10cdd672fc5943a4a9f341b8610cf59c20654b806afc
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.4/keycloak-5.1.4.tgz
+    version: 5.1.4
+  - appVersion: 6.0.1
+    created: "2019-07-16T20:04:19.326608538Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: a39a8cd26fe31bff6b03a9e6ab9e31eee662bf9b256135f1914e088aefc26e8f
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.3/keycloak-5.1.3.tgz
+    version: 5.1.3
+  - appVersion: 6.0.1
+    created: "2019-07-16T20:04:19.487505872Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: d82e2da4c1f0f36ba66d0d98f8c01f7d80675231fd8ed8ec1e8613de3eb018e0
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.2/keycloak-5.1.2.tgz
+    version: 5.1.2
+  - appVersion: 6.0.1
+    created: "2019-07-16T20:04:19.615202942Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 8585a44a227a243571910a0358e6518f568f3c135b89c1c77ad6777fd1c69fa9
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.1/keycloak-5.1.1.tgz
+    version: 5.1.1
+  - appVersion: 6.0.1
+    created: "2019-07-16T20:04:19.780841259Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: c2a1c3b2ad22de453e75ace4905377b736795e7daef71592e528e91f52e5b625
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.0/keycloak-5.1.0.tgz
+    version: 5.1.0
+  - appVersion: 6.0.1
+    created: "2019-07-16T20:04:19.929317246Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 2eecd1126c2a24352f5f4b11a4c674c97107b3c8e4bffae8354f969f99c94c2d
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.0.1/keycloak-5.0.1.tgz
+    version: 5.0.1
+  - appVersion: 6.0.1
+    created: "2019-07-16T20:04:20.047788643Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: a88f3393a267dd90c63bf716ef1b929713b14dc99538b267137744e45dfc71c5
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.0.0/keycloak-5.0.0.tgz
+    version: 5.0.0
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:20.339833581Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 10e98549dc8aa4d01a03ae9236b7824a6fa3ba0387593b84b1008384705e5711
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.16.0/keycloak-4.16.0.tgz
+    version: 4.16.0
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:20.536341062Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 4ca77dce30ee7bafaaa31f403d9ba48db4b8df1baab1ddf628ecbd81ecb0ed9e
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.15.0/keycloak-4.15.0.tgz
+    version: 4.15.0
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:20.682830824Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 8d4f4c85c56fccb0928ea619307a834254cdeb42769bb62defacf8667cd22f67
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.14.2/keycloak-4.14.2.tgz
+    version: 4.14.2
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:20.824619137Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: bbfbb89395a367e446e856386eba202d64092da6ff954d68eb1f00502157cea9
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.14.1/keycloak-4.14.1.tgz
+    version: 4.14.1
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:21.581226953Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: d0e53ebc9b1c8b951abb9664aec1c5f8a1d31b63cb1cec245df4b6c29c965455
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.14.0/keycloak-4.14.0.tgz
+    version: 4.14.0
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:21.746971974Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 4db35953bee5a4b93081154d7fc511954e11b89bddbc4fb93c963f2642401328
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.13.2/keycloak-4.13.2.tgz
+    version: 4.13.2
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:22.146274319Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 6c795a77d8ee1da0bbc3838ac085b2b3e1e98df70771e91280d25fd5ce94ed84
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.13.1/keycloak-4.13.1.tgz
+    version: 4.13.1
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:22.284381137Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 4d2b67bbdc371141ef031a5883f046aa8b1c3733e05c54f3e3766254b1887c1a
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.13.0/keycloak-4.13.0.tgz
+    version: 4.13.0
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:22.460908921Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 47fd1943c45dde570dc0282cd0300efd3086a096b9172f345f21ebbaddbeb11d
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.12.0/keycloak-4.12.0.tgz
+    version: 4.12.0
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:22.594329262Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 244eccd4158cddc3c7ce2fdf7f17ee89319fa0290f21b4442b2ca2793ea36bc9
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.11.2/keycloak-4.11.2.tgz
+    version: 4.11.2
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:22.766480405Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 430ad13bc5b7c5e0e8b9b81cb4830a4b7c3840cfb45f63e187b145e6d88f38a7
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.11.1/keycloak-4.11.1.tgz
+    version: 4.11.1
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:22.922837632Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 862d7db3ca0e2f2746145bfbacce4b85dbd73ab60f87093526af8ab1741260a2
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.11.0/keycloak-4.11.0.tgz
+    version: 4.11.0
+  - appVersion: 5.0.0
+    created: "2019-07-16T20:04:23.224881623Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 6cd562f1ef0c5d10d98163fb0b44bddd04bf51ff0371a4c83729c38ac4546f14
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.10.2/keycloak-4.10.2.tgz
+    version: 4.10.2
+  mailhog:
+  - apiVersion: v1
+    appVersion: 1.0.0
+    created: "2019-07-16T20:04:23.701684864Z"
+    description: An e-mail testing tool for developers
+    digest: f6780364403a63cd3904e84e7d15fabe98708a634dc823f4bab1b9fdbd913cb1
+    home: http://iankent.uk/project/mailhog/
+    icon: https://raw.githubusercontent.com/mailhog/MailHog-UI/master/assets/images/hog.png
+    keywords:
+    - mailhog
+    - mail
+    - smtp
+    - email
+    - e-mail
+    - testing
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: mailhog
+    sources:
+    - https://github.com/mailhog/MailHog
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/mailhog-3.0.0/mailhog-3.0.0.tgz
+    version: 3.0.0
+generated: "2019-07-22T19:58:42.151419723Z"
