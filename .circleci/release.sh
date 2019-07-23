@@ -5,7 +5,7 @@ set -o nounset
 set -o pipefail
 
 : "${CR_TOKEN:?Environment variable CR_TOKEN must be set}"
-: "${GIT_REPOSITORY_URL:?Environment variable GIT_REPO_URL must be set}"
+: "${GIT_REPOSITORY_URL:?Environment variable GIT_REPOSITORY_URL must be set}"
 : "${GIT_USERNAME:?Environment variable GIT_USERNAME must be set}"
 : "${GIT_EMAIL:?Environment variable GIT_EMAIL must be set}"
 
@@ -76,7 +76,7 @@ release_charts() {
 }
 
 update_index() {
-    cr index -o codecentric -r helm-charts
+    cr index -o codecentric -r helm-charts -c https://codecentric.github.io/helm-charts
 
     git config user.email "$GIT_EMAIL"
     git config user.name "$GIT_USERNAME"

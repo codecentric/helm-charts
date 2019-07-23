@@ -3,7 +3,7 @@
 set -o errexit
 
 readonly HELM_VERSION=2.14.2
-readonly CHART_RELEASER_VERSION=0.2.1
+readonly CHART_RELEASER_VERSION=0.2.2
 
 echo "Installing Helm..."
 curl -LO "https://kubernetes-helm.storage.googleapis.com/helm-v$HELM_VERSION-linux-amd64.tar.gz"
