@@ -2,15 +2,13 @@
 apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
-  name: {{ template "keycloak.fullname" . }}
-  {{- if .Values.prometheus.operator.prometheusRules.namespace }}
-  namespace: {{ .Values.prometheus.operator.prometheusRules.namespace }}
-  {{- end }}
+  name: {{ include "keycloak.fullname" . }}
   labels:
-{{ toYaml .Values.prometheus.operator.prometheusRules.selector | indent 4 }}
+    {{- include "keycloak.commonLabels" . | nindent 4 }}
+    {{ toYaml .Values.prometheus.operator.prometheusRules.selector | nindent 4 }}
 spec:
   groups:
-  - name: {{ template "keycloak.fullname" . }}
+  - name: {{ include "keycloak.fullname" . }}
     rules:
-{{ toYaml .Values.prometheus.operator.prometheusRules.rules | indent 6 }}
+      {{ toYaml .Values.prometheus.operator.prometheusRules.rules | nindent 6 }}
 {{- end }}

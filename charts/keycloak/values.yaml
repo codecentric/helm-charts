@@ -339,10 +339,7 @@ prometheus:
     enabled: false
 
     serviceMonitor:
-      ## Namespace in which to install the ServiceMonitor. Defaults to the same as everything else.
-      # namespace: monitoring
-
-      ## Labels to add to the ServiceMonitor so it is picked up by the operator.
+      ## Additional labels to add to the ServiceMonitor so it is picked up by the operator.
       ## If using the [Helm Chart](https://github.com/helm/charts/tree/master/stable/prometheus-operator) this is the name of the Helm release.
       selector:
         release: prometheus
@@ -360,10 +357,7 @@ prometheus:
       ## Add Prometheus Rules?
       enabled: false
 
-      ## Namespace in which to install the PrometheusRule. Defaults to the same as everything else.
-      # namespace: monitoring
-
-      ## Labels to add to the PrometheusRule so it is picked up by the operator.
+      ## Additional labels to add to the PrometheusRule so it is picked up by the operator.
       ## If using the [Helm Chart](https://github.com/helm/charts/tree/master/stable/prometheus-operator) this is the name of the Helm release and 'app: prometheus-operator'
       selector:
         app: prometheus-operator
