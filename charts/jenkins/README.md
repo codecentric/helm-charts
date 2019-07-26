@@ -13,7 +13,36 @@ $ helm install codecentric/jenkins
 ## Introduction
 
 This chart install Jenkins on Kubernetes. 
-It allows Jenkins to be completely configured as code that does not require any further manual configuration in the UI. While not required, it is meant to be used with the configuration-as-code plugin and/or Groovy init scripts.
+It allows Jenkins to be completely configured as code that does not require any further manual configuration in the UI. 
+While not required, it is meant to be used with the configuration-as-code plugin and/or Groovy init scripts.
+
+
+## Differences to the Jenkins community chart (stable/jenkins)
+
+*Just to name a few...*
+
+* **Follows best practices**
+
+  The Jenkins community chart is one of the first charts in the community charts repo.
+  Best practices did not exist at that time.
+  While things have changed recently and a major upgrade has been released, the chart has carried a lot of legacy with it not following best practices at all.
+
+* **Uses a *stable* LTS version by default**
+
+  The community chart uses `lts` by default which is *not* a stable tag.
+  This can cause surprises because Jenkins may get unintentionally upgraded when the pod is rescheduled or restarted for whatever reason.
+
+* **Does not mess with Jenkins config files directly**
+
+  The community chart writes Jenkins configuration files directly.
+  This is bad practice because it relies on Jenkins internals and errors may go unnoticed at first.
+  While this chart is flexible enough to configure Jenkins however you want, it is meant to be used with the configuration-as-code plugin and Groovy init scripts for things the CasC plugin doesn't support.
+   
+* **Offers a mechanism to skip plugin updates on restart**
+    
+  The chart hashes installed plugins and will not update plugins unless the configuration changes or you configure it to do so.
+  This avoids surprises in case the pod is rescheduled.
+  Plugin updates should be done explicitly.
 
 ## Prerequisites Details
 
