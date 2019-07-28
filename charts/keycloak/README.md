@@ -190,8 +190,8 @@ keycloak:
 ```
 
 See also:
-* https://github.com/jboss-dockerfiles/keycloak/blob/master/server/cli/databases/postgres/change-database.cli
-* https://github.com/jboss-dockerfiles/keycloak/blob/master/server/cli/databases/mysql/change-database.cli
+* https://github.com/jboss-dockerfiles/keycloak/blob/master/server/tools/cli/databases/postgres/change-database.cli
+* https://github.com/jboss-dockerfiles/keycloak/blob/master/server/tools/cli/databases/mysql/change-database.cli
 
 ### Configuring Additional Environment Variables
 
