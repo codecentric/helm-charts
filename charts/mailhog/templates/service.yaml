@@ -4,7 +4,7 @@ metadata:
   name: {{ include "mailhog.fullname" . }}
   {{- with .Values.service.annotations }}
   annotations:
-    {{- toYaml | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
   labels:
     app.kubernetes.io/name: {{ include "mailhog.name" . }}
