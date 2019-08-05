@@ -88,9 +88,9 @@ spec:
               value: /secrets/{{ include "keycloak.passwordKey" . }}
           {{- if $highAvailability }}
             - name: JGROUPS_DISCOVERY_PROTOCOL
-              value: "dns.DNS_PING"
+              value: {{ .Values.keycloak.jgroups.discoveryProtocol }}
             - name: JGROUPS_DISCOVERY_PROPERTIES
-              value: "dns_query={{ include "keycloak.serviceDnsName" . }}"
+              value: {{ tpl .Values.keycloak.jgroups.discoveryProperties . }}
             - name: KEYCLOAK_SERVICE_DNS_NAME
               value: "{{ include "keycloak.serviceDnsName" . }}"
           {{- end }}
