@@ -56,6 +56,8 @@ Parameter | Description | Default
 `keycloak.password` | Password for the initial Keycloak admin user (if `keycloak.existingSecret=""`). If not set, a random 10 characters password is created | `""`
 `keycloak.existingSecret` | Specifies an existing secret to be used for the admin password | `""`
 `keycloak.existingSecretKey` |  The key in `keycloak.existingSecret` that stores the admin password | `password`
+`keycloak.jgroups.discoveryProtocol` | The protocol for JGroups discovery | `dns.DNS_PING`
+`keycloak.jgroups.discoveryProperties` | Properties for JGroups discovery. Passed through the `tpl` function | `"dns_query={{ template "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"`
 `keycloak.extraInitContainers` | Additional init containers, e. g. for providing themes, etc. Passed through the `tpl` function and thus to be configured a string | `""`
 `keycloak.extraContainers` | Additional sidecar containers, e. g. for a database proxy, such as Google's cloudsql-proxy. Passed through the `tpl` function and thus to be configured a string | `""`
 `keycloak.extraEnv` | Allows the specification of additional environment variables for Keycloak. Passed through the `tpl` function and thus to be configured a string | `PROXY_ADDRESS_FORWARDING="true"`
