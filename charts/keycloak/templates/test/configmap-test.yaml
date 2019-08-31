@@ -17,7 +17,7 @@ data:
     print('Creating PhantomJS driver...')
     driver = webdriver.PhantomJS(service_log_path='/tmp/ghostdriver.log')
 
-    base_url = 'http://{{ include "keycloak.fullname" . }}-http{{ if ne 80 (int .Values.keycloak.service.port) }}{{ .Values.keycloak.service.port }}{{ end }}'
+    base_url = 'http://{{ include "keycloak.fullname" . }}-http{{ if ne 80 (int .Values.keycloak.service.port) }}:{{ .Values.keycloak.service.port }}{{ end }}'
 
     print('Opening Keycloak...')
     driver.get('{0}/auth/admin/'.format(base_url))
