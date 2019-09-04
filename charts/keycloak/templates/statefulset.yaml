@@ -125,18 +125,14 @@ spec:
           {{- with .Values.keycloak.extraPorts }}
             {{- tpl . $ | nindent 12 }}
           {{- end }}
+          {{- with .Values.keycloak.livenessProbe }}
           livenessProbe:
-            httpGet:
-              path: {{ if ne .Values.keycloak.basepath "" }}/{{ .Values.keycloak.basepath }}{{ end }}/
-              port: http
-            initialDelaySeconds: {{ .Values.keycloak.livenessProbe.initialDelaySeconds }}
-            timeoutSeconds: {{ .Values.keycloak.livenessProbe.timeoutSeconds }}
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
+          {{- with .Values.keycloak.readinessProbe }}
           readinessProbe:
-            httpGet:
-              path: {{ if ne .Values.keycloak.basepath "" }}/{{ .Values.keycloak.basepath }}{{ end }}/realms/master
-              port: http
-            initialDelaySeconds: {{ .Values.keycloak.readinessProbe.initialDelaySeconds }}
-            timeoutSeconds: {{ .Values.keycloak.readinessProbe.timeoutSeconds }}
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.keycloak.resources | nindent 12 }}
       {{- with .Values.keycloak.extraContainers }}
