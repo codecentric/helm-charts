@@ -79,10 +79,8 @@ Parameter | Description | Default
 `keycloak.startupScripts` | Custom startup scripts to run before Keycloak starts up | `[]`
 `keycloak.lifecycleHooks` | Container lifecycle hooks. Passed through the `tpl` function and thus to be configured a string | ``
 `keycloak.extraArgs` | Additional arguments to the start command | ``
-`keycloak.livenessProbe.initialDelaySeconds` | Liveness Probe `initialDelaySeconds` | `120`
-`keycloak.livenessProbe.timeoutSeconds` | Liveness Probe `timeoutSeconds` | `5`
-`keycloak.readinessProbe.initialDelaySeconds` | Readiness Probe `initialDelaySeconds` | `30`
-`keycloak.readinessProbe.timeoutSeconds` | Readiness Probe `timeoutSeconds` | `1`
+`keycloak.livenessProbe` | Liveness probe configuration. Passed through the `tpl` function and thus to be configured as string | See `values.yaml`
+`keycloak.readinessProbe` | Readiness probe configuration. Passed through the `tpl` function and thus to be configured as string | See `values.yaml`
 `keycloak.cli.enabled` | Set to `false` if no CLI changes should be performed by the chart | `true`
 `keycloak.cli.nodeIdentifier` | WildFly CLI script for setting the node identifier | See `values.yaml`
 `keycloak.cli.logging` | WildFly CLI script for logging configuration | See `values.yaml`
@@ -145,6 +143,8 @@ It is used for the following values:
 * `keycloak.affinity`
 * `keycloak.extraVolumeMounts`
 * `keycloak.extraVolumes`
+* `keycloak.livenessProbe`
+* `keycloak.readinessProbe`
 
 It is important that these values be configured as strings.
 Otherwise, installation will fail. See example for Google Cloud Proxy or default affinity configuration in `values.yaml`.
@@ -372,6 +372,30 @@ Additionally, we get stable values for `jboss.node.name` which can be advantageo
 The headless service that governs the StatefulSet is used for DNS discovery.
 
 ## Upgrading
+
+### From chart versions < 6.0.0
+
+Version 6.0.0 changes the way readiness and liveness probes are configured.
+Now both readiness and liveness probes are configured as strings that are then passed through the `tpl` function.
+This allows for greater customizability of the readiness and liveness probes.
+
+The defaults are unchanged, but since 6.0.0 configured as follows:
+
+```yaml
+livenessProbe: |
+  httpGet:
+    path: {{ if ne .Values.keycloak.basepath "" }}/{{ .Values.keycloak.basepath }}{{ end }}/
+    port: http
+  initialDelaySeconds: 120
+  timeoutSeconds: 5
+
+readinessProbe: |
+  httpGet:
+    path: {{ if ne .Values.keycloak.basepath "" }}/{{ .Values.keycloak.basepath }}{{ end }}/realms/master
+    port: http
+  initialDelaySeconds: 30
+  timeoutSeconds: 1
+```
 
 ### From chart versions < 5.0.0
 
