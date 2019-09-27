@@ -26,12 +26,8 @@ spec:
         - name: KEYCLOAK_PASSWORD
           valueFrom:
             secretKeyRef:
-            {{- if .Values.keycloak.existingSecret }}
-              name: {{ .Values.keycloak.existingSecret }}
-            {{- else }}
-              name: {{ include "keycloak.fullname" . }}-http
-            {{- end }}
-              key: password
+              name: {{ include "keycloak.secret" . }}
+              key: {{ include "keycloak.passwordKey" . }}
       volumeMounts:
         - name: tests
           mountPath: /tests
