@@ -81,7 +81,7 @@ Create the name for the Keycloak secret.
 */}}
 {{- define "keycloak.secret" -}}
 {{- if .Values.keycloak.existingSecret -}}
-  {{- .Values.keycloak.existingSecret -}}
+  {{- tpl .Values.keycloak.existingSecret $ -}}
 {{- else -}}
   {{- include "keycloak.fullname" . -}}-http
 {{- end -}}
@@ -92,7 +92,7 @@ Create the name for the database secret.
 */}}
 {{- define "keycloak.externalDbSecret" -}}
 {{- if .Values.keycloak.persistence.existingSecret -}}
-  {{- .Values.keycloak.persistence.existingSecret -}}
+  {{- tpl .Values.keycloak.persistence.existingSecret $ -}}
 {{- else -}}
   {{- include "keycloak.fullname" . -}}-db
 {{- end -}}
