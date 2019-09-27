@@ -375,7 +375,8 @@ The headless service that governs the StatefulSet is used for DNS discovery.
 
 ### From chart versions < 6.0.0
 
-Version 6.0.0 changes the way readiness and liveness probes are configured.
+#### Changes in Probe Configuration
+
 Now both readiness and liveness probes are configured as strings that are then passed through the `tpl` function.
 This allows for greater customizability of the readiness and liveness probes.
 
@@ -395,6 +396,18 @@ readinessProbe: |
     port: http
   initialDelaySeconds: 30
   timeoutSeconds: 1
+```
+
+#### Changes in Existing Secret Configuration
+
+This can be useful if you create a secret in a parent chart and want to reference that secret.
+Applies to `keycloak.existingSecret` and `keycloak.persistence.existingSecret`.
+
+_`values.yaml` of parent chart:_
+```yaml
+keycloak:
+  keycloak:
+    existingSecret: '{{ .Release.Name }}-keycloak-secret'
 ```
 
 ### From chart versions < 5.0.0
