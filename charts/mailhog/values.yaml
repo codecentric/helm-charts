@@ -20,6 +20,11 @@ service:
     http: ""
     smtp: ""
 
+securityContext:
+  runAsUser: 1000
+  fsGroup: 1000
+  runAsNonRoot: true
+
 ingress:
   enabled: false
   annotations: {}
