@@ -207,7 +207,11 @@ keycloak:
     ## Optional static port assignment for service type NodePort.
     # nodePort: 30000
 
-    port: 80
+    httpPort: 80
+    httpNodePort: ""
+
+    httpsPort: 8443
+    httpsNodePort: ""
 
     # Optional: jGroups port for high availability clustering
     jgroupsPort: 7600
