@@ -1,7 +1,7 @@
 
 Keycloak can be accessed:
 
-* Within your cluster, at the following DNS name at port {{ .Values.keycloak.service.port }}:
+* Within your cluster, at the following DNS name at port {{ .Values.keycloak.service.httpPort }}:
 
   {{ include "keycloak.fullname" . }}-http.{{ .Release.Namespace }}.svc.cluster.local
 
@@ -30,7 +30,7 @@ Keycloak can be accessed:
   You can watch the status of by running 'kubectl get svc -w {{ include "keycloak.fullname" . }}'
 
   export SERVICE_IP=$(kubectl get svc --namespace {{ .Release.Namespace }} {{ include "keycloak.fullname" . }} -o jsonpath='{.status.loadBalancer.ingress[0].ip}')
-  echo http://$SERVICE_IP:{{ .Values.keycloak.service.port }}
+  echo http://$SERVICE_IP:{{ .Values.keycloak.service.httpPort }}
 
 {{- else if contains "ClusterIP" .Values.keycloak.service.type }}
 

@@ -89,8 +89,10 @@ Parameter | Description | Default
 `keycloak.service.annotations` | Annotations for the Keycloak service | `{}`
 `keycloak.service.labels` | Additional labels for the Keycloak service | `{}`
 `keycloak.service.type` | The service type | `ClusterIP`
-`keycloak.service.port` | The service port | `80`
-`keycloak.service.nodePort` | The node port used if the service is of type `NodePort` | `""`
+`keycloak.service.httpPort` | The http service port | `80`
+`keycloak.service.httpsPort` | The https service port | `8443`
+`keycloak.service.httpNodePort` | The http node port used if the service is of type `NodePort` | `""`
+`keycloak.service.httpsNodePort` | The https node port used if the service is of type `NodePort` | `""`
 `keycloak.ingress.enabled` | if `true`, an ingress is created | `false`
 `keycloak.ingress.annotations` | annotations for the ingress | `{}`
 `keycloak.ingress.labels` | Additional labels for the Keycloak ingress | `{}`
@@ -409,6 +411,12 @@ keycloak:
   keycloak:
     existingSecret: '{{ .Release.Name }}-keycloak-secret'
 ```
+
+#### HTTPS Port Added
+
+The HTTPS port was added to the pod and to the services.
+As a result, service ports are now configured differently.
+
 
 ### From chart versions < 5.0.0
 
