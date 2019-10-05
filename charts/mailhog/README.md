@@ -65,6 +65,7 @@ Parameter | Description | Default
 `service.node.smtp` | SMTP port of service | `""`
 `service.nodePort.http` | If `service.type` is `NodePort` and this is non-empty, sets the http node port of the service | `""`
 `service.nodePort.smtp` | If `service.type` is `NodePort` and this is non-empty, sets the smtp node port of the service | `""`
+`securityContext` | Pod security context | `{ runAsUser: 1000, fsGroup: 1000, runAsNonRoot: true }`
 `ingress.enabled` | If `true`, an ingress is created | `false`
 `ingress.annotations` | Annotations for the ingress | `{}`
 `ingress.path` | If `true`, an ingress is created | `/`
