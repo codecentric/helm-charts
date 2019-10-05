@@ -139,7 +139,7 @@ keycloak:
     httpGet:
       path: {{ if ne .Values.keycloak.basepath "" }}/{{ .Values.keycloak.basepath }}{{ end }}/
       port: http
-    initialDelaySeconds: 120
+    initialDelaySeconds: 300
     timeoutSeconds: 5
   readinessProbe: |
     httpGet:
