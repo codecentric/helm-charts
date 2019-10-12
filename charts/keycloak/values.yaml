@@ -1,7 +1,7 @@
 init:
   image:
-    repository: alpine
-    tag: 3.9
+    repository: busybox
+    tag: 1.31
     pullPolicy: IfNotPresent
   resources: {}
     # limits:
