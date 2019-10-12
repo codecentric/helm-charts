@@ -69,7 +69,7 @@ Parameter | Description | Default
 `keycloak.nodeSelector` | Node labels for pod assignment | `{}`
 `keycloak.tolerations` | Node taints to tolerate | `[]`
 `keycloak.podLabels` | Extra labels to add to pod | `{}`
-`keycloak.podAnnotations` | Extra annotations to add to pod | `{}`
+`keycloak.podAnnotations` | Extra annotations to add to pod. Values are passed through the `tpl` function | `{}`
 `keycloak.hostAliases` | Mapping between IP and hostnames that will be injected as entries in the pod's hosts files | `[]`
 `keycloak.enableServiceLinks` | Indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links | `false`
 `keycloak.restartPolicy` | Pod restart policy. One of `Always`, `OnFailure`, or `Never` | `Always`
