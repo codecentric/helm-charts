@@ -5,7 +5,7 @@ keycloak:
   podLabels:
     test-label: test-label-value
   podAnnotations:
-    test-annotation: test-annotation-value
+    test-annotation: "test-annotation-value-{{ .Release.Name }}"
 
   startupScripts:
     hello.sh: |
