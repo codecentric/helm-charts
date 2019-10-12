@@ -71,7 +71,7 @@ The following table lists the configurable parameters of the Jenkins chart and t
 Parameter | Description | Default
 --- | --- | ---
 `image.repository` | The Jenkins image repository | `jenkins/jenkins`
-`image.tag` | The Jenkins image tag | `2.176.2-alpine`
+`image.tag` | The Jenkins image tag | `2.190.1-alpine`
 `image.pullPolicy` | The Jenkins image pull policy | `IfNotPresent`
 `imagePullSecrets` | Image pull secrets | `[]`
 `extraInitContainers` | Additional init containers. Passed through the `tpl` function and thus to be configured as string | `""`

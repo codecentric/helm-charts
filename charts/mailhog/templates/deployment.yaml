@@ -22,10 +22,10 @@ spec:
         app.kubernetes.io/name: {{ include "mailhog.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      {{- with .Values.securityContext }}
       securityContext:
-        runAsUser: 1000
-        fsGroup: 1000
-        runAsNonRoot: true
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       containers:
         - name: {{ template "mailhog.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
