@@ -225,7 +225,7 @@ Create your own theme and package it up into a Docker image.
 
 ```docker
 FROM busybox
-COPY my_theme /my_theme
+COPY mytheme /mytheme
 ```
 
 In combination with an `emptyDir` that is shared with the Keycloak container, configure an init container that runs your theme image and copies the theme over to the right place where Keycloak will pick it up automatically.
