@@ -68,8 +68,7 @@ Parameter | Description | Default
 `securityContext` | Pod security context | `{ runAsUser: 1000, fsGroup: 1000, runAsNonRoot: true }`
 `ingress.enabled` | If `true`, an ingress is created | `false`
 `ingress.annotations` | Annotations for the ingress | `{}`
-`ingress.path` | If `true`, an ingress is created | `/`
-`ingress.hosts` | A list of ingress hosts | `[mailhog.example.com]`
+`ingress.hosts` | A list of ingress hosts | `{ host: mailhog.example.com, paths: ["/"] }`
 `ingress.tls` | A list of [IngressTLS](https://v1-8.docs.kubernetes.io/docs/api-reference/v1.8/#ingresstls-v1beta1-extensions) items | `[]`
 `extraEnv` | Additional environment variables, see [CONFIG.md](https://github.com/mailhog/MailHog/blob/master/docs/CONFIG.md) | `{}`
 
