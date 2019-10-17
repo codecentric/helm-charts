@@ -281,6 +281,32 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.0.0/jenkins-1.0.0.tgz
     version: 1.0.0
   keycloak:
+  - appVersion: 7.0.0
+    created: "2019-10-17T18:39:10.656455999Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 3950a8b674629d2c164422db66fe59963a56a35c17f74d731a209cf761302b56
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-6.0.0/keycloak-6.0.0.tgz
+    version: 6.0.0
   - appVersion: 6.0.1
     created: "2019-08-31T12:45:17.652950625Z"
     description: Open Source Identity and Access Management For Modern Applications
