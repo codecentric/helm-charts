@@ -13,6 +13,12 @@ init:
 
 clusterDomain: cluster.local
 
+## Optionally override the fully qualified app name (default is release name)
+# fullnameOverride: keycloak
+
+## Optionally override the app name (fullnameOverride has precedence)
+# nameOverride: keycloak
+
 keycloak:
   replicas: 1
 
