@@ -111,7 +111,8 @@ Parameter | Description | Default
 `keycloak.route.tls.termination` | TLS termination of the route. Can be `edge`, `passthrough` or `reencrypt` | `edge`
 `keycloak.persistence.deployPostgres` | If true, the PostgreSQL chart is installed | `false`
 `keycloak.persistence.existingSecret` | Name of an existing secret to be used for the database password (if `keycloak.persistence.deployPostgres=false`). Otherwise a new secret is created | `""`
-`keycloak.persistence.existingSecretKey` | The key for the database password in the existing secret (if `keycloak.persistence.deployPostgres=false`) | `password`
+`keycloak.persistence.existingSecretPasswordKey` | The key for the database password in the existing secret (if `keycloak.persistence.deployPostgres=false` and `keycloak.persistence.existingSecret != ""`) | `""`
+`keycloak.persistence.existingSecretUsernameKey` | The key for the database username in the existing secret (if `keycloak.persistence.deployPostgres=false` and `keycloak.persistence.existingSecret != ""`). Will default to the value of `.keycloak.persistence.dbUser` if left unset. | `""`
 `keycloak.persistence.dbVendor` | One of `h2`, `postgres`, `mysql`, or `mariadb` (if `deployPostgres=false`) | `h2`
 `keycloak.persistence.dbName` | The name of the database to connect to (if `deployPostgres=false`) | `keycloak`
 `keycloak.persistence.dbHost` | The database host name (if `deployPostgres=false`) | `mykeycloak`
@@ -182,7 +183,8 @@ keycloak:
 
     # Optionally specify an existing secret
     existingSecret: "my-database-password-secret"
-    existingSecretKey: "password-key in-my-database-secret"
+    existingSecretPasswordKey: "password-key-in-my-database-secret"
+    existingSecretUsernameKey: "username-key-in-my-database-secret"
 
     dbName: keycloak
     dbHost: mykeycloak
@@ -377,6 +379,31 @@ The headless service that governs the StatefulSet is used for DNS discovery.
 
 ## Upgrading
 
+### From chart versions < 7.0.0
+Version 7.0.0 is a minor update - but it does break backwards-compatibility with the existing 
+`keycloak.persistence.existingSecret` scheme.
+#### Changes in Configuring Database Credentials from an Existing Secret 
+
+Now both `DB_USER` and `DB_PASS` can be read from an existing Kubernetes Secret. This is a requirement if you are
+provisioning database credentials dynamically - either via an Operator or some secret-management engine.
+
+The variable referencing the Password Key Name has been renamed from `keycloak.persistence.existingSecretKey` 
+to `keycloak.persistence.existingSecretPasswordKey`
+
+A new, optional variable for referencing the Username Key Name for populating the `DB_USER` env has been added:
+`keycloak.persistence.existingSecretUsernameKey`.
+
+If left unset, `DB_USER` will be populated by the `dbUser` Helm variable.
+
+###### Example configuration: 
+```yaml
+keycloak:
+  persistence:
+    existingSecret: keycloak-provisioned-db-credentials
+    existingSecretPasswordKey: PGPASSWORD
+    existingSecretUsernameKey: PGUSER
+    ...
+```
 ### From chart versions < 6.0.0
 
 #### Changes in Probe Configuration

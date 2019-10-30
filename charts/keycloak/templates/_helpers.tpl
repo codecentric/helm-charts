@@ -125,11 +125,21 @@ Create the name for the database password secret key.
 */}}
 {{- define "keycloak.dbPasswordKey" -}}
 {{- if .Values.keycloak.persistence.existingSecret -}}
-  {{- .Values.keycloak.persistence.existingSecretKey -}}
+  {{- required "missing existingSecretPasswordKey" .Values.keycloak.persistence.existingSecretPasswordKey -}}
 {{- else -}}
   password
 {{- end -}}
 {{- end -}}
+
+{{/*
+Create the name for the database password secret key - if it is defined.
+*/}}
+{{- define "keycloak.dbUserKey" -}}
+{{- if and .Values.keycloak.persistence.existingSecret .Values.keycloak.persistence.existingSecretUsernameKey -}}
+  {{- .Values.keycloak.persistence.existingSecretUsernameKey -}}
+{{- end -}}
+{{- end -}}
+
 
 {{/*
 Create environment variables for database configuration.
@@ -165,7 +175,18 @@ Create environment variables for database configuration.
 - name: DB_DATABASE
   value: {{ .Values.keycloak.persistence.dbName | quote }}
 - name: DB_USER
-  value: {{ .Values.keycloak.persistence.dbUser | quote }}
+
+{{/*
+Load the dbUser from either a Secret or directly from .Values if existingSecretUsernameKey is not set.
+*/}}
+{{- if and .Values.keycloak.persistence.existingSecret .Values.keycloak.persistence.existingSecretUsernameKey }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "keycloak.externalDbSecret" . }}
+      key: {{ include "keycloak.dbUserKey" . | quote }}
+{{- else }}
+  value: {{ .Values.keycloak.persistence.dbUser }}
+{{- end }}
 - name: DB_PASSWORD
   valueFrom:
     secretKeyRef:
