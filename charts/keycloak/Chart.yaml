@@ -1,3 +1,4 @@
+apiVersion: v1
 name: keycloak
 version: 6.0.2
 appVersion: 7.0.0
