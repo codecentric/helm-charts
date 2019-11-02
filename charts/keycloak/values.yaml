@@ -285,6 +285,12 @@ keycloak:
 
     ## The following values only apply if "deployPostgres" is set to "false"
 
+    # Specifies an existing secret to be used for the database user
+    existingUserSecret: ""
+
+    # The key in the existing secret that stores the username
+    existingUserSecretKey: user
+
     # Specifies an existing secret to be used for the database password
     existingSecret: ""
 
@@ -294,6 +300,7 @@ keycloak:
     dbName: keycloak
     dbHost: mykeycloak
     dbPort: 5432
+    # Only used if no existing secret is specified.
     dbUser: keycloak
 
     # Only used if no existing secret is specified. In this case a new secret is created

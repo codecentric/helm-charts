@@ -112,6 +112,8 @@ Parameter | Description | Default
 `keycloak.persistence.deployPostgres` | If true, the PostgreSQL chart is installed | `false`
 `keycloak.persistence.existingSecret` | Name of an existing secret to be used for the database password (if `keycloak.persistence.deployPostgres=false`). Otherwise a new secret is created | `""`
 `keycloak.persistence.existingSecretKey` | The key for the database password in the existing secret (if `keycloak.persistence.deployPostgres=false`) | `password`
+`keycloak.persistence.existingUserSecret` | Name of an existing secret to be used for the database username (if `keycloak.persistence.deployPostgres=false`). | `""`
+`keycloak.persistence.existingUserSecretKey` | The key for the database user in the existing secret (if `keycloak.persistence.deployPostgres=false`) | `user`
 `keycloak.persistence.dbVendor` | One of `h2`, `postgres`, `mysql`, or `mariadb` (if `deployPostgres=false`) | `h2`
 `keycloak.persistence.dbName` | The name of the database to connect to (if `deployPostgres=false`) | `keycloak`
 `keycloak.persistence.dbHost` | The database host name (if `deployPostgres=false`) | `mykeycloak`
