@@ -13,6 +13,12 @@ init:
 
 clusterDomain: cluster.local
 
+## Optionally override the fully qualified name
+# fullnameOverride: keycloak
+
+## Optionally override the name
+# nameOverride: keycloak
+
 keycloak:
   replicas: 1
 
