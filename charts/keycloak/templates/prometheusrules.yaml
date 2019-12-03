@@ -4,11 +4,11 @@ kind: PrometheusRule
 metadata:
   name: {{ include "keycloak.fullname" . }}
   labels:
-    {{- include "keycloak.commonLabels" . | nindent 4 }}
+    {{- include "keycloak.selectorLabels" . | nindent 4 }}
     {{ toYaml .Values.prometheus.operator.prometheusRules.selector | nindent 4 }}
 spec:
   groups:
   - name: {{ include "keycloak.fullname" . }}
     rules:
-      {{ toYaml .Values.prometheus.operator.prometheusRules.rules | nindent 6 }}
+      {{- toYaml .Values.prometheus.operator.prometheusRules.rules | nindent 6 }}
 {{- end }}
