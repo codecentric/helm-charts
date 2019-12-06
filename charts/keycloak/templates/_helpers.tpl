@@ -45,7 +45,7 @@ Create common labels.
 {{- define "keycloak.commonLabels" -}}
 app.kubernetes.io/name: {{ include "keycloak.name" . }}
 helm.sh/chart: {{ include "keycloak.chart" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/instance: {{ .Release.Name | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
@@ -54,7 +54,7 @@ Create selector labels.
 */}}
 {{- define "keycloak.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "keycloak.name" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+app.kubernetes.io/instance: {{ .Release.Name | quote }}
 {{- end -}}
 
 {{/*
