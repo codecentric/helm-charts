@@ -6,6 +6,7 @@ keycloak:
     test-label: test-label-value
   podAnnotations:
     test-annotation: "test-annotation-value-{{ .Release.Name }}"
+    test-int-annotation: "12345"
 
   startupScripts:
     hello.sh: |
