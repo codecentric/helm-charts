@@ -60,7 +60,7 @@ Parameter | Description | Default
 `keycloak.jgroups.discoveryProperties` | Properties for JGroups discovery. Passed through the `tpl` function | `"dns_query={{ template "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"`
 `keycloak.extraInitContainers` | Additional init containers, e. g. for providing themes, etc. Passed through the `tpl` function and thus to be configured a string | `""`
 `keycloak.extraContainers` | Additional sidecar containers, e. g. for a database proxy, such as Google's cloudsql-proxy. Passed through the `tpl` function and thus to be configured a string | `""`
-`keycloak.extraEnv` | Allows the specification of additional environment variables for Keycloak. Passed through the `tpl` function and thus to be configured a string | `PROXY_ADDRESS_FORWARDING="true"`
+`keycloak.extraEnv` | Allows the specification of additional environment variables for Keycloak. You probably want to set `PROXY_ADDRESS_FORWARDING="true"` if your instance is running behind a reverse proxy. Passed through the `tpl` function and thus to be configured a string. | `""`
 `keycloak.extraVolumeMounts` | Add additional volumes mounts, e. g. for custom themes. Passed through the `tpl` function and thus to be configured a string | `""`
 `keycloak.extraVolumes` | Add additional volumes, e. g. for custom themes. Passed through the `tpl` function and thus to be configured a string | `""`
 `keycloak.extraPorts` | Add additional ports, e. g. for custom admin console port. Passed through the `tpl` function and thus to be configured a string | `""`
