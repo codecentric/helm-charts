@@ -54,6 +54,7 @@ Parameter | Description | Default
 `keycloak.basepath` | Path keycloak is hosted at | `auth`
 `keycloak.username` | Username for the initial Keycloak admin user | `keycloak`
 `keycloak.password` | Password for the initial Keycloak admin user (if `keycloak.existingSecret=""`). If not set, a random 10 characters password is created | `""`
+`keycloak.password_file` | Password file path for the initial Keycloak admin user (if `keycloak.existingSecret=""`). Will preceed on 'password' and cancel secret creation  | `""`
 `keycloak.existingSecret` | Specifies an existing secret to be used for the admin password | `""`
 `keycloak.existingSecretKey` |  The key in `keycloak.existingSecret` that stores the admin password | `password`
 `keycloak.jgroups.discoveryProtocol` | The protocol for JGroups discovery | `dns.DNS_PING`
@@ -117,7 +118,9 @@ Parameter | Description | Default
 `keycloak.persistence.dbHost` | The database host name (if `deployPostgres=false`) | `mykeycloak`
 `keycloak.persistence.dbPort` | The database host port (if `deployPostgres=false`) | `5432`
 `keycloak.persistence.dbUser` |The database user (if `deployPostgres=false`) | `keycloak`
+`keycloak.persistence.dbUser_file` |The database user file path, will preceed on dbUser (if `deployPostgres=false`) | `""`
 `keycloak.persistence.dbPassword` |The database password (if `deployPostgres=false`) | `""`
+`keycloak.persistence.dbPassword_file` |The database password file path, will preceed on dbPassword(if `deployPostgres=false`) | `""`
 `postgresql.postgresqlUser` | The PostgreSQL user (if `keycloak.persistence.deployPostgres=true`) | `keycloak`
 `postgresql.postgresqlPassword` | The PostgreSQL password (if `keycloak.persistence.deployPostgres=true`) | `""`
 `postgresql.postgresqlDatabase` | The PostgreSQL database (if `keycloak.persistence.deployPostgres=true`) | `keycloak`

@@ -164,13 +164,23 @@ Create environment variables for database configuration.
   value: {{ .Values.keycloak.persistence.dbPort | quote }}
 - name: DB_DATABASE
   value: {{ .Values.keycloak.persistence.dbName | quote }}
+{{- if .Values.keycloak.persistence.dbUser_file }}
+- name: DB_USER_FILE
+  value: {{ .Values.keycloak.persistence.dbUser_file | quote }}
+{{- else }}
 - name: DB_USER
   value: {{ .Values.keycloak.persistence.dbUser | quote }}
+{{- end }}
+{{- if .Values.keycloak.persistence.dbPassword_file }}
+- name: DB_PASSWORD_FILE
+  value: {{ .Values.keycloak.persistence.dbPassword_file | quote }}
+{{- else }}
 - name: DB_PASSWORD
   valueFrom:
     secretKeyRef:
       name: {{ include "keycloak.externalDbSecret" . }}
       key: {{ include "keycloak.dbPasswordKey" . | quote }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end -}}

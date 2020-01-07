@@ -81,6 +81,7 @@ keycloak:
   ## Password for the initial Keycloak admin user. Applicable only if existingSecret is not set.
   ## If not set, a random 10 characters password will be used
   password: ""
+  password_file: ""
 
   # Specifies an existing secret to be used for the admin password
   existingSecret: ""
@@ -295,9 +296,11 @@ keycloak:
     dbHost: mykeycloak
     dbPort: 5432
     dbUser: keycloak
+    dbUser_file: ""
 
     # Only used if no existing secret is specified. In this case a new secret is created
     dbPassword: ""
+    dbPassword_file: ""
 
 postgresql:
   ### PostgreSQL User to create.

@@ -78,7 +78,31 @@ spec:
           securityContext:
             {{- toYaml .Values.keycloak.containerSecurityContext | nindent 12 }}
           command:
-            - /scripts/keycloak.sh
+            - sh
+            - -c
+            - |
+          {{- if .Values.keycloak.persistence.dbUser_file }}
+              while [ ! -f {{ .Values.keycloak.persistence.dbUser_file }} ];
+              do
+                echo "Waiting for {{ .Values.keycloak.persistence.dbUser_file }} to populate";
+                sleep 2;
+              done;
+          {{- end }}
+          {{- if .Values.keycloak.persistence.dbPassword_file }}
+              while [ ! -f {{ .Values.keycloak.persistence.dbPassword_file }} ];
+              do
+                echo "Waiting for {{ .Values.keycloak.persistence.dbPassword_file }} to populate"
+                sleep 2;
+              done;
+          {{- end }}
+          {{- if .Values.keycloak.password_file }}
+              while [ ! -f {{ .Values.keycloak.password_file }} ];
+              do
+                echo "Waiting for {{ .Values.keycloak.persistence.password_file }} to populate"
+                sleep 2;
+              done;
+          {{- end }}
+              scripts/keycloak.sh;
           {{- with .Values.keycloak.lifecycleHooks }}
           lifecycle:
             {{- tpl . $ | nindent 12 }}
@@ -87,7 +111,11 @@ spec:
             - name: KEYCLOAK_USER
               value: {{ .Values.keycloak.username }}
             - name: KEYCLOAK_PASSWORD_FILE
+          {{- if .Values.keycloak.password_file }}
+              value: {{ .Values.keycloak.password_file }}
+          {{- else }}
               value: /secrets/{{ include "keycloak.passwordKey" . }}
+          {{- end }}
           {{- if $highAvailability }}
             - name: JGROUPS_DISCOVERY_PROTOCOL
               value: {{ .Values.keycloak.jgroups.discoveryProtocol }}
@@ -104,9 +132,11 @@ spec:
             - name: sh
               mountPath: /scripts
               readOnly: true
+            {{- if not .Values.keycloak.password_file }}
             - name: secrets
               mountPath: /secrets
               readOnly: true
+            {{- end }}
             {{- if or .Values.keycloak.cli.enabled .Values.keycloak.startupScripts }}
             - name: startup
               mountPath: /opt/jboss/startup-scripts
@@ -164,15 +194,17 @@ spec:
           configMap:
             name: {{ include "keycloak.fullname" . }}-sh
             defaultMode: 0555
+        {{- if not .Values.keycloak.password_file }}
         - name: secrets
           secret:
             secretName: {{ include "keycloak.secret" . }}
-      {{- if or .Values.keycloak.cli.enabled .Values.keycloak.startupScripts }}
+        {{- end }}
+        {{- if or .Values.keycloak.cli.enabled .Values.keycloak.startupScripts }}
         - name: startup
           configMap:
             name: {{ include "keycloak.fullname" . }}-startup
             defaultMode: 0555
-      {{- end }}
+        {{- end }}
       {{- with .Values.keycloak.extraVolumes }}
         {{- tpl . $ | nindent 8 }}
       {{- end }}
