@@ -137,9 +137,10 @@ Create the name for the database password secret key - if it is defined.
 {{- define "keycloak.dbUserKey" -}}
 {{- if and .Values.keycloak.persistence.existingSecret .Values.keycloak.persistence.existingSecretUsernameKey -}}
   {{- .Values.keycloak.persistence.existingSecretUsernameKey -}}
+{{- else -}}
+  username
 {{- end -}}
 {{- end -}}
-
 
 {{/*
 Create environment variables for database configuration.
@@ -175,10 +176,9 @@ Create environment variables for database configuration.
 - name: DB_DATABASE
   value: {{ .Values.keycloak.persistence.dbName | quote }}
 - name: DB_USER
-
-{{/*
+{{- /*
 Load the dbUser from either a Secret or directly from .Values if existingSecretUsernameKey is not set.
-*/}}
+*/ -}}
 {{- if and .Values.keycloak.persistence.existingSecret .Values.keycloak.persistence.existingSecretUsernameKey }}
   valueFrom:
     secretKeyRef:

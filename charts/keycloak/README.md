@@ -380,14 +380,15 @@ The headless service that governs the StatefulSet is used for DNS discovery.
 ## Upgrading
 
 ### From chart versions < 7.0.0
-Version 7.0.0 is a minor update - but it does break backwards-compatibility with the existing 
+Version 7.0.0 is a minor update - but it does break backwards-compatibility with the existing
 `keycloak.persistence.existingSecret` scheme.
-#### Changes in Configuring Database Credentials from an Existing Secret 
+
+#### Changes in Configuring Database Credentials from an Existing Secret
 
 Now both `DB_USER` and `DB_PASS` can be read from an existing Kubernetes Secret. This is a requirement if you are
 provisioning database credentials dynamically - either via an Operator or some secret-management engine.
 
-The variable referencing the Password Key Name has been renamed from `keycloak.persistence.existingSecretKey` 
+The variable referencing the Password Key Name has been renamed from `keycloak.persistence.existingSecretKey`
 to `keycloak.persistence.existingSecretPasswordKey`
 
 A new, optional variable for referencing the Username Key Name for populating the `DB_USER` env has been added:
@@ -395,7 +396,7 @@ A new, optional variable for referencing the Username Key Name for populating th
 
 If left unset, `DB_USER` will be populated by the `dbUser` Helm variable.
 
-###### Example configuration: 
+###### Example configuration:
 ```yaml
 keycloak:
   persistence:
