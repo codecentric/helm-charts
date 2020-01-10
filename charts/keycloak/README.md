@@ -46,6 +46,10 @@ Parameter | Description | Default
 `init.image.pullPolicy` | Init image pull policy | `IfNotPresent`
 `init.resources` | Pod resource requests and limits for the init container | `{}`
 `clusterDomain` | The internal Kubernetes cluster domain | `cluster.local`
+`keycloak.prometheus.enabled` | Enables prometheus endpoint | `false`
+`keycloak.prometheus.image.repository` | The Prometheus init container image repository | `gottox/keycloak-metrics-spi-k8s`
+`keycloak.prometheus.image.tag` | The Prometheus init container  tag | `1.0.4`
+`keycloak.prometheus.image.pullPolicy` | The Keycloak image pull policy | `IfNotPresent`
 `keycloak.replicas` | The number of Keycloak replicas | `1`
 `keycloak.image.repository` | The Keycloak image repository | `jboss/keycloak`
 `keycloak.image.tag` | The Keycloak image tag | `8.0.1`

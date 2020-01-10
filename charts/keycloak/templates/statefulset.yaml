@@ -24,6 +24,12 @@ spec:
       annotations:
         checksum/config-sh: {{ include (print .Template.BasePath "/configmap-sh.yaml") . | sha256sum }}
         checksum/config-startup: {{ include (print .Template.BasePath "/configmap-startup.yaml") . | sha256sum }}
+        {{- if .Values.keycloak.prometheus.enabled }}
+        prometheus.io/path: /auth/realms/master/metrics
+        prometheus.io/port: "8080"
+        prometheus.io/scheme: http
+        prometheus.io/scrape: "true"
+        {{- end }}
         {{- with .Values.keycloak.podAnnotations }}
         {{- range $key, $value := . }}
         {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 8 }}
@@ -47,8 +53,16 @@ spec:
         - name: {{ . }}
       {{- end }}
     {{- end }}
-    {{- if or .Values.keycloak.persistence.deployPostgres .Values.keycloak.extraInitContainers }}
+    {{- if or .Values.keycloak.persistence.deployPostgres .Values.keycloak.extraInitContainers .Values.keycloak.prometheus.enabled }}
       initContainers:
+      {{- if .Values.keycloak.prometheus.enabled }}
+        - name: keycloak-metrics-spi-k8s
+          image: "{{ .Values.keycloak.prometheus.image.repository }}:{{ .Values.keycloak.prometheus.image.tag }}"
+          imagePullPolicy: {{ .Values.init.image.pullPolicy }}
+          volumeMounts:
+          - name: keycloak-plugins
+            mountPath: /plugins
+      {{- end }}
       {{- if .Values.keycloak.persistence.deployPostgres }}
         - name: wait-for-postgresql
           image: "{{ .Values.init.image.repository }}:{{ .Values.init.image.tag }}"
@@ -107,6 +121,8 @@ spec:
             - name: secrets
               mountPath: /secrets
               readOnly: true
+            - name: keycloak-plugins
+              mountPath: /plugins
             {{- if or .Values.keycloak.cli.enabled .Values.keycloak.startupScripts }}
             - name: startup
               mountPath: /opt/jboss/startup-scripts
@@ -160,6 +176,8 @@ spec:
       {{- end }}
       terminationGracePeriodSeconds: 60
       volumes:
+        - name: keycloak-plugins
+          emptyDir: {}
         - name: sh
           configMap:
             name: {{ include "keycloak.fullname" . }}-sh

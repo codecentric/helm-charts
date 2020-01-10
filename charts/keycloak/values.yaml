@@ -299,6 +299,12 @@ keycloak:
     # Only used if no existing secret is specified. In this case a new secret is created
     dbPassword: ""
 
+  prometheus:
+    enabled: false
+    image:
+      repository: gottox/keycloak-metrics-spi-k8s
+      tag: release-1.0.4
+      pullPolicy: IfNotPresent
 postgresql:
   ### PostgreSQL User to create.
   ##

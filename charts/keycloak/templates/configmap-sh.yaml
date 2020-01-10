@@ -12,4 +12,9 @@ data:
     set -o errexit
     set -o nounset
 
+    if [ -d /plugins ]; then
+      mkdir -p /opt/jboss/keycloak/standalone/deployments
+      cp -au /plugins/* /opt/jboss/keycloak/standalone/deployments || :
+    fi
+
     exec /opt/jboss/tools/docker-entrypoint.sh -b 0.0.0.0 {{ .Values.keycloak.extraArgs }}{{- if $highAvailability }} -c standalone-ha.xml{{ else }} -c standalone.xml{{ end }}
