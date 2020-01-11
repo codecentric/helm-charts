@@ -385,7 +385,7 @@ Version 7.0.0 is a minor update - but it does break backwards-compatibility with
 
 #### Changes in Configuring Database Credentials from an Existing Secret
 
-Now both `DB_USER` and `DB_PASS` can be read from an existing Kubernetes Secret. This is a requirement if you are
+Both `DB_USER` and `DB_PASS` are always read from a Kubernetes Secret. This is a requirement if you are
 provisioning database credentials dynamically - either via an Operator or some secret-management engine.
 
 The variable referencing the Password Key Name has been renamed from `keycloak.persistence.existingSecretKey`
@@ -394,7 +394,8 @@ to `keycloak.persistence.existingSecretPasswordKey`
 A new, optional variable for referencing the Username Key Name for populating the `DB_USER` env has been added:
 `keycloak.persistence.existingSecretUsernameKey`.
 
-If left unset, `DB_USER` will be populated by the `dbUser` Helm variable.
+If `keycloak.persistence.existingSecret` is left unset, a new Secret will be provisioned populated with the `dbUser`
+and `dbPassword`  Helm variables.
 
 ###### Example configuration:
 ```yaml
