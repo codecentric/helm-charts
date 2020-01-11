@@ -90,7 +90,7 @@ Create the name for the Keycloak secret.
 {{/*
 Create the name for the database secret.
 */}}
-{{- define "keycloak.externalDbSecret" -}}
+{{- define "keycloak.dbSecretName" -}}
 {{- if .Values.keycloak.persistence.existingSecret -}}
   {{- tpl .Values.keycloak.persistence.existingSecret $ -}}
 {{- else -}}
@@ -182,7 +182,7 @@ Load the dbUser from either a Secret or directly from .Values if existingSecretU
 {{- if and .Values.keycloak.persistence.existingSecret .Values.keycloak.persistence.existingSecretUsernameKey }}
   valueFrom:
     secretKeyRef:
-      name: {{ include "keycloak.externalDbSecret" . }}
+      name: {{ include "keycloak.dbSecretName" . }}
       key: {{ include "keycloak.dbUserKey" . | quote }}
 {{- else }}
   value: {{ .Values.keycloak.persistence.dbUser }}
@@ -190,7 +190,7 @@ Load the dbUser from either a Secret or directly from .Values if existingSecretU
 - name: DB_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ include "keycloak.externalDbSecret" . }}
+      name: {{ include "keycloak.dbSecretName" . }}
       key: {{ include "keycloak.dbPasswordKey" . | quote }}
 {{- end }}
 {{- end }}
