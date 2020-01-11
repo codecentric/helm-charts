@@ -176,17 +176,10 @@ Create environment variables for database configuration.
 - name: DB_DATABASE
   value: {{ .Values.keycloak.persistence.dbName | quote }}
 - name: DB_USER
-{{- /*
-Load the dbUser from either a Secret or directly from .Values if existingSecretUsernameKey is not set.
-*/ -}}
-{{- if and .Values.keycloak.persistence.existingSecret .Values.keycloak.persistence.existingSecretUsernameKey }}
   valueFrom:
     secretKeyRef:
       name: {{ include "keycloak.dbSecretName" . }}
       key: {{ include "keycloak.dbUserKey" . | quote }}
-{{- else }}
-  value: {{ .Values.keycloak.persistence.dbUser }}
-{{- end }}
 - name: DB_PASSWORD
   valueFrom:
     secretKeyRef:

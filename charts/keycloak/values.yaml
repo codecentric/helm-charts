@@ -284,24 +284,23 @@ keycloak:
     dbVendor: h2
 
     ## The following values only apply if "deployPostgres" is set to "false"
-
     dbName: keycloak
     dbHost: mykeycloak
     dbPort: 5432
 
+    ## Database Credentials are loaded from a Secret residing in the same Namespace as keycloak.
+    ## The Chart can read credentials from an existing Secret OR it can provision its own Secret.
 
-    # Database Credentials are loaded directly from values or from a
-    # Secret residing in the same Namespace as keycloak.
-    # Specifies an existing secret to be used for database credentials
+    ## Specify existing Secret
+    # If set, specifies the Name of an existing Secret to read db credentials from.
     existingSecret: ""
+    existingSecretPasswordKey: ""  # read keycloak db password from existingSecret under this Key
+    existingSecretUsernameKey: ""  # read keycloak db user from existingSecret under this Key
 
-    # The key in the existing secret that stores the password
-    existingSecretPasswordKey: ""  # read keycloak db password from Secret
-    existingSecretUsernameKey: ""  # read keycloak db user from Secret
-
-    # Only used if existingSecretUsernameKey is not specified.
-    dbUser: keycloak
+    ## Provision new Secret
     # Only used if existingSecret is not specified. In this case a new secret is created
+    # populated by the variables below.
+    dbUser: keycloak
     dbPassword: ""
 
 postgresql:
