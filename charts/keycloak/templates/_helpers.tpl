@@ -166,8 +166,16 @@ Create environment variables for database configuration.
   value: {{ .Values.keycloak.persistence.dbName | quote }}
 - name: DB_USER
   value: {{ .Values.keycloak.persistence.dbUser | quote }}
+{{- if .Values.keycloak.persistence.existingSecret}}
 - name: DB_PASSWORD_FILE
   value: /secrets/persistence
+{{- else }}
+- name: DB_PASSWORD
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "keycloak.externalDbSecret" . }}
+      key: {{ include "keycloak.dbPasswordKey" . | quote }}
+{{- end }}
 {{- end }}
 {{- end }}
 {{- end -}}
