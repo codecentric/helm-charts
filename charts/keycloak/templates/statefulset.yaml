@@ -108,7 +108,7 @@ spec:
               mountPath: /secrets/{{ include "keycloak.passwordKey" . }}
               subPath: {{ include "keycloak.passwordKey" . }}
               readOnly: true
-            {{- if not (eq "h2" .Values.keycloak.persistence.dbVendor) }}
+            {{- if .Values.keycloak.persistence.existingSecret}}
             - name: persistence
               mountPath: /secrets/persistence
               subPath: {{ include "keycloak.dbPasswordKey" . }}
@@ -174,7 +174,7 @@ spec:
         - name: secrets
           secret:
             secretName: {{ include "keycloak.secret" . }}
-      {{- if not (eq "h2" .Values.keycloak.persistence.dbVendor) }}
+      {{- if .Values.keycloak.persistence.existingSecret}}
         - name: persistence
           secret:
             secretName: {{ include "keycloak.externalDbSecret" . }}
