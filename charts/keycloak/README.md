@@ -401,7 +401,8 @@ It is possible to monitor Keycloak with Prometheus through the use of plugins su
       emptyDir: {}
 ```
 
-You can then either configure Prometheus to scrape the `/auth/realms/master/metrics` path on the normal HTTP port of JBoss, or if you are using the [Prometheus Operator](https://github.com/helm/charts/tree/master/stable/prometheus-operator) you can enable prometheus.operator.enabled in `values.yaml` and use the example configuration. If you are using Prometheus Operator for configuring Prometheus Rules, the chart also supports this; see prometheus.operator.prometheusRules in `values.yaml` for more details.
+You can then either configure Prometheus to scrape the `/auth/realms/master/metrics` path on the normal HTTP port of JBoss, or if you use the [Prometheus Operator](https://github.com/helm/charts/tree/master/stable/prometheus-operator) you can enable `prometheus.operator.enabled` in `values.yaml` and use the example configuration.
+If you are using Prometheus Operator for configuring Prometheus Rules, the chart also supports this; see `prometheus.operator.prometheusRules` in `values.yaml` for more details.
 
 ## Why StatefulSet?
 
