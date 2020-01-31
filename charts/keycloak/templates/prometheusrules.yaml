@@ -5,7 +5,7 @@ metadata:
   name: {{ include "keycloak.fullname" . }}
   labels:
     {{- include "keycloak.selectorLabels" . | nindent 4 }}
-    {{ toYaml .Values.prometheus.operator.prometheusRules.selector | nindent 4 }}
+    {{- toYaml .Values.prometheus.operator.prometheusRules.selector | nindent 4 }}
 spec:
   groups:
   - name: {{ include "keycloak.fullname" . }}
