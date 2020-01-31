@@ -336,3 +336,50 @@ test:
   containerSecurityContext:
     runAsUser: 1000
     runAsNonRoot: true
+
+prometheus:
+  operator:
+    ## Are you using Prometheus Operator?
+    enabled: false
+
+    serviceMonitor:
+      ## Additional labels to add to the ServiceMonitor so it is picked up by the operator.
+      ## If using the [Helm Chart](https://github.com/helm/charts/tree/master/stable/prometheus-operator) this is the name of the Helm release.
+      selector:
+        release: prometheus
+
+      ## Interval at which Prometheus scrapes metrics
+      interval: 10s
+
+      ## Timeout at which Prometheus timeouts scrape run
+      scrapeTimeout: 10s
+
+      ## The path to scrape
+      path: /auth/realms/master/metrics
+
+    prometheusRules:
+      ## Add Prometheus Rules?
+      enabled: false
+
+      ## Additional labels to add to the PrometheusRule so it is picked up by the operator.
+      ## If using the [Helm Chart](https://github.com/helm/charts/tree/master/stable/prometheus-operator) this is the name of the Helm release and 'app: prometheus-operator'
+      selector:
+        app: prometheus-operator
+        release: prometheus
+
+      ## Some example rules.
+      rules: {}
+      #  - alert: keycloak-IngressHigh5xxRate
+      #    annotations:
+      #      message: The percentage of 5xx errors for keycloak over the last 5 minutes is over 1%.
+      #    expr: (sum(rate(nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak",status=~"5[0-9]{2}"}[1m]))/sum(rate(nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak"}[1m])))*100 > 1
+      #    for: 5m
+      #    labels:
+      #      severity: warning
+      #  - alert: keycloak-IngressHigh5xxRate
+      #    annotations:
+      #      message: The percentage of 5xx errors for keycloak over the last 5 minutes is over 5%.
+      #    expr: (sum(rate(nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak",status=~"5[0-9]{2}"}[1m]))/sum(rate(nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak"}[1m])))*100 > 5
+      #    for: 5m
+      #    labels:
+      #      severity: critical

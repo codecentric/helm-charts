@@ -12,6 +12,7 @@ metadata:
     {{- with $service.labels }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
+    service: http
 spec:
   type: {{ $service.type }}
   ports:
