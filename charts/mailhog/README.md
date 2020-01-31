@@ -10,7 +10,7 @@ $ helm install stable/mailhog
 
 ## Introduction
 
-This chart creates a [Mailhog](http://iankent.uk/project/mailhog/) deployment on a [Kubernetes](http://kubernetes.io) 
+This chart creates a [Mailhog](http://iankent.uk/project/mailhog/) deployment on a [Kubernetes](http://kubernetes.io)
 cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
@@ -22,10 +22,10 @@ cluster using the [Helm](https://helm.sh) package manager.
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release stable/mailhog
+$ helm install --name my-release codecentric/mailhog
 ```
 
-The command deploys Mailhog on the Kubernetes cluster in the default configuration. The [configuration](#configuration) 
+The command deploys Mailhog on the Kubernetes cluster in the default configuration. The [configuration](#configuration)
 section lists the parameters that can be configured during installation.
 
 ## Uninstalling the Chart
@@ -53,7 +53,6 @@ Parameter | Description | Default
 `nodeSelector` | Node labels for pod assignment | `{}`
 `podAnnotations` | Extra annotations to add to pod | `{}`
 `resources` | Pod resource requests and limits | `{}`
-`nodeSelector` | Node labels for pod assignment | `{}`
 `tolerations` | Node taints to tolerate | `[]`
 `service.annotations` | Annotations for the service | `{}`
 `service.clusterIP` | Internal cluster service IP | `""`

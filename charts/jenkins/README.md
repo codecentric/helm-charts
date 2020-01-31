@@ -131,7 +131,7 @@ Alternatively, a YAML file that specifies the values for the parameters can be p
 For example,
 
 ```bash
-$ helm install --name keycloak -f values.yaml stable/keycloak
+$ helm install --name jenkins -f values.yaml stable/jenkins
 ```
 
 With the chart's default configuration, an initial admin user is automatically created and you will be guided through the installation wizard.
