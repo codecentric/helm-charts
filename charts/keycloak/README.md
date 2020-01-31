@@ -127,6 +127,14 @@ Parameter | Description | Default
 `test.image.pullPolicy` | Test image pull policy | `IfNotPresent`
 `test.securityContext` | Security context for the test pod. Every container running in the pod will inherit this security context. This might be relevant when other components of the environment inject additional containers into the running pod (service meshs are the most prominent example for this) | `{fsGroup: 1000}`
 `test.containerSecurityContext` | Security context for containers running in the test pod. Will not be inherited by additionally injected containers | `{runAsUser: 1000, runAsNonRoot: true}`
+`prometheus.operator.enabled` | Enable the Prometheus Operator features of the chart | `false`
+`prometheus.operator.serviceMonitor.selector` | Labels to add to the Prometheus Operator ServiceMonitor depending on your Operator configuration | `release: prometheus`
+`prometheus.operator.serviceMonitor.interval` | How often Prometheus should poll the metrics endpoint | `10s`
+`prometheus.operator.serviceMonitor.scrapeTimeout` | How long the Prometheus metrics endpoint timeout should be | `10s`
+`prometheus.operator.serviceMonitor.path` | The path of the Prometheus metrics endpoint on Keycloak | `/auth/realms/master/metrics`
+`prometheus.operator.prometheusRules.enabled` | Whether to create Prometheus Operator PrometheusRules object | `false`
+`prometheus.operator.prometheusRules.selector` | Labels to add to the Prometheus Operator PrometheusRules object depending on your Operator configuration | `{app: prometheus-operator", release: prometheus}`
+`prometheus.operator.prometheusRules.rules` | The Prometheus Operator rules to configure | `{}`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
@@ -364,6 +372,37 @@ For high availability, Keycloak should be run with multiple replicas (`keycloak.
 WildFly uses Infinispan for caching.
 These caches can be replicated across all instances forming a cluster.
 If `keycloak.replicas > 1`, JGroups' DNS_PING is configured for cluster discovery and Keycloak is started with `--server-config standalone-ha.xml`.
+
+### Prometheus Operator Support
+
+It is possible to monitor Keycloak with Prometheus through the use of plugins such as [keycloak-metrics-spi](https://github.com/aerogear/keycloak-metrics-spi). The plugin can be added with configuration like this:
+```
+  extraInitContainers: |
+    - name: extensions
+      image: busybox
+      imagePullPolicy: IfNotPresent
+      command:
+        - sh
+      args:
+        - -c
+        - |
+          echo "Copying extensions..."
+          wget -O /deployments/keycloak-metrics-spi.jar https://github.com/aerogear/keycloak-metrics-spi/releases/download/1.0.1/keycloak-metrics-spi-1.0.1.jar
+      volumeMounts:
+        - name: deployments
+          mountPath: /deployments
+
+  extraVolumeMounts: |
+    - name: deployments
+      mountPath: /opt/jboss/keycloak/standalone/deployments
+
+  extraVolumes: |
+    - name: deployments
+      emptyDir: {}
+```
+
+You can then either configure Prometheus to scrape the `/auth/realms/master/metrics` path on the normal HTTP port of JBoss, or if you use the [Prometheus Operator](https://github.com/helm/charts/tree/master/stable/prometheus-operator) you can enable `prometheus.operator.enabled` in `values.yaml` and use the example configuration.
+If you are using Prometheus Operator for configuring Prometheus Rules, the chart also supports this; see `prometheus.operator.prometheusRules` in `values.yaml` for more details.
 
 ## Why StatefulSet?
 
