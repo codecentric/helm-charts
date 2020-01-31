@@ -5,7 +5,7 @@ metadata:
   name: {{ include "keycloak.fullname" . }}
   labels:
     {{- include "keycloak.commonLabels" . | nindent 4 }}
-    {{ toYaml .Values.prometheus.operator.serviceMonitor.selector | nindent 4 }}
+    {{- toYaml .Values.prometheus.operator.serviceMonitor.selector | nindent 4 }}
 spec:
   selector:
     matchLabels:
