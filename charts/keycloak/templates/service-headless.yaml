@@ -5,6 +5,7 @@ metadata:
   name: {{ include "keycloak.fullname" . }}-headless
   labels:
     {{- include "keycloak.commonLabels" . | nindent 4 }}
+    service: headless
 spec:
   type: ClusterIP
   clusterIP: None
