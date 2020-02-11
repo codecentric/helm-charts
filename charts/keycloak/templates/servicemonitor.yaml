@@ -3,6 +3,7 @@ apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
   name: {{ include "keycloak.fullname" . }}
+  namespace: {{ include "serviceMonitor.namespace" . }}
   labels:
     {{- include "keycloak.commonLabels" . | nindent 4 }}
     {{- toYaml .Values.prometheus.operator.serviceMonitor.selector | nindent 4 }}
