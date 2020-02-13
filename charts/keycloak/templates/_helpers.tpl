@@ -135,7 +135,7 @@ Create the name for the database password secret key.
 Create the name for the database password secret key - if it is defined.
 */}}
 {{- define "keycloak.dbUserKey" -}}
-{{- if .Values.keycloak.persistence.existingSecret  -}}
+{{- if .Values.keycloak.persistence.existingSecret -}}
   {{- required "missing existingSecretUsernameKey" .Values.keycloak.persistence.existingSecretUsernameKey -}}
 {{- else -}}
   username
