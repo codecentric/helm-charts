@@ -212,6 +212,9 @@ keycloak:
     labels: {}
     # key: value
 
+    ## Type LoadBalancer IP to static
+    loadBalancerIP: ""
+
     ## ServiceType
     ## ref: https://kubernetes.io/docs/user-guide/services/#publishing-services---service-types
     type: ClusterIP
