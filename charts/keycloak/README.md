@@ -76,6 +76,7 @@ Parameter | Description | Default
 `keycloak.enableServiceLinks` | Indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links | `false`
 `keycloak.restartPolicy` | Pod restart policy. One of `Always`, `OnFailure`, or `Never` | `Always`
 `keycloak.serviceAccount.create` | If `true`, a new service account is created | `false`
+`keycloak.serviceAccount.name` | Name of service account to use. If `serviceAccount.create=true`, a new service account is created with this name. | `"default" OR (if serviceAccount.create=true) keycloak.fullname`
 `keycloak.securityContext` | Security context for the entire pod. Every container running in the pod will inherit this security context. This might be relevant when other components of the environment inject additional containers into running pods (service meshs are the most prominent example for this) | `{fsGroup: 1000}`
 `keycloak.containerSecurityContext` | Security context for containers running in the pod. Will not be inherited by additionally injected containers | `{runAsUser: 1000, runAsNonRoot: true}`
 `keycloak.startupScripts` | Custom startup scripts to run before Keycloak starts up | `[]`
