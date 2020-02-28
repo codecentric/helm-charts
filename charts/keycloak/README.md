@@ -76,6 +76,7 @@ Parameter | Description | Default
 `keycloak.enableServiceLinks` | Indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links | `false`
 `keycloak.restartPolicy` | Pod restart policy. One of `Always`, `OnFailure`, or `Never` | `Always`
 `keycloak.serviceAccount.create` | If `true`, a new service account is created | `false`
+`keycloak.serviceAccount.name` | Name of service account to use. If `serviceAccount.create=true`, a new service account is created with this name. | `"default" OR (if serviceAccount.create=true) keycloak.fullname`
 `keycloak.securityContext` | Security context for the entire pod. Every container running in the pod will inherit this security context. This might be relevant when other components of the environment inject additional containers into running pods (service meshs are the most prominent example for this) | `{fsGroup: 1000}`
 `keycloak.containerSecurityContext` | Security context for containers running in the pod. Will not be inherited by additionally injected containers | `{runAsUser: 1000, runAsNonRoot: true}`
 `keycloak.startupScripts` | Custom startup scripts to run before Keycloak starts up | `[]`
@@ -111,7 +112,8 @@ Parameter | Description | Default
 `keycloak.route.tls.termination` | TLS termination of the route. Can be `edge`, `passthrough` or `reencrypt` | `edge`
 `keycloak.persistence.deployPostgres` | If true, the PostgreSQL chart is installed | `false`
 `keycloak.persistence.existingSecret` | Name of an existing secret to be used for the database password (if `keycloak.persistence.deployPostgres=false`). Otherwise a new secret is created | `""`
-`keycloak.persistence.existingSecretKey` | The key for the database password in the existing secret (if `keycloak.persistence.deployPostgres=false`) | `password`
+`keycloak.persistence.existingSecretPasswordKey` | The key for the database password in the existing secret (if `keycloak.persistence.deployPostgres=false` and `keycloak.persistence.existingSecret != ""`) | `""`
+`keycloak.persistence.existingSecretUsernameKey` | The key for the database username in the existing secret (if `keycloak.persistence.deployPostgres=false` and `keycloak.persistence.existingSecret != ""`). Will default to the value of `.keycloak.persistence.dbUser` if left unset. | `""`
 `keycloak.persistence.dbVendor` | One of `h2`, `postgres`, `mysql`, or `mariadb` (if `deployPostgres=false`) | `h2`
 `keycloak.persistence.dbName` | The name of the database to connect to (if `deployPostgres=false`) | `keycloak`
 `keycloak.persistence.dbHost` | The database host name (if `deployPostgres=false`) | `mykeycloak`
@@ -121,6 +123,7 @@ Parameter | Description | Default
 `postgresql.postgresqlUser` | The PostgreSQL user (if `keycloak.persistence.deployPostgres=true`) | `keycloak`
 `postgresql.postgresqlPassword` | The PostgreSQL password (if `keycloak.persistence.deployPostgres=true`) | `""`
 `postgresql.postgresqlDatabase` | The PostgreSQL database (if `keycloak.persistence.deployPostgres=true`) | `keycloak`
+`postgresql.persistence.enabled` | If `true`, a PersistentVolumeClaim is created for PostgreSQL (if `keycloak.persistence.deployPostgres=true`) | `false`
 `test.enabled` | If `true`, test pods get scheduled | `true`
 `test.image.repository` | Test image repository | `unguiculus/docker-python3-phantomjs-selenium`
 `test.image.tag` | Test image tag | `v1`
@@ -191,7 +194,8 @@ keycloak:
 
     # Optionally specify an existing secret
     existingSecret: "my-database-password-secret"
-    existingSecretKey: "password-key in-my-database-secret"
+    existingSecretPasswordKey: "password-key-in-my-database-secret"
+    existingSecretUsernameKey: "username-key-in-my-database-secret"
 
     dbName: keycloak
     dbHost: mykeycloak
@@ -417,6 +421,31 @@ The headless service that governs the StatefulSet is used for DNS discovery.
 
 ## Upgrading
 
+
+### From chart versions < 7.0.0
+Version 7.0.0 update breaks backwards-compatibility with the existing `keycloak.persistence.existingSecret` scheme.
+
+#### Changes in Configuring Database Credentials from an Existing Secret
+
+Both `DB_USER` and `DB_PASS` are always read from a Kubernetes Secret.
+This is a requirement if you are provisioning database credentials dynamically - either via an Operator or some secret-management engine.
+
+The variable referencing the password key name has been renamed from `keycloak.persistence.existingSecretKey` to `keycloak.persistence.existingSecretPasswordKey`
+
+A new, optional variable for referencing the username key name for populating the `DB_USER` env has been added:
+`keycloak.persistence.existingSecretUsernameKey`.
+
+If `keycloak.persistence.existingSecret` is left unset, a new Secret will be provisioned populated with the `dbUser` and `dbPassword` Helm variables.
+
+###### Example configuration:
+```yaml
+keycloak:
+  persistence:
+    existingSecret: keycloak-provisioned-db-credentials
+    existingSecretPasswordKey: PGPASSWORD
+    existingSecretUsernameKey: PGUSER
+    ...
+```
 ### From chart versions < 6.0.0
 
 #### Changes in Probe Configuration
