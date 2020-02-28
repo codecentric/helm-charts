@@ -122,6 +122,7 @@ Parameter | Description | Default
 `postgresql.postgresqlUser` | The PostgreSQL user (if `keycloak.persistence.deployPostgres=true`) | `keycloak`
 `postgresql.postgresqlPassword` | The PostgreSQL password (if `keycloak.persistence.deployPostgres=true`) | `""`
 `postgresql.postgresqlDatabase` | The PostgreSQL database (if `keycloak.persistence.deployPostgres=true`) | `keycloak`
+`postgresql.persistence.enabled` | If `true`, a PersistentVolumeClaim is created for PostgreSQL (if `keycloak.persistence.deployPostgres=true`) | `false`
 `test.enabled` | If `true`, test pods get scheduled | `true`
 `test.image.repository` | Test image repository | `unguiculus/docker-python3-phantomjs-selenium`
 `test.image.tag` | Test image tag | `v1`
