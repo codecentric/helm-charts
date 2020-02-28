@@ -11,7 +11,7 @@ spec:
       {{- include "keycloak.selectorLabels" . | nindent 6 }}
   replicas: {{ .Values.keycloak.replicas }}
   serviceName: {{ include "keycloak.fullname" . }}-headless
-  podManagementPolicy: Parallel
+  podManagementPolicy: {{ .Values.keycloak.podManagementPolicy }}
   updateStrategy:
     type: RollingUpdate
   template:
