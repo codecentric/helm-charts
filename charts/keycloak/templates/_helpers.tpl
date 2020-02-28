@@ -192,7 +192,7 @@ Create environment variables for database configuration.
 {{/*
 Create the namespace for the serviceMonitor deployment.
 */}}
-{{- define "serviceMonitor.namespace" -}}
+{{- define "keycloak.serviceMonitor.namespace" -}}
 {{- if .Values.prometheus.operator.serviceMonitor.namespace -}}
 {{ .Values.prometheus.operator.serviceMonitor.namespace }}
 {{- else -}}
