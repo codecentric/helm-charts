@@ -26,7 +26,7 @@ spec:
         - name: KEYCLOAK_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: {{ include "keycloak.secret" . }}
+              name: {{ include "keycloak.secretName" . }}
               key: {{ include "keycloak.passwordKey" . }}
       volumeMounts:
         - name: tests

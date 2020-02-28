@@ -79,7 +79,7 @@ Create a default fully qualified app name for the postgres requirement.
 {{/*
 Create the name for the Keycloak secret.
 */}}
-{{- define "keycloak.secret" -}}
+{{- define "keycloak.secretName" -}}
 {{- if .Values.keycloak.existingSecret -}}
   {{- tpl .Values.keycloak.existingSecret $ -}}
 {{- else -}}
@@ -90,11 +90,15 @@ Create the name for the Keycloak secret.
 {{/*
 Create the name for the database secret.
 */}}
-{{- define "keycloak.externalDbSecret" -}}
-{{- if .Values.keycloak.persistence.existingSecret -}}
-  {{- tpl .Values.keycloak.persistence.existingSecret $ -}}
-{{- else -}}
-  {{- include "keycloak.fullname" . -}}-db
+{{- define "keycloak.dbSecretName" -}}
+{{- if .Values.keycloak.persistence.deployPostgres }}
+  {{- include "keycloak.postgresql.fullname" . -}}
+{{- else }}
+  {{- if .Values.keycloak.persistence.existingSecret -}}
+    {{- tpl .Values.keycloak.persistence.existingSecret $ -}}
+  {{- else -}}
+    {{- include "keycloak.fullname" . -}}-db
+  {{- end -}}
 {{- end -}}
 {{- end -}}
 
@@ -124,10 +128,21 @@ Create the name for the password secret key.
 Create the name for the database password secret key.
 */}}
 {{- define "keycloak.dbPasswordKey" -}}
-{{- if .Values.keycloak.persistence.existingSecret -}}
-  {{- .Values.keycloak.persistence.existingSecretKey -}}
+{{- if and .Values.keycloak.persistence.existingSecret .Values.keycloak.persistence.existingSecretPasswordKey -}}
+  {{- .Values.keycloak.persistence.existingSecretPasswordKey -}}
 {{- else -}}
   password
+{{- end -}}
+{{- end -}}
+
+{{/*
+Create the name for the database password secret key - if it is defined.
+*/}}
+{{- define "keycloak.dbUserKey" -}}
+{{- if and .Values.keycloak.persistence.existingSecret .Values.keycloak.persistence.existingSecretUsernameKey -}}
+  {{- .Values.keycloak.persistence.existingSecretUsernameKey -}}
+{{- else -}}
+  username
 {{- end -}}
 {{- end -}}
 
@@ -149,11 +164,8 @@ Create environment variables for database configuration.
   value: {{ .Values.postgresql.postgresqlDatabase | quote }}
 - name: DB_USER
   value: {{ .Values.postgresql.postgresqlUsername | quote }}
-- name: DB_PASSWORD
-  valueFrom:
-    secretKeyRef:
-      name: {{ include "keycloak.postgresql.fullname" . }}
-      key: postgresql-password
+- name: DB_PASSWORD_FILE
+  value: /secrets/database/postgresql-password
 {{- else }}
 - name: DB_VENDOR
   value: {{ .Values.keycloak.persistence.dbVendor | quote }}
@@ -165,17 +177,23 @@ Create environment variables for database configuration.
 - name: DB_DATABASE
   value: {{ .Values.keycloak.persistence.dbName | quote }}
 - name: DB_USER
-  value: {{ .Values.keycloak.persistence.dbUser | quote }}
-{{- if .Values.keycloak.persistence.existingSecret}}
-- name: DB_PASSWORD_FILE
-  value: /secrets/persistence
-{{- else }}
-- name: DB_PASSWORD
   valueFrom:
     secretKeyRef:
-      name: {{ include "keycloak.externalDbSecret" . }}
-      key: {{ include "keycloak.dbPasswordKey" . | quote }}
+      name: {{ include "keycloak.dbSecretName" . }}
+      key: {{ include "keycloak.dbUserKey" . | quote }}
+- name: DB_PASSWORD_FILE
+  value: /secrets/database/{{ include "keycloak.dbPasswordKey" . }}
 {{- end }}
 {{- end }}
-{{- end }}
+{{- end -}}
+
+{{/*
+Create the namespace for the serviceMonitor deployment.
+*/}}
+{{- define "keycloak.serviceMonitor.namespace" -}}
+{{- if .Values.prometheus.operator.serviceMonitor.namespace -}}
+{{ .Values.prometheus.operator.serviceMonitor.namespace }}
+{{- else -}}
+{{ .Release.Namespace }}
+{{- end -}}
 {{- end -}}
