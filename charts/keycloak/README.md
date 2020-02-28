@@ -131,6 +131,7 @@ Parameter | Description | Default
 `test.securityContext` | Security context for the test pod. Every container running in the pod will inherit this security context. This might be relevant when other components of the environment inject additional containers into the running pod (service meshs are the most prominent example for this) | `{fsGroup: 1000}`
 `test.containerSecurityContext` | Security context for containers running in the test pod. Will not be inherited by additionally injected containers | `{runAsUser: 1000, runAsNonRoot: true}`
 `prometheus.operator.enabled` | Enable the Prometheus Operator features of the chart | `false`
+`prometheus.operator.serviceMonitor.namespace` | Namespace in which to deploy Prometheus Operator ServiceMonitor | `{{ .Release.Namespace }}`
 `prometheus.operator.serviceMonitor.selector` | Labels to add to the Prometheus Operator ServiceMonitor depending on your Operator configuration | `release: prometheus`
 `prometheus.operator.serviceMonitor.interval` | How often Prometheus should poll the metrics endpoint | `10s`
 `prometheus.operator.serviceMonitor.scrapeTimeout` | How long the Prometheus metrics endpoint timeout should be | `10s`
