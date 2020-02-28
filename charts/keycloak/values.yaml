@@ -41,6 +41,8 @@ keycloak:
 
   enableServiceLinks: false
 
+  podManagementPolicy: Parallel
+
   restartPolicy: Always
 
   serviceAccount:
