@@ -1,4 +1,5 @@
 {{- $highAvailability := gt (int .Values.keycloak.replicas) 1 -}}
+{{- $service := .Values.keycloak.service -}}
 apiVersion: v1
 kind: Service
 metadata:
@@ -8,17 +9,20 @@ metadata:
     chart: {{ template "keycloak.chart" . }}
     release: "{{ .Release.Name }}"
     heritage: "{{ .Release.Service }}"
+{{- with $service.labels }}
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
   type: ClusterIP
   clusterIP: None
   ports:
     - name: http
-      port: {{ .Values.keycloak.service.port }}
+      port: {{ $service.port }}
       targetPort: http
       protocol: TCP
   {{- if $highAvailability }}
     - name: jgroups
-      port: {{ .Values.keycloak.service.jgroupsPort }}
+      port: {{ $service.jgroupsPort }}
       targetPort: jgroups
       protocol: TCP
   {{- end }}
