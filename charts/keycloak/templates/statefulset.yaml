@@ -87,7 +87,7 @@ spec:
             - name: KEYCLOAK_USER
               value: {{ .Values.keycloak.username }}
             - name: KEYCLOAK_PASSWORD_FILE
-              value: /secrets/keycloak/{{ include "keycloak.passwordKey" . }}
+              value: /secrets/{{ include "keycloak.passwordKey" . }}
           {{- if $highAvailability }}
             - name: JGROUPS_DISCOVERY_PROTOCOL
               value: {{ .Values.keycloak.jgroups.discoveryProtocol }}
@@ -105,11 +105,15 @@ spec:
               mountPath: /scripts
               readOnly: true
             - name: secrets
-              mountPath: /secrets/keycloak
+              mountPath: /secrets/{{ include "keycloak.passwordKey" . }}
+              subPath: {{ include "keycloak.passwordKey" . }}
               readOnly: true
-            - name: database
-              mountPath: /secrets/database
+            {{- if .Values.keycloak.persistence.existingSecret}}
+            - name: persistence
+              mountPath: /secrets/persistence
+              subPath: {{ include "keycloak.dbPasswordKey" . }}
               readOnly: true
+            {{- end }}
             {{- if or .Values.keycloak.cli.enabled .Values.keycloak.startupScripts }}
             - name: startup
               mountPath: /opt/jboss/startup-scripts
@@ -169,10 +173,12 @@ spec:
             defaultMode: 0555
         - name: secrets
           secret:
-            secretName: {{ include "keycloak.secretName" . }}
-        - name: database
+            secretName: {{ include "keycloak.secret" . }}
+      {{- if .Values.keycloak.persistence.existingSecret}}
+        - name: persistence
           secret:
-            secretName: {{ include "keycloak.dbSecretName" . }}
+            secretName: {{ include "keycloak.externalDbSecret" . }}
+      {{- end }}
       {{- if or .Values.keycloak.cli.enabled .Values.keycloak.startupScripts }}
         - name: startup
           configMap:
