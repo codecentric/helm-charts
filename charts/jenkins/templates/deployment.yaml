@@ -24,6 +24,10 @@ spec:
         - name: jenkins-init
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          {{- with .Values.extraEnv }}
+            {{- tpl . $ | nindent 12 }}
+          {{- end }}
           command:
             - /init/init.sh
           args:
