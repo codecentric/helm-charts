@@ -8,6 +8,7 @@ spec:
   selector:
     matchLabels:
       {{- include "jenkins.selectorLabels" . | nindent 6 }}
+  revisionHistoryLimit: {{ .Values.revisionHistoryLimit }}
   strategy:
     type: Recreate
   template:
