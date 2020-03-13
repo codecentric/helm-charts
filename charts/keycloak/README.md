@@ -82,6 +82,7 @@ Parameter | Description | Default
 `keycloak.containerSecurityContext` | Security context for containers running in the pod. Will not be inherited by additionally injected containers | `{runAsUser: 1000, runAsNonRoot: true}`
 `keycloak.startupScripts` | Custom startup scripts to run before Keycloak starts up | `[]`
 `keycloak.lifecycleHooks` | Container lifecycle hooks. Passed through the `tpl` function and thus to be configured a string | ``
+`keycloak.terminationGracePeriodSeconds` | Termination grace period in seconds for Keycloak shutdown. Clusters with a large cache might need to extend this to give Infinispan more time to rebalance | `60`
 `keycloak.extraArgs` | Additional arguments to the start command | ``
 `keycloak.livenessProbe` | Liveness probe configuration. Passed through the `tpl` function and thus to be configured as string | See `values.yaml`
 `keycloak.readinessProbe` | Readiness probe configuration. Passed through the `tpl` function and thus to be configured as string | See `values.yaml`
