@@ -158,7 +158,7 @@ spec:
       {{- with .Values.keycloak.priorityClassName }}
       priorityClassName: {{ . }}
       {{- end }}
-      terminationGracePeriodSeconds: 60
+      terminationGracePeriodSeconds: {{ .Values.keycloak.terminationGracePeriodSeconds }}
       volumes:
         - name: sh
           configMap:
