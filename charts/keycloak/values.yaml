@@ -24,7 +24,7 @@ keycloak:
 
   image:
     repository: jboss/keycloak
-    tag: 8.0.1
+    tag: 9.0.0
     pullPolicy: IfNotPresent
 
     ## Optionally specify an array of imagePullSecrets.
@@ -38,6 +38,8 @@ keycloak:
   #  - ip: "1.2.3.4"
   #    hostnames:
   #      - "my.host.com"
+
+  proxyAddressForwarding: true
 
   enableServiceLinks: false
 
@@ -74,6 +76,9 @@ keycloak:
     #   exec:
     #     command: ["/bin/sh", "-c", "ls"]
 
+  ## Override the default for the Keycloak container, e.g. for clusters with large cache that requires rebalancing.
+  terminationGracePeriodSeconds: 60
+
   ## Additional arguments to start command e.g. -Dkeycloak.import= to load a realm
   extraArgs: ""
 
@@ -96,10 +101,10 @@ keycloak:
     discoveryProperties: >
       "dns_query={{ template "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
 
+  javaToolOptions: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=50"
+
   ## Allows the specification of additional environment variables for Keycloak
   extraEnv: |
-    - name: PROXY_ADDRESS_FORWARDING
-      value: "true"
     # - name: KEYCLOAK_LOGLEVEL
     #   value: DEBUG
     # - name: WILDFLY_LOGLEVEL
