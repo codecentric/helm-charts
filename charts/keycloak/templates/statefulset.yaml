@@ -88,6 +88,12 @@ spec:
               value: {{ .Values.keycloak.username }}
             - name: KEYCLOAK_PASSWORD_FILE
               value: /secrets/{{ include "keycloak.passwordKey" . }}
+            - name: JAVA_TOOL_OPTIONS
+              value: {{ .Values.keycloak.javaToolOptions | quote }}
+          {{- if .Values.keycloak.proxyAddressForwarding }}
+            - name: PROXY_ADDRESS_FORWARDING
+              value: "true"
+          {{- end }}
           {{- if $highAvailability }}
             - name: JGROUPS_DISCOVERY_PROTOCOL
               value: {{ .Values.keycloak.jgroups.discoveryProtocol }}
