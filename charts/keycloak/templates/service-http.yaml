@@ -5,7 +5,9 @@ metadata:
   name: {{ include "keycloak.fullname" . }}-http
   {{- with $service.annotations }}
   annotations:
-    {{- toYaml . | nindent 4 }}
+    {{- range $key, $value := . }}
+    {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
+    {{- end }}
   {{- end }}
   labels:
     {{- include "keycloak.commonLabels" . | nindent 4 }}
