@@ -101,7 +101,9 @@ keycloak:
     discoveryProperties: >
       "dns_query={{ template "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"
 
-  javaToolOptions: "-XX:+UseContainerSupport -XX:MaxRAMPercentage=50"
+  javaToolOptions: >-
+    -XX:+UseContainerSupport
+    -XX:MaxRAMPercentage=50.0
 
   ## Allows the specification of additional environment variables for Keycloak
   extraEnv: |
