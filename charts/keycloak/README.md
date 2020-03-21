@@ -93,7 +93,7 @@ Parameter | Description | Default
 `keycloak.cli.logging` | WildFly CLI script for logging configuration | See `values.yaml`
 `keycloak.cli.ha` | Settings for HA setups | See `values.yaml`
 `keycloak.cli.custom` | Additional custom WildFly CLI script | `""`
-`keycloak.service.annotations` | Annotations for the Keycloak service | `{}`
+`keycloak.service.annotations` | Annotations for the Keycloak service. Values are passed through the `tpl` function | `{}`
 `keycloak.service.labels` | Additional labels for the Keycloak service | `{}`
 `keycloak.service.type` | The service type | `ClusterIP`
 `keycloak.service.httpPort` | The http service port | `80`
