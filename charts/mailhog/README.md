@@ -5,7 +5,7 @@
 ## TL;DR;
 
 ```bash
-$ helm install stable/mailhog
+$ helm install --name my-release codecentric/mailhog
 ```
 
 ## Introduction
@@ -35,6 +35,7 @@ To uninstall/delete the `my-release` deployment:
 ```bash
 $ helm delete my-release
 ```
+
 The command removes all the Kubernetes components associated with the chart and deletes the release.
 
 ## Configuration
