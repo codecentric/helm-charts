@@ -1,3 +1,5 @@
+replicaCount: 1
+
 image:
   repository: mailhog/mailhog
   tag: v1.0.0
