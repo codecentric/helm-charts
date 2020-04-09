@@ -43,6 +43,7 @@ The following table lists the configurable parameters of the Mailhog chart and t
 
 Parameter | Description | Default
 --- | --- | ---
+`replicaCount` | The number of pod replicas | `1`
 `image.repository` | Docker image repository | `mailhog/mailhog`
 `image.tag` | Docker image tag | `v1.0.0`
 `image.pullPolicy` | Docker image pull policy | `IfNotPresent`
