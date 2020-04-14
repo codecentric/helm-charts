@@ -121,6 +121,17 @@ Create the name for the password secret key.
 {{- end -}}
 
 {{/*
+Create the name for the database password secret key - if it is defined.
+*/}}
+{{- define "keycloak.dbHostKey" -}}
+{{- if and .Values.keycloak.persistence.existingSecret .Values.keycloak.persistence.existingSecretHostKey -}}
+  {{- .Values.keycloak.persistence.existingSecretHostKey -}}
+{{- else -}}
+  host
+{{- end -}}
+{{- end -}}
+
+{{/*
 Create the name for the database password secret key.
 */}}
 {{- define "keycloak.dbPasswordKey" -}}
@@ -170,7 +181,10 @@ Create environment variables for database configuration.
   value: {{ .Values.keycloak.persistence.dbVendor | quote }}
 {{- if not (eq "h2" .Values.keycloak.persistence.dbVendor) }}
 - name: DB_ADDR
-  value: {{ .Values.keycloak.persistence.dbHost | quote }}
+  valueFrom:
+    secretKeyRef:
+      name: {{ include "keycloak.dbSecretName" . }}
+      key: {{ include "keycloak.dbHostKey" . | quote }}
 - name: DB_PORT
   value: {{ .Values.keycloak.persistence.dbPort | quote }}
 - name: DB_DATABASE

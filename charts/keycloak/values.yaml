@@ -303,6 +303,7 @@ keycloak:
     ## Specify existing Secret
     # If set, specifies the Name of an existing Secret to read db credentials from.
     existingSecret: ""
+    existingSecretHostKey: ""      # read keycloak db host from existingSecret under this Key
     existingSecretPasswordKey: ""  # read keycloak db password from existingSecret under this Key
     existingSecretUsernameKey: ""  # read keycloak db user from existingSecret under this Key
 
