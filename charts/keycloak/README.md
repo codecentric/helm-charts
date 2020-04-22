@@ -100,6 +100,7 @@ Parameter | Description | Default
 `keycloak.service.httpsPort` | The https service port | `8443`
 `keycloak.service.httpNodePort` | The http node port used if the service is of type `NodePort` | `""`
 `keycloak.service.httpsNodePort` | The https node port used if the service is of type `NodePort` | `""`
+`keycloak.service.extraPorts` | Add additional ports, e. g. for custom admin console port. Passed through the `tpl` function and thus to be configured a string | `""`
 `keycloak.ingress.enabled` | if `true`, an ingress is created | `false`
 `keycloak.ingress.annotations` | annotations for the ingress | `{}`
 `keycloak.ingress.labels` | Additional labels for the Keycloak ingress | `{}`
