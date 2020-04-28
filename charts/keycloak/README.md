@@ -73,6 +73,7 @@ Parameter | Description | Default
 `keycloak.tolerations` | Node taints to tolerate | `[]`
 `keycloak.podLabels` | Extra labels to add to pod | `{}`
 `keycloak.podAnnotations` | Extra annotations to add to pod. Values are passed through the `tpl` function | `{}`
+`keycloak.statefulsetAnnotations` | Extra annotations to add to statefulset. Values are passed through the `tpl` function | `{}`
 `keycloak.hostAliases` | Mapping between IP and hostnames that will be injected as entries in the pod's hosts files | `[]`
 `keycloak.enableServiceLinks` | Indicates whether information about services should be injected into pod's environment variables, matching the syntax of Docker links | `false`
 `keycloak.proxyAddressForwarding` | Enables proxy address forwarding if your instance is running behind a reverse proxy | `true`
