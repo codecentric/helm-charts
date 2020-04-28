@@ -309,6 +309,33 @@ entries:
   keycloak:
   - apiVersion: v1
     appVersion: 9.0.2
+    created: "2020-04-28T17:22:05.000734723Z"
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: 5c203b3d18d93f9a5d466e31a90bbb883a26d041a4e5b44b3b946dad0e3ae6a6
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-7.7.0/keycloak-7.7.0.tgz
+    version: 7.7.0
+  - apiVersion: v1
+    appVersion: 9.0.2
     created: "2020-04-28T16:59:28.911731815Z"
     description: Open Source Identity and Access Management For Modern Applications
       and Services
