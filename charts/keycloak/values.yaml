@@ -240,6 +240,9 @@ keycloak:
     # Optional: jGroups port for high availability clustering
     jgroupsPort: 7600
 
+    ## Add additional ports, eg. for custom admin console
+    extraPorts: |
+
   ## Ingress configuration.
   ## ref: https://kubernetes.io/docs/user-guide/ingress/
   ingress:

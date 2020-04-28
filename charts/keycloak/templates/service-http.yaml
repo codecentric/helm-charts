@@ -32,5 +32,8 @@ spec:
       nodePort: {{ $service.httpsNodePort }}
     {{- end }}
       protocol: TCP
+    {{- with $service.extraPorts }}
+    {{- tpl . $ | nindent 4 }}
+    {{- end }}
   selector:
     {{- include "keycloak.selectorLabels" . | nindent 4 }}
