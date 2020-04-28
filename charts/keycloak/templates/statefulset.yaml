@@ -3,6 +3,14 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ include "keycloak.fullname" . }}
+  {{- if .Values.keycloak.statefulsetAnnotations }}
+  annotations:
+    {{- with .Values.keycloak.statefulsetAnnotations }}
+    {{- range $key, $value := . }}
+    {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
+    {{- end }}
+    {{- end }}
+  {{- end }}
   labels:
     {{- include "keycloak.commonLabels" . | nindent 4 }}
 spec:

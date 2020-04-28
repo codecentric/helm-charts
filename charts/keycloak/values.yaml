@@ -214,6 +214,9 @@ keycloak:
     # maxUnavailable: 1
     # minAvailable: 1
 
+  ## Extra annotations to be added to statefulset
+  statefulsetAnnotations: {}
+
   service:
     annotations: {}
     # service.beta.kubernetes.io/aws-load-balancer-internal: "0.0.0.0/0"
