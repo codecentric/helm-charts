@@ -7,6 +7,7 @@ metadata:
     helm.sh/chart: {{ include "mailhog.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    release: {{ .Release.Name }}
 spec:
   selector:
     matchLabels:
@@ -21,6 +22,7 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "mailhog.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+        release: {{ .Release.Name }}
     spec:
       {{- with .Values.securityContext }}
       securityContext:
