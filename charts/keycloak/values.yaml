@@ -253,8 +253,6 @@ keycloak:
         g0xkN/ukbpmmMBLC6524JQtOMClBUcu+ScRhutHIJ8ZF
         -----END CERTIFICATE-----
 
-
-
   ## WildFly CLI configurations. They all end up in the file 'keycloak.cli' configured in the configmap which is
   ## executed on server startup.
   cli:
