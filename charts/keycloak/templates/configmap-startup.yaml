@@ -1,5 +1,6 @@
 {{- if or .Values.keycloak.cli.enabled .Values.keycloak.startupScripts -}}
 {{- $highAvailability := gt (int .Values.keycloak.replicas) 1 -}}
+{{- $x509 := .Values.keycloak.x509.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -29,6 +30,12 @@ data:
 
     {{- if $highAvailability }}
       {{- tpl .ha $ | nindent 4 }}
+    {{- end }}
+
+    {{- if $x509 -}}
+      {{- with .x509 }}
+        {{- tpl . $ | nindent 4 }}
+      {{- end }}
     {{- end }}
 
     {{- with .custom }}

@@ -1,5 +1,6 @@
 {{- $ingress := .Values.keycloak.ingress -}}
 {{- if $ingress.enabled -}}
+{{- $x509 := .Values.keycloak.x509.enabled -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
@@ -32,6 +33,6 @@ spec:
           - path: {{ $ingress.path }}
             backend:
               serviceName: {{ include "keycloak.fullname" $ }}-http
-              servicePort: http
+              servicePort: {{ if $x509}} https {{ else }} http {{- end }}
   {{- end }}
 {{- end -}}

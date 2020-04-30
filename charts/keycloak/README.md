@@ -93,6 +93,7 @@ Parameter | Description | Default
 `keycloak.cli.nodeIdentifier` | WildFly CLI script for setting the node identifier | See `values.yaml`
 `keycloak.cli.logging` | WildFly CLI script for logging configuration | See `values.yaml`
 `keycloak.cli.ha` | Settings for HA setups | See `values.yaml`
+`keycloak.cli.x509` | Settings X.509 Client Certificate User Authentication setup | See `values.yaml`
 `keycloak.cli.custom` | Additional custom WildFly CLI script | `""`
 `keycloak.service.annotations` | Annotations for the Keycloak service. Values are passed through the `tpl` function | `{}`
 `keycloak.service.labels` | Additional labels for the Keycloak service | `{}`
@@ -126,6 +127,8 @@ Parameter | Description | Default
 `keycloak.persistence.dbPort` | The database host port (if `deployPostgres=false`) | `5432`
 `keycloak.persistence.dbUser` |The database user (if `deployPostgres=false`) | `keycloak`
 `keycloak.persistence.dbPassword` |The database password (if `deployPostgres=false`) | `""`
+`keycloak.x509.enabled` | Set to `false` if no X.509 Client Certificate User Authentication should be performed by the chart | `false`
+`keycloak.x509.certificates` | The PEM certificates of tls.crt, tls.key and ca.crt | See `values.yaml`
 `postgresql.postgresqlUser` | The PostgreSQL user (if `keycloak.persistence.deployPostgres=true`) | `keycloak`
 `postgresql.postgresqlPassword` | The PostgreSQL password (if `keycloak.persistence.deployPostgres=true`) | `""`
 `postgresql.postgresqlDatabase` | The PostgreSQL database (if `keycloak.persistence.deployPostgres=true`) | `keycloak`
@@ -376,6 +379,144 @@ keycloak:
   cli:
     logging: ""
 ```
+
+##### enabling X.509 Client Certificate User Authentication
+Keycloak supports login with a X.509 client certificate if the server is configured for mutual SSL authentication. See documentation [X.509 Client Certificate User Authentication](https://www.keycloak.org/docs/latest/server_admin/#_x509)
+
+CA and Server Certificate sample in order to obtain ca.crt, tls.crt and tls.key
+```console
+openssl genrsa -aes256 -out ca.key 2048
+
+openssl req -x509 -new -nodes -key ca.key -sha256 -days 1024 -out ca.crt -subj "/C=FR/ST=Isere/L=Grenoble/O=mycorp/OU=myorg/CN=caroot.mycorp.com"
+
+openssl genrsa -out  tls.key 2048
+
+openssl req -new -key  tls.key -out  mycorp.com.csr -subj "/C=FR/ST=Isere/L=Grenoble/O=mycorp/OU=myorg/CN=x509.mycorp.com"
+
+openssl x509 -req -in mycorp.com.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out tls.crt -days 500 -sha256
+```
+Client certificate
+```console
+openssl genrsa -out john.doe.key 2048
+
+openssl req -new -key john.doe.key -out john.doe.req -subj "/C=US/ST=California/L=LA/O=example/CN=John Doe/emailAddress=john.doe@example.org"
+
+openssl x509 -req -in john.doe.req -CA ca.crt -CAkey ca.key -set_serial 101 -extensions client -days 365 -outform PEM -out john.doe.cer
+
+openssl pkcs12 -export -inkey john.doe.key -in john.doe.cer -out john.doe.p12
+
+```
+enabling x509 in values.yaml
+
+```yaml
+ x509:
+    enabled: true
+    certificates:
+      tls.crt: |
+        -----BEGIN CERTIFICATE-----
+        MIIDVDCCAjwCCQCitqucCIlVCDANBgkqhkiG9w0BAQsFADBtMQswCQYDVQQGEwJG
+        UjEOMAwGA1UECAwFSXNlcmUxETAPBgNVBAcMCEdyZW5vYmxlMQ8wDQYDVQQKDAZt
+        eWNvcnAxDjAMBgNVBAsMBW15b3JnMRowGAYDVQQDDBFjYXJvb3QubXljb3JwLmNv
+        bTAeFw0yMDA0MjkxOTA5MzdaFw0yMTA5MTExOTA5MzdaMGsxCzAJBgNVBAYTAkZS
+        MQ4wDAYDVQQIDAVJc2VyZTERMA8GA1UEBwwIR3Jlbm9ibGUxDzANBgNVBAoMBm15
+        Y29ycDEOMAwGA1UECwwFbXlvcmcxGDAWBgNVBAMMD3g1MDkubXljb3JwLmNvbTCC
+        ASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANEibVaf7OvyhAiAaX5z2rRm
+        YHuWbCg10ds+5oVtzp/Nf1Fz7Yfnm8ZlaX28suffr+381QP4pIWAbShIMd3HKW1N
+        9C5UF8tVvr2VYaWcerKqFgurnhP02sTwswFoMrHG5AOM4IDbP5cVBhd+8PalD1Gv
+        +b49WLYmkg1dipHOgeaiqlQl0RhR6O3/Z9OH/ju3u0rOFZJTue1aspmwBSPp1FJE
+        EVWsNRV4ASyRp84j9Jx5RgZeC6t90Jqou0sOoGu218yhTiwe9hWHJPiGjhhs4PJi
+        fspg14AQGecjKGNNHYtU0jxiASk24K89E32QQLXtffbdTujyvhqqEFcKocK1q8UC
+        AwEAATANBgkqhkiG9w0BAQsFAAOCAQEAIDyf+pM/sgFS4KmzTtEGFmb1Bt0iwC74
+        EA4S/iRXTHsd1SUz1kZFiwfSW3AK7OJLZ4xlsqi9vZYzJw3lgcgP1DGX4pO8gvkw
+        2rWvdMNfiUPqfB2chQhYrOIybKGVzAapBQpYIepaaAk/8MGz3IJlsmL5QISfmIXc
+        nI+zX4NHHG8WKk0XyomVRMElrz4cvRBXUNt1S0bl9VDga5JrOKfhiJ0LZvHtEt8b
+        wdc/cTIkLDrDxkmW37KUpW1eq2nhiMp67DPH6m60MleSXvfQNAYvG1QYkd6LoD6n
+        CDrM56jK/BgdLHSzTxQlBhN42Xy4ilmbcI+218KXFix0roP6GXZk/g==
+        -----END CERTIFICATE-----
+      tls.key: |
+        -----BEGIN RSA PRIVATE KEY-----
+        MIIEowIBAAKCAQEA0SJtVp/s6/KECIBpfnPatGZge5ZsKDXR2z7mhW3On81/UXPt
+        h+ebxmVpfbyy59+v7fzVA/ikhYBtKEgx3ccpbU30LlQXy1W+vZVhpZx6sqoWC6ue
+        E/TaxPCzAWgyscbkA4zggNs/lxUGF37w9qUPUa/5vj1YtiaSDV2Kkc6B5qKqVCXR
+        GFHo7f9n04f+O7e7Ss4VklO57VqymbAFI+nUUkQRVaw1FXgBLJGnziP0nHlGBl4L
+        q33Qmqi7Sw6ga7bXzKFOLB72FYck+IaOGGzg8mJ+ymDXgBAZ5yMoY00di1TSPGIB
+        KTbgrz0TfZBAte199t1O6PK+GqoQVwqhwrWrxQIDAQABAoIBAFfKQunFMpiNcl17
+        Qk2h5qIqA8B9kaODjDej/PLv+HfetN6FcqXFVQAAnDr7FoL9xIV7yBPlsXKVSb1K
+        KRy3OS24NpOoG2Dw+qPs7FOwD1WmzqBRh4dLFvbrL8mcawNzwU24Opn874HFgowk
+        bpSrD3Y0D/uLFw1HvbG8nam9bYxZ42tnvCw3Vsm7lKVXjy1PtXOKZS31l5/12WS6
+        ocYb4+FMUeZgktoWk1/W/FQaQN3iPpixTiIJwpSPIPbgk2j4YJGhjUF9fivPPk3x
+        g28M+EXpx/5B7zjiWIofBSl/noxurnpnPU58A2MlRqrKbuLFwKRDo5zEItHllEey
+        w0ccvsECgYEA/PZ6rTwUt2PQOFt8YH+Cy+Cn+hXt8Hm05RtZnufELEIm85eBNd4L
+        /o9sF29D7Wo4rGxeHvp6VK5tTpBCJ/88RtWAplhWq+LDe09bFCyNDEVawGCNL5M6
+        vQcTyJirwR7g/6hC2XVvlUDu3b3kut9pMkqFPWO4+swC67oRIfwiyBECgYEA06U8
+        Ezto2rEuAAfnizDXYZk3gtGZhPMlOiWcTlAxqRgWKclsTMVE27RJLI0UhR2Cd97E
+        bXvfJA77KC+wDvX+2Kwkzovo+TOZEi1OyV/q914OGalWKykSNOeCKZ7B7ewCHwC3
+        zZUTvUyYZOObPc2dao69s+xZnnntr3S83/dofHUCgYBqdVzJnThmubX+kdn1TpSA
+        Muren+4EP2Q261y7OHTh33E/IOq6/dj0Z+2oqyXeO87gGbc+uFFVZBcScjm1VYBL
+        mzzKRPEs44E7WvlMszclC+cWgUvJ0t9sgBb+W+okm1c7oNeJZxfvq2UbovgpAS7n
+        gF80p8xImCU+iY7+S3tj0QKBgHxVAWm66OowU/moqxlV4/Ft9PJg93Lm8+Oo3J4U
+        9leD0uFRdtHSwZTf4GzPpFJe95o7v+EheADS3DDLcv4W/VOELUs5Xe+npDDNdQ9P
+        zdTr6BSjKf/I7O0vY4PXw81lbAmSfmfDQAlgydXa8APqmqNSn5bnLe6vajY8ughI
+        a5VRAoGBAMVwgpT/34A77GBNqx45g1N2/U4du0uC67SqnZlgj9oPZtJQswbU659B
+        sPZOP6mLwhTgLm54asnk1Zy4JeAZ8W7zX9H8ebhJet2jw+qEuVvORTepNW530wPW
+        pXIoS7evFhQ1TDzQre5m23Q8DoSFLDncRQ+ceCXx1h0sJisqkKwP
+        -----END RSA PRIVATE KEY-----
+      ca.crt: |
+        -----BEGIN CERTIFICATE-----
+        MIIDrTCCApWgAwIBAgIJAKVDdnCOaSFxMA0GCSqGSIb3DQEBCwUAMG0xCzAJBgNV
+        BAYTAkZSMQ4wDAYDVQQIDAVJc2VyZTERMA8GA1UEBwwIR3Jlbm9ibGUxDzANBgNV
+        BAoMBm15Y29ycDEOMAwGA1UECwwFbXlvcmcxGjAYBgNVBAMMEWNhcm9vdC5teWNv
+        cnAuY29tMB4XDTIwMDQyOTE3MjkwNFoXDTIzMDIxNzE3MjkwNFowbTELMAkGA1UE
+        BhMCRlIxDjAMBgNVBAgMBUlzZXJlMREwDwYDVQQHDAhHcmVub2JsZTEPMA0GA1UE
+        CgwGbXljb3JwMQ4wDAYDVQQLDAVteW9yZzEaMBgGA1UEAwwRY2Fyb290Lm15Y29y
+        cC5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC4N53quAX21oo1
+        /E2KTBWj1BoOSPZt76c0rXmxM0tdzu8ejixKomW88BqO5YoMEobw1MP1I4yNp8yv
+        g8n7xMTYEYzN2ki1m8pE/nKwZim6qMCgwpJDgzPnCzfpMcGXdpWC9XNO1FXyUWlz
+        GDXJdGyMoH5tgnbvh5sS+fy1V9MUzxBrYSL3gXpLl4V1whkeNT9srj0qNPb/qqCz
+        03VIaGFeNuoBGzzv1V1X4nfM4641JVC4trHaKbkxGQpTuhzAXC1E5s9mANG1XSmJ
+        BPvj+lYnZHwFPZjtx8qyT7oLv189c/oMaxHz5KnWOGlgaj9KsPXZqOs5dfTpp7FL
+        E8X0t4p/AgMBAAGjUDBOMB0GA1UdDgQWBBQW8EI0ekTLovXoyLR8/5VHWrl/VTAf
+        BgNVHSMEGDAWgBQW8EI0ekTLovXoyLR8/5VHWrl/VTAMBgNVHRMEBTADAQH/MA0G
+        CSqGSIb3DQEBCwUAA4IBAQBcjMO5+SlTvvXOpcTJCBpCDvFnUvRSP11eQYrjDrgb
+        veYL4dwR9/hmNz7ZmIagJUEfVn54iVNNcnK14yLzizDqBRY0so4UueTIW1cdKjT/
+        q6IXmi9NLex7hVSZD9UkgTP9TGm9tj6HPGDO3STU6OMB1f4HflIG5Qk7WzhGZF+Q
+        zEB/ier7gd1ZJ24rdi5Q3FEsZXUIJVAfNLwCPS4J7NeLjPH85X1wzFuzQgTPtfIa
+        ux/hGzrvOJSV6pKuRcgTPbVoVDOJmr8BlgzZHwJ+X2p5VLEBPTYAOVVaR79dmCl9
+        g0xkN/ukbpmmMBLC6524JQtOMClBUcu+ScRhutHIJ8ZF
+        -----END CERTIFICATE-----
+```
+During template installation, certificates are deployed in /etc/x509/https/ and X509_CA_BUNDLE is added to keycloak.sh env variables
+A secret named called yournamespace/yourrelease-name-x509-secret is created and must be set in nginx setting by replacing "namespace/release-name-x509-secret" by yours.
+If Keycloak is behind a nginx ingress you need to have the following annotations
+```yaml
+  ingress:
+    enabled: true
+    path: /
+
+    annotations:
+      kubernetes.io/tls-acme: "true"
+      ingress.kubernetes.io/affinity: cookie
+      kubernetes.io/ingress.class: nginx
+      ingress.kubernetes.io/affinity: cookie
+      nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+      nginx.ingress.kubernetes.io/proxy-ssl-secret: "namespace/release-name-x509-secret"
+      nginx.ingress.kubernetes.io/proxy-ssl-verify: "on"
+      nginx.ingress.kubernetes.io/proxy-ssl-verify-depth: "2"
+      nginx.ingress.kubernetes.io/auth-tls-secret: "namespace/release-name-x509-secret"
+      nginx.ingress.kubernetes.io/auth-tls-verify-client: "optional"
+      nginx.ingress.kubernetes.io/auth-tls-verify-depth: "2"
+      nginx.ingress.kubernetes.io/auth-tls-pass-certificate-to-upstream: "true"
+```
+During template installation, if x509 is enabled, the following CLI is automatically added at keycloak startup. Keycloak documentation explain ingress setting and cli.x509 setting in case of usage an another ingress or reverse proxy.
+```yaml
+  cli:
+    x509: |
+      /subsystem=keycloak-server/spi=x509cert-lookup:write-attribute(name=default-provider, value="nginx")
+      /subsystem=keycloak-server/spi=x509cert-lookup/provider=default:remove
+      /subsystem=keycloak-server/spi=x509cert-lookup/provider=nginx:add(enabled=true,properties={sslClientCert => "ssl-client-cert", sslCertChainPrefix => "USELESS",     certificateChainLength => "2"})
+```
+
+Post installation, finish your setup for [Browser Flow](https://www.keycloak.org/docs/latest/server_admin/#adding-x-509-client-certificate-authentication-to-a-browser-flow) and [Direct Grant Flow](https://www.keycloak.org/docs/latest/server_admin/#adding-x-509-client-certificate-authentication-to-a-direct-grant-flow)  
 
 ### High Availability and Clustering
 

@@ -111,10 +111,19 @@ spec:
               value: "{{ include "keycloak.serviceDnsName" . }}"
           {{- end }}
             {{- include "keycloak.dbEnvVars" . | nindent 12 }}
+          {{- if .Values.keycloak.x509.enabled }}
+            - name: X509_CA_BUNDLE
+              value: /etc/x509/https/ca.crt
+          {{- end }}
           {{- with .Values.keycloak.extraEnv }}
             {{- tpl . $ | nindent 12 }}
           {{- end }}
           volumeMounts:
+            {{- if .Values.keycloak.x509.enabled }}
+            - name: x509
+              mountPath: /etc/x509/https
+              readOnly: true
+            {{- end }}
             - name: sh
               mountPath: /scripts
               readOnly: true
@@ -174,6 +183,12 @@ spec:
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.keycloak.terminationGracePeriodSeconds }}
       volumes:
+        {{- if .Values.keycloak.x509.enabled }}
+        - name: x509
+          configMap:
+            name: {{ include "keycloak.fullname" . }}-x509
+            defaultMode: 0555
+        {{- end }}
         - name: sh
           configMap:
             name: {{ include "keycloak.fullname" . }}-sh
