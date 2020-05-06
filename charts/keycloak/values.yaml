@@ -23,8 +23,8 @@ keycloak:
   replicas: 1
 
   image:
-    repository: jboss/keycloak
-    tag: 9.0.2
+    repository: docker.io/jboss/keycloak
+    tag: 10.0.0
     pullPolicy: IfNotPresent
 
     ## Optionally specify an array of imagePullSecrets.
