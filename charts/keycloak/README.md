@@ -41,14 +41,14 @@ The following table lists the configurable parameters of the Keycloak chart and 
 
 Parameter | Description | Default
 --- | --- | ---
-`init.image.repository` | Init image repository | `busybox`
+`init.image.repository` | Init image repository | `docker.io/busybox`
 `init.image.tag` | Init image tag | `1.31`
 `init.image.pullPolicy` | Init image pull policy | `IfNotPresent`
 `init.resources` | Pod resource requests and limits for the init container | `{}`
 `clusterDomain` | The internal Kubernetes cluster domain | `cluster.local`
 `keycloak.replicas` | The number of Keycloak replicas | `1`
-`keycloak.image.repository` | The Keycloak image repository | `jboss/keycloak`
-`keycloak.image.tag` | The Keycloak image tag | `9.0.2`
+`keycloak.image.repository` | The Keycloak image repository | `docker.io/jboss/keycloak`
+`keycloak.image.tag` | The Keycloak image tag | `""` (default empty so `.Chart.AppVersion` is used)
 `keycloak.image.pullPolicy` | The Keycloak image pull policy | `IfNotPresent`
 `keycloak.image.pullSecrets` | Image pull secrets | `[]`
 `keycloak.basepath` | Path keycloak is hosted at | `auth`
@@ -131,7 +131,7 @@ Parameter | Description | Default
 `postgresql.postgresqlDatabase` | The PostgreSQL database (if `keycloak.persistence.deployPostgres=true`) | `keycloak`
 `postgresql.persistence.enabled` | If `true`, a PersistentVolumeClaim is created for PostgreSQL (if `keycloak.persistence.deployPostgres=true`) | `false`
 `test.enabled` | If `true`, test pods get scheduled | `true`
-`test.image.repository` | Test image repository | `unguiculus/docker-python3-phantomjs-selenium`
+`test.image.repository` | Test image repository | `docker.io/unguiculus/docker-python3-phantomjs-selenium`
 `test.image.tag` | Test image tag | `v1`
 `test.image.pullPolicy` | Test image pull policy | `IfNotPresent`
 `test.securityContext` | Security context for the test pod. Every container running in the pod will inherit this security context. This might be relevant when other components of the environment inject additional containers into the running pod (service meshs are the most prominent example for this) | `{fsGroup: 1000}`
@@ -427,8 +427,16 @@ The headless service that governs the StatefulSet is used for DNS discovery.
 
 ## Upgrading
 
+### From chart versions < 8.0.0
+
+* Keycloak is updated to 10.0.0
+* PostgreSQL chart dependency is updated to 8.9.5
+
+The upgrade should be seemless.
+No special care has to be taken.
 
 ### From chart versions < 7.0.0
+
 Version 7.0.0 update breaks backwards-compatibility with the existing `keycloak.persistence.existingSecret` scheme.
 
 #### Changes in Configuring Database Credentials from an Existing Secret
