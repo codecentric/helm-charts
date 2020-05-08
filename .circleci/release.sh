@@ -45,6 +45,8 @@ main() {
     readarray -t changed_charts <<< "$(git diff --find-renames --name-only "$latest_tag_rev" -- charts | cut -d '/' -f 2 | uniq)"
 
     if [[ -n "${changed_charts[*]}" ]]; then
+        add_chart_repos
+
         for chart in "${changed_charts[@]}"; do
             echo "Packaging chart '$chart'..."
             package_chart "charts/$chart"
@@ -63,6 +65,10 @@ find_latest_tag() {
     if ! git describe --tags --abbrev=0 2> /dev/null; then
         git rev-list --max-parents=0 --first-parent HEAD
     fi
+}
+
+add_chart_repos() {
+    helm repo add bitnami https://charts.bitnami.com/bitnami
 }
 
 package_chart() {
