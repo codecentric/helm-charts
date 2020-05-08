@@ -136,7 +136,7 @@ spec:
             - name: https
               containerPort: 8443
               protocol: TCP
-          {{- if $highAvailability }}
+          {{- if and $highAvailability .Values.keycloak.jgroups.exposePort }}
             - name: jgroups
               containerPort: 7600
               protocol: TCP
