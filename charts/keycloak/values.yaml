@@ -23,8 +23,9 @@ keycloak:
   replicas: 1
 
   image:
-    repository: jboss/keycloak
-    tag: 9.0.2
+    repository: docker.io/jboss/keycloak
+    # Overrides the image tag whose default is the chart version.
+    tag: ""
     pullPolicy: IfNotPresent
 
     ## Optionally specify an array of imagePullSecrets.
