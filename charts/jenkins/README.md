@@ -7,7 +7,7 @@ The leading open source automation server
 ## TL;DR;
 
 ```console
-$ helm install codecentric/jenkins
+$ helm install codecentric/jenkins --generate-name
 ```
 
 ## Introduction
@@ -53,7 +53,7 @@ Minimum required Kubernetes version is 1.9.
 To install the chart with the release name `jenkins`:
 
 ```console
-$ helm install --name jenkins codecentric/jenkins
+$ helm install jenkins codecentric/jenkins
 ```
 
 ## Uninstalling the Chart
@@ -131,7 +131,7 @@ Alternatively, a YAML file that specifies the values for the parameters can be p
 For example,
 
 ```bash
-$ helm install --name jenkins -f values.yaml stable/jenkins
+$ helm install jenkins -f values.yaml stable/jenkins
 ```
 
 With the chart's default configuration, an initial admin user is automatically created and you will be guided through the installation wizard.

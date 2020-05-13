@@ -5,7 +5,7 @@
 ## TL;DR;
 
 ```console
-$ helm install codecentric/keycloak
+$ helm install codecentric/keycloak --generate-name
 ```
 
 ## Introduction
@@ -24,7 +24,7 @@ By default, the PostgreSQL chart requires PV support on underlying infrastructur
 To install the chart with the release name `keycloak`:
 
 ```console
-$ helm install --name keycloak codecentric/keycloak
+$ helm install keycloak codecentric/keycloak
 ```
 
 ## Uninstalling the Chart
@@ -151,7 +151,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-$ helm install --name keycloak -f values.yaml codecentric/keycloak
+$ helm install keycloak -f values.yaml codecentric/keycloak
 ```
 
 ### Usage of the `tpl` Function

@@ -5,7 +5,7 @@
 ## TL;DR;
 
 ```bash
-$ helm install stable/mailhog
+$ helm install stable/mailhog --generate-name
 ```
 
 ## Introduction
@@ -22,7 +22,7 @@ cluster using the [Helm](https://helm.sh) package manager.
 To install the chart with the release name `my-release`:
 
 ```bash
-$ helm install --name my-release codecentric/mailhog
+$ helm install my-release codecentric/mailhog
 ```
 
 The command deploys Mailhog on the Kubernetes cluster in the default configuration. The [configuration](#configuration)
@@ -74,7 +74,7 @@ Parameter | Description | Default
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
 ```bash
-$ helm install --name my-release \
+$ helm install my-release \
   --set env.MH_UI_WEB_PATH=mailhog \
     stable/mailhog
 ```
@@ -82,5 +82,5 @@ $ helm install --name my-release \
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-$ helm install --name my-release -f values.yaml stable/mailhog
+$ helm install my-release -f values.yaml stable/mailhog
 ```
