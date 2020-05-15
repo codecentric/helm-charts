@@ -52,6 +52,7 @@ Parameter | Description | Default
 `auth.fileContents` | The contents of the auth file | `""`
 `nodeSelector` | Node labels for pod assignment | `{}`
 `podAnnotations` | Extra annotations to add to pod | `{}`
+`podLabels` | Extra labels to add to pod | `{}`
 `resources` | Pod resource requests and limits | `{}`
 `tolerations` | Node taints to tolerate | `[]`
 `service.annotations` | Annotations for the service | `{}`
