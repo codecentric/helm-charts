@@ -98,6 +98,7 @@ keycloak:
 
   ## jGroups configuration (only for HA deployment)
   jgroups:
+    exposePort: true
     discoveryProtocol: dns.DNS_PING
     discoveryProperties: >
       "dns_query={{ template "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}"

@@ -18,7 +18,7 @@ spec:
       port: {{ .Values.keycloak.service.httpsPort }}
       targetPort: https
       protocol: TCP
-  {{- if $highAvailability }}
+  {{- if and $highAvailability .Values.keycloak.jgroups.exposePort }}
     - name: jgroups
       port: {{ .Values.keycloak.service.jgroupsPort }}
       targetPort: jgroups
