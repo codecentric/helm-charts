@@ -21,6 +21,9 @@ spec:
       labels:
         app.kubernetes.io/name: {{ include "mailhog.name" . }}
         app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
     spec:
       {{- with .Values.securityContext }}
       securityContext:

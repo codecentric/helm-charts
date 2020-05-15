@@ -47,6 +47,8 @@ auth:
 
 podAnnotations: {}
 
+podLabels: {}
+
 extraEnv: []
 
 resources: {}
