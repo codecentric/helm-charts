@@ -16,7 +16,7 @@ For more information on Keycloak and its capabilities, see its [documentation](h
 
 ## Prerequisites Details
 
-The chart has an optional dependency on the [PostgreSQL](https://github.com/kubernetes/charts/tree/master/stable/postgresql) chart.
+The chart has an optional dependency on the [PostgreSQL](https://github.com/bitnami/charts/tree/master/bitnami/postgresql) chart.
 By default, the PostgreSQL chart requires PV support on underlying infrastructure (may be disabled).
 
 ## Installing the Chart
