@@ -31,3 +31,4 @@ postgresql:
   postgresqlPassword: keycloak
   persistence:
     enabled: true
+    storageClass: local-path
