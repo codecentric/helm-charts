@@ -250,6 +250,7 @@ keycloak:
   ingress:
     enabled: false
     path: /
+    servicePort: http
 
     annotations: {}
       # kubernetes.io/ingress.class: nginx
