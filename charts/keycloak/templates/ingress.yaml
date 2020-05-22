@@ -32,6 +32,6 @@ spec:
           - path: {{ $ingress.path }}
             backend:
               serviceName: {{ include "keycloak.fullname" $ }}-http
-              servicePort: http
+              servicePort: {{ $ingress.servicePort }}
   {{- end }}
 {{- end -}}

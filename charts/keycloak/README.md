@@ -107,6 +107,7 @@ Parameter | Description | Default
 `keycloak.ingress.annotations` | annotations for the ingress | `{}`
 `keycloak.ingress.labels` | Additional labels for the Keycloak ingress | `{}`
 `keycloak.ingress.path` | Path for the ingress | `/`
+`keycloak.ingress.servicePort` | The port of the service referenced by the ingress | `http`
 `keycloak.ingress.hosts` | a list of ingress hosts | `[keycloak.example.com]`
 `keycloak.ingress.tls` | a list of [IngressTLS](https://v1-9.docs.kubernetes.io/docs/reference/generated/kubernetes-api/v1.9/#ingresstls-v1beta1-extensions) items | `[]`
 `keycloak.route.enabled` | If `true`, an OpenShift route is created | `false`
