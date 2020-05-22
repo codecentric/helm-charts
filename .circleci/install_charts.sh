@@ -4,9 +4,10 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-readonly CT_VERSION=v2.4.1
-readonly KIND_VERSION=v0.8.1
-readonly K8S_VERSION=v1.18.2
+readonly CT_VERSION=v2.3.3
+readonly KIND_VERSION=v0.4.0
+readonly CLUSTER_NAME=chart-testing
+readonly K8S_VERSION=v1.15.0
 
 run_ct_container() {
     echo 'Running ct container...'
@@ -37,19 +38,25 @@ create_kind_cluster() {
     chmod +x kind
     sudo mv kind /usr/local/bin/kind
 
-    kind create cluster --config .circleci/kind-config.yaml --image "kindest/node:$K8S_VERSION" --wait 60s
+    kind create cluster --name "$CLUSTER_NAME" --config .circleci/kind-config.yaml --image "kindest/node:$K8S_VERSION" --wait 60s
 
     docker_exec mkdir -p /root/.kube
 
     echo 'Copying kubeconfig to container...'
-
-    docker cp "$HOME/.kube/config" ct:/root/.kube/config
+    local kubeconfig
+    kubeconfig="$(kind get kubeconfig-path --name "$CLUSTER_NAME")"
+    docker cp "$kubeconfig" ct:/root/.kube/config
 
     docker_exec kubectl cluster-info
     echo
 
     docker_exec kubectl get nodes
     echo
+}
+
+install_local_path_provisioner() {
+    docker_exec kubectl delete storageclass standard
+    docker_exec kubectl apply -f https://raw.githubusercontent.com/rancher/local-path-provisioner/master/deploy/local-path-storage.yaml
 }
 
 install_tiller() {
@@ -77,6 +84,7 @@ main() {
 
     echo 'Chart changes detected.'
     create_kind_cluster
+    install_local_path_provisioner
     install_tiller
     install_charts
 }
