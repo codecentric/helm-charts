@@ -2,8 +2,8 @@ nameOverride: ""
 fullnameOverride: ""
 
 image:
-  repository: jenkins/jenkins
-  tag: 2.190.1-alpine
+  repository: docker.io/jenkins/jenkins
+  tag: ""
   pullPolicy: IfNotPresent
 
 imagePullSecrets: []
@@ -169,7 +169,7 @@ forcePluginUpdates: false
 test:
   enabled: false
   image:
-    repository: unguiculus/docker-python3-phantomjs-selenium
+    repository: docker.io/unguiculus/docker-python3-phantomjs-selenium
     tag: v1
     pullPolicy: IfNotPresent
   resources: {}

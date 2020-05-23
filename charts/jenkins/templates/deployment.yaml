@@ -23,7 +23,7 @@ spec:
     spec:
       initContainers:
         - name: jenkins-init
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          image: {{ .Values.image.repository }}:{{ include "jenkins.imageTag" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
           {{- with .Values.extraEnv }}
@@ -33,7 +33,7 @@ spec:
             - /init/init.sh
           args:
             - "{{ .Values.image.repository }}"
-            - "{{ .Values.image.tag }}"
+            - "{{ include "jenkins.imageTag" . }}"
             - "{{ .Values.forcePluginUpdates }}"
           volumeMounts:
             - name: init
@@ -58,7 +58,7 @@ spec:
       {{- end }}
       containers:
         - name: jenkins-master
-          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          image: {{ .Values.image.repository }}:{{ include "jenkins.imageTag" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
