@@ -77,7 +77,7 @@ def main():
         print('Current URL: {0}'.format(current_url))
 
         print('Logging out...')
-        link = lookup_element(driver, (By.CSS_SELECTOR, 'div[id="header"] a[href="/logout"]'))
+        link = lookup_element(driver, (By.CSS_SELECTOR, 'header[id="header"] a[href="/logout"]'))
 
     driver.quit()
 

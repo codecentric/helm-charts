@@ -27,7 +27,7 @@ rbac:
         verbs: ["get", "list", "watch"]
       - apiGroups: [""]
         resources: ["secrets"]
-        verbs: ["get"]
+        verbs: ["get", "list", "watch"]
 
   k8s-agent:
     create: true
@@ -76,7 +76,7 @@ referenceContent:
                       serviceAccount: k8s-agent
                       containers:
                         - name: jnlp
-                          image: jenkinsci/jnlp-slave:3.27-1
+                          image: docker.io/jenkinsci/jnlp-slave:4.3-1
                           ttyEnabled: true
           unclassified:
             timestamperConfig:
@@ -139,7 +139,7 @@ k8sCredentials:
 
 extraInitContainers: |
   - name: jenkins-extra-init
-    image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+    image: {{ .Values.image.repository }}:{{ include "jenkins.imageTag" . }}
     imagePullPolicy: {{ .Values.image.pullPolicy }}
     command:
       - "sh"

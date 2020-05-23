@@ -8,3 +8,4 @@
 venv
 charts/**/charts
 .cr-*
+/ct_*
