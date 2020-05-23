@@ -26,6 +26,13 @@ If release name contains chart name it will be used as a full name.
 {{- end -}}
 
 {{/*
+Create chart image tag.
+*/}}
+{{- define "jenkins.imageTag" -}}
+{{ .Values.image.tag | default (printf "%s-alpine" .Chart.AppVersion) }}
+{{- end -}}
+
+{{/*
 Create chart name and version as used by the chart label.
 */}}
 {{- define "jenkins.chart" -}}
@@ -51,6 +58,9 @@ Create common labels.
 app.kubernetes.io/name: {{ include "jenkins.name" . }}
 helm.sh/chart: {{ include "jenkins.chart" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+{{- if .Chart.AppVersion }}
+app.kubernetes.io/version: {{ include "jenkins.imageTag" . }}
+{{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 

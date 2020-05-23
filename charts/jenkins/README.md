@@ -12,8 +12,8 @@ $ helm install codecentric/jenkins
 
 ## Introduction
 
-This chart install Jenkins on Kubernetes. 
-It allows Jenkins to be completely configured as code that does not require any further manual configuration in the UI. 
+This chart install Jenkins on Kubernetes.
+It allows Jenkins to be completely configured as code that does not require any further manual configuration in the UI.
 While not required, it is meant to be used with the configuration-as-code plugin and/or Groovy init scripts.
 
 
@@ -37,9 +37,9 @@ While not required, it is meant to be used with the configuration-as-code plugin
   The community chart writes Jenkins configuration files directly.
   This is bad practice because it relies on Jenkins internals and errors may go unnoticed at first.
   While this chart is flexible enough to configure Jenkins however you want, it is meant to be used with the configuration-as-code plugin and Groovy init scripts for things the CasC plugin doesn't support.
-   
+
 * **Offers a mechanism to skip plugin updates on restart**
-    
+
   The chart hashes installed plugins and will not update plugins unless the configuration changes or you configure it to do so.
   This avoids surprises in case the pod is rescheduled.
   Plugin updates should be done explicitly.
@@ -71,7 +71,7 @@ The following table lists the configurable parameters of the Jenkins chart and t
 Parameter | Description | Default
 --- | --- | ---
 `image.repository` | The Jenkins image repository | `jenkins/jenkins`
-`image.tag` | The Jenkins image tag | `2.190.1-alpine`
+`image.tag` | The Jenkins image tag | `""` (default empty so `{{ .Chart.AppVersion }}-alpine` is used)
 `image.pullPolicy` | The Jenkins image pull policy | `IfNotPresent`
 `imagePullSecrets` | Image pull secrets | `[]`
 `extraInitContainers` | Additional init containers. Passed through the `tpl` function and thus to be configured as string | `""`
@@ -105,7 +105,7 @@ Parameter | Description | Default
 `service.master.loadBalancerSourceRanges` | A list of CIDRs allowed to access the load balancer | `[]`
 `service.master.annotations` | Annotations for the Jenkins master service | `{}`
 `service.master.port` | The port of the Jenkins master service | `8080`
-`service.master.nodePort` | The NodePort of the Jenkins master service if `service.master.type` is `NodePort` | 
+`service.master.nodePort` | The NodePort of the Jenkins master service if `service.master.type` is `NodePort` |
 `service.agent.clusterIP` | The clusterIP for the Jenkins agent listener service | `""`
 `service.agent.annotations` | Annotations for the Jenkins agent listener service | `{}`
 `service.agent.port` | The port for the Jenkins agent listener service | `50000`
@@ -127,7 +127,7 @@ Parameter | Description | Default
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`.
 
-Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. 
+Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart.
 For example,
 
 ```bash
@@ -157,7 +157,7 @@ javaOpts: >-
   -XshowSettings:vm
 ```
 
-This allows the JVM to be configured using memory settings for the container. 
+This allows the JVM to be configured using memory settings for the container.
 By default, the JVM uses 50 % of the container's available memory.
 Note that the JVM will also need off-heap memory.
 
@@ -243,7 +243,7 @@ In order to avoid unexpected plugin updates in case the pod is rescheduled, set 
 
 #### Configuration as Code
 
-The chart supports the [configuration-as-code](https://github.com/jenkinsci/configuration-as-code-plugin) plugin. 
+The chart supports the [configuration-as-code](https://github.com/jenkinsci/configuration-as-code-plugin) plugin.
 The plugin must be installed as specified above.
 Additionally, a `jenkins.yaml` file must be configured.
 
@@ -289,7 +289,7 @@ referenceContent:
                     nodeUsageMode: NORMAL
                     containers:
                       - name: jnlp
-                        image: jenkinsci/jnlp-slave:3.27-1
+                        image: docker.io/jenkinsci/jnlp-slave:4.3-1
                         ttyEnabled: true
           security:
             remotingCLI:
