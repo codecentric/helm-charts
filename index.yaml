@@ -2,6 +2,32 @@ apiVersion: v1
 entries:
   jenkins:
   - apiVersion: v1
+    appVersion: 2.222.3
+    created: "2020-05-23T15:13:44.833682112Z"
+    description: The leading open source automation server
+    digest: 835337c07f06f6cacc58b176b6b9924b5a6dfe181fbda5669c542cb657de136a
+    home: https://jenkins.io/
+    icon: https://wiki.jenkins-ci.org/download/attachments/2916393/logo.png
+    keywords:
+    - ci
+    - continuous integration
+    - continuous delivery
+    - continuous deployment
+    - devops
+    - automation
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: jenkins
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jenkinsci/jenkins
+    - https://github.com/jenkinsci/docker
+    - https://github.com/jenkinsci/docker-jnlp-slave
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.7.0/jenkins-1.7.0.tgz
+    version: 1.7.0
+  - apiVersion: v1
     appVersion: 2.190.1
     created: "2020-05-22T17:51:14.8245713Z"
     description: The leading open source automation server
