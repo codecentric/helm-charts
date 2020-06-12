@@ -5,7 +5,7 @@
 ## TL;DR;
 
 ```bash
-$ helm install stable/mailhog
+$ helm install codecentric/mailhog
 ```
 
 ## Introduction
@@ -77,11 +77,11 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 ```bash
 $ helm install --name my-release \
   --set env.MH_UI_WEB_PATH=mailhog \
-    stable/mailhog
+    codecentric/mailhog
 ```
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
 
 ```bash
-$ helm install --name my-release -f values.yaml stable/mailhog
+$ helm install --name my-release -f values.yaml codecentric/mailhog
 ```
