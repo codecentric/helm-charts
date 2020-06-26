@@ -258,7 +258,7 @@ keycloak:
       # ingress.kubernetes.io/affinity: cookie
       ## Resolve bug: 502 Error from Ingress in Keycloak. 
       ## hef: https://www.ibm.com/support/pages/502-error-ingress-keycloak-response
-      # nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+      # nginx.ingress.kubernetes.io/proxy-buffer-size: 128k 
 
     labels: {}
     # key: value
