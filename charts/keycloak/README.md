@@ -85,6 +85,8 @@ Parameter | Description | Default
 `keycloak.securityContext` | Security context for the entire pod. Every container running in the pod will inherit this security context. This might be relevant when other components of the environment inject additional containers into running pods (service meshs are the most prominent example for this) | `{fsGroup: 1000}`
 `keycloak.containerSecurityContext` | Security context for containers running in the pod. Will not be inherited by additionally injected containers | `{runAsUser: 1000, runAsNonRoot: true}`
 `keycloak.startupScripts` | Custom startup scripts to run before Keycloak starts up | `[]`
+`keycloak.startCommand.enabled` | If `false` default container entrypoint is used. It `true` command specified in `keycloak.startCommand.command` will be used | `true`
+`keycloak.startCommand.command` | If `keycloak.startCommand.enabled` set to false this command will be executed to launch keycloak | `/scripts/keycloak.sh`
 `keycloak.lifecycleHooks` | Container lifecycle hooks. Passed through the `tpl` function and thus to be configured a string | ``
 `keycloak.terminationGracePeriodSeconds` | Termination grace period in seconds for Keycloak shutdown. Clusters with a large cache might need to extend this to give Infinispan more time to rebalance | `60`
 `keycloak.extraArgs` | Additional arguments to the start command | ``
@@ -143,6 +145,7 @@ Parameter | Description | Default
 `prometheus.operator.serviceMonitor.selector` | Labels to add to the Prometheus Operator ServiceMonitor depending on your Operator configuration | `release: prometheus`
 `prometheus.operator.serviceMonitor.interval` | How often Prometheus should poll the metrics endpoint | `10s`
 `prometheus.operator.serviceMonitor.scrapeTimeout` | How long the Prometheus metrics endpoint timeout should be | `10s`
+`prometheus.operator.serviceMonitor.port` | The portname of the Prometheus metrics endpoint on Keycloak | `http`
 `prometheus.operator.serviceMonitor.path` | The path of the Prometheus metrics endpoint on Keycloak | `/auth/realms/master/metrics`
 `prometheus.operator.prometheusRules.enabled` | Whether to create Prometheus Operator PrometheusRules object | `false`
 `prometheus.operator.prometheusRules.selector` | Labels to add to the Prometheus Operator PrometheusRules object depending on your Operator configuration | `{app: prometheus-operator", release: prometheus}`

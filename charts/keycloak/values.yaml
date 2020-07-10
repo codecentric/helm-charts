@@ -80,6 +80,13 @@ keycloak:
   ## Override the default for the Keycloak container, e.g. for clusters with large cache that requires rebalancing.
   terminationGracePeriodSeconds: 60
 
+  ## Enables a custom start command.
+  ## If enabled set to false the default container entrypoint will be used
+  ## Use command to specify custom start command
+  startCommand:
+    enabled: true
+    command: /scripts/keycloak.sh
+
   ## Additional arguments to start command e.g. -Dkeycloak.import= to load a realm
   extraArgs: ""
 
@@ -377,6 +384,9 @@ prometheus:
 
       ## The path to scrape
       path: /auth/realms/master/metrics
+
+      ## the port to scrape
+      port: http
 
     prometheusRules:
       ## Add Prometheus Rules?

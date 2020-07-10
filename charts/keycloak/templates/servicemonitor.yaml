@@ -13,7 +13,7 @@ spec:
       {{- include "keycloak.selectorLabels" . | nindent 6 }}
       service: http
   endpoints:
-    - port: http
+    - port: {{ .Values.prometheus.operator.serviceMonitor.port }}
       path: {{ .Values.prometheus.operator.serviceMonitor.path }}
       interval: {{ .Values.prometheus.operator.serviceMonitor.interval }}
       {{- with .Values.prometheus.operator.serviceMonitor.scrapeTimeout }}

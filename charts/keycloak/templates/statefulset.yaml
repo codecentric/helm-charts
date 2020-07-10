@@ -85,8 +85,10 @@ spec:
           imagePullPolicy: {{ .Values.keycloak.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.keycloak.containerSecurityContext | nindent 12 }}
+          {{- if .Values.keycloak.startCommand.enabled }}
           command:
-            - /scripts/keycloak.sh
+            - {{ .Values.keycloak.startCommand.command }}
+          {{- end }}
           {{- with .Values.keycloak.lifecycleHooks }}
           lifecycle:
             {{- tpl . $ | nindent 12 }}
