@@ -1,3 +1,9 @@
+embed-server --server-config=standalone-ha.xml --std-out=echo
+batch
+
 ## Sets the node identifier to the node name (= pod name). Node identifiers have to be unique. They can have a
 ## maximum length of 23 characters. Thus, the chart's fullname template truncates its length accordingly.
 /subsystem=transactions:write-attribute(name=node-identifier, value=${jboss.node.name})
+
+run-batch
+stop-embedded-server

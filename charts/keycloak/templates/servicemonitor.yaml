@@ -1,23 +1,24 @@
-{{ if and .Values.prometheus.operator.enabled }}
+{{- if and .Values.prometheus.operator.enabled -}}
+{{- with .Values.prometheus.operator.serviceMonitor }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ include "keycloak.fullname" . }}
-  namespace: {{ include "keycloak.serviceMonitor.namespace" . }}
+  name: {{ include "keycloak.fullname" $ }}
+  {{- with .namespace }}
+  namespace: {{ . }}
+  {{- end }}
   labels:
-    {{- include "keycloak.commonLabels" . | nindent 4 }}
-    {{- toYaml .Values.prometheus.operator.serviceMonitor.selector | nindent 4 }}
+    {{- include "keycloak.labels" $ | nindent 4 }}
+    {{- toYaml .selector | nindent 4 }}
 spec:
   selector:
     matchLabels:
-      {{- include "keycloak.selectorLabels" . | nindent 6 }}
-      service: http
+      {{- include "keycloak.selectorLabels" $ | nindent 6 }}
+      app.kubernetes.io/component: http
   endpoints:
-    - port: http
-      path: {{ .Values.prometheus.operator.serviceMonitor.path }}
-      interval: {{ .Values.prometheus.operator.serviceMonitor.interval }}
-      {{- with .Values.prometheus.operator.serviceMonitor.scrapeTimeout }}
-      scrapeTimeout: {{ . }}
-      {{- end }}
-{{ end }}
-
+    - port: {{ .port }}
+      path: {{ .path }}
+      interval: {{ .interval }}
+      scrapeTimeout: {{ .scrapeTimeout }}
+{{- end }}
+{{- end -}}

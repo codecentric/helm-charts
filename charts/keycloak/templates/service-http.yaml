@@ -1,39 +1,36 @@
-{{- $service := .Values.keycloak.service -}}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "keycloak.fullname" . }}-http
-  {{- with $service.annotations }}
+  {{- with .Values.service.annotations }}
   annotations:
-    {{- range $key, $value := . }}
-    {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
-    {{- end }}
+    {{- tpl (toYaml .) $ | nindent 4 }}
   {{- end }}
   labels:
-    {{- include "keycloak.commonLabels" . | nindent 4 }}
-    {{- with $service.labels }}
-    {{- toYaml . | nindent 4 }}
+    {{- include "keycloak.labels" . | nindent 4 }}
+    {{- with .Values.service.labels }}
+    {{- tpl (toYaml .) $ | nindent 4 }}
     {{- end }}
-    service: http
+    app.kubernetes.io/component: http
 spec:
-  type: {{ $service.type }}
+  type: {{ .Values.service.type }}
   ports:
     - name: http
-      port: {{ $service.httpPort }}
+      port: {{ .Values.service.httpPort }}
       targetPort: http
-    {{- if and (eq "NodePort" $service.type) $service.httpNodePort }}
-      nodePort: {{ $service.httpNodePort }}
+    {{- if and (eq "NodePort" .Values.service.type) .Values.service.httpNodePort }}
+      nodePort: {{ .Values.service.httpNodePort }}
     {{- end }}
       protocol: TCP
     - name: https
-      port: {{ $service.httpsPort }}
+      port: {{ .Values.service.httpsPort }}
       targetPort: https
-    {{- if and (eq "NodePort" $service.type) $service.httpsNodePort }}
-      nodePort: {{ $service.httpsNodePort }}
+    {{- if and (eq "NodePort" .Values.service.type) .Values.service.httpsNodePort }}
+      nodePort: {{ .Values.service.httpsNodePort }}
     {{- end }}
       protocol: TCP
-    {{- with $service.extraPorts }}
-    {{- tpl . $ | nindent 4 }}
+    {{- with .Values.service.extraPorts }}
+    {{- tpl (toYaml .) $ | nindent 4 }}
     {{- end }}
   selector:
     {{- include "keycloak.selectorLabels" . | nindent 4 }}
