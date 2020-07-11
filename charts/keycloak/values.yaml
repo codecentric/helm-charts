@@ -4,45 +4,55 @@ fullnameOverride: ""
 # Optionally override the name
 nameOverride: ""
 
+# The number of replicas to create
 replicas: 1
 
 image:
+  # The Keycloak image repository
   repository: docker.io/jboss/keycloak
-  # Overrides the image tag whose default is the chart version.
+  # Overrides the Keycloak image tag whose default is the chart version
   tag: ""
+  # The Keycloak image pull policy
   pullPolicy: IfNotPresent
 
-  # Optionally specify an array of imagePullSecrets.
-  # Secrets must be manually created in the namespace.
-  # ref: https://kubernetes.io/docs/tasks/configure-pod-container/pull-image-private-registry/
-  pullSecrets:
-    - myRegistrKeySecretName
+# Image pull secrets for the Pod
+imagePullSecrets:
+  # - myRegistrKeySecretName
 
+# Mapping between IPs and hostnames that will be injected as entries in the Pod's hosts files
 hostAliases: []
-#  - ip: "1.2.3.4"
-#    hostnames:
-#      - "my.host.com"
+# - ip: "1.2.3.4"
+#   hostnames:
+#     - "my.host.com"
 
+# Indicates whether information about services should be injected into Pod's environment variables, matching the syntax of Docker links
 enableServiceLinks: true
 
+# Pod management policy. One of `Parallel` or `OrderedReady`
 podManagementPolicy: Parallel
 
+# Pod restart policy. One of `Always`, `OnFailure`, or `Never`
 restartPolicy: Always
 
 serviceAccount:
-  # Specifies whether a service account should be created
+  # Specifies whether a ServiceAccount should be created
   create: true
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
-  labels: {}
+  # Additional annotations for the ServiceAccount
   annotations: {}
+  # Additional labels for the ServiceAccount
+  labels: {}
+  # Image pull secrets that are attached to the ServiceAccount
   imagePullSecrets: []
 
-podSecurityContext:
+# SecurityContext for the entire Pod. Every container running in the Pod will inherit this SecurityContext. This might be relevant when other components of the environment inject additional containers into running Pods (service meshes are the most prominent example for this)
+podSecurityContext:  # +doc-gen:break
   fsGroup: 1000
 
-securityContext:
+# SecurityContext for the Keycloak container
+securityContext:  # +doc-gen:break
   runAsUser: 1000
   runAsNonRoot: true
 
@@ -61,9 +71,10 @@ lifecycleHooks: {}
 #        - -c
 #        - ls
 
-# Overrides the default for the Keycloak container, e.g. for clusters with large cache that requires rebalancing.
+# Termination grace period in seconds for Keycloak shutdown. Clusters with a large cache might need to extend this to give Infinispan more time to rebalance
 terminationGracePeriodSeconds: 60
 
+# The internal Kubernetes cluster domain
 clusterDomain: cluster.local
 
 ## Overrides the default entrypoint of the Keycloak container
@@ -72,7 +83,7 @@ command: []
 ## Overrides the default args for the Keycloak container
 args: []
 
-# Allows the specification of additional environment variables for Keycloak
+# Additional environment variables for Keycloak
 extraEnv: []
   # - name: KEYCLOAK_LOGLEVEL
   #   value: DEBUG
@@ -80,33 +91,44 @@ extraEnv: []
   #   value: DEBUG
   # - name: CACHE_OWNERS_COUNT
   #   value: "2"
+  # - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
+  #   value: "2"
 
-affinity: {}
-nodeSelector: {}
+#  Pod priority class name
 priorityClassName: ""
+
+# Pod affinity
+affinity: {}
+
+# Node labels for Pod assignment
+nodeSelector: {}
+
+# Node taints to tolerate
 tolerations: []
 
-# Additional pod labels
-# ref: https://kubernetes.io/docs/concepts/overview/working-with-objects/labels/
+# Additional Pod labels
 podLabels: {}
 
-# Extra Annotations to be added to pod
+# Additional Pod annotations
 podAnnotations: {}
 
-livenessProbe:
+# Liveness probe configuration
+livenessProbe:  # +doc-gen:break
   httpGet:
     path: /auth
     port: http
   initialDelaySeconds: 300
   timeoutSeconds: 5
 
-readinessProbe:
+# Readiness probe configuration
+readinessProbe:  # +doc-gen:break
   httpGet:
     path: /auth/realms/master
     port: http
   initialDelaySeconds: 30
   timeoutSeconds: 1
 
+# Pod resource requests and limits
 resources: {}
   # limits:
   #   cpu: "100m"
@@ -116,7 +138,8 @@ resources: {}
   #  memory: "1024Mi"
 
 # Startup scripts to run before Keycloak starts up
-startupScripts:
+startupScripts:  # +doc-gen:break
+  # WildFly CLI script for configuring the node-identifier
   keycloak.cli: |
     {{- .Files.Get "scripts/keycloak.cli" | nindent 2 }}
   # mystartup.sh: |
@@ -124,22 +147,27 @@ startupScripts:
   #
   # echo 'Hello from my custom startup script!'
 
-# Add additional volumes and mounts, e. g. for custom themes
+# Add additional volumes, e. g. for custom themes
 extraVolumes: []
+
+# Add additional volumes mounts, e. g. for custom themes
 extraVolumeMounts: []
 
-# Add additional ports, eg. for custom admin console
+# Add additional ports, e. g. for admin console or exposing JGroups ports
 extraPorts: []
 
-podDisruptionBudget:
-  maxUnavailable: 1
-  minAvailable: 1
+# Pod disruption budget
+podDisruptionBudget: {}
+#  maxUnavailable: 1
+#  minAvailable: 1
 
-# Extra annotations to be added to statefulset
+# Annotations for the StatefulSet
 statefulsetAnnotations: {}
 
+# Additional labels for the StatefulSet
 statefulsetLabels: {}
 
+# Configuration for secrets that should be created
 secrets: []
 #  - nameSuffix: ""
 #    annotations: {}
@@ -148,87 +176,82 @@ secrets: []
 #    data: {}
 
 service:
+  # Annotations for headless and HTTP Services
   annotations: {}
-  # service.beta.kubernetes.io/aws-load-balancer-internal: "0.0.0.0/0"
-
+  # Additional labels for headless and HTTP Services
   labels: {}
   # key: value
-
-  # ServiceType
-  # ref: https://kubernetes.io/docs/user-guide/services/#publishing-services---service-types
+  # The Service type
   type: ClusterIP
-
-  # Optional static port assignment for service type NodePort.
-  # nodePort: 30000
-
+  # Optional static port assignment for Service type NodePort.
+  nodePort: ""
+  # The http Service port
   httpPort: 80
+  # The HTTP Service node port if type is NodePort
   httpNodePort: ""
-
+  # The HTTPS Service port
   httpsPort: 8443
+  # The HTTPS Service node port if type is NodePort
   httpsNodePort: ""
-
-  # Add additional ports, eg. for custom admin console
+  # Additional Service ports, e. g. for custom admin console
   extraPorts: []
 
-# Ingress configuration.
-# ref: https://kubernetes.io/docs/user-guide/ingress/
 ingress:
+  # If `true`, an Ingress is created
   enabled: false
+  # Path for the Ingress
   path: /
+  # The Service port targeted by the Ingress
   servicePort: http
-
+  # Ingress annotations
   annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  # ingress.kubernetes.io/affinity: cookie
-
+  # Additional Ingress labels
   labels: {}
-  # key: value
-
   # List of hosts for the ingress
   hosts:
     - keycloak.example.com
-
   # TLS configuration
   tls: []
   # - hosts:
   #     - keycloak.example.com
   #   secretName: tls-keycloak
 
-# OpenShift route configuration.
-# ref: https://docs.openshift.com/container-platform/3.11/architecture/networking/routes.html
 route:
+  # If `true`, an OpenShift Route is created
   enabled: false
+  # Path for the Route
   path: /
-
+  # Route annotations
   annotations: {}
-    # kubernetes.io/tls-acme: "true"
-    # haproxy.router.openshift.io/disable_cookies: "true"
-  # haproxy.router.openshift.io/balance: roundrobin
-
+  # Additional Route labels
   labels: {}
-  # key: value
-
-  # Host name for the route
+  # Host name for the Route
   host: ""
-
   # TLS configuration
   tls:
+    # If `true`, TLS is enabled for the Route
     enabled: true
+    # Insecure edge termination policy of the Route. Can be `None`, `Redirect`, or `Allow`
     insecureEdgeTerminationPolicy: Redirect
+    # TLS termination of the route. Can be `edge`, `passthrough`, or `reencrypt`
     termination: edge
 
 pgchecker:
   image:
+    # Docker image used to check Postgresql readiness at startup
     repository: docker.io/busybox
+    # Image tag for the pgchecker image
     tag: 1.32
+    # Image pull policy for the pgchecker image
     pullPolicy: IfNotPresent
-  securityContext:
+  # SecurityContext for the pgchecker container
+  securityContext:  # +doc-gen:break
     allowPrivilegeEscalation: false
     runAsUser: 1000
     runAsGroup: 1000
     runAsNonRoot: true
-  resources:
+  # Resource requests and limits for the pgchecker container
+  resources:  # +doc-gen:break
     requests:
       cpu: "10m"
       memory: "16Mi"
@@ -237,89 +260,80 @@ pgchecker:
       memory: "16Mi"
 
 postgresql:
+  # If `true`, the Postgresql dependency is enabled
   enabled: true
-
-  # PostgreSQL User to create.
+  # PostgreSQL User to create
   postgresqlUsername: keycloak
-
-  # PostgreSQL Password for the new user.
+  # PostgreSQL Password for the new user
   postgresqlPassword: keycloak
-
-  # PostgreSQL Database to create.
+  # PostgreSQL Database to create
   postgresqlDatabase: keycloak
+  # Persistent Volume Storage configuration
 
-  # Persistent Volume Storage configuration.
-  # ref: https://kubernetes.io/docs/user-guide/persistent-volumes
-  persistence:
-    # Enable PostgreSQL persistence using Persistent Volume Claims.
+prometheusOperator:
+  # If `true`, a ServiceMonitor resource for the prometheus-operator is created
+  enabled: false
+
+  serviceMonitor:
+    # Optionally sets a target namespace in which to deploy the ServiceMonitor resource
+    namespace: ""
+    # Annotations for the ServiceMonitor
+    annotations: {}
+    # Additional labels for the ServiceMonitor
+    labels: {}
+    # Interval at which Prometheus scrapes metrics
+    interval: 10s
+    # Timeout for scraping
+    scrapeTimeout: 10s
+    # The path at which metrics are served
+    path: /auth/realms/master/metrics
+    # The Service port at which metrics are served
+    port: http
+
+  prometheusRule:
+    # If `true`, a PrometheusRule resource for the prometheus-operator is created
     enabled: false
-
-prometheus:
-  operator:
-    # Are you using Prometheus Operator?
-    enabled: false
-
-    serviceMonitor:
-      # Optionally set a target namespace in which to deploy serviceMonitor
-      namespace: ""
-
-      # Additional labels to add to the ServiceMonitor so it is picked up by the operator.
-      # If using the [Helm Chart](https://github.com/helm/charts/tree/master/stable/prometheus-operator) this is the name of the Helm release.
-      selector:
-        release: prometheus
-
-      # Interval at which Prometheus scrapes metrics
-      interval: 10s
-
-      # Timeout at which Prometheus timeouts scrape run
-      scrapeTimeout: 10s
-
-      # The path to scrape
-      path: /auth/realms/master/metrics
-
-      port: http
-
-    prometheusRules:
-      # Add Prometheus Rules?
-      enabled: false
-
-      # Additional labels to add to the PrometheusRule so it is picked up by the operator.
-      # If using the [Helm Chart](https://github.com/helm/charts/tree/master/stable/prometheus-operator) this is the name of the Helm release and 'app: prometheus-operator'
-      selector:
-        app: prometheus-operator
-        release: prometheus
-
-      # Example rule
-      rules:
-      # - alert: keycloak-IngressHigh5xxRate
-      #   annotations:
-      #     message: The percentage of 5xx errors for keycloak over the last 5 minutes is over 1%.
-      #   expr: |
-      #     (
-      #       sum(
-      #         rate(
-      #           nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak",status=~"5[0-9]{2}"}[1m]
-      #         )
-      #       )
-      #       /
-      #       sum(
-      #         rate(
-      #           nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak"}[1m]
-      #         )
-      #       )
-      #     ) * 100 > 1
-      #   for: 5m
-      #   labels:
-      #     severity: warning
+    # Annotations for the PrometheusRule
+    annotations: {}
+    # Additional labels for the PrometheusRule
+    labels: {}
+    # List of rules for Prometheus
+    rules:
+    # - alert: keycloak-IngressHigh5xxRate
+    #   annotations:
+    #     message: The percentage of 5xx errors for keycloak over the last 5 minutes is over 1%.
+    #   expr: |
+    #     (
+    #       sum(
+    #         rate(
+    #           nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak",status=~"5[0-9]{2}"}[1m]
+    #         )
+    #       )
+    #       /
+    #       sum(
+    #         rate(
+    #           nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak"}[1m]
+    #         )
+    #       )
+    #     ) * 100 > 1
+    #   for: 5m
+    #   labels:
+    #     severity: warning
 
 test:
+  # If `true`, test resources are created
   enabled: false
   image:
+    # The image for the test Pod
     repository: docker.io/unguiculus/docker-python3-phantomjs-selenium
+    # The tag for the test Pod image
     tag: v1
+    # The image pull policy for the test Pod image
     pullPolicy: IfNotPresent
-  podSecurityContext:
+  # SecurityContext for the entire test Pod
+  podSecurityContext:  # +doc-gen:break
     fsGroup: 1000
-  securityContext:
+  # SecurityContext for the test container
+  securityContext:  # +doc-gen:break
     runAsUser: 1000
     runAsNonRoot: true

@@ -1,5 +1,5 @@
-{{- if and .Values.prometheus.operator.enabled -}}
-{{- with .Values.prometheus.operator.serviceMonitor }}
+{{- if .Values.prometheusOperator.enabled -}}
+{{- with .Values.prometheusOperator.serviceMonitor }}
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
@@ -7,9 +7,15 @@ metadata:
   {{- with .namespace }}
   namespace: {{ . }}
   {{- end }}
+  {{- with .annotations }}
+  annotations:
+  {{- tpl (toYaml .) $ | nindent 4 }}
+  {{- end }}
   labels:
-    {{- include "keycloak.labels" $ | nindent 4 }}
-    {{- toYaml .selector | nindent 4 }}
+  {{- include "keycloak.labels" $ | nindent 4 }}
+  {{- with .labels }}
+  {{- tpl (toYaml .) $ | nindent 4 }}
+  {{- end }}
 spec:
   selector:
     matchLabels:

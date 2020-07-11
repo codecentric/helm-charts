@@ -47,12 +47,6 @@
                 "pullPolicy": {
                     "type": "string"
                 },
-                "pullSecrets": {
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
                 "repository": {
                     "type": "string"
                 },
@@ -60,6 +54,9 @@
                     "type": "string"
                 }
             }
+        },
+        "imagePullSecrets": {
+            "type": "null"
         },
         "ingress": {
             "type": "object",
@@ -188,15 +185,7 @@
             "type": "object"
         },
         "podDisruptionBudget": {
-            "type": "object",
-            "properties": {
-                "maxUnavailable": {
-                    "type": "integer"
-                },
-                "minAvailable": {
-                    "type": "integer"
-                }
-            }
+            "type": "object"
         },
         "podLabels": {
             "type": "object"
@@ -218,14 +207,6 @@
                 "enabled": {
                     "type": "boolean"
                 },
-                "persistence": {
-                    "type": "object",
-                    "properties": {
-                        "enabled": {
-                            "type": "boolean"
-                        }
-                    }
-                },
                 "postgresqlDatabase": {
                     "type": "string"
                 },
@@ -240,64 +221,52 @@
         "priorityClassName": {
             "type": "string"
         },
-        "prometheus": {
+        "prometheusOperator": {
             "type": "object",
             "properties": {
-                "operator": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "prometheusRule": {
                     "type": "object",
                     "properties": {
+                        "annotations": {
+                            "type": "object"
+                        },
                         "enabled": {
                             "type": "boolean"
                         },
-                        "prometheusRules": {
-                            "type": "object",
-                            "properties": {
-                                "enabled": {
-                                    "type": "boolean"
-                                },
-                                "rules": {
-                                    "type": "null"
-                                },
-                                "selector": {
-                                    "type": "object",
-                                    "properties": {
-                                        "app": {
-                                            "type": "string"
-                                        },
-                                        "release": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
+                        "labels": {
+                            "type": "object"
                         },
-                        "serviceMonitor": {
-                            "type": "object",
-                            "properties": {
-                                "interval": {
-                                    "type": "string"
-                                },
-                                "namespace": {
-                                    "type": "string"
-                                },
-                                "path": {
-                                    "type": "string"
-                                },
-                                "port": {
-                                    "type": "string"
-                                },
-                                "scrapeTimeout": {
-                                    "type": "string"
-                                },
-                                "selector": {
-                                    "type": "object",
-                                    "properties": {
-                                        "release": {
-                                            "type": "string"
-                                        }
-                                    }
-                                }
-                            }
+                        "rules": {
+                            "type": "null"
+                        }
+                    }
+                },
+                "serviceMonitor": {
+                    "type": "object",
+                    "properties": {
+                        "annotations": {
+                            "type": "object"
+                        },
+                        "interval": {
+                            "type": "string"
+                        },
+                        "labels": {
+                            "type": "object"
+                        },
+                        "namespace": {
+                            "type": "string"
+                        },
+                        "path": {
+                            "type": "string"
+                        },
+                        "port": {
+                            "type": "string"
+                        },
+                        "scrapeTimeout": {
+                            "type": "string"
                         }
                     }
                 }
@@ -405,6 +374,9 @@
                 },
                 "labels": {
                     "type": "object"
+                },
+                "nodePort": {
+                    "type": "string"
                 },
                 "type": {
                     "type": "string"
