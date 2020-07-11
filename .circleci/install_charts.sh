@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-readonly CT_VERSION=v2.4.1
+readonly CT_VERSION=v3.0.0-rc.1
 readonly KIND_VERSION=v0.8.1
 readonly K8S_VERSION=v1.18.2
 
@@ -52,14 +52,6 @@ create_kind_cluster() {
     echo
 }
 
-install_tiller() {
-    echo 'Installing Tiller...'
-    docker_exec kubectl --namespace kube-system create sa tiller
-    docker_exec kubectl create clusterrolebinding tiller-cluster-rule --clusterrole=cluster-admin --serviceaccount=kube-system:tiller
-    docker_exec helm init --service-account tiller --upgrade --wait
-    echo
-}
-
 install_charts() {
     docker_exec ct install
     echo
@@ -77,7 +69,6 @@ main() {
 
     echo 'Chart changes detected.'
     create_kind_cluster
-    install_tiller
     install_charts
 }
 
