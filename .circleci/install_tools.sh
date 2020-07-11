@@ -2,16 +2,12 @@
 
 set -o errexit
 
-readonly HELM_VERSION=2.16.7
 readonly CHART_RELEASER_VERSION=1.0.0-beta.1
 
 echo "Installing Helm..."
-curl -LO "https://kubernetes-helm.storage.googleapis.com/helm-v$HELM_VERSION-linux-amd64.tar.gz"
-sudo mkdir -p "/usr/local/helm-v$HELM_VERSION"
-sudo tar -xzf "helm-v$HELM_VERSION-linux-amd64.tar.gz" -C "/usr/local/helm-v$HELM_VERSION"
-sudo ln -s "/usr/local/helm-v$HELM_VERSION/linux-amd64/helm" /usr/local/bin/helm
-rm -f "helm-v$HELM_VERSION-linux-amd64.tar.gz"
-helm init --client-only
+curl -fsSLo get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+chmod 700 get_helm.sh
+./get_helm.sh
 
 echo "Installing chart-releaser..."
 curl -LO "https://github.com/helm/chart-releaser/releases/download/v${CHART_RELEASER_VERSION}/chart-releaser_${CHART_RELEASER_VERSION}_linux_amd64.tar.gz"
