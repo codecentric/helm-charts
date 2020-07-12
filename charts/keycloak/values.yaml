@@ -57,13 +57,13 @@ securityContext:  # +doc-gen:break
   runAsNonRoot: true
 
 # Additional init containers, e. g. for providing custom themes
-extraInitContainers: []
+extraInitContainers: ""
 
 # Additional sidecar containers, e. g. for a database proxy, such as Google's cloudsql-proxy
-extraContainers: []
+extraContainers: ""
 
 # Lifecycle hooks for the Keycloak container
-lifecycleHooks: {}
+lifecycleHooks: |
 #  postStart:
 #    exec:
 #      command:
@@ -84,7 +84,7 @@ command: []
 args: []
 
 # Additional environment variables for Keycloak
-extraEnv: []
+extraEnv: ""
   # - name: KEYCLOAK_LOGLEVEL
   #   value: DEBUG
   # - name: WILDFLY_LOGLEVEL
@@ -98,7 +98,7 @@ extraEnv: []
 priorityClassName: ""
 
 # Pod affinity
-affinity: {}
+affinity: ""
 
 # Node labels for Pod assignment
 nodeSelector: {}
@@ -113,7 +113,7 @@ podLabels: {}
 podAnnotations: {}
 
 # Liveness probe configuration
-livenessProbe:  # +doc-gen:break
+livenessProbe: |
   httpGet:
     path: /auth
     port: http
@@ -121,7 +121,7 @@ livenessProbe:  # +doc-gen:break
   timeoutSeconds: 5
 
 # Readiness probe configuration
-readinessProbe:  # +doc-gen:break
+readinessProbe: |
   httpGet:
     path: /auth/realms/master
     port: http
@@ -138,7 +138,7 @@ resources: {}
   #  memory: "1024Mi"
 
 # Startup scripts to run before Keycloak starts up
-startupScripts:  # +doc-gen:break
+startupScripts:
   # WildFly CLI script for configuring the node-identifier
   keycloak.cli: |
     {{- .Files.Get "scripts/keycloak.cli" | nindent 2 }}
@@ -148,10 +148,10 @@ startupScripts:  # +doc-gen:break
   # echo 'Hello from my custom startup script!'
 
 # Add additional volumes, e. g. for custom themes
-extraVolumes: []
+extraVolumes: ""
 
 # Add additional volumes mounts, e. g. for custom themes
-extraVolumeMounts: []
+extraVolumeMounts: ""
 
 # Add additional ports, e. g. for admin console or exposing JGroups ports
 extraPorts: []

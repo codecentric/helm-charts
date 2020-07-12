@@ -7,7 +7,8 @@ metadata:
   labels:
     {{- include "keycloak.labels" . | nindent 4 }}
 data:
-{{- with .Values.startupScripts }}
-  {{- tpl (toYaml .) $ | nindent 2 }}
+{{- range $key, $value := .Values.startupScripts }}
+  {{- printf "%s: |" $key | nindent 2 }}
+  {{- tpl $value $ | nindent 4 }}
 {{- end }}
 {{- end -}}

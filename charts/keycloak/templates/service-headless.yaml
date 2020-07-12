@@ -5,12 +5,14 @@ metadata:
   name: {{ include "keycloak.fullname" . }}-headless
   {{- with .Values.service.annotations }}
   annotations:
-    {{- tpl (toYaml .) $ | nindent 4 }}
+    {{- range $key, $value := . }}
+    {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
+    {{- end }}
   {{- end }}
   labels:
     {{- include "keycloak.labels" . | nindent 4 }}
-    {{- with .Values.service.labels }}
-    {{- tpl (toYaml .) $ | nindent 4 }}
+    {{- range $key, $value := .Values.service.labels }}
+    {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
     {{- end }}
     app.kubernetes.io/component: headless
 spec:
@@ -26,7 +28,7 @@ spec:
       targetPort: https
       protocol: TCP
     {{- with .Values.service.extraPorts }}
-    {{- tpl (toYaml .) $ | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
     {{- end }}
   selector:
     {{- include "keycloak.selectorLabels" . | nindent 4 }}

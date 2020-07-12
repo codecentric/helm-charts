@@ -17,12 +17,12 @@ startupScripts:
     echo '*                                                                              *'
     echo '********************************************************************************'
 
-lifecycleHooks:
+lifecycleHooks: |
   postStart:
     exec:
       command: ["/bin/sh", "-c", "echo 'Hello from lifecycle hook!'"]
 
-extraEnv:
+extraEnv: |
   - name: JGROUPS_DISCOVERY_PROTOCOL
     value: dns.DNS_PING
   - name: JGROUPS_DISCOVERY_PROPERTIES
@@ -49,12 +49,12 @@ secrets:
       user: admin
       password: secret
 
-extraVolumeMounts:
+extraVolumeMounts: |
   - name: admin-creds
     mountPath: "/secrets/admin-creds"
     readOnly: true
 
-extraVolumes:
+extraVolumes: |
   - name: admin-creds
     secret:
       secretName: '{{ include "keycloak.fullname" . }}-admin-creds'

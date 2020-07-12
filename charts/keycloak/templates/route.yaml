@@ -6,12 +6,14 @@ metadata:
   name: {{ include "keycloak.fullname" . }}
   {{- with $route.annotations }}
   annotations:
-    {{- tpl (toYaml .) $ | nindent 4 }}
+    {{- range $key, $value := . }}
+    {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
+    {{- end }}
   {{- end }}
   labels:
     {{- include "keycloak.labels" . | nindent 4 }}
-    {{- with $route.labels }}
-    {{- tpl (toYaml .) $ | nindent 4 }}
+    {{- range $key, $value := $route.labels }}
+    {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
     {{- end }}
 spec:
 {{- if $route.host }}

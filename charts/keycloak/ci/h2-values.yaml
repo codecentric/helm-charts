@@ -1,4 +1,4 @@
-extraEnv:
+extraEnv: |
   - name: DB_VENDOR
     value: h2
   - name: KEYCLOAK_USER_FILE
@@ -12,12 +12,12 @@ secrets:
       user: admin
       password: secret
 
-extraVolumeMounts:
+extraVolumeMounts: |
   - name: admin-creds
     mountPath: "/secrets/admin-creds"
     readOnly: true
 
-extraVolumes:
+extraVolumes: |
   - name: admin-creds
     secret:
       secretName: '{{ include "keycloak.fullname" . }}-admin-creds'

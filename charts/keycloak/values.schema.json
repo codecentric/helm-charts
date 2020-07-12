@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "affinity": {
-            "type": "object"
+            "type": "string"
         },
         "args": {
             "type": "array"
@@ -18,22 +18,22 @@
             "type": "boolean"
         },
         "extraContainers": {
-            "type": "array"
+            "type": "string"
         },
         "extraEnv": {
-            "type": "array"
+            "type": "string"
         },
         "extraInitContainers": {
-            "type": "array"
+            "type": "string"
         },
         "extraPorts": {
             "type": "array"
         },
         "extraVolumeMounts": {
-            "type": "array"
+            "type": "string"
         },
         "extraVolumes": {
-            "type": "array"
+            "type": "string"
         },
         "fullnameOverride": {
             "type": "string"
@@ -88,29 +88,10 @@
             }
         },
         "lifecycleHooks": {
-            "type": "object"
+            "type": "string"
         },
         "livenessProbe": {
-            "type": "object",
-            "properties": {
-                "httpGet": {
-                    "type": "object",
-                    "properties": {
-                        "path": {
-                            "type": "string"
-                        },
-                        "port": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "initialDelaySeconds": {
-                    "type": "integer"
-                },
-                "timeoutSeconds": {
-                    "type": "integer"
-                }
-            }
+            "type": "string"
         },
         "nameOverride": {
             "type": "string"
@@ -273,26 +254,7 @@
             }
         },
         "readinessProbe": {
-            "type": "object",
-            "properties": {
-                "httpGet": {
-                    "type": "object",
-                    "properties": {
-                        "path": {
-                            "type": "string"
-                        },
-                        "port": {
-                            "type": "string"
-                        }
-                    }
-                },
-                "initialDelaySeconds": {
-                    "type": "integer"
-                },
-                "timeoutSeconds": {
-                    "type": "integer"
-                }
-            }
+            "type": "string"
         },
         "replicas": {
             "type": "integer"
