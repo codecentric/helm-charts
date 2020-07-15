@@ -173,11 +173,11 @@ Create environment variables for database configuration.
   value: {{ .Values.keycloak.persistence.dbVendor | quote }}
 {{- if not (eq "h2" .Values.keycloak.persistence.dbVendor) }}
 - name: DB_ADDR
-  value: {{ .Values.keycloak.persistence.dbHost | quote }}
+  value: {{ tpl .Values.keycloak.persistence.dbHost . | quote }}
 - name: DB_PORT
   value: {{ .Values.keycloak.persistence.dbPort | quote }}
 - name: DB_DATABASE
-  value: {{ .Values.keycloak.persistence.dbName | quote }}
+  value: {{ tpl .Values.keycloak.persistence.dbName . | quote }}
 - name: DB_USER
   valueFrom:
     secretKeyRef:
