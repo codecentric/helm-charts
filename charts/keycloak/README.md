@@ -66,9 +66,10 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `clusterDomain` | The internal Kubernetes cluster domain | `cluster.local` |
 | `command` | # Overrides the default entrypoint of the Keycloak container | `[]` |
 | `args` | # Overrides the default args for the Keycloak container | `[]` |
-| `extraEnv` | Additional environment variables for Keycloak | `[]` |
+| `extraEnv` | Additional environment variables for Keycloak | `""` |
+| `extraEnvFrom` | Additional environment variables for Keycloak mapped from a Secret or ConfigMap | `""` |
 | `priorityClassName` | Pod priority class name | `""` |
-| `affinity` | Pod affinity | `{}` |
+| `affinity` | Pod affinity | `""` |
 | `nodeSelector` | Node labels for Pod assignment | `{}` |
 | `tolerations` | Node taints to tolerate | `[]` |
 | `podLabels` | Additional Pod labels | `{}` |
@@ -77,8 +78,8 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `readinessProbe` | Readiness probe configuration | `{"httpGet":{"path":"/auth/realms/master","port":"http"},"initialDelaySeconds":30,"timeoutSeconds":1}` |
 | `resources` | Pod resource requests and limits | `{}` |
 | `startupScripts` | Startup scripts to run before Keycloak starts up | `{"keycloak.cli":"{{- .Files.Get \"scripts/keycloak.cli\" | nindent 2 }}\n"}` |
-| `extraVolumes` | Add additional volumes, e. g. for custom themes | `[]` |
-| `extraVolumeMounts` | Add additional volumes mounts, e. g. for custom themes | `[]` |
+| `extraVolumes` | Add additional volumes, e. g. for custom themes | `""` |
+| `extraVolumeMounts` | Add additional volumes mounts, e. g. for custom themes | `""` |
 | `extraPorts` | Add additional ports, e. g. for admin console or exposing JGroups ports | `[]` |
 | `podDisruptionBudget` | Pod disruption budget | `{}` |
 | `statefulsetAnnotations` | Annotations for the StatefulSet | `{}` |
@@ -154,88 +155,116 @@ $ helm install keycloak codecentric/keycloak -n keycloak --version=9.0.0 --value
 ```
 
 The chart offers great flexibility.
-Out of the box, it works with the official Keycloak Docker image but can be configured to work with any other custom image as well.
+It can be configured to work with the official Keycloak Docker image but any custom image can be used as well.
+
+For the offical Docker image, please check it's configuration at https://github.com/keycloak/keycloak-containers/tree/master/server.
 
 ### Usage of the `tpl` Function
 
 The `tpl` function allows us to pass string values from `values.yaml` through the templating engine.
 It is used for the following values:
 
-* `keycloak.extraInitContainers`
-* `keycloak.extraContainers`
-* `keycloak.extraEnv`
-* `keycloak.affinity`
-* `keycloak.extraVolumeMounts`
-* `keycloak.extraVolumes`
-* `keycloak.livenessProbe`
-* `keycloak.readinessProbe`
+* `extraInitContainers`
+* `extraContainers`
+* `extraEnv`
+* `extraEnvFrom`
+* `affinity`
+* `extraVolumeMounts`
+* `extraVolumes`
+* `livenessProbe`
+* `readinessProbe`
+
+Additionally, custom labels and annotations can be set on various resources the values of which being passed through `tpl` as well.
 
 It is important that these values be configured as strings.
 Otherwise, installation will fail. See example for Google Cloud Proxy or default affinity configuration in `values.yaml`.
 
 ### Database Setup
 
-By default, Keycloak uses an embedded H2 database.
-This is only suitable for testing purposes.
-All data is lost when Keycloak is shut down.
-Optionally, the [PostgreSQL](https://github.com/kubernetes/charts/tree/master/stable/postgresql) chart is deployed and used as database.
+By default, Bitnami's [PostgreSQL](https://github.com/bitnami/charts/tree/master/bitnami/postgresql) chart is deployed and used as database.
 Please refer to this chart for additional PostgreSQL configuration options.
 
 #### Using an External Database
 
-The Keycloak Docker image supports PostgreSQL, MySQL, MariaDB, and H2.
-The password for the database user is read from a Kubernetes secret.
-It is possible to specify an existing secret that is not managed with this chart.
-The key in the secret the password is read from may be specified as well (defaults to `password`).
+The Keycloak Docker image supports various database types.
+Configuration happens in a generic manner.
+
+##### Using a Secret Managed by the Chart
+
+The following examples uses a PostgreSQL database with a secret that is managed by the Helm chart.
 
 ```yaml
-keycloak:
-  persistence:
+postgresql:
+  # Disable PostgreSQL dependency
+  enabled: false
 
-    # Disable deployment of the PostgreSQL chart
-    deployPostgres: false
+extraEnv: |
+  - name: DB_VENDOR
+    value: postgres
+  - name: DB_ADDR
+    value: mypostgres
+  - name: DB_PORT
+    value: 5432
+  - name: DB_DATABASE
+    value: mydb
 
-    # The database vendor. Can be either "postgres", "mysql", "mariadb", or "h2"
-    dbVendor: postgres
+extraEnvFrom: |
+  - secretRef:
+      name: '{{ include "keycloak.fullname" . }}-db'
 
-    ## The following values only apply if "deployPostgres" is set to "false"
-
-    # Optionally specify an existing secret
-    existingSecret: "my-database-password-secret"
-    existingSecretPasswordKey: "password-key-in-my-database-secret"
-    existingSecretUsernameKey: "username-key-in-my-database-secret"
-
-    dbName: keycloak
-    dbHost: mykeycloak
-    dbPort: 5432 # 5432 is PostgreSQL's default port. For MySQL it would be 3306
-    dbUser: keycloak
-
-    # Only used if no existing secret is specified. In this case a new secret is created
-    dbPassword: keycloak
+secrets:
+  - nameSuffix: db
+    stringData:
+      DB_USER: '{{ .Values.dbUser }}'
+      DB_PASSWORD: '{{ .Values.dbPassword }}'
 ```
 
-See also:
-* https://github.com/jboss-dockerfiles/keycloak/blob/master/server/tools/cli/databases/postgres/change-database.cli
-* https://github.com/jboss-dockerfiles/keycloak/blob/master/server/tools/cli/databases/mysql/change-database.cli
+`dbUser` and `dbPassword` are custom values you'd then specify on the commandline using `--set-string`.
 
-### Configuring Additional Environment Variables
+##### Using an ExistingSecret
+
+The following examples uses a PostgreSQL database with a secret.
+Username and password are mounted as files.
 
 ```yaml
-keycloak:
-  extraEnv: |
-    - name: KEYCLOAK_LOGLEVEL
-      value: DEBUG
-    - name: WILDFLY_LOGLEVEL
-      value: DEBUG
-    - name: CACHE_OWNERS
-      value: "3"
-    - name: DB_QUERY_TIMEOUT
-      value: "60"
-    - name: DB_VALIDATE_ON_MATCH
-      value: true
-    - name: DB_USE_CAST_FAIL
-      value: false
+postgresql:
+  # Disable PostgreSQL dependency
+  enabled: false
+
+extraEnv: |
+  - name: DB_VENDOR
+    value: postgres
+  - name: DB_ADDR
+    value: mypostgres
+  - name: DB_PORT
+    value: 5432
+  - name: DB_DATABASE
+    value: mydb
+  - name: DB_USER_FILE
+    value: /secrets/db-creds/user
+  - name: DB_PASSWORD_FILE
+    value: /secrets/db-creds/password
+
+extraVolumeMounts: |
+  - name: db-creds
+    mountPath: /secrets/db-creds
+    readOnly: true
+
+extraVolumes: |
+  - name: db-creds
+    secret:
+      secretName: keycloak-db-creds
 ```
+
+### Creating a Keycloak Admin User
+
+The Keycloak Docker image supports creating an initial admin user.
+I must be configured via environment variables:
+
+* `KEYCLOAK_USER` or `KEYCLOAK_USER_FILE`
+* `KEYCLOAK_PASSWORD` or `KEYCLOAK_PASSWORD_FILE`
+
+Please refer to the section on database configuration for how to configure a secret for this.
 
 ### Providing a Custom Theme
 
@@ -252,53 +281,53 @@ COPY mytheme /mytheme
 In combination with an `emptyDir` that is shared with the Keycloak container, configure an init container that runs your theme image and copies the theme over to the right place where Keycloak will pick it up automatically.
 
 ```yaml
-keycloak:
-  extraInitContainers: |
-    - name: theme-provider
-      image: myuser/mytheme:1
-      imagePullPolicy: IfNotPresent
-      command:
-        - sh
-      args:
-        - -c
-        - |
-          echo "Copying theme..."
-          cp -R /mytheme/* /theme
-      volumeMounts:
-        - name: theme
-          mountPath: /theme
+extraInitContainers: |
+  - name: theme-provider
+    image: myuser/mytheme:1
+    imagePullPolicy: IfNotPresent
+    command:
+      - sh
+    args:
+      - -c
+      - |
+        echo "Copying theme..."
+        cp -R /mytheme/* /theme
+    volumeMounts:
+      - name: theme
+        mountPath: /theme
 
-  extraVolumeMounts: |
-    - name: theme
-      mountPath: /opt/jboss/keycloak/themes/mytheme
+extraVolumeMounts: |
+  - name: theme
+    mountPath: /opt/jboss/keycloak/themes/mytheme
 
-  extraVolumes: |
-    - name: theme
-      emptyDir: {}
+extraVolumes: |
+  - name: theme
+    emptyDir: {}
 ```
 
 ### Setting a Custom Realm
 
 A realm can be added by creating a secret or configmap for the realm json file and then supplying this into the chart.
-It could be mounted using `extraVolumeMounts` and then specified in `extraArgs` using `-Dkeycloak.import`.
-First we could create a Secret from a json file using `kubectl create secret generic realm-secret --from-file=realm.json` which we need to reference in `values.yaml`:
+It can be mounted using `extraVolumeMounts` and then referenced as environment variable `KEYCLOAK_IMPORT`.
+First we need to create a Secret from the realm JSON file using `kubectl create secret generic realm-secret --from-file=realm.json` which we need to reference in `values.yaml`:
 
 ```yaml
-keycloak:
-  extraVolumes: |
-    - name: realm-secret
-      secret:
-        secretName: realm-secret
+extraVolumes: |
+  - name: realm-secret
+    secret:
+      secretName: realm-secret
 
-  extraVolumeMounts: |
-    - name: realm-secret
-      mountPath: "/realm/"
-      readOnly: true
+extraVolumeMounts: |
+  - name: realm-secret
+    mountPath: "/realm/"
+    readOnly: true
 
-  extraArgs: -Dkeycloak.import=/realm/realm.json
+extraEnv: |
+  - name: KEYCLOAK_IMPORT
+    value: /realm/realm.json
 ```
 
-Alternatively, the file could be added to a custom image (set in `keycloak.image`) and then referenced by `-Dkeycloak.import`.
+Alternatively, the realm file could be added to a custom image.
 
 After startup the web admin console for the realm should be available on the path /auth/admin/\<realm name>/console/.
 
@@ -308,9 +337,13 @@ Depending on your environment you may need a local proxy to connect to the datab
 This is, e. g., the case for Google Kubernetes Engine when using Google Cloud SQL.
 Create the secret for the credentials as documented [here](https://cloud.google.com/sql/docs/postgres/connect-kubernetes-engine) and configure the proxy as a sidecar.
 
-Because `keycloak.extraContainers` is a string that is passed through the `tpl` function, it is possible to create custom values and use them in the string.
+Because `extraContainers` is a string that is passed through the `tpl` function, it is possible to create custom values and use them in the string.
 
 ```yaml
+
+postgresql:
+  # Disable PostgreSQL dependency
+  enabled: false
 
 # Custom values for Google Cloud SQL
 cloudsql:
@@ -318,33 +351,37 @@ cloudsql:
   region: europe-west1
   instance: my-instance
 
-keycloak:
-  extraContainers: |
-    - name: cloudsql-proxy
-      image: gcr.io/cloudsql-docker/gce-proxy:1.11
-      command:
-        - /cloud_sql_proxy
-      args:
-        - -instances={{ .Values.cloudsql.project }}:{{ .Values.cloudsql.region }}:{{ .Values.cloudsql.instance }}=tcp:5432
-        - -credential_file=/secrets/cloudsql/credentials.json
-      volumeMounts:
-        - name: cloudsql-creds
-          mountPath: /secrets/cloudsql
-          readOnly: true
+extraContainers: |
+   - name: cloudsql-proxy
+    image: gcr.io/cloudsql-docker/gce-proxy:1.11
+    command:
+      - /cloud_sql_proxy
+    args:
+      - -instances={{ .Values.cloudsql.project }}:{{ .Values.cloudsql.region }}:{{ .Values.cloudsql.instance }}=tcp:5432
+      - -credential_file=/secrets/cloudsql/credentials.json
+    volumeMounts:
+      - name: cloudsql-creds
+        mountPath: /secrets/cloudsql
+        readOnly: true
 
-  extraVolumes: |
-    - name: cloudsql-creds
-      secret:
-        secretName: cloudsql-instance-credentials
+extraVolumes: |
+  - name: cloudsql-creds
+    secret:
+      secretName: cloudsql-instance-credentials
 
-  persistence:
-    deployPostgres: false
-    dbVendor: postgres
-    dbName: postgres
-    dbHost: 127.0.0.1
-    dbPort: 5432
-    dbUser: myuser
-    dbPassword: mypassword
+extraEnv: |
+  - name: DB_VENDOR
+    value: postgres
+  - name: DB_ADDR
+    value: 127.0.0.1
+  - name: DB_PORT
+    value: 5432
+  - name: DB_DATABASE
+    value: postgres
+  - name: DB_USER
+    value: myuser
+  - name: DB_PASSWORD
+    value: mypassword
 ```
 
 ### WildFly Configuration
@@ -352,70 +389,92 @@ keycloak:
 WildFly can be configured via its [command line interface (CLI)](https://docs.jboss.org/author/display/WFLY/Command+Line+Interface).
 This chart uses the official Keycloak Docker image and customizes the installation running CLI scripts at server startup.
 
-#### Customizing CLI Scripts
-
-In order to make further customization easier, the CLI commands are separated by their concerns into smaller scripts.
-Everything is in `values.yaml` and can be overridden.
-Additional CLI commands may be added via `keycloak.cli.custom`, which is empty by default.
-
-#### Disabling CLI Changes
-
-The CLI changes the chart makes may not be desirable in all cases, especially when a custom Keycloak image is used that already incorporates a complete configuration that doesn't need any adjustments.
-In this case, the CLI scripts the chart runs by default can either be disabled en bloc or on and individual basis.
-
-##### Disabling all CLI Changes en Bloc
-
-```yaml
-keycloak:
-  cli:
-    enabled: false
-```
-
-##### Disabling an Individual Script
-
-```yaml
-keycloak:
-  cli:
-    logging: ""
-```
-
 ### High Availability and Clustering
 
 For high availability, Keycloak should be run with multiple replicas (`keycloak.replicas > 1`).
 WildFly uses Infinispan for caching.
 These caches can be replicated across all instances forming a cluster.
-If `keycloak.replicas > 1`, JGroups' DNS_PING is configured for cluster discovery and Keycloak is started with `--server-config standalone-ha.xml`.
+If `keycloak.replicas > 1`, JGroups' DNS_PING is configured for cluster discovery.
 
-### Prometheus Operator Support
+### Prometheus Metrics Support
 
-It is possible to monitor Keycloak with Prometheus through the use of plugins such as [keycloak-metrics-spi](https://github.com/aerogear/keycloak-metrics-spi). The plugin can be added with configuration like this:
+It is possible to monitor Keycloak with Prometheus through the use of plugins such as [keycloak-metrics-spi](https://github.com/aerogear/keycloak-metrics-spi).
+The plugin can be configured as follows:
+
+```yaml
+extraInitContainers: |
+  - name: extensions
+    image: busybox
+    imagePullPolicy: IfNotPresent
+    command:
+      - sh
+    args:
+      - -c
+      - |
+        echo "Copying extensions..."
+        wget -O /deployments/keycloak-metrics-spi.jar https://github.com/aerogear/keycloak-metrics-spi/releases/download/1.0.1/keycloak-metrics-spi-1.0.1.jar
+    volumeMounts:
+      - name: deployments
+        mountPath: /deployments
+
+extraVolumeMounts: |
+  - name: deployments
+    mountPath: /opt/jboss/keycloak/standalone/deployments
+
+extraVolumes: |
+  - name: deployments
+    emptyDir: {}
+
+prometheusOperator:
+  # If `true`, a ServiceMonitor resource for the prometheus-operator is created
+  enabled: true
+
+  serviceMonitor:
+    # Optionally sets a target namespace in which to deploy the ServiceMonitor resource
+    namespace: ""
+    # Annotations for the ServiceMonitor
+    annotations: {}
+    # Additional labels for the ServiceMonitor
+    labels: {}
+    # Interval at which Prometheus scrapes metrics
+    interval: 10s
+    # Timeout for scraping
+    scrapeTimeout: 10s
+    # The path at which metrics are served
+    path: /auth/realms/master/metrics
+    # The Service port at which metrics are served
+    port: http
+
+  prometheusRule:
+      # If `true`, a PrometheusRule resource for the prometheus-operator is created
+      enabled: false
+      # Annotations for the PrometheusRule
+      annotations: {}
+      # Additional labels for the PrometheusRule
+      labels: {}
+      # List of rules for Prometheus
+      rules:
+      # - alert: keycloak-IngressHigh5xxRate
+      #   annotations:
+      #     message: The percentage of 5xx errors for keycloak over the last 5 minutes is over 1%.
+      #   expr: |
+      #     (
+      #       sum(
+      #         rate(
+      #           nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak",status=~"5[0-9]{2}"}[1m]
+      #         )
+      #       )
+      #       /
+      #       sum(
+      #         rate(
+      #           nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak"}[1m]
+      #         )
+      #       )
+      #     ) * 100 > 1
+      #   for: 5m
+      #   labels:
+      #     severity: warning
 ```
-  extraInitContainers: |
-    - name: extensions
-      image: busybox
-      imagePullPolicy: IfNotPresent
-      command:
-        - sh
-      args:
-        - -c
-        - |
-          echo "Copying extensions..."
-          wget -O /deployments/keycloak-metrics-spi.jar https://github.com/aerogear/keycloak-metrics-spi/releases/download/1.0.1/keycloak-metrics-spi-1.0.1.jar
-      volumeMounts:
-        - name: deployments
-          mountPath: /deployments
-
-  extraVolumeMounts: |
-    - name: deployments
-      mountPath: /opt/jboss/keycloak/standalone/deployments
-
-  extraVolumes: |
-    - name: deployments
-      emptyDir: {}
-```
-
-You can then either configure Prometheus to scrape the `/auth/realms/master/metrics` path on the normal HTTP port of JBoss, or if you use the [Prometheus Operator](https://github.com/helm/charts/tree/master/stable/prometheus-operator) you can enable `prometheus.operator.enabled` in `values.yaml` and use the example configuration.
-If you are using Prometheus Operator for configuring Prometheus Rules, the chart also supports this; see `prometheus.operator.prometheusRules` in `values.yaml` for more details.
 
 ## Why StatefulSet?
 
@@ -428,6 +487,19 @@ Additionally, we get stable values for `jboss.node.name` which can be advantageo
 The headless service that governs the StatefulSet is used for DNS discovery.
 
 ## Upgrading
+
+### From chart versions < 9.0.0
+
+The Keycloak chart received a major facelift.
+Opinionated stuff and things that are now baked into Keycloak's Docker image are removed.
+Configuration is more generic making it easier to use custom Docker images that are configured differently than the official one.
+
+Updating an existing Keycloak is possible but values must be adjusted.
+
+* Values are no longer nested under `keycloak`.
+* Besides setting the node identifier, no CLI changes are performed out of the box
+* Environment variables for the Postresql dependency are set automatically if enabled.
+  Otherwise, no environment variables are set by default.
 
 ### From chart versions < 8.0.0
 

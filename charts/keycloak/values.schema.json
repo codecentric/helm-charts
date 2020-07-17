@@ -23,6 +23,9 @@
     "extraEnv": {
       "type": "string"
     },
+    "extraEnvFrom": {
+      "type": "string"
+    },
     "extraInitContainers": {
       "type": "string"
     },

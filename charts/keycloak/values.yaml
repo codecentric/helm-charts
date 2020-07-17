@@ -94,6 +94,9 @@ extraEnv: ""
   # - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
   #   value: "2"
 
+# Additional environment variables for Keycloak mapped from Secret or ConfigMap
+extraEnvFrom: ""
+
 #  Pod priority class name
 priorityClassName: ""
 

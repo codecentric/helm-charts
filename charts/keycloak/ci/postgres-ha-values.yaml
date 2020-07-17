@@ -4,7 +4,7 @@ podLabels:
   test-label: test-label-value
 
 podAnnotations:
-  test-annotation: "test-annotation-value-{{ .Release.Name }}"
+  test-annotation: test-annotation-value-{{ .Release.Name }}
   test-int-annotation: "12345"
 
 startupScripts:
@@ -20,7 +20,10 @@ startupScripts:
 lifecycleHooks: |
   postStart:
     exec:
-      command: ["/bin/sh", "-c", "echo 'Hello from lifecycle hook!'"]
+      command:
+        - /bin/sh
+        - -c
+        - echo 'Hello from lifecycle hook!'
 
 extraEnv: |
   - name: JGROUPS_DISCOVERY_PROTOCOL
@@ -39,9 +42,9 @@ extraEnv: |
     value: >-
       -XX:+UseContainerSupport
       -XX:MaxRAMPercentage=50.0
-      -Djava.net.preferIPv4Stack=true"
+      -Djava.net.preferIPv4Stack=true
       -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS
-      -Djava.awt.headless=true"
+      -Djava.awt.headless=true
 
 secrets:
   - nameSuffix: admin-creds
@@ -51,7 +54,7 @@ secrets:
 
 extraVolumeMounts: |
   - name: admin-creds
-    mountPath: "/secrets/admin-creds"
+    mountPath: /secrets/admin-creds
     readOnly: true
 
 extraVolumes: |

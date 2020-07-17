@@ -95,6 +95,10 @@ spec:
             {{- with .Values.extraEnv }}
             {{- tpl . $ | nindent 12 }}
             {{- end }}
+          envFrom:
+            {{- with .Values.extraEnvFrom }}
+            {{- tpl . $ | nindent 12 }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 8080
@@ -103,7 +107,7 @@ spec:
               containerPort: 8443
               protocol: TCP
             {{- with .Values.extraPorts }}
-            {{- tpl . $ | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
             {{- end }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
@@ -124,6 +128,9 @@ spec:
             {{- with .Values.extraVolumeMounts }}
             {{- tpl . $ | nindent 12 }}
             {{- end }}
+        {{- with .Values.extraContainers }}
+        {{- tpl . $ | nindent 8 }}
+        {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
