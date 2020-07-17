@@ -90,7 +90,7 @@
         "servicePort": {
           "anyOf": [
             {
-              "type": "number"
+              "type": "integer"
             },
             {
               "type": "string"
@@ -142,7 +142,7 @@
                 "type": "string"
               },
               "tag": {
-                "type": "number"
+                "type": "string"
               }
             }
           },
@@ -174,21 +174,7 @@
             }
           },
           "securityContext": {
-            "type": "object",
-            "properties": {
-              "allowPrivilegeEscalation": {
-                "type": "boolean"
-              },
-              "runAsGroup": {
-                "type": "integer"
-              },
-              "runAsNonRoot": {
-                "type": "boolean"
-              },
-              "runAsUser": {
-                "type": "integer"
-              }
-            }
+            "type": "object"
           }
         }
       },
@@ -205,29 +191,10 @@
         "type": "string"
       },
       "podSecurityContext": {
-        "type": "object",
-        "properties": {
-          "fsGroup": {
-            "type": "integer"
-          }
-        }
+        "type": "object"
       },
       "postgresql": {
-        "type": "object",
-        "properties": {
-          "enabled": {
-            "type": "boolean"
-          },
-          "postgresqlDatabase": {
-            "type": "string"
-          },
-          "postgresqlPassword": {
-            "type": "string"
-          },
-          "postgresqlUsername": {
-            "type": "string"
-          }
-        }
+        "type": "object"
       },
       "priorityClassName": {
         "type": "string"
@@ -239,54 +206,10 @@
             "type": "boolean"
           },
           "prometheusRule": {
-            "type": "object",
-            "properties": {
-              "annotations": {
-                "type": "object"
-              },
-              "enabled": {
-                "type": "boolean"
-              },
-              "labels": {
-                "type": "object"
-              },
-              "rules": {
-                "type": "null"
-              }
-            }
+            "type": "object"
           },
           "serviceMonitor": {
-            "type": "object",
-            "properties": {
-              "annotations": {
-                "type": "object"
-              },
-              "interval": {
-                "type": "string"
-              },
-              "labels": {
-                "type": "object"
-              },
-              "namespace": {
-                "type": "string"
-              },
-              "path": {
-                "type": "string"
-              },
-              "port": {
-                "anyOf": [
-                  {
-                    "type": "number"
-                  },
-                  {
-                    "type": "null"
-                  }
-                ]
-              },
-              "scrapeTimeout": {
-                "type": "string"
-              }
-            }
+            "type": "object"
           }
         }
       },
@@ -321,18 +244,7 @@
             "type": "string"
           },
           "tls": {
-            "type": "object",
-            "properties": {
-              "enabled": {
-                "type": "boolean"
-              },
-              "insecureEdgeTerminationPolicy": {
-                "type": "string"
-              },
-              "termination": {
-                "type": "string"
-              }
-            }
+            "type": "object"
           }
         }
       },
@@ -340,15 +252,7 @@
         "type": "array"
       },
       "securityContext": {
-        "type": "object",
-        "properties": {
-          "runAsNonRoot": {
-            "type": "boolean"
-          },
-          "runAsUser": {
-            "type": "integer"
-          }
-        }
+        "type": "object"
       },
       "service": {
         "type": "object",
@@ -362,7 +266,7 @@
           "httpNodePort": {
             "anyOf": [
               {
-                "type": "number"
+                "type": "integer"
               },
               {
                 "type": "null"
@@ -375,7 +279,7 @@
           "httpsNodePort": {
             "anyOf": [
               {
-                "type": "number"
+                "type": "integer"
               },
               {
                 "type": "null"
@@ -391,7 +295,7 @@
           "nodePort": {
             "anyOf": [
               {
-                "type": "number"
+                "type": "integer"
               },
               {
                 "type": "null"
@@ -424,12 +328,7 @@
         }
       },
       "startupScripts": {
-        "type": "object",
-        "properties": {
-          "keycloak.cli": {
-            "type": "string"
-          }
-        }
+        "type": "object"
       },
       "statefulsetAnnotations": {
         "type": "object"
@@ -461,23 +360,10 @@
             }
           },
           "podSecurityContext": {
-            "type": "object",
-            "properties": {
-              "fsGroup": {
-                "type": "integer"
-              }
-            }
+            "type": "object"
           },
           "securityContext": {
-            "type": "object",
-            "properties": {
-              "runAsNonRoot": {
-                "type": "boolean"
-              },
-              "runAsUser": {
-                "type": "integer"
-              }
-            }
+            "type": "object"
           }
         }
       },
