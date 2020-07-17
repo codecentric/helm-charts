@@ -184,37 +184,40 @@ service:
   # The Service type
   type: ClusterIP
   # Optional static port assignment for Service type NodePort.
-  nodePort: ""
+  nodePort:
   # The http Service port
   httpPort: 80
   # The HTTP Service node port if type is NodePort
-  httpNodePort: ""
+  httpNodePort:
   # The HTTPS Service port
   httpsPort: 8443
   # The HTTPS Service node port if type is NodePort
-  httpsNodePort: ""
+  httpsNodePort:
   # Additional Service ports, e. g. for custom admin console
   extraPorts: []
 
 ingress:
   # If `true`, an Ingress is created
   enabled: false
-  # Path for the Ingress
-  path: /
   # The Service port targeted by the Ingress
   servicePort: http
   # Ingress annotations
   annotations: {}
   # Additional Ingress labels
   labels: {}
-  # List of hosts for the ingress
-  hosts:
-    - keycloak.example.com
+  # List of rules for the Ingress
+  rules:
+    -
+      # Ingress host
+      host: keycloak.example.com
+      # Paths for the host
+      paths:
+        - /
   # TLS configuration
-  tls: []
-  # - hosts:
-  #     - keycloak.example.com
-  #   secretName: tls-keycloak
+  tls:
+    - hosts:
+        - keycloak.example.com
+      secretName: keycloak-tls
 
 route:
   # If `true`, an OpenShift Route is created
