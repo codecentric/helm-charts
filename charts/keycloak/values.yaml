@@ -108,6 +108,7 @@ keycloak:
     -XX:MaxRAMPercentage=50.0
 
   ## Allows the specification of additional environment variables for Keycloak
+  ## Enable KEYCLOAK_HTTP_PORT, KEYCLOAK_HTTPS_PORT and KEYCLOAK_HOSTNAME if you are using ingress: true
   extraEnv: |
     # - name: KEYCLOAK_LOGLEVEL
     #   value: DEBUG
@@ -121,6 +122,13 @@ keycloak:
     #   value: true
     # - name: DB_USE_CAST_FAIL
     #   value: false
+    # - name: KEYCLOAK_HTTP_PORT
+    #   value: "80"
+    # - name: KEYCLOAK_HTTPS_PORT
+    #   value: "443"
+    # - name: KEYCLOAK_HOSTNAME
+    #   value: dev-keycloak.airstreamcomm.net
+
 
   affinity: |
     podAntiAffinity:
