@@ -5,6 +5,13 @@ extraEnv: |
     value: /secrets/admin-creds/user
   - name: KEYCLOAK_PASSWORD_FILE
     value: /secrets/admin-creds/password
+  - name: JAVA_OPTS
+    value: >-
+      -XX:+UseContainerSupport
+      -XX:MaxRAMPercentage=50.0
+      -Djava.net.preferIPv4Stack=true
+      -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS
+      -Djava.awt.headless=true
 
 secrets:
   - nameSuffix: admin-creds
