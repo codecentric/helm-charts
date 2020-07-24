@@ -315,7 +315,7 @@ postgresql:
 
 prometheusOperator:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
-  enabled: false
+  enabled: true
 
   serviceMonitor:
     # Optionally sets a target namespace in which to deploy the ServiceMonitor resource
@@ -329,9 +329,9 @@ prometheusOperator:
     # Timeout for scraping
     scrapeTimeout: 10s
     # The path at which metrics are served
-    path: /auth/realms/master/metrics
+    path: /metrics
     # The Service port at which metrics are served
-    port: http
+    port: http-management
 
   prometheusRule:
     # If `true`, a PrometheusRule resource for the prometheus-operator is created

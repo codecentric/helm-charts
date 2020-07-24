@@ -427,82 +427,37 @@ extraEnv: |
 
 ### Prometheus Metrics Support
 
-It is possible to monitor Keycloak with Prometheus through the use of plugins such as [keycloak-metrics-spi](https://github.com/aerogear/keycloak-metrics-spi).
-The plugin can be configured as follows:
+Keycloak can expose metrics on the management port.
+In order to achieve this, the port needs to be added and the environment variable `KEYCLOAK_STATISTICS` must be set.
 
 ```yaml
-extraInitContainers: |
-  - name: extensions
-    image: busybox
-    imagePullPolicy: IfNotPresent
-    command:
-      - sh
-    args:
-      - -c
-      - |
-        echo "Copying extensions..."
-        wget -O /deployments/keycloak-metrics-spi.jar https://github.com/aerogear/keycloak-metrics-spi/releases/download/1.0.1/keycloak-metrics-spi-1.0.1.jar
-    volumeMounts:
-      - name: deployments
-        mountPath: /deployments
+extraEnv: |
+  - name: KEYCLOAK_STATISTICS
+    value: all
 
-extraVolumeMounts: |
-  - name: deployments
-    mountPath: /opt/jboss/keycloak/standalone/deployments
+extraPorts:
+  - name: http-management
+    containerPort: 9990
+    protocol: TCP
+```
 
-extraVolumes: |
-  - name: deployments
-    emptyDir: {}
+Add a ServiceMonitor if using prometheus-operator:
 
+```yaml
 prometheusOperator:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
   enabled: true
+```
 
-  serviceMonitor:
-    # Optionally sets a target namespace in which to deploy the ServiceMonitor resource
-    namespace: ""
-    # Annotations for the ServiceMonitor
-    annotations: {}
-    # Additional labels for the ServiceMonitor
-    labels: {}
-    # Interval at which Prometheus scrapes metrics
-    interval: 10s
-    # Timeout for scraping
-    scrapeTimeout: 10s
-    # The path at which metrics are served
-    path: /auth/realms/master/metrics
-    # The Service port at which metrics are served
-    port: http
+Checkout `values.yaml` for customizing the ServiceMonitor and for adding custom Prometheus rules.
 
-  prometheusRule:
-      # If `true`, a PrometheusRule resource for the prometheus-operator is created
-      enabled: false
-      # Annotations for the PrometheusRule
-      annotations: {}
-      # Additional labels for the PrometheusRule
-      labels: {}
-      # List of rules for Prometheus
-      rules:
-      # - alert: keycloak-IngressHigh5xxRate
-      #   annotations:
-      #     message: The percentage of 5xx errors for keycloak over the last 5 minutes is over 1%.
-      #   expr: |
-      #     (
-      #       sum(
-      #         rate(
-      #           nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak",status=~"5[0-9]{2}"}[1m]
-      #         )
-      #       )
-      #       /
-      #       sum(
-      #         rate(
-      #           nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak"}[1m]
-      #         )
-      #       )
-      #     ) * 100 > 1
-      #   for: 5m
-      #   labels:
-      #     severity: warning
+Add annotations if you don't use prometheus-operator:
+
+```yaml
+service:
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/port: "9990"
 ```
 
 ## Why StatefulSet?
