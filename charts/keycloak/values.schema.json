@@ -314,6 +314,9 @@
           },
           "type": {
             "type": "string"
+          },
+          "loadBalancerIP": {
+            "type": "string"
           }
         }
       },

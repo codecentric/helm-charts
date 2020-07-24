@@ -69,7 +69,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `extraEnv` | Additional environment variables for Keycloak | `""` |
 | `extraEnvFrom` | Additional environment variables for Keycloak mapped from a Secret or ConfigMap | `""` |
 | `priorityClassName` | Pod priority class name | `""` |
-| `affinity` | Pod affinity | `""` |
+| `affinity` | Pod affinity | `Hard node and soft zone anti-affinity` |
 | `nodeSelector` | Node labels for Pod assignment | `{}` |
 | `tolerations` | Node taints to tolerate | `[]` |
 | `podLabels` | Additional Pod labels | `{}` |
@@ -177,7 +177,28 @@ It is used for the following values:
 Additionally, custom labels and annotations can be set on various resources the values of which being passed through `tpl` as well.
 
 It is important that these values be configured as strings.
-Otherwise, installation will fail. See example for Google Cloud Proxy or default affinity configuration in `values.yaml`.
+Otherwise, installation will fail.
+See example for Google Cloud Proxy or default affinity configuration in `values.yaml`.
+
+### JVM Settings
+
+Keycloak sets the following system properties by default:
+`-Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true`
+
+You can override thes by setting the `JAVA_OPTS` environment variable.
+Make sure you configure container support.
+This allows you to only configure memory using Kubernetes resources and the JVM will automatically adapt.
+
+```yaml
+extraEnv: |
+  - name: JAVA_OPTS
+    value: >-
+      -XX:+UseContainerSupport
+      -XX:MaxRAMPercentage=50.0
+      -Djava.net.preferIPv4Stack=true
+      -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS
+      -Djava.awt.headless=true
+```
 
 ### Database Setup
 
@@ -266,6 +287,24 @@ I must be configured via environment variables:
 
 Please refer to the section on database configuration for how to configure a secret for this.
 
+### High Availability and Clustering
+
+For high availability, Keycloak must be run with multiple replicas (`replicas > 1`).
+The chart has a helper template (`keycloak.serviceDnsName`) that creates the DNS name based on the headless service.
+With that, JGroups discovery via DNS_PING can be configured as follows:
+
+```yaml
+extraEnv: |
+  - name: JGROUPS_DISCOVERY_PROTOCOL
+    value: dns.DNS_PING
+  - name: JGROUPS_DISCOVERY_PROPERTIES
+    value: 'dns_query={{ include "keycloak.serviceDnsName" . }}'
+  - name: CACHE_OWNERS_COUNT
+    value: "2"
+  - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
+    value: "2"
+```
+
 ### Providing a Custom Theme
 
 One option is certainly to provide a custom Keycloak image that includes the theme.
@@ -340,7 +379,6 @@ Create the secret for the credentials as documented [here](https://cloud.google.
 Because `extraContainers` is a string that is passed through the `tpl` function, it is possible to create custom values and use them in the string.
 
 ```yaml
-
 postgresql:
   # Disable PostgreSQL dependency
   enabled: false
@@ -353,7 +391,7 @@ cloudsql:
 
 extraContainers: |
    - name: cloudsql-proxy
-    image: gcr.io/cloudsql-docker/gce-proxy:1.11
+    image: gcr.io/cloudsql-docker/gce-proxy:1.17
     command:
       - /cloud_sql_proxy
     args:
@@ -383,18 +421,6 @@ extraEnv: |
   - name: DB_PASSWORD
     value: mypassword
 ```
-
-### WildFly Configuration
-
-WildFly can be configured via its [command line interface (CLI)](https://docs.jboss.org/author/display/WFLY/Command+Line+Interface).
-This chart uses the official Keycloak Docker image and customizes the installation running CLI scripts at server startup.
-
-### High Availability and Clustering
-
-For high availability, Keycloak should be run with multiple replicas (`keycloak.replicas > 1`).
-WildFly uses Infinispan for caching.
-These caches can be replicated across all instances forming a cluster.
-If `keycloak.replicas > 1`, JGroups' DNS_PING is configured for cluster discovery.
 
 ### Prometheus Metrics Support
 
@@ -484,14 +510,14 @@ This can be problematic because pod names are quite long.
 We would have to truncate the chart's fullname to six characters because pods get a 17-character suffix (e. g. `-697f8b7655-mf5ht`).
 Using a StatefulSet allows us to truncate to 20 characters leaving room for up to 99 replicas, which is much better.
 Additionally, we get stable values for `jboss.node.name` which can be advantageous for cluster discovery.
-The headless service that governs the StatefulSet is used for DNS discovery.
+The headless service that governs the StatefulSet is used for DNS discovery via DNS_PING.
 
 ## Upgrading
 
 ### From chart versions < 9.0.0
 
 The Keycloak chart received a major facelift.
-Opinionated stuff and things that are now baked into Keycloak's Docker image are removed.
+Opinionated stuff and things that are now baked into Keycloak's Docker image were removed.
 Configuration is more generic making it easier to use custom Docker images that are configured differently than the official one.
 
 Updating an existing Keycloak is possible but values must be adjusted.

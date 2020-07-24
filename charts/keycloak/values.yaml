@@ -101,7 +101,30 @@ extraEnvFrom: ""
 priorityClassName: ""
 
 # Pod affinity
-affinity: ""
+affinity: |
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchLabels:
+            {{- include "keycloak.selectorLabels" . | nindent 10 }}
+          matchExpressions:
+            - key: app.kubernetes.io/component
+              operator: NotIn
+              values:
+                - test
+        topologyKey: kubernetes.io/hostname
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              {{- include "keycloak.selectorLabels" . | nindent 12 }}
+            matchExpressions:
+              - key: app.kubernetes.io/component
+                operator: NotIn
+                values:
+                  - test
+          topologyKey: failure-domain.beta.kubernetes.io/zone
 
 # Node labels for Pod assignment
 nodeSelector: {}
@@ -186,6 +209,8 @@ service:
   # key: value
   # The Service type
   type: ClusterIP
+
+  loadBalancerIP: ""
   # Optional static port assignment for Service type NodePort.
   nodePort:
   # The http Service port
