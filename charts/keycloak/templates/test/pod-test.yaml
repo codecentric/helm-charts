@@ -32,6 +32,13 @@ spec:
             secretKeyRef:
               name: {{ include "keycloak.fullname" . }}-admin-creds
               key: password
+      resources:
+        requests:
+          cpu: "200m"
+          memory: "32Mi"
+        limits:
+          cpu: "200m"
+          memory: "32Mi"
       volumeMounts:
         - name: tests
           mountPath: /tests

@@ -156,12 +156,12 @@ readinessProbe: |
 
 # Pod resource requests and limits
 resources: {}
-  # limits:
-  #   cpu: "100m"
-  #   memory: "1024Mi"
   # requests:
-  #   cpu: "100m"
-  #  memory: "1024Mi"
+  #   cpu: "500m"
+  #   memory: "1024Mi"
+  # limits:
+  #   cpu: "500m"
+  #   memory: "1024Mi"
 
 # Startup scripts to run before Keycloak starts up
 startupScripts:
@@ -233,19 +233,19 @@ ingress:
   annotations: {}
   # Additional Ingress labels
   labels: {}
-  # List of rules for the Ingress
-  # rules:
-  #  -
-  #    # Ingress host
-  #    host: keycloak.example.com
-  #    # Paths for the host
-  #    paths:
-  #      - /
+   # List of rules for the Ingress
+  rules:
+    -
+      # Ingress host
+      host: '{{ .Release.Name }}keycloak.example.com'
+      # Paths for the host
+      paths:
+        - /
   # TLS configuration
-  # tls:
-  #   - hosts:
-  #       - keycloak.example.com
-  #     secretName: keycloak-tls
+  tls:
+    - hosts:
+        - keycloak.example.com
+      secretName: keycloak-tls
 
 route:
   # If `true`, an OpenShift Route is created

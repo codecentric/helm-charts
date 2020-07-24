@@ -17,7 +17,7 @@ metadata:
     {{- end }}
 spec:
 {{- if $route.host }}
-  host: {{ $route.host }}
+  host: {{ tpl $route.host $ | quote }}
 {{- end }}
   path: {{ $route.path }}
   port:

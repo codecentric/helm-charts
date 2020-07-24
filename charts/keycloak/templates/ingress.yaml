@@ -21,14 +21,14 @@ spec:
     {{- range $ingress.tls }}
     - hosts:
       {{- range .hosts }}
-        - {{ . }}
+        - {{ tpl . $ | quote }}
       {{- end }}
-      secretName: {{ .secretName }}
+      secretName: {{ tpl .secretName $ }}
     {{- end }}
 {{- end }}
   rules:
     {{- range .Values.ingress.rules }}
-    - host: {{ .host }}
+    - host: {{ tpl .host $ | quote }}
       http:
         paths:
           {{- range .paths }}
