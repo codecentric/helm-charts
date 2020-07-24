@@ -5,6 +5,9 @@ metadata:
   name: {{ include "keycloak.fullname" . }}-test
   labels:
     {{- include "keycloak.labels" . | nindent 4 }}
+  annotations:
+    helm.sh/hook: test
+    helm.sh/hook-delete-policy: hook-succeeded
 data:
   test.py: |
     import os
