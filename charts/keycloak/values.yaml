@@ -221,7 +221,7 @@ service:
   # key: value
   # The Service type
   type: ClusterIP
-
+  # Optional IP for the load balancer. Used for services of type LoadBalancer only
   loadBalancerIP: ""
   # Optional static port assignment for Service type NodePort.
   nodePort:

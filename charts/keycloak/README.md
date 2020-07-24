@@ -71,7 +71,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `extraEnv` | Additional environment variables for Keycloak | `""` |
 | `extraEnvFrom` | Additional environment variables for Keycloak mapped from a Secret or ConfigMap | `""` |
 | `priorityClassName` | Pod priority class name | `""` |
-| `affinity` | Pod affinity | `Hard node and soft zone anti-affinity` |
+| `affinity` | Pod affinity | Hard node and soft zone anti-affinity |
 | `nodeSelector` | Node labels for Pod assignment | `{}` |
 | `tolerations` | Node taints to tolerate | `[]` |
 | `podLabels` | Additional Pod labels | `{}` |
@@ -90,6 +90,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `service.annotations` | Annotations for headless and HTTP Services | `{}` |
 | `service.labels` | Additional labels for headless and HTTP Services | `{}` |
 | `service.type` | The Service type | `ClusterIP` |
+| `service.loadBalancerIP` | Optional IP for the load balancer. Used for services of type LoadBalancer only | `""` |
 | `service.nodePort` | Optional static port assignment for Service type NodePort. | `""` |
 | `service.httpPort` | The http Service port | `80` |
 | `service.httpNodePort` | The HTTP Service node port if type is NodePort | `""` |
@@ -529,6 +530,7 @@ Updating an existing Keycloak is possible but values must be adjusted.
 * Environment variables for the Postresql dependency are set automatically if enabled.
   Otherwise, no environment variables are set by default.
 * Optionally enables creating RBAC resources with configurable rule (e. g. for KUBE_PING)
+* PostgreSQL chart dependency is updated to 9.1.1
 
 ### From chart versions < 8.0.0
 

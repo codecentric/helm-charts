@@ -68,22 +68,22 @@ Create a default fully qualified app name for the postgres requirement.
 {{- define "keycloak.postgresql.fullname" -}}
 {{- $postgresContext := dict "Values" .Values.postgresql "Release" .Release "Chart" (dict "Name" "postgresql") -}}
 {{ include "postgresql.fullname" $postgresContext }}
-{{- end -}}
+{{- end }}
 
 {{/*
 Create the service DNS name.
 */}}
 {{- define "keycloak.serviceDnsName" -}}
 {{ include "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
-{{- end -}}
+{{- end }}
 
 {{/*
 Create the namespace for the ServiceMonitor deployment
 */}}
 {{- define "keycloak.serviceMonitorNamespace" -}}
-{{- if .Values.prometheus.operator.serviceMonitor.namespace -}}
+{{- if .Values.prometheus.operator.serviceMonitor.namespace }}
 {{ .Values.prometheus.operator.serviceMonitor.namespace }}
-{{- else -}}
+{{- else }}
 {{ .Release.Namespace }}
-{{- end -}}
-{{- end -}}
+{{- end }}
+{{- end }}

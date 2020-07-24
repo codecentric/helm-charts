@@ -48,6 +48,8 @@ spec:
             - sh
             - -c
             - |
+              echo 'Waiting for PostgreSQL to become ready...'
+
               until printf "." && nc -z -w 2 {{ include "keycloak.postgresql.fullname" . }} {{ .Values.postgresql.service.port }}; do
                   sleep 2;
               done;
