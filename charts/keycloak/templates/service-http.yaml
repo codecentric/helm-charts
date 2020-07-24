@@ -1,39 +1,48 @@
-{{- $service := .Values.keycloak.service -}}
 apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "keycloak.fullname" . }}-http
-  {{- with $service.annotations }}
+  {{- with .Values.service.annotations }}
   annotations:
     {{- range $key, $value := . }}
     {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
     {{- end }}
   {{- end }}
   labels:
-    {{- include "keycloak.commonLabels" . | nindent 4 }}
-    {{- with $service.labels }}
-    {{- toYaml . | nindent 4 }}
+    {{- include "keycloak.labels" . | nindent 4 }}
+    {{- range $key, $value := .Values.service.labels }}
+    {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
     {{- end }}
-    service: http
+    app.kubernetes.io/component: http
 spec:
-  type: {{ $service.type }}
+  type: {{ .Values.service.type }}
+  {{- if and (eq "LoadBalancer" .Values.service.type) .Values.service.loadBalancerIP }}
+  loadBalancerIP: {{ .Values.service.loadBalancerIP }}
+  {{- end }}
   ports:
     - name: http
-      port: {{ $service.httpPort }}
+      port: {{ .Values.service.httpPort }}
       targetPort: http
-    {{- if and (eq "NodePort" $service.type) $service.httpNodePort }}
-      nodePort: {{ $service.httpNodePort }}
-    {{- end }}
+      {{- if and (eq "NodePort" .Values.service.type) .Values.service.httpNodePort }}
+      nodePort: {{ .Values.service.httpNodePort }}
+      {{- end }}
       protocol: TCP
     - name: https
-      port: {{ $service.httpsPort }}
+      port: {{ .Values.service.httpsPort }}
       targetPort: https
-    {{- if and (eq "NodePort" $service.type) $service.httpsNodePort }}
-      nodePort: {{ $service.httpsNodePort }}
-    {{- end }}
+      {{- if and (eq "NodePort" .Values.service.type) .Values.service.httpsNodePort }}
+      nodePort: {{ .Values.service.httpsNodePort }}
+      {{- end }}
       protocol: TCP
-    {{- with $service.extraPorts }}
-    {{- tpl . $ | nindent 4 }}
+    - name: http-management
+      port: {{ .Values.service.httpManagementPort }}
+      targetPort: http-management
+      {{- if and (eq "NodePort" .Values.service.type) .Values.service.httpManagementNodePort }}
+      nodePort: {{ .Values.service.httpManagementNodePort }}
+      {{- end }}
+      protocol: TCP
+    {{- with .Values.service.extraPorts }}
+    {{- toYaml . | nindent 4 }}
     {{- end }}
   selector:
     {{- include "keycloak.selectorLabels" . | nindent 4 }}
