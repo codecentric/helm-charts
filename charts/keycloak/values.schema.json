@@ -1,6 +1,41 @@
 {
   "$schema": "http://json-schema.org/schema#",
   "type": "object",
+  "required": [
+    "image"
+  ],
+  "definitions": {
+    "image": {
+      "type": "object",
+      "required": [
+        "repository",
+        "tag"
+      ],
+      "properties": {
+        "pullPolicy": {
+          "type": "string",
+          "pattern": "^(Always|Never|IfNotPresent)$"
+        },
+        "repository": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string"
+        }
+      }
+    },
+    "imagePullSecrets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
   "properties": {
     "affinity": {
       "type": "string"
@@ -44,23 +79,8 @@
     "hostAliases": {
       "type": "array"
     },
-    "image": {
-      "type": "object",
-      "properties": {
-        "pullPolicy": {
-          "type": "string"
-        },
-        "repository": {
-          "type": "string"
-        },
-        "tag": {
-          "type": "string"
-        }
-      }
-    },
-    "imagePullSecrets": {
-      "type": "null"
-    },
+    "image": { "$ref": "#/definitions/image" },
+    "imagePullSecrets": { "$ref": "#/definitions/imagePullSecrets" },
     "ingress": {
       "type": "object",
       "properties": {
@@ -135,20 +155,7 @@
       "pgchecker": {
         "type": "object",
         "properties": {
-          "image": {
-            "type": "object",
-            "properties": {
-              "pullPolicy": {
-                "type": "string"
-              },
-              "repository": {
-                "type": "string"
-              },
-              "tag": {
-                "type": "string"
-              }
-            }
-          },
+          "image": { "$ref": "#/definitions/image" },
           "resources": {
             "type": "object",
             "properties": {
@@ -319,9 +326,7 @@
           "create": {
             "type": "boolean"
           },
-          "imagePullSecrets": {
-            "type": "array"
-          },
+          "imagePullSecrets": { "$ref": "#/definitions/imagePullSecrets" },
           "labels": {
             "type": "object"
           },
@@ -348,20 +353,7 @@
           "enabled": {
             "type": "boolean"
           },
-          "image": {
-            "type": "object",
-            "properties": {
-              "pullPolicy": {
-                "type": "string"
-              },
-              "repository": {
-                "type": "string"
-              },
-              "tag": {
-                "type": "string"
-              }
-            }
-          },
+          "image": { "$ref": "#/definitions/image" },
           "podSecurityContext": {
             "type": "object"
           },

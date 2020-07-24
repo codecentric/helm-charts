@@ -17,7 +17,7 @@ image:
 
 # Image pull secrets for the Pod
 imagePullSecrets:
-  # - myRegistrKeySecretName
+  - name: myRegistrKeySecretName
 
 # Mapping between IPs and hostnames that will be injected as entries in the Pod's hosts files
 hostAliases: []
@@ -144,7 +144,7 @@ resources: {}
 startupScripts:
   # WildFly CLI script for configuring the node-identifier
   keycloak.cli: |
-    {{- .Files.Get "scripts/keycloak.cli" | nindent 2 }}
+    {{- .Files.Get "scripts/keycloak.cli" }}
   # mystartup.sh: |
   #   #!/bin/sh
   #
@@ -209,18 +209,18 @@ ingress:
   # Additional Ingress labels
   labels: {}
   # List of rules for the Ingress
-  rules:
-    -
-      # Ingress host
-      host: keycloak.example.com
-      # Paths for the host
-      paths:
-        - /
+  # rules:
+  #  -
+  #    # Ingress host
+  #    host: keycloak.example.com
+  #    # Paths for the host
+  #    paths:
+  #      - /
   # TLS configuration
-  tls:
-    - hosts:
-        - keycloak.example.com
-      secretName: keycloak-tls
+  # tls:
+  #   - hosts:
+  #       - keycloak.example.com
+  #     secretName: keycloak-tls
 
 route:
   # If `true`, an OpenShift Route is created
