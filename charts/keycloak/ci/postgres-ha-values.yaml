@@ -49,7 +49,7 @@ extraEnv: |
       -Djava.awt.headless=true
 
 secrets:
-  - nameSuffix: admin-creds
+  admin-creds:
     stringData:
       user: admin
       password: secret

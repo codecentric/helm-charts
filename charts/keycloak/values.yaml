@@ -206,12 +206,12 @@ statefulsetAnnotations: {}
 statefulsetLabels: {}
 
 # Configuration for secrets that should be created
-secrets: []
-#  - nameSuffix: ""
-#    annotations: {}
-#    labels: {}
-#    stringData: {}
-#    data: {}
+secrets: {}
+  # mysecret:
+  #   annotations: {}
+  #   labels: {}
+  #   stringData: {}
+  #   data: {}
 
 service:
   # Annotations for headless and HTTP Services

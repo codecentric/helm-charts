@@ -14,7 +14,7 @@ extraEnv: |
       -Djava.awt.headless=true
 
 secrets:
-  - nameSuffix: admin-creds
+  admin-creds:
     annotations:
       my-test-annotation: Test secret for {{ include "keycloak.fullname" . }}
     stringData:

@@ -257,7 +257,7 @@
         }
       },
       "secrets": {
-        "type": "array"
+        "type": "object"
       },
       "securityContext": {
         "type": "object"

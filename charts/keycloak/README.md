@@ -86,7 +86,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `podDisruptionBudget` | Pod disruption budget | `{}` |
 | `statefulsetAnnotations` | Annotations for the StatefulSet | `{}` |
 | `statefulsetLabels` | Additional labels for the StatefulSet | `{}` |
-| `secrets` | Configuration for secrets that should be created | `[]` |
+| `secrets` | Configuration for secrets that should be created | `{}` |
 | `service.annotations` | Annotations for headless and HTTP Services | `{}` |
 | `service.labels` | Additional labels for headless and HTTP Services | `{}` |
 | `service.type` | The Service type | `ClusterIP` |
@@ -238,7 +238,7 @@ extraEnvFrom: |
       name: '{{ include "keycloak.fullname" . }}-db'
 
 secrets:
-  - nameSuffix: db
+  db:
     stringData:
       DB_USER: '{{ .Values.dbUser }}'
       DB_PASSWORD: '{{ .Values.dbPassword }}'
