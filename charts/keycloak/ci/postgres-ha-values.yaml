@@ -48,11 +48,6 @@ extraEnv: |
       -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS
       -Djava.awt.headless=true
 
-extraPorts:
-  - name: http-management
-    containerPort: 9990
-    protocol: TCP
-
 secrets:
   - nameSuffix: admin-creds
     stringData:

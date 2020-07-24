@@ -315,7 +315,7 @@ postgresql:
 
 prometheusOperator:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
-  enabled: true
+  enabled: false
 
   serviceMonitor:
     # Optionally sets a target namespace in which to deploy the ServiceMonitor resource

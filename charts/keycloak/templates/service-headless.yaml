@@ -23,12 +23,5 @@ spec:
       port: {{ .Values.service.httpPort }}
       targetPort: http
       protocol: TCP
-    - name: https
-      port: {{ .Values.service.httpsPort }}
-      targetPort: https
-      protocol: TCP
-    {{- with .Values.service.extraPorts }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
   selector:
     {{- include "keycloak.selectorLabels" . | nindent 4 }}

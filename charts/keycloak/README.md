@@ -245,7 +245,7 @@ secrets:
 
 `dbUser` and `dbPassword` are custom values you'd then specify on the commandline using `--set-string`.
 
-##### Using an ExistingSecret
+##### Using an Existing Secret
 
 The following examples uses a PostgreSQL database with a secret.
 Username and password are mounted as files.
@@ -283,7 +283,7 @@ extraVolumes: |
 ### Creating a Keycloak Admin User
 
 The Keycloak Docker image supports creating an initial admin user.
-I must be configured via environment variables:
+It must be configured via environment variables:
 
 * `KEYCLOAK_USER` or `KEYCLOAK_USER_FILE`
 * `KEYCLOAK_PASSWORD` or `KEYCLOAK_PASSWORD_FILE`
@@ -438,6 +438,12 @@ extraEnv: |
 extraPorts:
   - name: http-management
     containerPort: 9990
+    protocol: TCP
+
+extraServicePorts:
+  - name: http-management
+    port: 9990
+    targetPort: http-management
     protocol: TCP
 ```
 
