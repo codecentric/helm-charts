@@ -261,6 +261,18 @@ ingress:
         - keycloak.example.com
       secretName: ""
 
+## Network policy configuration
+networkPolicy:
+  # If true, the Network policies are deployed
+  enabled: false
+
+  # Additional Network policy labels
+  labels: {}
+
+  # Define all other external allowed source
+  # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#networkpolicypeer-v1-networking-k8s-io
+  extraFrom: []
+
 route:
   # If `true`, an OpenShift Route is created
   enabled: false
@@ -314,6 +326,10 @@ postgresql:
   # PostgreSQL Database to create
   postgresqlDatabase: keycloak
   # Persistent Volume Storage configuration
+
+  # PostgreSQL network policy configuration
+  networkPolicy:
+    enabled: false
 
 serviceMonitor:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
