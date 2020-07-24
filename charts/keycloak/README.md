@@ -528,6 +528,7 @@ Updating an existing Keycloak is possible but values must be adjusted.
 * Besides setting the node identifier, no CLI changes are performed out of the box
 * Environment variables for the Postresql dependency are set automatically if enabled.
   Otherwise, no environment variables are set by default.
+* Optionally enables creating RBAC resources with configurable rule (e. g. for KUBE_PING)
 
 ### From chart versions < 8.0.0
 
