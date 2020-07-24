@@ -20,7 +20,8 @@ jobs:
           command: ct lint --config .circleci/ct.yaml
 
   install-charts:
-    machine: true
+    machine:
+      image: ubuntu-1604:202007-01
     steps:
       - checkout
       - run:
