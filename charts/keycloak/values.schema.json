@@ -338,6 +338,17 @@
           }
         }
       },
+      "rbac": {
+        "type": "object",
+        "properties": {
+          "create": {
+            "type": "boolean"
+          },
+          "rules": {
+            "type": "array"
+          }
+        }
+      },
       "startupScripts": {
         "type": "object"
       },

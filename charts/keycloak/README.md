@@ -57,6 +57,8 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `serviceAccount.annotations` | Additional annotations for the ServiceAccount | `{}` |
 | `serviceAccount.labels` | Additional labels for the ServiceAccount | `{}` |
 | `serviceAccount.imagePullSecrets` | Image pull secrets that are attached to the ServiceAccount | `[]` |
+| `rbac.create` | Specifies whether RBAC resources are to be created | `false`
+| `rbac.rules` | Custom RBAC rules, e. g. for KUBE_PING | `[]`
 | `podSecurityContext` | SecurityContext for the entire Pod. Every container running in the Pod will inherit this SecurityContext. This might be relevant when other components of the environment inject additional containers into running Pods (service meshes are the most prominent example for this) | `{"fsGroup":1000}` |
 | `securityContext` | SecurityContext for the Keycloak container | `{"runAsNonRoot":true,"runAsUser":1000}` |
 | `extraInitContainers` | Additional init containers, e. g. for providing custom themes | `[]` |
