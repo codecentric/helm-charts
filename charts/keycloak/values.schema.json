@@ -79,8 +79,12 @@
     "hostAliases": {
       "type": "array"
     },
-    "image": { "$ref": "#/definitions/image" },
-    "imagePullSecrets": { "$ref": "#/definitions/imagePullSecrets" },
+    "image": {
+      "$ref": "#/definitions/image"
+    },
+    "imagePullSecrets": {
+      "$ref": "#/definitions/imagePullSecrets"
+    },
     "ingress": {
       "type": "object",
       "properties": {
@@ -155,7 +159,9 @@
       "pgchecker": {
         "type": "object",
         "properties": {
-          "image": { "$ref": "#/definitions/image" },
+          "image": {
+            "$ref": "#/definitions/image"
+          },
           "resources": {
             "type": "object",
             "properties": {
@@ -209,19 +215,11 @@
       "priorityClassName": {
         "type": "string"
       },
-      "prometheusOperator": {
-        "type": "object",
-        "properties": {
-          "enabled": {
-            "type": "boolean"
-          },
-          "prometheusRule": {
-            "type": "object"
-          },
-          "serviceMonitor": {
-            "type": "object"
-          }
-        }
+      "prometheusRule": {
+        "type": "object"
+      },
+      "serviceMonitor": {
+        "type": "object"
       },
       "readinessProbe": {
         "type": "string"
@@ -299,6 +297,19 @@
           "httpsPort": {
             "type": "integer"
           },
+          "httpManagementNodePort": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "httpManagementPort": {
+            "type": "integer"
+          },
           "labels": {
             "type": "object"
           },
@@ -329,7 +340,9 @@
           "create": {
             "type": "boolean"
           },
-          "imagePullSecrets": { "$ref": "#/definitions/imagePullSecrets" },
+          "imagePullSecrets": {
+            "$ref": "#/definitions/imagePullSecrets"
+          },
           "labels": {
             "type": "object"
           },
@@ -367,7 +380,9 @@
           "enabled": {
             "type": "boolean"
           },
-          "image": { "$ref": "#/definitions/image" },
+          "image": {
+            "$ref": "#/definitions/image"
+          },
           "podSecurityContext": {
             "type": "object"
           },

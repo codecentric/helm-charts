@@ -76,7 +76,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `tolerations` | Node taints to tolerate | `[]` |
 | `podLabels` | Additional Pod labels | `{}` |
 | `podAnnotations` | Additional Pod annotations | `{}` |
-| `livenessProbe` | Liveness probe configuration | `{"httpGet":{"path":"/auth","port":"http"},"initialDelaySeconds":300,"timeoutSeconds":5}` |
+| `livenessProbe` | Liveness probe configuration | `{"httpGet":{"path":"/health/live","port":"http"},"initialDelaySeconds":300,"timeoutSeconds":5}` |
 | `readinessProbe` | Readiness probe configuration | `{"httpGet":{"path":"/auth/realms/master","port":"http"},"initialDelaySeconds":30,"timeoutSeconds":1}` |
 | `resources` | Pod resource requests and limits | `{}` |
 | `startupScripts` | Startup scripts to run before Keycloak starts up | `{"keycloak.cli":"{{- .Files.Get \"scripts/keycloak.cli\" | nindent 2 }}\n"}` |
@@ -91,11 +91,12 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `service.labels` | Additional labels for headless and HTTP Services | `{}` |
 | `service.type` | The Service type | `ClusterIP` |
 | `service.loadBalancerIP` | Optional IP for the load balancer. Used for services of type LoadBalancer only | `""` |
-| `service.nodePort` | Optional static port assignment for Service type NodePort. | `""` |
 | `service.httpPort` | The http Service port | `80` |
 | `service.httpNodePort` | The HTTP Service node port if type is NodePort | `""` |
 | `service.httpsPort` | The HTTPS Service port | `8443` |
 | `service.httpsNodePort` | The HTTPS Service node port if type is NodePort | `""` |
+| `service.httpManagementPort` | The WildFly management Service port | `8443` |
+| `service.httpManagementNodePort` | The WildFly management node port if type is NodePort | `""` |
 | `service.extraPorts` | Additional Service ports, e. g. for custom admin console | `[]` |
 | `ingress.enabled` | If `true`, an Ingress is created | `false` |
 | `ingress.rules` | List of Ingress Ingress rule | see below |
@@ -124,18 +125,18 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `postgresql.postgresqlUsername` | PostgreSQL User to create | `keycloak` |
 | `postgresql.postgresqlPassword` | PostgreSQL Password for the new user | `keycloak` |
 | `postgresql.postgresqlDatabase` | PostgreSQL Database to create | `keycloak` |
-| `prometheusOperator.enabled` | If `true`, a ServiceMonitor resource for the prometheus-operator is created | `false` |
-| `prometheusOperator.serviceMonitor.namespace` | Optionally sets a target namespace in which to deploy the ServiceMonitor resource | `""` |
-| `prometheusOperator.serviceMonitor.annotations` | Annotations for the ServiceMonitor | `{}` |
-| `prometheusOperator.serviceMonitor.labels` | Additional labels for the ServiceMonitor | `{}` |
-| `prometheusOperator.serviceMonitor.interval` | Interval at which Prometheus scrapes metrics | `10s` |
-| `prometheusOperator.serviceMonitor.scrapeTimeout` | Timeout for scraping | `10s` |
-| `prometheusOperator.serviceMonitor.path` | The path at which metrics are served | `/auth/realms/master/metrics` |
-| `prometheusOperator.serviceMonitor.port` | The Service port at which metrics are served | `http` |
-| `prometheusOperator.prometheusRule.enabled` | If `true`, a PrometheusRule resource for the prometheus-operator is created | `false` |
-| `prometheusOperator.prometheusRule.annotations` | Annotations for the PrometheusRule | `{}` |
-| `prometheusOperator.prometheusRule.labels` | Additional labels for the PrometheusRule | `{}` |
-| `prometheusOperator.prometheusRule.rules` | List of rules for Prometheus | `` |
+| `serviceMonitor.enabled` | If `true`, a ServiceMonitor resource for the prometheus-operator is created | `false` |
+| `serviceMonitor.namespace` | Optionally sets a target namespace in which to deploy the ServiceMonitor resource | `""` |
+| `serviceMonitor.annotations` | Annotations for the ServiceMonitor | `{}` |
+| `serviceMonitor.labels` | Additional labels for the ServiceMonitor | `{}` |
+| `serviceMonitor.interval` | Interval at which Prometheus scrapes metrics | `10s` |
+| `serviceMonitor.scrapeTimeout` | Timeout for scraping | `10s` |
+| `serviceMonitor.path` | The path at which metrics are served | `/auth/realms/master/metrics` |
+| `serviceMonitor.port` | The Service port at which metrics are served | `http` |
+| `prometheusRule.enabled` | If `true`, a PrometheusRule resource for the prometheus-operator is created | `false` |
+| `prometheusRule.annotations` | Annotations for the PrometheusRule | `{}` |
+| `prometheusRule.labels` | Additional labels for the PrometheusRule | `{}` |
+| `prometheusRule.rules` | List of rules for Prometheus | `` |
 | `test.enabled` | If `true`, test resources are created | `false` |
 | `test.image.repository` | The image for the test Pod | `docker.io/unguiculus/docker-python3-phantomjs-selenium` |
 | `test.image.tag` | The tag for the test Pod image | `v1` |
@@ -434,23 +435,12 @@ In order to achieve this, the port needs to be added and the environment variabl
 extraEnv: |
   - name: KEYCLOAK_STATISTICS
     value: all
-
-extraPorts:
-  - name: http-management
-    containerPort: 9990
-    protocol: TCP
-
-extraServicePorts:
-  - name: http-management
-    port: 9990
-    targetPort: http-management
-    protocol: TCP
 ```
 
 Add a ServiceMonitor if using prometheus-operator:
 
 ```yaml
-prometheusOperator:
+serviceMonitor:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
   enabled: true
 ```
@@ -480,17 +470,15 @@ The headless service that governs the StatefulSet is used for DNS discovery via 
 
 ### From chart versions < 9.0.0
 
-The Keycloak chart received a major facelift.
+The Keycloak chart received a major facelift and, thus, comes with breaking changes.
 Opinionated stuff and things that are now baked into Keycloak's Docker image were removed.
 Configuration is more generic making it easier to use custom Docker images that are configured differently than the official one.
-
-Updating an existing Keycloak is possible but values must be adjusted.
 
 * Values are no longer nested under `keycloak`.
 * Besides setting the node identifier, no CLI changes are performed out of the box
 * Environment variables for the Postresql dependency are set automatically if enabled.
   Otherwise, no environment variables are set by default.
-* Optionally enables creating RBAC resources with configurable rule (e. g. for KUBE_PING)
+* Optionally enables creating RBAC resources with configurable rules (e. g. for KUBE_PING)
 * PostgreSQL chart dependency is updated to 9.1.1
 
 ### From chart versions < 8.0.0

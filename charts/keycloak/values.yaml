@@ -60,11 +60,11 @@ rbac:
   #      - list
 
 # SecurityContext for the entire Pod. Every container running in the Pod will inherit this SecurityContext. This might be relevant when other components of the environment inject additional containers into running Pods (service meshes are the most prominent example for this)
-podSecurityContext:  # +doc-gen:break
+podSecurityContext:
   fsGroup: 1000
 
 # SecurityContext for the Keycloak container
-securityContext:  # +doc-gen:break
+securityContext:
   runAsUser: 1000
   runAsNonRoot: true
 
@@ -153,8 +153,8 @@ podAnnotations: {}
 # Liveness probe configuration
 livenessProbe: |
   httpGet:
-    path: /auth
-    port: http
+    path: /health/live
+    port: http-management
   initialDelaySeconds: 300
   timeoutSeconds: 5
 
@@ -223,16 +223,18 @@ service:
   type: ClusterIP
   # Optional IP for the load balancer. Used for services of type LoadBalancer only
   loadBalancerIP: ""
-  # Optional static port assignment for Service type NodePort.
-  nodePort:
   # The http Service port
   httpPort: 80
   # The HTTP Service node port if type is NodePort
-  httpNodePort:
+  httpNodePort: null
   # The HTTPS Service port
   httpsPort: 8443
   # The HTTPS Service node port if type is NodePort
-  httpsNodePort:
+  httpsNodePort: null
+  # The WildFly management Service port
+  httpManagementPort: 9990
+  # The WildFly management Service node port if type is NodePort
+  httpManagementNodePort: null
   # Additional Service ports, e. g. for custom admin console
   extraPorts: []
 
@@ -249,7 +251,7 @@ ingress:
   rules:
     -
       # Ingress host
-      host: '{{ .Release.Name }}keycloak.example.com'
+      host: '{{ .Release.Name }}.keycloak.example.com'
       # Paths for the host
       paths:
         - /
@@ -288,13 +290,13 @@ pgchecker:
     # Image pull policy for the pgchecker image
     pullPolicy: IfNotPresent
   # SecurityContext for the pgchecker container
-  securityContext:  # +doc-gen:break
+  securityContext:
     allowPrivilegeEscalation: false
     runAsUser: 1000
     runAsGroup: 1000
     runAsNonRoot: true
   # Resource requests and limits for the pgchecker container
-  resources:  # +doc-gen:break
+  resources:
     requests:
       cpu: "10m"
       memory: "16Mi"
@@ -313,55 +315,53 @@ postgresql:
   postgresqlDatabase: keycloak
   # Persistent Volume Storage configuration
 
-prometheusOperator:
+serviceMonitor:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
   enabled: false
+  # Optionally sets a target namespace in which to deploy the ServiceMonitor resource
+  namespace: ""
+  # Annotations for the ServiceMonitor
+  annotations: {}
+  # Additional labels for the ServiceMonitor
+  labels: {}
+  # Interval at which Prometheus scrapes metrics
+  interval: 10s
+  # Timeout for scraping
+  scrapeTimeout: 10s
+  # The path at which metrics are served
+  path: /metrics
+  # The Service port at which metrics are served
+  port: http-management
 
-  serviceMonitor:
-    # Optionally sets a target namespace in which to deploy the ServiceMonitor resource
-    namespace: ""
-    # Annotations for the ServiceMonitor
-    annotations: {}
-    # Additional labels for the ServiceMonitor
-    labels: {}
-    # Interval at which Prometheus scrapes metrics
-    interval: 10s
-    # Timeout for scraping
-    scrapeTimeout: 10s
-    # The path at which metrics are served
-    path: /metrics
-    # The Service port at which metrics are served
-    port: http-management
-
-  prometheusRule:
-    # If `true`, a PrometheusRule resource for the prometheus-operator is created
-    enabled: false
-    # Annotations for the PrometheusRule
-    annotations: {}
-    # Additional labels for the PrometheusRule
-    labels: {}
-    # List of rules for Prometheus
-    rules:
-    # - alert: keycloak-IngressHigh5xxRate
-    #   annotations:
-    #     message: The percentage of 5xx errors for keycloak over the last 5 minutes is over 1%.
-    #   expr: |
-    #     (
-    #       sum(
-    #         rate(
-    #           nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak",status=~"5[0-9]{2}"}[1m]
-    #         )
-    #       )
-    #       /
-    #       sum(
-    #         rate(
-    #           nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak"}[1m]
-    #         )
-    #       )
-    #     ) * 100 > 1
-    #   for: 5m
-    #   labels:
-    #     severity: warning
+prometheusRule:
+  # If `true`, a PrometheusRule resource for the prometheus-operator is created
+  enabled: false
+  # Annotations for the PrometheusRule
+  annotations: {}
+  # Additional labels for the PrometheusRule
+  labels: {}
+  # List of rules for Prometheus
+  rules: []
+  # - alert: keycloak-IngressHigh5xxRate
+  #   annotations:
+  #     message: The percentage of 5xx errors for keycloak over the last 5 minutes is over 1%.
+  #   expr: |
+  #     (
+  #       sum(
+  #         rate(
+  #           nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak",status=~"5[0-9]{2}"}[1m]
+  #         )
+  #       )
+  #       /
+  #       sum(
+  #         rate(
+  #           nginx_ingress_controller_response_duration_seconds_count{exported_namespace="mynamespace",ingress="mynamespace-keycloak"}[1m]
+  #         )
+  #       )
+  #     ) * 100 > 1
+  #   for: 5m
+  #   labels:
+  #     severity: warning
 
 test:
   # If `true`, test resources are created
@@ -374,9 +374,9 @@ test:
     # The image pull policy for the test Pod image
     pullPolicy: IfNotPresent
   # SecurityContext for the entire test Pod
-  podSecurityContext:  # +doc-gen:break
+  podSecurityContext:
     fsGroup: 1000
   # SecurityContext for the test container
-  securityContext:  # +doc-gen:break
+  securityContext:
     runAsUser: 1000
     runAsNonRoot: true

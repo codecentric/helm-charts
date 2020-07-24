@@ -34,6 +34,13 @@ spec:
       nodePort: {{ .Values.service.httpsNodePort }}
       {{- end }}
       protocol: TCP
+    - name: http-management
+      port: {{ .Values.service.httpManagementPort }}
+      targetPort: http-management
+      {{- if and (eq "NodePort" .Values.service.type) .Values.service.httpManagementNodePort }}
+      nodePort: {{ .Values.service.httpManagementNodePort }}
+      {{- end }}
+      protocol: TCP
     {{- with .Values.service.extraPorts }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
