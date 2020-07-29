@@ -153,8 +153,8 @@ podAnnotations: {}
 # Liveness probe configuration
 livenessProbe: |
   httpGet:
-    path: /health/live
-    port: http-management
+    path: /auth/
+    port: http
   initialDelaySeconds: 300
   timeoutSeconds: 5
 
