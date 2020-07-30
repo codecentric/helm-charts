@@ -33,6 +33,11 @@ spec:
         - name: {{ template "mailhog.name" . }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+          command:
+          - /bin/sh
+          - -c
+          args:
+          - MailHog {{ join " " .Values.startup.args }}
           env:
             - name: MH_HOSTNAME
               valueFrom:
