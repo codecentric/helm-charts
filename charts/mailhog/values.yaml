@@ -3,6 +3,9 @@ image:
   tag: v1.0.0
   pullPolicy: IfNotPresent
 
+startup:
+  args: []
+
 nameOverride: ""
 fullnameOverride: ""
 
