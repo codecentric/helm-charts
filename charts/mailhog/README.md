@@ -71,6 +71,7 @@ Parameter | Description | Default
 `ingress.hosts` | A list of ingress hosts | `{ host: mailhog.example.com, paths: ["/"] }`
 `ingress.tls` | A list of [IngressTLS](https://v1-8.docs.kubernetes.io/docs/api-reference/v1.8/#ingresstls-v1beta1-extensions) items | `[]`
 `extraEnv` | Additional environment variables, see [CONFIG.md](https://github.com/mailhog/MailHog/blob/master/docs/CONFIG.md) | `{}`
+`startup.args` | Additional arguments to be passed to startup command (Mailhog). Eg. Skip writing logs to stdout by passing `&>/dev/null` as arg | `[]`
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
 
