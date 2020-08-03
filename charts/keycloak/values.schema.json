@@ -56,7 +56,14 @@
       "type": "string"
     },
     "extraEnv": {
-      "type": "string"
+      "type": "array",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "value": {
+          "type": "string"
+        }
     },
     "extraEnvFrom": {
       "type": "string"
