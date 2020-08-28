@@ -16,8 +16,8 @@ image:
   pullPolicy: IfNotPresent
 
 # Image pull secrets for the Pod
-imagePullSecrets:
-  - name: myRegistrKeySecretName
+imagePullSecrets: []
+# - name: myRegistrKeySecretName
 
 # Mapping between IPs and hostnames that will be injected as entries in the Pod's hosts files
 hostAliases: []
