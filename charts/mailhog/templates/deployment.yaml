@@ -31,7 +31,7 @@ spec:
       {{- end }}
       containers:
         - name: {{ template "mailhog.name" . }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
           env:
             - name: MH_HOSTNAME
@@ -49,17 +49,17 @@ spec:
             - name: http
               containerPort: 8025
               protocol: TCP
-            - name: smtp
+            - name: tcp-smtp
               containerPort: 1025
               protocol: TCP
           livenessProbe:
             tcpSocket:
-              port: smtp
+              port: tcp-smtp
             initialDelaySeconds: 10
             timeoutSeconds: 1
           readinessProbe:
             tcpSocket:
-              port: smtp
+              port: tcp-smtp
           {{- if .Values.auth.enabled }}
           volumeMounts:
             - name: authdir
