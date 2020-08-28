@@ -394,7 +394,7 @@ cloudsql:
   instance: my-instance
 
 extraContainers: |
-   - name: cloudsql-proxy
+  - name: cloudsql-proxy
     image: gcr.io/cloudsql-docker/gce-proxy:1.17
     command:
       - /cloud_sql_proxy
