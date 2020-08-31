@@ -259,7 +259,7 @@ ingress:
   tls:
     - hosts:
         - keycloak.example.com
-      secretName: keycloak-tls
+      secretName: ""
 
 route:
   # If `true`, an OpenShift Route is created
