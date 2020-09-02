@@ -35,10 +35,10 @@ spec:
       {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort.http))) }}
       nodePort: {{ .Values.service.nodePort.http }}
       {{- end }}
-    - name: smtp
+    - name: tcp-smtp
       port: {{ .Values.service.port.smtp }}
       protocol: TCP
-      targetPort: smtp
+      targetPort: tcp-smtp
       {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort.smtp))) }}
       nodePort: {{ .Values.service.nodePort.smtp }}
       {{- end }}

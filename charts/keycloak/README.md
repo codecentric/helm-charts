@@ -107,7 +107,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `ingress.labels` | Additional Ingress labels | `{}` |
 | `ingress.tls` | TLS configuration | see below |
 | `ingress.tls[0].hosts` | List of TLS hosts | `[keycloak.example.com]` |
-| `ingress.tls[0].secretName` | Name of the TLS secret | `keycloak-tls` |
+| `ingress.tls[0].secretName` | Name of the TLS secret | `""` |
 | `route.enabled` | If `true`, an OpenShift Route is created | `false` |
 | `route.path` | Path for the Route | `/` |
 | `route.annotations` | Route annotations | `{}` |
@@ -394,7 +394,7 @@ cloudsql:
   instance: my-instance
 
 extraContainers: |
-   - name: cloudsql-proxy
+  - name: cloudsql-proxy
     image: gcr.io/cloudsql-docker/gce-proxy:1.17
     command:
       - /cloud_sql_proxy
