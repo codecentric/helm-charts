@@ -131,7 +131,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `serviceMonitor.labels` | Additional labels for the ServiceMonitor | `{}` |
 | `serviceMonitor.interval` | Interval at which Prometheus scrapes metrics | `10s` |
 | `serviceMonitor.scrapeTimeout` | Timeout for scraping | `10s` |
-| `serviceMonitor.path` | The path at which metrics are served | `/auth/realms/master/metrics` |
+| `serviceMonitor.path` | The path at which metrics are served | `/metrics` |
 | `serviceMonitor.port` | The Service port at which metrics are served | `http` |
 | `prometheusRule.enabled` | If `true`, a PrometheusRule resource for the prometheus-operator is created | `false` |
 | `prometheusRule.annotations` | Annotations for the PrometheusRule | `{}` |
