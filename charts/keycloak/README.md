@@ -426,6 +426,51 @@ extraEnv: |
     value: mypassword
 ```
 
+### Changing the Context Path
+
+By default, Keycloak is served under context `/auth`.
+This can be changed as follows:
+
+```yaml
+contextPath: mycontext
+
+startupScripts:
+  # cli script that reconfigures WildFly
+  contextPath.cli: |
+    embed-server --server-config=standalone-ha.xml --std-out=echo
+    batch
+    {{- if ne .Values.contextPath "auth" }}
+    /subsystem=keycloak-server/:write-attribute(name=web-context,value={{ if eq .Values.contextPath "" }}/{{ else }}{{ .Values.contextPath }}{{ end }})
+    {{- if eq .Values.contextPath "" }}
+    /subsystem=undertow/server=default-server/host=default-host:write-attribute(name=default-web-module,value=keycloak-server.war)
+    {{- end }}
+    {{- end }}
+    run-batch
+    stop-embedded-server
+
+livenessProbe: |
+  httpGet:
+    path: {{ if ne .Values.contextPath "" }}/{{ .Values.contextPath }}{{ end }}/
+    port: http
+  initialDelaySeconds: 300
+  timeoutSeconds: 5
+
+readinessProbe: |
+  httpGet:
+    path: {{ if ne .Values.contextPath "" }}/{{ .Values.contextPath }}{{ end }}/realms/master
+    port: http
+  initialDelaySeconds: 30
+  timeoutSeconds: 1
+```
+
+The above YAML references introduces the custom value `contextPath` which is possible because `startupScripts`, `livenessProbe`, and `readinessProbe` are templated using the `tpl` function.
+Note that it must not start with a slash.
+Alternatively, you may supply it via CLI flag:
+
+```console
+--set-string contextPath=mycontext
+```
+
 ### Prometheus Metrics Support
 
 Keycloak can expose metrics on the management port.
