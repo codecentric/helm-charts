@@ -229,7 +229,7 @@ extraEnv: |
   - name: DB_ADDR
     value: mypostgres
   - name: DB_PORT
-    value: 5432
+    value: "5432"
   - name: DB_DATABASE
     value: mydb
 
@@ -262,7 +262,7 @@ extraEnv: |
   - name: DB_ADDR
     value: mypostgres
   - name: DB_PORT
-    value: 5432
+    value: "5432"
   - name: DB_DATABASE
     value: mydb
   - name: DB_USER_FILE
@@ -415,9 +415,9 @@ extraEnv: |
   - name: DB_VENDOR
     value: postgres
   - name: DB_ADDR
-    value: 127.0.0.1
+    value: "127.0.0.1"
   - name: DB_PORT
-    value: 5432
+    value: "5432"
   - name: DB_DATABASE
     value: postgres
   - name: DB_USER
