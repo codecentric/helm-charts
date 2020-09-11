@@ -108,6 +108,8 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `ingress.tls` | TLS configuration | see below |
 | `ingress.tls[0].hosts` | List of TLS hosts | `[keycloak.example.com]` |
 | `ingress.tls[0].secretName` | Name of the TLS secret | `""` |
+| `networkPolicy.enabled` | If true, the ingress network policy is deployed | `false`
+| `networkPolicy.extraFrom` | Allows to define allowed external traffic (see Kubernetes doc for network policy `from` format) | `[]`
 | `route.enabled` | If `true`, an OpenShift Route is created | `false` |
 | `route.path` | Path for the Route | `/` |
 | `route.annotations` | Route annotations | `{}` |
