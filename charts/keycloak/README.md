@@ -186,6 +186,14 @@ It is important that these values be configured as strings.
 Otherwise, installation will fail.
 See example for Google Cloud Proxy or default affinity configuration in `values.yaml`.
 
+### Ingress with Https Keycloak 
+Login to Keycloak via HTTPS will be broken without this configuration in `values.yaml`:
+
+```extraEnv: |
+  - name: PROXY_ADDRESS_FORWARDING
+    value: "true"
+```
+
 ### JVM Settings
 
 Keycloak sets the following system properties by default:
