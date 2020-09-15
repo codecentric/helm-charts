@@ -16,6 +16,14 @@ Once Helm is set up properly, add the repo as follows:
 $ helm repo add codecentric https://codecentric.github.io/helm-charts
 ```
 
+## To support Keycloak Https Ingress 
+use this setting inside values.yaml configuration file, to support HTTPS
+
+extraEnv: |
+  - name: PROXY_ADDRESS_FORWARDING
+    value: "true"
+
+
 ## Contributing
 
 We welcome contributions.
