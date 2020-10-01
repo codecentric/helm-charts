@@ -47,7 +47,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `image.repository` | The Keycloak image repository | `docker.io/jboss/keycloak` |
 | `image.tag` | Overrides the Keycloak image tag whose default is the chart version | `""` |
 | `image.pullPolicy` | The Keycloak image pull policy | `IfNotPresent` |
-| `imagePullSecrets` | Image pull secrets for the Pod | `` |
+| `imagePullSecrets` | Image pull secrets for the Pod | `[]` |
 | `hostAliases` | Mapping between IPs and hostnames that will be injected as entries in the Pod's hosts files | `[]` |
 | `enableServiceLinks` | Indicates whether information about services should be injected into Pod's environment variables, matching the syntax of Docker links | `true` |
 | `podManagementPolicy` | Pod management policy. One of `Parallel` or `OrderedReady` | `Parallel` |
@@ -66,8 +66,8 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `lifecycleHooks` | Lifecycle hooks for the Keycloak container | `{}` |
 | `terminationGracePeriodSeconds` | Termination grace period in seconds for Keycloak shutdown. Clusters with a large cache might need to extend this to give Infinispan more time to rebalance | `60` |
 | `clusterDomain` | The internal Kubernetes cluster domain | `cluster.local` |
-| `command` | # Overrides the default entrypoint of the Keycloak container | `[]` |
-| `args` | # Overrides the default args for the Keycloak container | `[]` |
+| `command` | Overrides the default entrypoint of the Keycloak container | `[]` |
+| `args` | Overrides the default args for the Keycloak container | `[]` |
 | `extraEnv` | Additional environment variables for Keycloak | `""` |
 | `extraEnvFrom` | Additional environment variables for Keycloak mapped from a Secret or ConfigMap | `""` |
 | `priorityClassName` | Pod priority class name | `""` |
@@ -79,7 +79,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `livenessProbe` | Liveness probe configuration | `{"httpGet":{"path":"/health/live","port":"http"},"initialDelaySeconds":300,"timeoutSeconds":5}` |
 | `readinessProbe` | Readiness probe configuration | `{"httpGet":{"path":"/auth/realms/master","port":"http"},"initialDelaySeconds":30,"timeoutSeconds":1}` |
 | `resources` | Pod resource requests and limits | `{}` |
-| `startupScripts` | Startup scripts to run before Keycloak starts up | `{"keycloak.cli":"{{- .Files.Get \"scripts/keycloak.cli\" | nindent 2 }}\n"}` |
+| `startupScripts` | Startup scripts to run before Keycloak starts up | `{"keycloak.cli":"{{- .Files.Get "scripts/keycloak.cli" \| nindent 2 }}"}` |
 | `extraVolumes` | Add additional volumes, e. g. for custom themes | `""` |
 | `extraVolumeMounts` | Add additional volumes mounts, e. g. for custom themes | `""` |
 | `extraPorts` | Add additional ports, e. g. for admin console or exposing JGroups ports | `[]` |
@@ -138,7 +138,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `prometheusRule.enabled` | If `true`, a PrometheusRule resource for the prometheus-operator is created | `false` |
 | `prometheusRule.annotations` | Annotations for the PrometheusRule | `{}` |
 | `prometheusRule.labels` | Additional labels for the PrometheusRule | `{}` |
-| `prometheusRule.rules` | List of rules for Prometheus | `` |
+| `prometheusRule.rules` | List of rules for Prometheus | `[]` |
 | `test.enabled` | If `true`, test resources are created | `false` |
 | `test.image.repository` | The image for the test Pod | `docker.io/unguiculus/docker-python3-phantomjs-selenium` |
 | `test.image.tag` | The tag for the test Pod image | `v1` |
