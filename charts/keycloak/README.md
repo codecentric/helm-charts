@@ -129,6 +129,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `postgresql.postgresqlDatabase` | PostgreSQL Database to create | `keycloak` |
 | `serviceMonitor.enabled` | If `true`, a ServiceMonitor resource for the prometheus-operator is created | `false` |
 | `serviceMonitor.namespace` | Optionally sets a target namespace in which to deploy the ServiceMonitor resource | `""` |
+| `serviceMonitor.namespaceSelector` | Optionally sets a namespace selector for the ServiceMonitor | `{}` |
 | `serviceMonitor.annotations` | Annotations for the ServiceMonitor | `{}` |
 | `serviceMonitor.labels` | Additional labels for the ServiceMonitor | `{}` |
 | `serviceMonitor.interval` | Interval at which Prometheus scrapes metrics | `10s` |
