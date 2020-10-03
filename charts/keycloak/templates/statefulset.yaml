@@ -128,9 +128,10 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            {{- if .Values.startupScripts }}
+            {{- range $key, $value := .Values.startupScripts }}
             - name: startup
-              mountPath: /opt/jboss/startup-scripts
+              mountPath: "/opt/jboss/startup-scripts/{{ $key }}"
+              subPath: "{{ $key }}"
               readOnly: true
             {{- end }}
             {{- with .Values.extraVolumeMounts }}
@@ -169,11 +170,16 @@ spec:
       {{- end }}
       terminationGracePeriodSeconds: {{ .Values.terminationGracePeriodSeconds }}
       volumes:
-        {{- if .Values.startupScripts }}
+        {{- with .Values.startupScripts }}
         - name: startup
           configMap:
-            name: {{ include "keycloak.fullname" . }}-startup
+            name: {{ include "keycloak.fullname" $ }}-startup
             defaultMode: 0555
+            items:
+              {{- range $key, $value := . }}
+              - key: {{ $key }}
+                path: {{ $key }}
+              {{- end }}
         {{- end }}
         {{- with .Values.extraVolumes }}
         {{- tpl . $ | nindent 8 }}
