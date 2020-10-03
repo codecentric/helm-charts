@@ -336,6 +336,8 @@ serviceMonitor:
   enabled: false
   # Optionally sets a target namespace in which to deploy the ServiceMonitor resource
   namespace: ""
+  # Optionally sets a namespace for the ServiceMonitor
+  namespaceSelector: {}
   # Annotations for the ServiceMonitor
   annotations: {}
   # Additional labels for the ServiceMonitor
