@@ -13,14 +13,15 @@ jobs:
 
   lint-charts:
     docker:
-      - image: quay.io/helmpack/chart-testing:v2.3.3
+      - image: quay.io/helmpack/chart-testing:v3.0.0-rc.1
     steps:
       - checkout
       - run:
           command: ct lint --config .circleci/ct.yaml
 
   install-charts:
-    machine: true
+    machine:
+      image: ubuntu-1604:202007-01
     steps:
       - checkout
       - run:

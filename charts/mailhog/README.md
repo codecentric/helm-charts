@@ -5,7 +5,8 @@
 ## TL;DR;
 
 ```bash
-$ helm install stable/mailhog
+$ helm repo add codecentric https://codecentric.github.io/helm-charts
+$ helm install mailhog codecentric/mailhog
 ```
 
 ## Introduction
@@ -13,16 +14,12 @@ $ helm install stable/mailhog
 This chart creates a [Mailhog](http://iankent.uk/project/mailhog/) deployment on a [Kubernetes](http://kubernetes.io)
 cluster using the [Helm](https://helm.sh) package manager.
 
-## Prerequisites
-
-- Kubernetes 1.9+ with Beta APIs enabled
-
 ## Installing the Chart
 
-To install the chart with the release name `my-release`:
+To install the chart with the release name `mailhog`:
 
 ```bash
-$ helm install --name my-release codecentric/mailhog
+$ helm install mailhog codecentric/mailhog
 ```
 
 The command deploys Mailhog on the Kubernetes cluster in the default configuration. The [configuration](#configuration)
@@ -30,10 +27,10 @@ section lists the parameters that can be configured during installation.
 
 ## Uninstalling the Chart
 
-To uninstall/delete the `my-release` deployment:
+To uninstall/delete the `mailhog` deployment:
 
 ```bash
-$ helm delete my-release
+$ helm uninstall mailhog
 ```
 The command removes all the Kubernetes components associated with the chart and deletes the release.
 
@@ -44,7 +41,7 @@ The following table lists the configurable parameters of the Mailhog chart and t
 Parameter | Description | Default
 --- | --- | ---
 `image.repository` | Docker image repository | `mailhog/mailhog`
-`image.tag` | Docker image tag | `v1.0.0`
+`image.tag` | Docker image tag whose default is the chart version | `""`
 `image.pullPolicy` | Docker image pull policy | `IfNotPresent`
 `auth.enabled` | Specifies whether basic authentication is enabled, see [Auth.md](https://github.com/mailhog/MailHog/blob/master/docs/Auth.md) | `false`
 `auth.existingSecret` | If auth is enabled, uses an existing secret with this name; otherwise a secret is created | `""`
@@ -71,17 +68,3 @@ Parameter | Description | Default
 `ingress.hosts` | A list of ingress hosts | `{ host: mailhog.example.com, paths: ["/"] }`
 `ingress.tls` | A list of [IngressTLS](https://v1-8.docs.kubernetes.io/docs/api-reference/v1.8/#ingresstls-v1beta1-extensions) items | `[]`
 `extraEnv` | Additional environment variables, see [CONFIG.md](https://github.com/mailhog/MailHog/blob/master/docs/CONFIG.md) | `{}`
-
-Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example,
-
-```bash
-$ helm install --name my-release \
-  --set env.MH_UI_WEB_PATH=mailhog \
-    stable/mailhog
-```
-
-Alternatively, a YAML file that specifies the values for the parameters can be provided while installing the chart. For example,
-
-```bash
-$ helm install --name my-release -f values.yaml stable/mailhog
-```

@@ -86,6 +86,7 @@ update_index() {
     git config user.email "$GIT_EMAIL"
     git config user.name "$GIT_USERNAME"
 
+    git reset --hard
     git checkout gh-pages
     cp --force .cr-index/index.yaml index.yaml
     git add index.yaml
