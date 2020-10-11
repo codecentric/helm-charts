@@ -1,9 +1,11 @@
-{{- with .Values.serviceMonitor -}}
+{{- range $key, $serviceMonitor := dict "wildfly" .Values.serviceMonitor "extra" .Values.extraServiceMonitor }}
+{{- with $serviceMonitor }}
 {{- if .enabled }}
+---
 apiVersion: monitoring.coreos.com/v1
 kind: ServiceMonitor
 metadata:
-  name: {{ include "keycloak.fullname" $ }}
+  name: {{ include "keycloak.fullname" $ }}-{{ $key }}
   {{- with .namespace }}
   namespace: {{ . }}
   {{- end }}
@@ -33,4 +35,5 @@ spec:
       interval: {{ .interval }}
       scrapeTimeout: {{ .scrapeTimeout }}
 {{- end }}
-{{- end -}}
+{{- end }}
+{{- end }}

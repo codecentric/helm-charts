@@ -136,6 +136,15 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `serviceMonitor.scrapeTimeout` | Timeout for scraping | `10s` |
 | `serviceMonitor.path` | The path at which metrics are served | `/metrics` |
 | `serviceMonitor.port` | The Service port at which metrics are served | `http` |
+| `extraServiceMonitor.enabled` | If `true`, an additional ServiceMonitor resource for the prometheus-operator is created. Could be used for additional metrics via [Keycloak Metrics SPI](https://github.com/aerogear/keycloak-metrics-spi) | `false` |
+| `extraServiceMonitor.namespace` | Optionally sets a target namespace in which to deploy the additional ServiceMonitor resource | `""` |
+| `extraServiceMonitor.namespaceSelector` | Optionally sets a namespace selector for the additional ServiceMonitor | `{}` |
+| `extraServiceMonitor.annotations` | Annotations for the additional ServiceMonitor | `{}` |
+| `extraServiceMonitor.labels` | Additional labels for the additional ServiceMonitor | `{}` |
+| `extraServiceMonitor.interval` | Interval at which Prometheus scrapes metrics | `10s` |
+| `extraServiceMonitor.scrapeTimeout` | Timeout for scraping | `10s` |
+| `extraServiceMonitor.path` | The path at which metrics are served | `/metrics` |
+| `extraServiceMonitor.port` | The Service port at which metrics are served | `http` |
 | `prometheusRule.enabled` | If `true`, a PrometheusRule resource for the prometheus-operator is created | `false` |
 | `prometheusRule.annotations` | Annotations for the PrometheusRule | `{}` |
 | `prometheusRule.labels` | Additional labels for the PrometheusRule | `{}` |
@@ -476,8 +485,8 @@ Alternatively, you may supply it via CLI flag:
 
 ### Prometheus Metrics Support
 
-Keycloak can expose metrics on the management port.
-In order to achieve this, the port needs to be added and the environment variable `KEYCLOAK_STATISTICS` must be set.
+WildFly can expose metrics on the management port.
+In order to achieve this, the environment variable `KEYCLOAK_STATISTICS` must be set.
 
 ```yaml
 extraEnv: |
@@ -503,6 +512,19 @@ service:
     prometheus.io/scrape: "true"
     prometheus.io/port: "9990"
 ```
+
+Optionally, it is possible to add [Keycloak Metrics SPI](https://github.com/aerogear/keycloak-metrics-spi) via an init containers.
+
+A separate `ServiceMonitor` can be enabled to scrape metrics from the SPI:
+
+```yaml
+extraServiceMonitor:
+  # If `true`, an additional ServiceMonitor resource for the prometheus-operator is created
+  enabled: true
+```
+
+Checkout `values.yaml` for customizing this ServiceMonitor.
+
 
 ## Why StatefulSet?
 
