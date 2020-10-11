@@ -201,7 +201,7 @@ See example for Google Cloud Proxy or default affinity configuration in `values.
 Keycloak sets the following system properties by default:
 `-Djava.net.preferIPv4Stack=true -Djboss.modules.system.pkgs=$JBOSS_MODULES_SYSTEM_PKGS -Djava.awt.headless=true`
 
-You can override thes by setting the `JAVA_OPTS` environment variable.
+You can override these by setting the `JAVA_OPTS` environment variable.
 Make sure you configure container support.
 This allows you to only configure memory using Kubernetes resources and the JVM will automatically adapt.
 
@@ -319,6 +319,17 @@ extraEnv: |
     value: "2"
   - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
     value: "2"
+```
+
+### Running Keycloak Behind a Reverse Proxy
+
+When running Keycloak behind a reverse proxy, which is the case when using an ingress controller,
+proxy address forwarding must be enabled as follows:
+
+```yaml
+extraEnv: |
+  - name: PROXY_ADDRESS_FORWARDING
+    value: "true"
 ```
 
 ### Providing a Custom Theme
