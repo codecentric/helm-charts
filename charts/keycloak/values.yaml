@@ -245,6 +245,10 @@ ingress:
   servicePort: http
   # Ingress annotations
   annotations: {}
+    ## Resolve HTTP 502 error using ingress-nginx:
+    ## See https://www.ibm.com/support/pages/502-error-ingress-keycloak-response
+    # nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+
   # Additional Ingress labels
   labels: {}
    # List of rules for the Ingress
