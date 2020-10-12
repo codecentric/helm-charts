@@ -58,8 +58,8 @@ Parameter | Description | Default
 `service.loadBalancerIP` | IP address to assign to load balancer (if supported) | `""`
 `service.loadBalancerSourceRanges` | List of IP CIDRs allowed access to load balancer (if supported) | `[]`
 `service.type` | Type of service to create | `ClusterIP`
-`service.node.http` | HTTP port of service | `""`
-`service.node.smtp` | SMTP port of service | `""`
+`service.port.http` | HTTP port of service | `""`
+`service.port.smtp` | SMTP port of service | `""`
 `service.nodePort.http` | If `service.type` is `NodePort` and this is non-empty, sets the http node port of the service | `""`
 `service.nodePort.smtp` | If `service.type` is `NodePort` and this is non-empty, sets the smtp node port of the service | `""`
 `securityContext` | Pod security context | `{ runAsUser: 1000, fsGroup: 1000, runAsNonRoot: true }`
