@@ -221,6 +221,9 @@
       "serviceMonitor": {
         "type": "object"
       },
+      "extraServiceMonitor": {
+        "type": "object"
+      },
       "readinessProbe": {
         "type": "string"
       },
