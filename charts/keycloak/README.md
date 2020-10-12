@@ -496,6 +496,8 @@ Alternatively, you may supply it via CLI flag:
 
 ### Prometheus Metrics Support
 
+#### WildFly Metrics
+
 WildFly can expose metrics on the management port.
 In order to achieve this, the environment variable `KEYCLOAK_STATISTICS` must be set.
 
@@ -524,7 +526,9 @@ service:
     prometheus.io/port: "9990"
 ```
 
-Optionally, it is possible to add [Keycloak Metrics SPI](https://github.com/aerogear/keycloak-metrics-spi) via an init containers.
+#### Keycloak Metrics SPI
+
+Optionally, it is possible to add [Keycloak Metrics SPI](https://github.com/aerogear/keycloak-metrics-spi) via init container.
 
 A separate `ServiceMonitor` can be enabled to scrape metrics from the SPI:
 
@@ -536,6 +540,17 @@ extraServiceMonitor:
 
 Checkout `values.yaml` for customizing this ServiceMonitor.
 
+Note that the metrics endpoint is exposed on the HTTP port.
+You may want to restrict access to it in your ingress controller configuration.
+For ingress-nginx, this could be done as follows:
+
+```yaml
+annotations:
+  nginx.ingress.kubernetes.io/server-snippet: |
+    location ~* /auth/realms/[^/]+/metrics {
+        return 403;
+    }
+```
 
 ## Why StatefulSet?
 
