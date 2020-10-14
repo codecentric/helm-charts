@@ -87,3 +87,15 @@ Create the namespace for the ServiceMonitor deployment
 {{ .Release.Namespace }}
 {{- end }}
 {{- end }}
+
+
+{{/*
+Return the appropriate apiVersion for ingress.
+*/}}
+{{- define "ingress.apiVersion" -}}
+{{- if semverCompare ">=1.19.0" .Capabilities.KubeVersion.GitVersion -}}
+{{- print "networking.k8s.io/v1" -}}
+{{- else -}}
+{{- print "networking.k8s.io/v1beta1" -}}
+{{- end -}}
+{{- end -}}
