@@ -8,10 +8,12 @@ nameOverride: ""
 replicas: 1
 
 image:
+  # The Keycloak image registry
+  registry: docker.io
   # The Keycloak image repository
-  repository: docker.io/jboss/keycloak
-  # Overrides the Keycloak image tag whose default is the chart version
-  tag: ""
+  repository: jboss/keycloak
+  # The Keycloak image tag
+  tag: 11.0.2
   # The Keycloak image pull policy
   pullPolicy: IfNotPresent
 
@@ -299,8 +301,10 @@ route:
 
 pgchecker:
   image:
+    # Docker image registry used to check Postgresql readiness at startup
+    registry: docker.io
     # Docker image used to check Postgresql readiness at startup
-    repository: docker.io/busybox
+    repository: busybox
     # Image tag for the pgchecker image
     tag: 1.32
     # Image pull policy for the pgchecker image

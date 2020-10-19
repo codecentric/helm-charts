@@ -43,7 +43,7 @@ spec:
       initContainers:
         {{- if .Values.postgresql.enabled }}
         - name: pgchecker
-          image: "{{ .Values.pgchecker.image.repository }}:{{ .Values.pgchecker.image.tag }}"
+          image: {{ template "pgchecker.image" . }}
           imagePullPolicy: {{ .Values.pgchecker.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.pgchecker.securityContext | nindent 12 }}
@@ -69,7 +69,7 @@ spec:
         - name: keycloak
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: {{ template "keycloak.image" . }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             {{- toYaml .Values.command | nindent 12 }}

@@ -41,11 +41,13 @@ The following table lists the configurable parameters of the Keycloak chart and 
 
 | Parameter | Description | Default |
 |---|---|---|
+| `global.imageRegistry` | Global Docker Image registry | `nil`
 | `fullnameOverride` | Optionally override the fully qualified name | `""` |
 | `nameOverride` | Optionally override the name | `""` |
 | `replicas` | The number of replicas to create | `1` |
-| `image.repository` | The Keycloak image repository | `docker.io/jboss/keycloak` |
-| `image.tag` | Overrides the Keycloak image tag whose default is the chart version | `""` |
+| `image.registry` | The Keycloak image registry | `docker.io` |
+| `image.repository` | The Keycloak image repository | `jboss/keycloak` |
+| `image.tag` | The Keycloak image tag | `11.0.2` |
 | `image.pullPolicy` | The Keycloak image pull policy | `IfNotPresent` |
 | `imagePullSecrets` | Image pull secrets for the Pod | `[]` |
 | `hostAliases` | Mapping between IPs and hostnames that will be injected as entries in the Pod's hosts files | `[]` |
@@ -118,7 +120,8 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `route.tls.enabled` | If `true`, TLS is enabled for the Route | `true` |
 | `route.tls.insecureEdgeTerminationPolicy` | Insecure edge termination policy of the Route. Can be `None`, `Redirect`, or `Allow` | `Redirect` |
 | `route.tls.termination` | TLS termination of the route. Can be `edge`, `passthrough`, or `reencrypt` | `edge` |
-| `pgchecker.image.repository` | Docker image used to check Postgresql readiness at startup | `docker.io/busybox` |
+| `pgchecker.image.registry` | Docker image registry used to check Postgresql readiness at startup | `docker.io` |
+| `pgchecker.image.repository` | Docker image used to check Postgresql readiness at startup | `busybox` |
 | `pgchecker.image.tag` | Image tag for the pgchecker image | `1.32` |
 | `pgchecker.image.pullPolicy` | Image pull policy for the pgchecker image | `IfNotPresent` |
 | `pgchecker.securityContext` | SecurityContext for the pgchecker container | `{"allowPrivilegeEscalation":false,"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000}` |
@@ -563,6 +566,11 @@ Additionally, we get stable values for `jboss.node.name` which can be advantageo
 The headless service that governs the StatefulSet is used for DNS discovery via DNS_PING.
 
 ## Upgrading
+
+### From chart versions < 10.0.0
+
+The `image.registry`, `pgchecker.image.registry` and `global.imageRegistry` properties were added.
+That means `image.repository` and `pgchecker.image.registry` don't include the registry anymore.
 
 ### From chart versions < 9.0.0
 

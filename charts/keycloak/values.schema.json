@@ -16,6 +16,9 @@
           "type": "string",
           "pattern": "^(Always|Never|IfNotPresent)$"
         },
+        "registry": {
+          "type": "string"
+        },
         "repository": {
           "type": "string"
         },
