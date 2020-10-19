@@ -4,5 +4,5 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
   - name: common
-    version: 0.x.x
+    version: 0.8.2
     repository: https://charts.bitnami.com/bitnami
