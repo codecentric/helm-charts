@@ -4,7 +4,7 @@ fullnameOverride: ""
 # Optionally override the name
 nameOverride: ""
 
-# The number of replicas to create
+# The number of replicas to create (has no effect if autoscaling enabled)
 replicas: 1
 
 image:
@@ -404,6 +404,32 @@ prometheusRule:
   #   for: 5m
   #   labels:
   #     severity: warning
+
+autoscaling:
+  # If `true`, a autoscaling/v2beta2 HorizontalPodAutoscaler resource is created (requires Kubernetes 1.18 or above)
+  # Autoscaling seems to be most reliable when using KUBE_PING service discovery (see README for details)
+  # This disables the `replicas` field in the StatefulSet
+  create: false
+  # The minimum and maximum number of replicas for the Keycloak StatefulSet
+  minReplicas: 3
+  maxReplicas: 10
+  # The metrics to use for scaling
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 80
+  # The scaling policy to use. This will scale up quickly but only scale down a single Pod per 5 minutes.
+  # This is important because caches are usually only replicated to 2 Pods and if one of those Pods is terminated this will give the cluster time to recover.
+  behavior:
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Pods
+        value: 1
+        periodSeconds: 300
 
 test:
   # If `true`, test resources are created

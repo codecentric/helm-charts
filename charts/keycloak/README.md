@@ -149,6 +149,11 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `prometheusRule.annotations` | Annotations for the PrometheusRule | `{}` |
 | `prometheusRule.labels` | Additional labels for the PrometheusRule | `{}` |
 | `prometheusRule.rules` | List of rules for Prometheus | `[]` |
+| `autoscaling.create.true` | Enable creation of a HorizontalPodAutoscaler resource | `false` |
+| `autoscaling.minReplicas` | The minimum number of Pods when autoscaling is enabled | `3` |
+| `autoscaling.maxReplicas` | The maximum number of Pods when autoscaling is enabled | `10` |
+| `autoscaling.metrics` | The metrics configuration for the HorizontalPodAutoscaler | `[{"resource":{"name":"cpu","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` |
+| `autoscaling.behavior` | The scaling policy configuration for the HorizontalPodAutoscaler | `{"scaleDown":{"policies":[{"periodSeconds":300,"type":"Pods","value":1}],"stabilizationWindowSeconds":300}` |
 | `test.enabled` | If `true`, test resources are created | `false` |
 | `test.image.repository` | The image for the test Pod | `docker.io/unguiculus/docker-python3-phantomjs-selenium` |
 | `test.image.tag` | The tag for the test Pod image | `v1` |
@@ -307,7 +312,10 @@ Please refer to the section on database configuration for how to configure a sec
 
 For high availability, Keycloak must be run with multiple replicas (`replicas > 1`).
 The chart has a helper template (`keycloak.serviceDnsName`) that creates the DNS name based on the headless service.
-With that, JGroups discovery via DNS_PING can be configured as follows:
+
+#### DNS_PING Service Discovery
+
+JGroups discovery via DNS_PING can be configured as follows:
 
 ```yaml
 extraEnv: |
@@ -320,6 +328,58 @@ extraEnv: |
   - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
     value: "2"
 ```
+
+#### KUBE_PING Service Discovery
+
+Recent versions of Keycloak include a new Kuberntes Native [KUBE_PING](https://github.com/jgroups-extras/jgroups-kubernetes) service discovery protocol. This requires a little more configuration than DNS_PING but it is not difficult through the Helm Chart.
+
+As with DNS_PING some environment variables must be configured as follows:
+
+```yaml
+extraEnv: |
+  - name: JGROUPS_DISCOVERY_PROTOCOL
+    value: kubernetes.KUBE_PING
+  - name: KUBERNETES_NAMESPACE
+    valueFrom:
+      fieldRef:
+        apiVersion: v1
+        fieldPath: metadata.namespace
+  - name: CACHE_OWNERS_COUNT
+    value: "2"
+  - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
+    value: "2"
+```
+
+However the Keycloak Pods must also be able to `get` and `list` Pods in the namespace which can be configured as follows:
+
+```yaml
+rbac:
+  create: true
+  rules:
+  RBAC rules for KUBE_PING
+    - apiGroups:
+        - ""
+      resources:
+        - pods
+      verbs:
+        - get
+        - list
+```
+
+#### Autoscaling
+
+Due to the caches in Keycloak only replicating to a few nodes (2 in the example configuration above) and the limited controls around autoscaling built into Kubernetes it has historically been problematic to autoscale Keycloak. However in Kubernetes 1.18 [additional controls were introduced](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior) which make it possible to scale down in a more controlled manner.
+
+The example autoscaling configuration in the values file scales from 3 up to a maximum of 10 Pods using CPU utilization as the metric. Scaling up is done as quickly as required but scaling down is done at a maximum rate of one Pod per 5 minutes.
+
+Autoscaling can be enabled as follows:
+
+```yaml
+autoscaling:
+  create: true
+```
+
+KUBE_PING service discovery seems to be the most reliable mechanism to use when enabling autoscaling, due to being faster than DNS_PING at detecting changes in the cluster.
 
 ### Running Keycloak Behind a Reverse Proxy
 

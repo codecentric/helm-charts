@@ -17,7 +17,9 @@ spec:
   selector:
     matchLabels:
       {{- include "keycloak.selectorLabels" . | nindent 6 }}
+  {{- if not .Values.autoscaling.create }}
   replicas: {{ .Values.replicas }}
+  {{- end }}
   serviceName: {{ include "keycloak.fullname" . }}-headless
   podManagementPolicy: {{ .Values.podManagementPolicy }}
   updateStrategy:
