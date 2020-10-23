@@ -377,6 +377,29 @@
       "terminationGracePeriodSeconds": {
         "type": "integer"
       },
+      "autoscaling": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          },
+          "labels": {
+            "type": "object"
+          },
+          "minReplicas": {
+            "type": "integer"
+          },
+          "maxReplicas": {
+            "type": "integer"
+          },
+          "metrics": {
+            "type": "array"
+          },
+          "behavior": {
+            "type": "object"
+          }
+        }
+      },
       "test": {
         "type": "object",
         "properties": {
