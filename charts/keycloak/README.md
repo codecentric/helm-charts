@@ -149,7 +149,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `prometheusRule.annotations` | Annotations for the PrometheusRule | `{}` |
 | `prometheusRule.labels` | Additional labels for the PrometheusRule | `{}` |
 | `prometheusRule.rules` | List of rules for Prometheus | `[]` |
-| `autoscaling.enabled.true` | Enable creation of a HorizontalPodAutoscaler resource | `false` |
+| `autoscaling.enabled` | Enable creation of a HorizontalPodAutoscaler resource | `false` |
 | `autoscaling.labels` | Additional labels for the HorizontalPodAutoscaler resource | `{}` |
 | `autoscaling.minReplicas` | The minimum number of Pods when autoscaling is enabled | `3` |
 | `autoscaling.maxReplicas` | The maximum number of Pods when autoscaling is enabled | `10` |
