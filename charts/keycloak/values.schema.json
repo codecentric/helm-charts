@@ -380,8 +380,11 @@
       "autoscaling": {
         "type": "object",
         "properties": {
-          "create": {
+          "enabled": {
             "type": "boolean"
+          },
+          "labels": {
+            "type": "object"
           },
           "minReplicas": {
             "type": "integer"

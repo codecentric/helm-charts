@@ -149,7 +149,8 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `prometheusRule.annotations` | Annotations for the PrometheusRule | `{}` |
 | `prometheusRule.labels` | Additional labels for the PrometheusRule | `{}` |
 | `prometheusRule.rules` | List of rules for Prometheus | `[]` |
-| `autoscaling.create.true` | Enable creation of a HorizontalPodAutoscaler resource | `false` |
+| `autoscaling.enabled.true` | Enable creation of a HorizontalPodAutoscaler resource | `false` |
+| `autoscaling.labels` | Additional labels for the HorizontalPodAutoscaler resource | `{}` |
 | `autoscaling.minReplicas` | The minimum number of Pods when autoscaling is enabled | `3` |
 | `autoscaling.maxReplicas` | The maximum number of Pods when autoscaling is enabled | `10` |
 | `autoscaling.metrics` | The metrics configuration for the HorizontalPodAutoscaler | `[{"resource":{"name":"cpu","target":{"averageUtilization":80,"type":"Utilization"}},"type":"Resource"}]` |
@@ -331,7 +332,8 @@ extraEnv: |
 
 #### KUBE_PING Service Discovery
 
-Recent versions of Keycloak include a new Kuberntes Native [KUBE_PING](https://github.com/jgroups-extras/jgroups-kubernetes) service discovery protocol. This requires a little more configuration than DNS_PING but it is not difficult through the Helm Chart.
+Recent versions of Keycloak include a new Kubernetes native [KUBE_PING](https://github.com/jgroups-extras/jgroups-kubernetes) service discovery protocol.
+This requires a little more configuration than DNS_PING but can easily be achieved with the Helm chart.
 
 As with DNS_PING some environment variables must be configured as follows:
 
@@ -350,13 +352,12 @@ extraEnv: |
     value: "2"
 ```
 
-However the Keycloak Pods must also be able to `get` and `list` Pods in the namespace which can be configured as follows:
+However, the Keycloak Pods must also get RBAC permissions to `get` and `list` Pods in the namespace which can be configured as follows:
 
 ```yaml
 rbac:
   create: true
   rules:
-  RBAC rules for KUBE_PING
     - apiGroups:
         - ""
       resources:
@@ -368,15 +369,16 @@ rbac:
 
 #### Autoscaling
 
-Due to the caches in Keycloak only replicating to a few nodes (2 in the example configuration above) and the limited controls around autoscaling built into Kubernetes it has historically been problematic to autoscale Keycloak. However in Kubernetes 1.18 [additional controls were introduced](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior) which make it possible to scale down in a more controlled manner.
+Due to the caches in Keycloak only replicating to a few nodes (two in the example configuration above) and the limited controls around autoscaling built into Kubernetes, it has historically been problematic to autoscale Keycloak.
+However, in Kubernetes 1.18 [additional controls were introduced](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/#support-for-configurable-scaling-behavior) which make it possible to scale down in a more controlled manner.
 
-The example autoscaling configuration in the values file scales from 3 up to a maximum of 10 Pods using CPU utilization as the metric. Scaling up is done as quickly as required but scaling down is done at a maximum rate of one Pod per 5 minutes.
+The example autoscaling configuration in the values file scales from three up to a maximum of ten Pods using CPU utilization as the metric. Scaling up is done as quickly as required but scaling down is done at a maximum rate of one Pod per five minutes.
 
 Autoscaling can be enabled as follows:
 
 ```yaml
 autoscaling:
-  create: true
+  enabled: true
 ```
 
 KUBE_PING service discovery seems to be the most reliable mechanism to use when enabling autoscaling, due to being faster than DNS_PING at detecting changes in the cluster.
@@ -746,4 +748,3 @@ kubectl label pod -n "$namespace" -l app=keycloak -l release="$release" app.kube
 **NOTE:** Version 5.0.0 also updates the Postgresql dependency which has received a major upgrade as well.
 In case you use this dependency, the database must be upgraded first.
 Please refer to the Postgresql chart's upgrading section in its README for instructions.
-
