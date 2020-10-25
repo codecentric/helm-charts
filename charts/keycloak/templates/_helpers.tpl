@@ -87,3 +87,14 @@ Create the namespace for the ServiceMonitor deployment
 {{ .Release.Namespace }}
 {{- end }}
 {{- end }}
+
+{{/*
+Return the appropriate apiVersion for ingress.
+*/}}
+{{- define "keycloak.ingressAPIVersion" -}}
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1" -}}
+{{- print "networking.k8s.io/v1" -}}
+{{- else -}}
+{{- print "networking.k8s.io/v1beta1" -}}
+{{- end -}}
+{{- end -}}
