@@ -1,6 +1,6 @@
 {{- $ingress := .Values.ingress -}}
 {{- if $ingress.enabled -}}
-apiVersion: {{ template "ingress.apiVersion" . }}
+apiVersion: {{ include "keycloak.ingressAPIVersion" . }}
 kind: Ingress
 metadata:
   name: {{ include "keycloak.fullname" . }}
