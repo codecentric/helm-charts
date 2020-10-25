@@ -25,6 +25,10 @@ securityContext:
   fsGroup: 1000
   runAsNonRoot: true
 
+containerSecurityContext:
+  readOnlyRootFilesystem: true
+  privileged: false
+  
 ingress:
   enabled: false
   annotations: {}
@@ -45,7 +49,11 @@ auth:
   fileName: auth.txt
   fileContents: ""
 
+deploymentAnnotations: {}
+
 podAnnotations: {}
+
+deploymentLabels: {}
 
 podLabels: {}
 
