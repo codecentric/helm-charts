@@ -11,6 +11,7 @@ metadata:
     helm.sh/chart: {{ include "mailhog.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+  namespace: {{ .Release.Namespace }}
 spec:
   type: "{{ .Values.service.type }}"
   {{- with .Values.service.clusterIP }}
