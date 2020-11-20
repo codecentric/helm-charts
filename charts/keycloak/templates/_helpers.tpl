@@ -76,14 +76,3 @@ Create the service DNS name.
 {{- define "keycloak.serviceDnsName" -}}
 {{ include "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
 {{- end }}
-
-{{/*
-Create the namespace for the ServiceMonitor deployment
-*/}}
-{{- define "keycloak.serviceMonitorNamespace" -}}
-{{- if .Values.prometheus.operator.serviceMonitor.namespace }}
-{{ .Values.prometheus.operator.serviceMonitor.namespace }}
-{{- else }}
-{{ .Release.Namespace }}
-{{- end }}
-{{- end }}
