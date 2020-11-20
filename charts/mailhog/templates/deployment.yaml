@@ -39,6 +39,8 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            - name: MH_UI_WEB_PATH
+              value: {{ .Values.uiWebPath | quote }}
           {{- if .Values.auth.enabled }}
             - name: MH_AUTH_FILE
               value: /authdir/{{ .Values.auth.fileName }}

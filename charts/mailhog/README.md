@@ -68,3 +68,4 @@ Parameter | Description | Default
 `ingress.hosts` | A list of ingress hosts | `{ host: mailhog.example.com, paths: ["/"] }`
 `ingress.tls` | A list of [IngressTLS](https://v1-8.docs.kubernetes.io/docs/api-reference/v1.8/#ingresstls-v1beta1-extensions) items | `[]`
 `extraEnv` | Additional environment variables, see [CONFIG.md](https://github.com/mailhog/MailHog/blob/master/docs/CONFIG.md) | `{}`
+`uiWebPath` | WebPath under which the ui is served (without leading or trailing slahes), see [CONFIG.md](https://github.com/mailhog/MailHog/blob/master/docs/CONFIG.md) | `""`
