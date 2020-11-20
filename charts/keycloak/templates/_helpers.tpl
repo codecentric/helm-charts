@@ -78,17 +78,6 @@ Create the service DNS name.
 {{- end }}
 
 {{/*
-Create the namespace for the ServiceMonitor deployment
-*/}}
-{{- define "keycloak.serviceMonitorNamespace" -}}
-{{- if .Values.prometheus.operator.serviceMonitor.namespace }}
-{{ .Values.prometheus.operator.serviceMonitor.namespace }}
-{{- else }}
-{{ .Release.Namespace }}
-{{- end }}
-{{- end }}
-
-{{/*
 Return the appropriate apiVersion for ingress.
 */}}
 {{- define "keycloak.ingressAPIVersion" -}}
