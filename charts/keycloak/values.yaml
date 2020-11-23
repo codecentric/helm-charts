@@ -237,6 +237,10 @@ service:
   httpManagementNodePort: null
   # Additional Service ports, e. g. for custom admin console
   extraPorts: []
+  # When using Service type LoadBalancer, you can restrict source ranges allowed
+  # to connect to the LoadBalancer, e. g. will result in Security Groups
+  # (or equivalent) with inbound source ranges allowed to connect
+  loadBalancerSourceRanges: []
 
 ingress:
   # If `true`, an Ingress is created
