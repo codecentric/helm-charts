@@ -9,6 +9,9 @@ metadata:
     helm.sh/chart: {{ include "mailhog.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
     app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- with .Values.ingress.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
   namespace: {{ .Release.Namespace }}
   {{- with .Values.ingress.annotations }}
   annotations:

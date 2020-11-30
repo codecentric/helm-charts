@@ -30,6 +30,7 @@ ingress:
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+  labels: {}
   hosts:
     - host: mailhog.example.com
       paths: ["/"]
