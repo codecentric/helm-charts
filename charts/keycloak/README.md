@@ -99,6 +99,8 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `service.httpManagementPort` | The WildFly management Service port | `8443` |
 | `service.httpManagementNodePort` | The WildFly management node port if type is NodePort | `""` |
 | `service.extraPorts` | Additional Service ports, e. g. for custom admin console | `[]` |
+| `service.sessionAffinity` | sessionAffinity for Service, e. g. "ClientIP" | `""` |
+| `service.sessionAffinityConfig` | sessionAffinityConfig for Service | `{}` |
 | `ingress.enabled` | If `true`, an Ingress is created | `false` |
 | `ingress.rules` | List of Ingress Ingress rule | see below |
 | `ingress.rules[0].host` | Host for the Ingress rule | `keycloak.example.com` |
