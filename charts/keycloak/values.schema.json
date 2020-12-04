@@ -274,6 +274,9 @@
           "extraPorts": {
             "type": "array"
           },
+          "loadBalancerSourceRanges": {
+            "type": "array"
+          },
           "httpNodePort": {
             "anyOf": [
               {

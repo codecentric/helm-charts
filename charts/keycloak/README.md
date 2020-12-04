@@ -91,6 +91,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `service.labels` | Additional labels for headless and HTTP Services | `{}` |
 | `service.type` | The Service type | `ClusterIP` |
 | `service.loadBalancerIP` | Optional IP for the load balancer. Used for services of type LoadBalancer only | `""` |
+| `loadBalancerSourceRanges` | Optional List of allowed source ranges (CIDRs). Used for service of type LoadBalancer only | `[]`  |
 | `service.httpPort` | The http Service port | `80` |
 | `service.httpNodePort` | The HTTP Service node port if type is NodePort | `""` |
 | `service.httpsPort` | The HTTPS Service port | `8443` |
