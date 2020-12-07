@@ -25,9 +25,9 @@ spec:
   {{- end }}
   {{- if .Values.service.sessionAffinity }}
   sessionAffinity: {{ .Values.service.sessionAffinity }}
-  {{- with .Values.service.sessionAffinityConfig }}
+    {{- with .Values.service.sessionAffinityConfig }}
   sessionAffinityConfig:
-  {{- toYaml . | nindent 4 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
   {{- end }}
   ports:
