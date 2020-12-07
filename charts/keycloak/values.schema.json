@@ -334,6 +334,12 @@
           },
           "loadBalancerIP": {
             "type": "string"
+          },
+          "sessionAffinity": {
+            "type": "string"
+          },
+          "sessionAffinityConfig": {
+            "type": "object"
           }
         }
       },
