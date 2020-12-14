@@ -35,7 +35,7 @@ spec:
         paths:
           {{- range .paths }}
           - path: {{ . }}
-            {{- if $.Capabilities.APIVersions.Has "networking.k8s.io/v1" }}
+            {{- if $.Capabilities.APIVersions.Has "networking.k8s.io/v1/ingress" }}
             pathType: Prefix
             backend:
               service:
@@ -44,9 +44,8 @@ spec:
                   name: {{ $ingress.servicePort }}
             {{- else }}
             backend:
-              service:
-                serviceName: {{ include "keycloak.fullname" $ }}-http
-                servicePort: {{ $ingress.servicePort }}
+              serviceName: {{ include "keycloak.fullname" $ }}-http
+              servicePort: {{ $ingress.servicePort }}
             {{- end }}
           {{- end }}
     {{- end }}
