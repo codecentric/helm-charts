@@ -427,6 +427,8 @@ extraInitContainers: |
       - name: theme
         mountPath: /theme
 
+...
+
 extraVolumeMounts: |
   - name: theme
     mountPath: /opt/jboss/keycloak/themes/mytheme
