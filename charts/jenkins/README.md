@@ -4,6 +4,12 @@ The leading open source automation server
 
 [https://jenkins.io/](https://jenkins.io/)
 
+## ⚠️ Deprecation Notice
+
+This chart has been deprecated in favor of the [official Jenkins chart](https://github.com/jenkinsci/helm-charts).
+The official chart has come a long way and has received a complete overhaul since this chart was created.
+Maintaining a separate chart is no longer necessary.
+
 ## TL;DR;
 
 ```console

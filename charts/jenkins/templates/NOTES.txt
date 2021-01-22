@@ -5,6 +5,8 @@
 *                                                                      *
 ************************************************************************
 
+!!! This chart has been DEPRECATED and is no longer maintained !!!
+
 In case the chart was installed with the default configuration and you did not
 configure an admin user, Jenkins creates one per default. The initial password
 is logged and also stored in '/var/jenkins_home/secrets/initialAdminPassword'.
