@@ -43,6 +43,7 @@ Parameter | Description | Default
 `image.repository` | Docker image repository | `mailhog/mailhog`
 `image.tag` | Docker image tag whose default is the chart version | `""`
 `image.pullPolicy` | Docker image pull policy | `IfNotPresent`
+`imagePullSecrets` | Docker image pull secrets | `[]`
 `auth.enabled` | Specifies whether basic authentication is enabled, see [Auth.md](https://github.com/mailhog/MailHog/blob/master/docs/Auth.md) | `false`
 `auth.existingSecret` | If auth is enabled, uses an existing secret with this name; otherwise a secret is created | `""`
 `auth.fileName` | The name of the auth file | `auth.txt`
