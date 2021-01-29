@@ -81,7 +81,7 @@ Create the service DNS name.
 Return the appropriate apiVersion for ingress.
 */}}
 {{- define "keycloak.ingressAPIVersion" -}}
-{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/ingress" -}}
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" -}}
 {{- print "networking.k8s.io/v1" -}}
 {{- else -}}
 {{- print "networking.k8s.io/v1beta1" -}}
