@@ -34,14 +34,14 @@ spec:
     - name: http
       port: {{ .Values.service.httpPort }}
       targetPort: http
-      {{- if and (eq "NodePort" .Values.service.type) .Values.service.httpNodePort }}
+      {{- if and (or (eq "NodePort" .Values.service.type) (eq "LoadBalancer" .Values.service.type) ) .Values.service.httpNodePort }}
       nodePort: {{ .Values.service.httpNodePort }}
       {{- end }}
       protocol: TCP
     - name: https
       port: {{ .Values.service.httpsPort }}
       targetPort: https
-      {{- if and (eq "NodePort" .Values.service.type) .Values.service.httpsNodePort }}
+      {{- if and (or (eq "NodePort" .Values.service.type) (eq "LoadBalancer" .Values.service.type) ) .Values.service.httpsNodePort }}
       nodePort: {{ .Values.service.httpsNodePort }}
       {{- end }}
       protocol: TCP
