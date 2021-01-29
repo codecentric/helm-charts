@@ -35,7 +35,7 @@ spec:
         paths:
           {{- range .paths }}
           - path: {{ . }}
-            {{- if $.Capabilities.APIVersions.Has "networking.k8s.io/v1/ingress" }}
+            {{- if $.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
             pathType: Prefix
             backend:
               service:
