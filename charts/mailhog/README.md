@@ -53,6 +53,10 @@ Parameter | Description | Default
 `podLabels` | Extra labels to add to pod | `{}`
 `resources` | Pod resource requests and limits | `{}`
 `tolerations` | Node taints to tolerate | `[]`
+`serviceAccount.create` | Specifies whether a ServiceAccount should be created | `true` |
+`serviceAccount.name` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template | `""` |
+`serviceAccount.imagePullSecrets` | Image pull secrets that are attached to the ServiceAccount | `[]` |
+`automountServiceAccountToken` | Indicates whether the service account token should be automatically mounted | `false` |
 `service.annotations` | Annotations for the service | `{}`
 `service.clusterIP` | Internal cluster service IP | `""`
 `service.externalIPs` | Service external IP addresses | `[]`
@@ -66,6 +70,7 @@ Parameter | Description | Default
 `securityContext` | Pod security context | `{ runAsUser: 1000, fsGroup: 1000, runAsNonRoot: true }`
 `ingress.enabled` | If `true`, an ingress is created | `false`
 `ingress.annotations` | Annotations for the ingress | `{}`
+`ingress.labels` | Labels for the ingress | `{}`
 `ingress.hosts` | A list of ingress hosts | `{ host: mailhog.example.com, paths: ["/"] }`
 `ingress.tls` | A list of [IngressTLS](https://v1-8.docs.kubernetes.io/docs/api-reference/v1.8/#ingresstls-v1beta1-extensions) items | `[]`
 `extraEnv` | Additional environment variables, see [CONFIG.md](https://github.com/mailhog/MailHog/blob/master/docs/CONFIG.md) | `{}`

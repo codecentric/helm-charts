@@ -1,5 +1,5 @@
 image:
-  repository: mailhog/mailhog
+  repository: docker.io/mailhog/mailhog
   tag: ""
   pullPolicy: IfNotPresent
 
@@ -7,6 +7,17 @@ imagePullSecrets: []
 
 nameOverride: ""
 fullnameOverride: ""
+
+serviceAccount:
+  # Specifies whether a ServiceAccount should be created
+  create: true
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+  # Image pull secrets that are attached to the ServiceAccount
+  imagePullSecrets: []
+
+automountServiceAccountToken: false
 
 service:
   annotations: {}
@@ -24,14 +35,24 @@ service:
 
 securityContext:
   runAsUser: 1000
-  fsGroup: 1000
+  runAsGroup: 1000
   runAsNonRoot: true
+  fsGroup: 1000
+
+containerSecurityContext:
+  readOnlyRootFilesystem: true
+  privileged: false
+  allowPrivilegeEscalation: false
+  capabilities:
+    drop:
+      - ALL
 
 ingress:
   enabled: false
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
+  labels: {}
   hosts:
     - host: mailhog.example.com
       paths: ["/"]

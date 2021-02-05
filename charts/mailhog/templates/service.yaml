@@ -7,10 +7,7 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   labels:
-    app.kubernetes.io/name: {{ include "mailhog.name" . }}
-    helm.sh/chart: {{ include "mailhog.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "mailhog.labels" . | nindent 4 }}
   namespace: {{ .Release.Namespace }}
 spec:
   type: "{{ .Values.service.type }}"
@@ -44,5 +41,4 @@ spec:
       nodePort: {{ .Values.service.nodePort.smtp }}
       {{- end }}
   selector:
-    app.kubernetes.io/name: {{ include "mailhog.name" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
+    {{- include "mailhog.selectorLabels" . | nindent 4 }}
