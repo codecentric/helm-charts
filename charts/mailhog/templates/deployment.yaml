@@ -3,16 +3,12 @@ kind: Deployment
 metadata:
   name: {{ include "mailhog.fullname" . }}
   labels:
-    app.kubernetes.io/name: {{ include "mailhog.name" . }}
-    helm.sh/chart: {{ include "mailhog.chart" . }}
-    app.kubernetes.io/instance: {{ .Release.Name }}
-    app.kubernetes.io/managed-by: {{ .Release.Service }}
+    {{- include "mailhog.labels" . | nindent 4 }}
   namespace: {{ .Release.Namespace }}
 spec:
   selector:
     matchLabels:
-      app.kubernetes.io/name: {{ include "mailhog.name" . }}
-      app.kubernetes.io/instance: {{ .Release.Name }}
+      {{- include "mailhog.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -20,12 +16,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        app.kubernetes.io/name: {{ include "mailhog.name" . }}
-        app.kubernetes.io/instance: {{ .Release.Name }}
-      {{- with .Values.podLabels }}
+        {{- include "mailhog.selectorLabels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
         {{- toYaml . | nindent 8 }}
-      {{- end }}
+        {{- end }}
     spec:
+      serviceAccountName: {{ include "mailhog.serviceAccountName" . }}
+      automountServiceAccountToken: {{ .Values.automountServiceAccountToken }}
       {{- with .Values.securityContext }}
       securityContext:
         {{- toYaml . | nindent 8 }}
@@ -43,13 +40,13 @@ spec:
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
-          {{- if .Values.auth.enabled }}
+            {{- if .Values.auth.enabled }}
             - name: MH_AUTH_FILE
               value: /authdir/{{ .Values.auth.fileName }}
-          {{- end }}
-          {{- with .Values.extraEnv }}
+            {{- end }}
+            {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
-          {{- end }}
+            {{- end }}
           ports:
             - name: http
               containerPort: 8025
@@ -71,23 +68,27 @@ spec:
               mountPath: /authdir
               readOnly: true
           {{- end }}
+          {{- with .Values.containerSecurityContext }}
+          securityContext:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
-    {{- with .Values.affinity }}
+      {{- with .Values.affinity }}
       affinity:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.nodeSelector }}
+      {{- end }}
+      {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- with .Values.tolerations }}
+      {{- end }}
+      {{- with .Values.tolerations }}
       tolerations:
         {{- toYaml . | nindent 8 }}
-    {{- end }}
-    {{- if .Values.auth.enabled }}
+      {{- end }}
+      {{- if .Values.auth.enabled }}
       volumes:
         - name: authdir
           secret:
             secretName: {{ template "mailhog.authFileSecret" . }}
-    {{- end }}
+      {{- end }}
