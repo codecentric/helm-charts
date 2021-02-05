@@ -1,71 +1,14 @@
 version: 2
 jobs:
-  lint-scripts:
+  dummy:
     docker:
-      - image: koalaman/shellcheck-alpine
+      - image: busybox
     steps:
-      - checkout
       - run:
-          command: |
-            shellcheck -x .circleci/install_charts.sh
-            shellcheck -x .circleci/install_tools.sh
-            shellcheck -x .circleci/release.sh
-
-  lint-charts:
-    docker:
-      - image: quay.io/helmpack/chart-testing:v3.0.0-rc.1
-    steps:
-      - checkout
-      - run:
-          command: ct lint --config .circleci/ct.yaml
-
-  install-charts:
-    machine:
-      image: ubuntu-1604:202007-01
-    steps:
-      - checkout
-      - run:
-          no_output_timeout: 12m
-          command: .circleci/install_charts.sh
-
-  release-charts:
-    machine: true
-    steps:
-      - checkout
-      - add_ssh_keys:
-          fingerprints:
-            - "e2:f8:a5:1a:c8:21:5d:3e:02:dc:9d:a6:c1:b6:f6:c5"
-      - run:
-          command: |
-            echo "export GIT_REPOSITORY_URL=$CIRCLE_REPOSITORY_URL" >> $BASH_ENV
-            echo "export GIT_USERNAME=$CIRCLE_PROJECT_USERNAME" >> $BASH_ENV
-            .circleci/install_tools.sh
-            .circleci/release.sh
+          command: echo "Dummy job to avoid build errors until we finally disable CircleCI"
 
 workflows:
   version: 2
-  lint-and-test:
+  dummy:
     jobs:
-      - lint-scripts
-      - lint-charts:
-          filters:
-            branches:
-              ignore: master
-            tags:
-              ignore: /.*/
-      - install-charts:
-          requires:
-            - lint-charts
-          filters:
-            branches:
-              ignore: master
-            tags:
-              ignore: /.*/
-  release:
-    jobs:
-      - release-charts:
-          filters:
-            tags:
-              ignore: /.*/
-            branches:
-              only: master
+      - lint
