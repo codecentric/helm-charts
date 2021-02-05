@@ -32,6 +32,35 @@ Create chart name and version as used by the chart label.
 {{- end -}}
 
 {{/*
+Common labels
+*/}}
+{{- define "mailhog.labels" -}}
+helm.sh/chart: {{ include "mailhog.chart" . }}
+{{ include "mailhog.selectorLabels" . }}
+app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | quote }}
+app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end }}
+
+{{/*
+Selector labels
+*/}}
+{{- define "mailhog.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "mailhog.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
+{{- end }}
+
+{{/*
+Create the name of the service account to use
+*/}}
+{{- define "mailhog.serviceAccountName" -}}
+{{- if .Values.serviceAccount.create }}
+{{- default (include "mailhog.fullname" .) .Values.serviceAccount.name }}
+{{- else }}
+{{- default "default" .Values.serviceAccount.name }}
+{{- end }}
+{{- end }}
+
+{{/*
 Create the name for the auth secret.
 */}}
 {{- define "mailhog.authFileSecret" -}}
