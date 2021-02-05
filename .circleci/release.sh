@@ -48,8 +48,11 @@ main() {
         add_chart_repos
 
         for chart in "${changed_charts[@]}"; do
-            echo "Packaging chart '$chart'..."
-            package_chart "charts/$chart"
+            # Check if directory exists which may not be the case if the chart was deleted
+            if [[ -d "charts/$chart" ]]; then
+                echo "Packaging chart '$chart'..."
+                package_chart "charts/$chart"
+            fi
         done
 
         release_charts
