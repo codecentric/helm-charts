@@ -7,11 +7,8 @@ set -o pipefail
 : "${PR_TITLE:?Environment variable must be set}"
 
 main() {
-    local repo_root
-    repo_root=$(git rev-parse --show-toplevel)
-
     local changed
-    changed=$(ct list-changed --config "$repo_root/ct.yaml")
+    changed=$(ct list-changed)
 
     if [[ -z "$changed" ]]; then
         exit 0
