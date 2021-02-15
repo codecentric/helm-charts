@@ -56,10 +56,18 @@
       "type": "string"
     },
     "extraEnv": {
-      "type": "string"
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      }
     },
     "extraEnvFrom": {
-      "type": "string"
+      "type": "array"
     },
     "extraInitContainers": {
       "type": "string"
