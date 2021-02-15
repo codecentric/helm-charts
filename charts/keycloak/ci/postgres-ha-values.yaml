@@ -25,7 +25,7 @@ lifecycleHooks: |
         - -c
         - echo 'Hello from lifecycle hook!'
 
-extraEnv: |
+extraEnv:
   - name: JGROUPS_DISCOVERY_PROTOCOL
     value: dns.DNS_PING
   - name: JGROUPS_DISCOVERY_PROPERTIES
