@@ -1,4 +1,4 @@
-extraEnv: |
+extraEnv:
   - name: DB_VENDOR
     value: h2
   - name: KEYCLOAK_USER_FILE
