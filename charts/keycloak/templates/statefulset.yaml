@@ -100,11 +100,11 @@ spec:
                   key: postgresql-password
             {{- end }}
             {{- with .Values.extraEnv }}
-            {{- tpl . $ | nindent 12 }}
-            {{- end }}
+            {{- toYaml .  | nindent 12 }}
+            {{- end  }}
           envFrom:
             {{- with .Values.extraEnvFrom }}
-            {{- tpl . $ | nindent 12 }}
+            {{- toYaml . | nindent 12 }}
             {{- end }}
           ports:
             - name: http

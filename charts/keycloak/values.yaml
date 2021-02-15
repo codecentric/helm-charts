@@ -96,7 +96,7 @@ command: []
 args: []
 
 # Additional environment variables for Keycloak
-extraEnv: ""
+extraEnv: []
   # - name: KEYCLOAK_LOGLEVEL
   #   value: DEBUG
   # - name: WILDFLY_LOGLEVEL
@@ -107,7 +107,7 @@ extraEnv: ""
   #   value: "2"
 
 # Additional environment variables for Keycloak mapped from Secret or ConfigMap
-extraEnvFrom: ""
+extraEnvFrom: []
 
 #  Pod priority class name
 priorityClassName: ""
