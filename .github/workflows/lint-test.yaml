@@ -39,6 +39,8 @@ jobs:
 
       - name: Create kind cluster
         uses: helm/kind-action@v1.1.0
+        with:
+          config: kind.yaml
         if: steps.list-changed.outputs.changed == 'true'
 
       - name: Run chart-testing (install)
