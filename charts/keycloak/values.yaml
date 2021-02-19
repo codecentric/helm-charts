@@ -244,7 +244,7 @@ service:
   # When using Service type LoadBalancer, you can preserve the source IP seen in the container
   # by changing the default (Cluster) to be Local.
   # See https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/#preserving-the-client-source-ip
-  externalTrafficPolicy: Cluster
+  externalTrafficPolicy: ""
   # Session affinity
   # See https://kubernetes.io/docs/concepts/services-networking/service/#proxy-mode-userspace
   sessionAffinity: ""
