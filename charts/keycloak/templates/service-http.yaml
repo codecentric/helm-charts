@@ -23,6 +23,9 @@ spec:
   loadBalancerSourceRanges:
     {{- toYaml .Values.service.loadBalancerSourceRanges | nindent 4 }}
   {{- end }}
+  {{- if and (eq "LoadBalancer" .Values.service.type) .Values.service.externalTrafficPolicy }}
+  externalTrafficPolicy: {{ .Values.service.loadBalancerSourceRanges }}
+  {{- end }}
   {{- if .Values.service.sessionAffinity }}
   sessionAffinity: {{ .Values.service.sessionAffinity }}
     {{- with .Values.service.sessionAffinityConfig }}

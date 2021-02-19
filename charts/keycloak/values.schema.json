@@ -335,6 +335,9 @@
           "loadBalancerIP": {
             "type": "string"
           },
+          "externalTrafficPolicy": {
+            "type": "string"
+          },
           "sessionAffinity": {
             "type": "string"
           },
