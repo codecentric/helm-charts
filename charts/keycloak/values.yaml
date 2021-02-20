@@ -208,6 +208,7 @@ statefulsetLabels: {}
 # Configuration for secrets that should be created
 secrets: {}
   # mysecret:
+  #   type: {}
   #   annotations: {}
   #   labels: {}
   #   stringData: {}
