@@ -338,8 +338,6 @@ postgresql:
   postgresqlPassword: keycloak
   # PostgreSQL Database to create
   postgresqlDatabase: keycloak
-  # Persistent Volume Storage configuration
-
   # PostgreSQL network policy configuration
   networkPolicy:
     enabled: false
