@@ -169,14 +169,14 @@ The following table lists the configurable parameters of the Keycloak chart and 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
 ```console
-$ helm install keycloak codecentric/keycloak -n keycloak --version=9.0.0 --set replicas=1
+$ helm install keycloak codecentric/keycloak -n keycloak --set replicas=1
 ```
 
 Alternatively, a YAML file that specifies the values for the parameters can be provided while
 installing the chart. For example:
 
 ```console
-$ helm install keycloak codecentric/keycloak -n keycloak --version=9.0.0 --values values.yaml
+$ helm install keycloak codecentric/keycloak -n keycloak --values values.yaml
 ```
 
 The chart offers great flexibility.
@@ -628,6 +628,13 @@ Additionally, we get stable values for `jboss.node.name` which can be advantageo
 The headless service that governs the StatefulSet is used for DNS discovery via DNS_PING.
 
 ## Upgrading
+
+### From chart < 10.0.0
+
+* Keycloak is updated to 12.0.4
+
+The upgrade should be seemless.
+No special care has to be taken.
 
 ### From chart versions < 9.0.0
 
