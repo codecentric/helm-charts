@@ -166,6 +166,14 @@ readinessProbe: |
   initialDelaySeconds: 30
   timeoutSeconds: 1
 
+# Startup probe configuration
+startupProbe: |
+  httpGet:
+    path: /auth/realms/master
+    port: http
+  initialDelaySeconds: 300
+  timeoutSeconds: 1
+
 # Pod resource requests and limits
 resources: {}
   # requests:
