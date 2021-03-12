@@ -279,6 +279,21 @@ ingress:
         - keycloak.example.com
       secretName: ""
 
+  # ingress for console only (/auth/admin)
+  console:
+    # If `true`, an Ingress is created for console path only
+    enabled: false
+    # Ingress annotations for console ingress only
+    # Useful to set nginx.ingress.kubernetes.io/whitelist-source-range particularly
+    annotations: {}
+    rules:
+      -
+        # Ingress host
+        host: '{{ .Release.Name }}.keycloak.example.com'
+        # Paths for the host
+        paths:
+          - /auth/admin/
+
 ## Network policy configuration
 networkPolicy:
   # If true, the Network policies are deployed
