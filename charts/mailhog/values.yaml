@@ -68,6 +68,27 @@ auth:
   fileName: auth.txt
   fileContents: ""
 
+outgoingSMTP:
+  enabled: false
+  existingSecret: ""
+  fileName: outgoing-smtp.json
+  fileContents:
+    # See https://github.com/mailhog/MailHog/blob/master/docs/CONFIG.md#outgoing-smtp-configuration
+    # Only name, host and port are required.
+    #
+    server_name1:
+      name: server_name1
+      host: mail.example.com
+      port: 25
+      #email: ""
+      #username: ""
+      #password: ""
+      #mechanism: "PLAIN|CRAM-MD5"
+    #server_name2:
+    #  name: server_name2
+    #  host: mail2.example.com
+    #  port: 587
+
 podAnnotations: {}
 
 podLabels: {}
