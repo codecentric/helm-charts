@@ -68,6 +68,7 @@ auth:
   fileName: auth.txt
   fileContents: ""
 
+# JSON file defining outgoing SMTP servers
 outgoingSMTP:
   enabled: false
   existingSecret: ""
