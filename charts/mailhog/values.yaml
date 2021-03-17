@@ -78,17 +78,17 @@ outgoingSMTP:
     # Only name, host and port are required.
     #
     # server_name1:
-    #   name: server_name1
-    #   host: mail.example.com
-    #   port: 25
+    #   name: "server_name1"
+    #   host: "mail.example.com"
+    #   port: "25"    # NOTE: go requires this port number to be a string... otherwise the container won't start
     #   email: ""
     #   username: ""
     #  password: ""
     #  mechanism: "PLAIN|CRAM-MD5"
     # server_name2:
-    #   name: server_name2
-    #   host: mail2.example.com
-    #   port: 587
+    #   name: "server_name2"
+    #   host: "mail2.example.com"
+    #   port: "587"   # NOTE: go requires this port number to be a string... otherwise the container won't start
 
 podAnnotations: {}
 
