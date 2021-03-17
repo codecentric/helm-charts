@@ -81,14 +81,14 @@ outgoingSMTP:
       name: server_name1
       host: mail.example.com
       port: 25
-      #email: ""
-      #username: ""
-      #password: ""
-      #mechanism: "PLAIN|CRAM-MD5"
-    #server_name2:
-    #  name: server_name2
-    #  host: mail2.example.com
-    #  port: 587
+      # email: ""
+      # username: ""
+      # password: ""
+      # mechanism: "PLAIN|CRAM-MD5"
+    # server_name2:
+    #   name: server_name2
+    #   host: mail2.example.com
+    #   port: 587
 
 podAnnotations: {}
 
