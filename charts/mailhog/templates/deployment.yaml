@@ -46,7 +46,7 @@ spec:
             {{- end }}
             {{- if .Values.outgoingSMTP.enabled }}
             - name: MH_OUTGOING_SMTP
-              value: /config/{{ .Values.outgoingSMTP.fileName }}
+              value: /home/mailhog/{{ .Values.outgoingSMTP.fileName }}
             {{- end }}
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
