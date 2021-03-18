@@ -646,6 +646,16 @@ The headless service that governs the StatefulSet is used for DNS discovery via 
 
 ## Upgrading
 
+### From chart < 11.0.0
+
+When you are using the postgresql subchart (which is not recommended for production situations), you will need to migrate the statefulset governing the postgresql pod.
+The upgrade will cause some immutable fields of the statefulset to be modified, which cannot be done in place.
+You will have to manually remove the statefulset before doing the Helm upgrade.
+The following procedure takes care of this:
+
+1. Remove the old statefulset (associated PVC will remain in place): `kubectl delete statefulset -n <your ns> <name of your psql statefulset>`
+1. Helm Upgrade: `helm upgrade -n <your ns> ... <your release>`
+
 ### From chart < 10.0.0
 
 * Keycloak is updated to 12.0.4
