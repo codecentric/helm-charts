@@ -155,7 +155,7 @@ livenessProbe: |
   httpGet:
     path: /auth/
     port: http
-  initialDelaySeconds: 5
+  initialDelaySeconds: 0
   timeoutSeconds: 5
 
 # Readiness probe configuration
@@ -163,7 +163,7 @@ readinessProbe: |
   httpGet:
     path: /auth/realms/master
     port: http
-  initialDelaySeconds: 5
+  initialDelaySeconds: 30
   timeoutSeconds: 1
 
 # Startup probe configuration
@@ -171,8 +171,10 @@ startupProbe: |
   httpGet:
     path: /auth/
     port: http
-  initialDelaySeconds: 150
-  timeoutSeconds: 5
+  initialDelaySeconds: 30
+  timeoutSeconds: 1
+  failureThreshold: 30
+  periodSeconds: 5
 
 # Pod resource requests and limits
 resources: {}
