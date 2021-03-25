@@ -339,11 +339,11 @@ pgchecker:
   # Resource requests and limits for the pgchecker container
   resources:
     requests:
-      cpu: "10m"
-      memory: "16Mi"
+      cpu: "20m"
+      memory: "32Mi"
     limits:
-      cpu: "10m"
-      memory: "16Mi"
+      cpu: "20m"
+      memory: "32Mi"
 
 postgresql:
   # If `true`, the Postgresql dependency is enabled
