@@ -32,6 +32,10 @@ spec:
             secretKeyRef:
               name: {{ include "keycloak.fullname" . }}-admin-creds
               key: password
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
       volumeMounts:
         - name: tests
           mountPath: /tests
