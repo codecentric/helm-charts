@@ -66,14 +66,13 @@ spec:
           readinessProbe:
             tcpSocket:
               port: tcp-smtp
-          {{- if .Values.auth.enabled }}
           volumeMounts:
+          {{- if .Values.auth.enabled }}
             - name: authdir
               mountPath: /authdir
               readOnly: true
           {{- end }}
           {{- if .Values.outgoingSMTP.enabled }}
-          volumeMounts:
             - name: outsmtpdir
               mountPath: /config
               readOnly: true
@@ -96,14 +95,13 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      {{- if .Values.auth.enabled }}
       volumes:
+      {{- if .Values.auth.enabled }}
         - name: authdir
           secret:
             secretName: {{ template "mailhog.authFileSecret" . }}
       {{- end }}
       {{- if .Values.outgoingSMTP.enabled }}
-      volumes:
         - name: outsmtpdir
           secret:
             secretName: {{ template "mailhog.outgoingSMTPSecret" . }}
