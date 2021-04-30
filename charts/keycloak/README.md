@@ -76,8 +76,9 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `tolerations` | Node taints to tolerate | `[]` |
 | `podLabels` | Additional Pod labels | `{}` |
 | `podAnnotations` | Additional Pod annotations | `{}` |
-| `livenessProbe` | Liveness probe configuration | `{"httpGet":{"path":"/health/live","port":"http"},"initialDelaySeconds":300,"timeoutSeconds":5}` |
+| `livenessProbe` | Liveness probe configuration | `{"httpGet":{"path":"/auth/","port":"http"},"initialDelaySeconds":0,"timeoutSeconds":5}` |
 | `readinessProbe` | Readiness probe configuration | `{"httpGet":{"path":"/auth/realms/master","port":"http"},"initialDelaySeconds":30,"timeoutSeconds":1}` |
+| `startupProbe` | Startup probe configuration | `{"httpGet":{"path":"/auth/","port":"http"},"initialDelaySeconds":30,"timeoutSeconds":5, "failureThreshold": 60, "periodSeconds": 5}` |
 | `resources` | Pod resource requests and limits | `{}` |
 | `startupScripts` | Startup scripts to run before Keycloak starts up | `{"keycloak.cli":"{{- .Files.Get "scripts/keycloak.cli" \| nindent 2 }}"}` |
 | `extraVolumes` | Add additional volumes, e. g. for custom themes | `""` |
@@ -92,6 +93,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `service.type` | The Service type | `ClusterIP` |
 | `service.loadBalancerIP` | Optional IP for the load balancer. Used for services of type LoadBalancer only | `""` |
 | `loadBalancerSourceRanges` | Optional List of allowed source ranges (CIDRs). Used for service of type LoadBalancer only | `[]`  |
+| `service.externalTrafficPolicy` | Optional external traffic policy. Used for services of type LoadBalancer only | `"Cluster"` |
 | `service.httpPort` | The http Service port | `80` |
 | `service.httpNodePort` | The HTTP Service node port if type is NodePort | `""` |
 | `service.httpsPort` | The HTTPS Service port | `8443` |
@@ -203,6 +205,7 @@ It is used for the following values:
 * `extraVolumes`
 * `livenessProbe`
 * `readinessProbe`
+* `startupProbe`
 
 Additionally, custom labels and annotations can be set on various resources the values of which being passed through `tpl` as well.
 
@@ -545,7 +548,7 @@ livenessProbe: |
   httpGet:
     path: {{ if ne .Values.contextPath "" }}/{{ .Values.contextPath }}{{ end }}/
     port: http
-  initialDelaySeconds: 300
+  initialDelaySeconds: 0
   timeoutSeconds: 5
 
 readinessProbe: |
@@ -554,9 +557,18 @@ readinessProbe: |
     port: http
   initialDelaySeconds: 30
   timeoutSeconds: 1
+
+startupProbe: |
+  httpGet:
+    path: /auth/
+    port: http
+  initialDelaySeconds: 30
+  timeoutSeconds: 1
+  failureThreshold: 60
+  periodSeconds: 5
 ```
 
-The above YAML references introduces the custom value `contextPath` which is possible because `startupScripts`, `livenessProbe`, and `readinessProbe` are templated using the `tpl` function.
+The above YAML references introduces the custom value `contextPath` which is possible because `startupScripts`, `livenessProbe`, `readinessProbe`, and `startupProbe` are templated using the `tpl` function.
 Note that it must not start with a slash.
 Alternatively, you may supply it via CLI flag:
 
@@ -709,6 +721,19 @@ The defaults are unchanged, but since 6.0.0 configured as follows:
       port: http
     initialDelaySeconds: 30
     timeoutSeconds: 1
+```
+
+startup probe was added in 10.2.0 and is configured as follows:
+
+```yaml
+  startupProbe: |
+    httpGet:
+      path: /auth/
+      port: http
+    initialDelaySeconds: 30
+    timeoutSeconds: 1
+    failureThreshold: 60
+    periodSeconds: 5
 ```
 
 #### Changes in Existing Secret Configuration

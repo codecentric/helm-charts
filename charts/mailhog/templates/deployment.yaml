@@ -44,6 +44,10 @@ spec:
             - name: MH_AUTH_FILE
               value: /authdir/{{ .Values.auth.fileName }}
             {{- end }}
+            {{- if .Values.outgoingSMTP.enabled }}
+            - name: MH_OUTGOING_SMTP
+              value: /config/{{ .Values.outgoingSMTP.fileName }}
+            {{- end }}
             {{- with .Values.extraEnv }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
@@ -66,6 +70,12 @@ spec:
           volumeMounts:
             - name: authdir
               mountPath: /authdir
+              readOnly: true
+          {{- end }}
+          {{- if .Values.outgoingSMTP.enabled }}
+          volumeMounts:
+            - name: outsmtpdir
+              mountPath: /config
               readOnly: true
           {{- end }}
           {{- with .Values.containerSecurityContext }}
@@ -91,4 +101,10 @@ spec:
         - name: authdir
           secret:
             secretName: {{ template "mailhog.authFileSecret" . }}
+      {{- end }}
+      {{- if .Values.outgoingSMTP.enabled }}
+      volumes:
+        - name: outsmtpdir
+          secret:
+            secretName: {{ template "mailhog.outgoingSMTPSecret" . }}
       {{- end }}
