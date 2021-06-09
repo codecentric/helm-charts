@@ -335,6 +335,21 @@ route:
     insecureEdgeTerminationPolicy: Redirect
     # TLS termination of the route. Can be `edge`, `passthrough`, or `reencrypt`
     termination: edge
+    # TLS custom certificate
+#   certificate: |
+#     aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+#     bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+#     ccccccccccccccccccccccccccccc
+    # TLS custom key
+#   key: |
+#     aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+#     bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+#     ccccccccccccccccccccccccccccc
+    # TLS custom CA certificate
+#   caCertificate: |
+#     aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+#     bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+#     ccccccccccccccccccccccccccccc
 
 pgchecker:
   image:
