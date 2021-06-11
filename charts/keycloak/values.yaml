@@ -336,20 +336,25 @@ route:
     # TLS termination of the route. Can be `edge`, `passthrough`, or `reencrypt`
     termination: edge
     # TLS custom certificate
-#   certificate: |
-#     aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-#     bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-#     ccccccccccccccccccccccccccccc
+#    certificate: |
+#      BEGIN CERTIFICATE
+#      MIIDcjCCAlqgAwIBAgIUBTjKD8uJfpIN0uk9zsh+l5gALGcwDQYJKoZIhvcNAQEL
+#      uWsAMNgqwe1Q9f3LitNXmsnmMPtpWg==
+#      END CERTIFICATE
     # TLS custom key
-#   key: |
-#     aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-#     bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-#     ccccccccccccccccccccccccccccc
+#    key: |
+#      -----BEGIN OPENSSH PRIVATE KEY-----
+#      b3BlbnNzaC1rZXktdjEAAAAABG5vbmUABBBBEbm9uZQAAAAAAAAABAAABlwAAAAdzc2gtcn
+#      ...
+#      Al/Yn2tA3USa0BBBBbc2VjdXN0b3JAc2VjdXN0b3Itd2hpenVzLWxw
+#      -----END OPENSSH PRIVATE KEY-----
     # TLS custom CA certificate
-#   caCertificate: |
-#     aaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-#     bbbbbbbbbbbbbbbbbbbbbbbbbbbbb
-#     ccccccccccccccccccccccccccccc
+#    caCertificate: |
+#      -----BEGIN CERTIFICATE-----
+#      MIIDcjCCAlqgAwIBAgIUBTjKD8uJfpIN0uk9zsh+l5gALGcwDQYJKoZIhvcNAQEL
+#      ...
+#      uWsAMNgqwe1Q9f3LitNXmsnmMPtpWg==
+#      -----END CERTIFICATE-----
 
 pgchecker:
   image:
