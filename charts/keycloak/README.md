@@ -128,6 +128,9 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `route.tls.enabled` | If `true`, TLS is enabled for the Route | `true` |
 | `route.tls.insecureEdgeTerminationPolicy` | Insecure edge termination policy of the Route. Can be `None`, `Redirect`, or `Allow` | `Redirect` |
 | `route.tls.termination` | TLS termination of the route. Can be `edge`, `passthrough`, or `reencrypt` | `edge` |
+| `route.tls.certificate` | Optionally tje TLS certificate of the route. | "" |
+| `route.tls.caCertificate` | Optionally custom CA certificate of the route. | "" |
+| `route.tls.key` | Optionally the TLS key of the route. | "" |
 | `pgchecker.image.repository` | Docker image used to check Postgresql readiness at startup | `docker.io/busybox` |
 | `pgchecker.image.tag` | Image tag for the pgchecker image | `1.32` |
 | `pgchecker.image.pullPolicy` | Image pull policy for the pgchecker image | `IfNotPresent` |
