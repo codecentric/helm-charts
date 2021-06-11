@@ -32,15 +32,15 @@ spec:
     termination: {{ $route.tls.termination }}
     {{- if $route.tls.certificate }}
     certificate: |-
-{{ $route.tls.certificate | indent 6 }}
+      {{ $route.tls.certificate | nindent 6 }}
     {{- end }}
     {{- if $route.tls.key }}
     key: |-
-{{ $route.tls.key | indent 6 }}
+      {{ $route.tls.key | nindent 6 }}
     {{- end }}
     {{- if $route.tls.caCertificate }}
     caCertificate: |-
-{{ $route.tls.caCertificate | indent 6 }}
+      {{ $route.tls.caCertificate | nindent 6 }}
     {{- end }}
   {{- end }}
 {{- end -}}
