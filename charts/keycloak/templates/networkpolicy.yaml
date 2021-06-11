@@ -20,9 +20,9 @@ spec:
         {{- toYaml . | nindent 8 }}
       ports:
         - protocol: TCP
-          port: {{ $.Values.service.httpPort }}
+          port: 8080
         - protocol: TCP
-          port: {{ $.Values.service.httpsPort }}
+          port: 8443
         {{ range $.Values.extraPorts }}
         - protocol: {{ default "TCP" .protocol }}
           port: {{ .containerPort }}
@@ -34,11 +34,11 @@ spec:
               {{- include "keycloak.selectorLabels" . | nindent 14 }}
       ports:
         - protocol: TCP
-          port: {{ .Values.service.httpPort }}
+          port: 8080
         - protocol: TCP
-          port: {{ .Values.service.httpsPort }}
+          port: 8443
         - protocol: TCP
-          port: {{ .Values.service.httpManagementPort }}
+          port: 9990
         {{ range .Values.extraPorts }}
         - protocol: {{ default "TCP" .protocol }}
           port: {{ .containerPort }}
