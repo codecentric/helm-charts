@@ -19,6 +19,14 @@ spec:
   groups:
     - name: {{ include "keycloak.fullname" $ }}
       rules:
+        {{- with .rules }}
         {{- toYaml .rules | nindent 8 }}
+        {{- end }}
+        {{- with .rulesTemplate }}
+        {{- range . }}
+        -
+          {{- (tpl (. | toYaml) $) | nindent 10 }}
+        {{- end }}
+        {{- end }}
 {{- end }}
 {{- end -}}
