@@ -108,7 +108,15 @@
               "paths": {
                 "type": "array",
                 "items": {
-                  "type": "string"
+                  "type": "object",
+                  "properties": {
+                    "path": {
+                      "type": "string"
+                    },
+                    "pathType": {
+                      "type": "string"
+                    }
+                  }
                 }
               }
             }
