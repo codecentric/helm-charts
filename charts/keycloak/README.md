@@ -106,7 +106,9 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `ingress.enabled` | If `true`, an Ingress is created | `false` |
 | `ingress.rules` | List of Ingress Ingress rule | see below |
 | `ingress.rules[0].host` | Host for the Ingress rule | `{{ .Release.Name }}.keycloak.example.com` |
-| `ingress.rules[0].paths` | Paths for the Ingress rule | `[/]` |
+| `ingress.rules[0].paths` | Paths for the Ingress rule | see below |
+| `ingress.rules[0].paths[0].path` | Path for the Ingress rule | `/` |
+| `ingress.rules[0].paths[0].pathType` | Path Type for the Ingress rule | `Prefix` |
 | `ingress.servicePort` | The Service port targeted by the Ingress | `http` |
 | `ingress.annotations` | Ingress annotations | `{}` |
 | `ingress.labels` | Additional Ingress labels | `{}` |
@@ -116,7 +118,9 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `ingress.console.enabled` | If `true`, an Ingress for the console is created | `false` |
 | `ingress.console.rules` | List of Ingress Ingress rule for the console | see below |
 | `ingress.console.rules[0].host` | Host for the Ingress rule for the console | `{{ .Release.Name }}.keycloak.example.com` |
-| `ingress.console.rules[0].paths` | Paths for the Ingress rule for the console | `[/auth/admin]` |
+| `ingress.console.rules[0].paths` | Paths for the Ingress rule for the console | see below |
+| `ingress.console.rules[0].paths[0].path` | Path for the Ingress rule for the console | `[/auth/admin]` |
+| `ingress.console.rules[0].paths[0].pathType` | Path Type for the Ingress rule for the console | `Prefix` |
 | `ingress.console.annotations` | Ingress annotations for the console | `{}` |
 | `networkPolicy.enabled` | If true, the ingress network policy is deployed | `false`
 | `networkPolicy.extraFrom` | Allows to define allowed external traffic (see Kubernetes doc for network policy `from` format) | `[]`
@@ -645,6 +649,34 @@ Additionally, we get stable values for `jboss.node.name` which can be advantageo
 The headless service that governs the StatefulSet is used for DNS discovery via DNS_PING.
 
 ## Upgrading
+
+### From chart < 14.0.0
+
+Ingress path definitions are extended to describe path and pathType. Previously only the path was configured. Please adapt your configuration as shown below:  
+
+Old:
+```yaml
+ingress:
+  # ...
+  rules:
+    - # ...
+      # Paths for the host
+      paths:
+        - /
+```
+New:
+```yaml
+ingress:
+  # ...
+  rules:
+    - # ...
+      # Paths for the host
+      paths:
+        - path: /
+          pathType: Prefix
+```
+
+This allows to configure specific `pathType` configurations, e.g. `pathType: ImplementationSpecific` for [GKE Ingress on Google Cloud Platform](https://cloud.google.com/kubernetes-engine/docs/concepts/ingress#default_backend).
 
 ### From chart < 13.0.0
 
