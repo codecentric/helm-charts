@@ -646,18 +646,25 @@ The headless service that governs the StatefulSet is used for DNS discovery via 
 
 ## Upgrading
 
+### From chart < 13.0.0
+
+* Keycloak is updated to 14.0.0
+
+Note that this might not be a seamless upgrade, because the clustering with older Keycloak versions might not work 
+due to incompatible infinispan versions.
+
 ### From chart < 12.0.0
 
 * Keycloak is updated to 13.0.1
 
-Note that this might not be a a seamless upgrade, because the clustering with older Keycloak versions might not work 
+Note that this might not be a seamless upgrade, because the clustering with older Keycloak versions might not work 
 due to incompatible infinispan versions.
 
 One way to perform the upgrade is to run:
 ```
 kubectl delete sts <RELEASE_NAME>-keycloak && helm upgrade --install 
 ```
-That all replicas are restarted in the same version.
+This ensures that all replicas are restarted with the same version.
 Note that all sessions are lost in this case, and users might need to login again.
 
 ### From chart < 11.0.0
