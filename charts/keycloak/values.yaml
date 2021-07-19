@@ -282,7 +282,8 @@ ingress:
       host: '{{ .Release.Name }}.keycloak.example.com'
       # Paths for the host
       paths:
-        - /
+        - path: /
+          pathType: Prefix
   # TLS configuration
   tls:
     - hosts:
@@ -302,7 +303,8 @@ ingress:
         host: '{{ .Release.Name }}.keycloak.example.com'
         # Paths for the host
         paths:
-          - /auth/admin/
+          - path: /auth/admin/
+            pathType: Prefix
 
 ## Network policy configuration
 networkPolicy:
