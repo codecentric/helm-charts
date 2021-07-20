@@ -9,7 +9,7 @@
 Keycloak was installed with an Ingress and an be reached at the following URL(s):
 {{ range $unused, $rule := .Values.ingress.rules }}
   {{- range $rule.paths }}
-  - http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $rule.host }}{{ . }}
+  - http{{ if $.Values.ingress.tls }}s{{ end }}://{{ $rule.host }}{{ .path }}
   {{-  end }}
 {{- end }}
 
