@@ -67,9 +67,9 @@ metadata:
     {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
     {{- end }}
 spec:
-{{- if $ingress.tls }}
+{{- if $ingress.console.tls }}
   tls:
-    {{- range $ingress.tls }}
+    {{- range $ingress.console.tls }}
     - hosts:
       {{- range .hosts }}
         - {{ tpl . $ | quote }}

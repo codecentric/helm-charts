@@ -116,8 +116,10 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `ingress.tls[0].hosts` | List of TLS hosts | `[keycloak.example.com]` |
 | `ingress.tls[0].secretName` | Name of the TLS secret | `""` |
 | `ingress.console.enabled` | If `true`, an Ingress for the console is created | `false` |
+| `ingress.console.tls[0].hosts` | List of TLS hosts for the console | `[admin.anotherexample.com]` |
+| `ingress.console.tls[0].secretName` | Name of the TLS secret for the console | `""` |
 | `ingress.console.rules` | List of Ingress Ingress rule for the console | see below |
-| `ingress.console.rules[0].host` | Host for the Ingress rule for the console | `{{ .Release.Name }}.keycloak.example.com` |
+| `ingress.console.rules[0].host` | Host for the Ingress rule for the console | `{{ .Release.Name }}.admin.anotherexample.com` |
 | `ingress.console.rules[0].paths` | Paths for the Ingress rule for the console | see below |
 | `ingress.console.rules[0].paths[0].path` | Path for the Ingress rule for the console | `[/auth/admin]` |
 | `ingress.console.rules[0].paths[0].pathType` | Path Type for the Ingress rule for the console | `Prefix` |
