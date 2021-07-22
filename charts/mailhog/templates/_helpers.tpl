@@ -81,3 +81,14 @@ Create the name for the outgoing-smtp secret.
         {{- template "mailhog.fullname" . -}}-outgoing-smtp
     {{- end -}}
 {{- end -}}
+
+{{/*
+Return the appropriate apiVersion for ingress.
+*/}}
+{{- define "mailhog.ingressAPIVersion" -}}
+{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" -}}
+{{- print "networking.k8s.io/v1" -}}
+{{- else -}}
+{{- print "networking.k8s.io/v1beta1" -}}
+{{- end -}}
+{{- end -}}
