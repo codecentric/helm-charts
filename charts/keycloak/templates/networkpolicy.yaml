@@ -23,7 +23,7 @@ spec:
           port: 8080
         - protocol: TCP
           port: 8443
-        {{ range $.Values.extraPorts }}
+        {{ range $.Values.networkPolicy.extraPorts }}
         - protocol: {{ default "TCP" .protocol }}
           port: {{ .containerPort }}
         {{- end }}
