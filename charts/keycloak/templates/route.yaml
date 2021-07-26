@@ -21,7 +21,11 @@ spec:
 {{- end }}
   path: {{ $route.path }}
   port:
+    {{- if or (not $route.tls.enabled) (eq $route.tls.termination "edge") }}
     targetPort: http
+    {{- else}}
+    targetPort: https
+    {{- end}}
   to:
     kind: Service
     name: {{ include "keycloak.fullname" $ }}-http
