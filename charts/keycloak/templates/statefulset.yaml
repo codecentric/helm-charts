@@ -41,9 +41,94 @@ spec:
         {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 8 }}
         {{- end }}
     spec:
-      {{- if or .Values.postgresql.enabled .Values.extraInitContainers }}
+      {{- if coalesce .Values.postgresql.enabled .Values.mssql.enabled .Values.extraInitContainers }}
       initContainers:
-        {{- if .Values.postgresql.enabled }}
+      {{- if .Values.mssql.enabled }}
+        - name: create-db
+          image: microsoft/mssql-tools
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - '-c'
+            - >-
+              /opt/mssql-tools/bin/sqlcmd -S $DB_ADDR,$DB_PORT -U sa -P
+              $SA_PASSWORD -Q "IF NOT EXISTS  ( SELECT name FROM
+              master.dbo.sysdatabases  WHERE name = N'$DB_DATABASE' ) CREATE
+              DATABASE [$DB_DATABASE];
+              ALTER DATABASE $DB_DATABASE SET ALLOW_SNAPSHOT_ISOLATION ON"
+              
+          env:
+            - name: SA_PASSWORD
+            {{- if and .Values.mssql.sapassword }}
+              value: {{ .Values.mssql.sapassword }}
+            {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mssql.existingSaSecret | quote }}
+                  key: {{ .Values.mssql.existingSaSecretKey | quote }}
+            {{- end }}
+            - name: DB_ADDR
+              value: {{ .Values.mssql.service.endpoint | quote }}
+            - name: DB_PORT
+              value: {{ .Values.mssql.service.port | quote }}
+            - name: DB_DATABASE
+              value: {{ .Values.mssql.database | quote }}
+          resources: {}
+        - name: create-user
+          image: microsoft/mssql-tools
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - '-c'
+            - >-
+              /opt/mssql-tools/bin/sqlcmd -S $DB_ADDR,$DB_PORT -U sa -P
+              $SA_PASSWORD -Q "IF NOT EXISTS (SELECT name FROM sys.sql_logins
+              WHERE name=N'$DB_USER')  
+              BEGIN
+                  CREATE LOGIN $DB_USER WITH PASSWORD='$DB_PASSWORD',CHECK_POLICY=OFF,CHECK_EXPIRATION=OFF;
+              END
+              USE [$DB_DATABASE];
+              IF NOT EXISTS (SELECT [name]
+              FROM [sys].[database_principals]
+              WHERE [type] = N'S' AND [name] = N'$DB_USER')
+              BEGIN
+                  CREATE USER $DB_USER FOR LOGIN $DB_USER;
+                  ALTER USER $DB_USER WITH DEFAULT_SCHEMA=[dbo];
+                  EXEC sp_addrolemember N'db_owner', N'$DB_USER'; 
+              END"
+          resources: {}
+          env:
+            - name: SA_PASSWORD
+            {{- if and .Values.mssql.sapassword }}
+              value: {{ .Values.mssql.sapassword }}
+            {{- else }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mssql.existingSaSecret | quote }}
+                  key: {{ .Values.mssql.existingSaSecretKey | quote }}
+            {{- end }}
+            - name: DB_ADDR
+              value: {{ .Values.mssql.service.endpoint | quote }}
+            - name: DB_PORT
+              value: {{ .Values.mssql.service.port | quote }}
+            - name: DB_DATABASE
+              value: {{ .Values.mssql.database | quote }}
+            - name: DB_USER
+              value: {{ .Values.mssql.username | quote }}
+            - name: DB_PASSWORD
+            {{- if .Values.mssql.userpassword }}
+              value: {{ .Values.mssql.userpassword }}
+            {{- else if .Values.mssql.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mssql.existingSecret }}
+                  key: {{ .Values.mssql.existingSecretKey }}
+            {{- end }}
+        {{- with .Values.extraInitContainers }}
+        {{- tpl . $ | nindent 8 }}
+        {{- end }}
+      {{- end }}
+      {{- if .Values.postgresql.enabled }}
         - name: pgchecker
           image: "{{ .Values.pgchecker.image.repository }}:{{ .Values.pgchecker.image.tag }}"
           imagePullPolicy: {{ .Values.pgchecker.image.pullPolicy }}
@@ -82,6 +167,10 @@ spec:
           {{- tpl . $ | nindent 12 }}
           {{- end }}
           env:
+            {{- if .Values.behindProxyOrGW }}
+            - name: PROXY_ADDRESS_FORWARDING
+              value: true
+            {{- end }}
             {{- if .Values.postgresql.enabled }}
             - name: DB_VENDOR
               value: postgres
@@ -98,7 +187,27 @@ spec:
                 secretKeyRef:
                   name: {{ include "keycloak.postgresql.fullname" . }}
                   key: postgresql-password
+            {{- else if .Values.mssql.enabled }}
+            - name: DB_VENDOR
+              value: mssql
+            - name: DB_ADDR
+              value: {{ .Values.mssql.service.endpoint | quote }}
+            - name: DB_PORT
+              value: {{ .Values.mssql.service.port | quote }}
+            - name: DB_DATABASE
+              value: {{ .Values.mssql.database | quote }}
+            - name: DB_USER
+              value: {{ .Values.mssql.username | quote }}
+            - name: DB_PASSWORD
+            {{- if .Values.mssql.userpassword }}
+              value: {{ .Values.mssql.userpassword }}
+            {{- else if .Values.mssql.existingSecret }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.mssql.existingSecret }}
+                  key: {{ .Values.mssql.existingSecretKey }}
             {{- end }}
+            {{- end }}            
             {{- with .Values.extraEnv }}
             {{- tpl . $ | nindent 12 }}
             {{- end }}

@@ -14,6 +14,14 @@ This chart bootstraps a [Keycloak](http://www.keycloak.org/) StatefulSet on a [K
 It provisions a fully featured Keycloak installation.
 For more information on Keycloak and its capabilities, see its [documentation](http://www.keycloak.org/documentation.html).
 
+## Note about customization
+
+The original chart has been modified to add support for the SQL Server storage as backend.
+
+Required values are similar to the ones for the default Postgres storage, the main difference is that SQL Server need to be initialized as keycloak is not able to create either database or user, so initcontainers are provided for it.
+
+To void unwanted helm chart issues, we removed the explicit Postgres dependency, so Postgress shall be manually installed before installing keycloak with this chart.
+
 ## Prerequisites Details
 
 The chart has an optional dependency on the [PostgreSQL](https://github.com/bitnami/charts/tree/master/bitnami/postgresql) chart.
@@ -137,6 +145,16 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `pgchecker.image.pullPolicy` | Image pull policy for the pgchecker image | `IfNotPresent` |
 | `pgchecker.securityContext` | SecurityContext for the pgchecker container | `{"allowPrivilegeEscalation":false,"runAsGroup":1000,"runAsNonRoot":true,"runAsUser":1000}` |
 | `pgchecker.resources` | Resource requests and limits for the pgchecker container | `{"limits":{"cpu":"10m","memory":"16Mi"},"requests":{"cpu":"10m","memory":"16Mi"}}` |
+
+| `mssql.enabled` | If `true`, the SQL Server dependency is enabled | `true` |
+| `mssql.service.endpoint` | SQL Server endpoint address | `sqlserver` |
+| `mssql.service.port` | SQL Server endpoint port | `1433` |
+| `mssql.existingSaSecret` | secret from where to get the sa password used for creating SQL resources | `sqlserver-secret` |
+| `mssql.existingSaSecretKey` | secret key id for the sa password | `sapassword` |
+| `mssql.username` | SQL Server User to create | `keycloak` |
+| `mssql.userpassword` | SQL Server Password for the new user | `keycloak` |
+| `mssql.database` | SQL Server Database to create | `keycloak` |
+
 | `postgresql.enabled` | If `true`, the Postgresql dependency is enabled | `true` |
 | `postgresql.postgresqlUsername` | PostgreSQL User to create | `keycloak` |
 | `postgresql.postgresqlPassword` | PostgreSQL Password for the new user | `keycloak` |

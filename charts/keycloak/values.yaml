@@ -62,12 +62,12 @@ rbac:
 # SecurityContext for the entire Pod. Every container running in the Pod will inherit this SecurityContext. This might be relevant when other components of the environment inject additional containers into running Pods (service meshes are the most prominent example for this)
 podSecurityContext:
   fsGroup: 1000
-
+  # runAsGroup: 1000730000
 # SecurityContext for the Keycloak container
 securityContext:
   runAsUser: 1000
   runAsNonRoot: true
-
+  # runAsGroup: 1000730000
 # Additional init containers, e. g. for providing custom themes
 extraInitContainers: ""
 
@@ -306,6 +306,9 @@ ingress:
           - path: /auth/admin/
             pathType: Prefix
 
+## Enable if keycloak service is not directly reacheable, that is behind proxy or gw
+behindProxyOrGW: true
+
 ## Network policy configuration
 networkPolicy:
   # If true, the Network policies are deployed
@@ -350,7 +353,11 @@ pgchecker:
   securityContext:
     allowPrivilegeEscalation: false
     runAsUser: 1000
+  # Openshift values  
+  # runAsUser: 1000730000
     runAsGroup: 1000
+  # Openshift values
+  # runAsGroup: 1000730000
     runAsNonRoot: true
   # Resource requests and limits for the pgchecker container
   resources:
@@ -363,7 +370,7 @@ pgchecker:
 
 postgresql:
   # If `true`, the Postgresql dependency is enabled
-  enabled: true
+  enabled: false
   # PostgreSQL User to create
   postgresqlUsername: keycloak
   # PostgreSQL Password for the new user
@@ -373,6 +380,26 @@ postgresql:
   # PostgreSQL network policy configuration
   networkPolicy:
     enabled: false
+
+mssql:
+  # secret containing the sa password
+  existingSaSecret: sqlserver-secret
+  existingSaSecretKey: sapassword
+  # If `true`, keycloak will use the SQL Server DB engine
+  enabled: true
+  # SQL Server User to create
+  username: keycloak
+  # SQL Server Password for the new user
+  userpassword: keycloak
+  # SQL Server Database to create
+  database: keycloak
+  # SQL Server service port
+  service:
+    port: 1433
+  # SQL Server service endpoint
+    endpoint: sqlserver
+
+
 
 serviceMonitor:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
