@@ -53,25 +53,25 @@
       "type": "boolean"
     },
     "extraContainers": {
-      "type": "string"
+      "type": "array"
     },
     "extraEnv": {
-      "type": "string"
+      "type": "array"
     },
     "extraEnvFrom": {
-      "type": "string"
+      "type": "array"
     },
     "extraInitContainers": {
-      "type": "string"
+      "type": "array"
     },
     "extraPorts": {
       "type": "array"
     },
     "extraVolumeMounts": {
-      "type": "string"
+      "type": "array"
     },
     "extraVolumes": {
-      "type": "string"
+      "type": "array"
     },
     "fullnameOverride": {
       "type": "string"
@@ -153,10 +153,10 @@
         }
       },
       "lifecycleHooks": {
-        "type": "string"
+        "type": "object"
       },
       "livenessProbe": {
-        "type": "string"
+        "type": "array"
       },
       "nameOverride": {
         "type": "string"
@@ -233,7 +233,10 @@
         "type": "object"
       },
       "readinessProbe": {
-        "type": "string"
+        "type": "array"
+      },
+      "startupProbe": {
+        "type": "array"
       },
       "replicas": {
         "type": "integer"

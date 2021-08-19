@@ -68,8 +68,8 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `clusterDomain` | The internal Kubernetes cluster domain | `cluster.local` |
 | `command` | Overrides the default entrypoint of the Keycloak container | `[]` |
 | `args` | Overrides the default args for the Keycloak container | `[]` |
-| `extraEnv` | Additional environment variables for Keycloak | `""` |
-| `extraEnvFrom` | Additional environment variables for Keycloak mapped from a Secret or ConfigMap | `""` |
+| `extraEnv` | Additional environment variables for Keycloak | `[]` |
+| `extraEnvFrom` | Additional environment variables for Keycloak mapped from a Secret or ConfigMap | `[]` |
 | `priorityClassName` | Pod priority class name | `""` |
 | `affinity` | Pod affinity | Hard node and soft zone anti-affinity |
 | `nodeSelector` | Node labels for Pod assignment | `{}` |
@@ -81,8 +81,8 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `startupProbe` | Startup probe configuration | `{"httpGet":{"path":"/auth/","port":"http"},"initialDelaySeconds":30,"timeoutSeconds":5, "failureThreshold": 60, "periodSeconds": 5}` |
 | `resources` | Pod resource requests and limits | `{}` |
 | `startupScripts` | Startup scripts to run before Keycloak starts up | `{"keycloak.cli":"{{- .Files.Get "scripts/keycloak.cli" \| nindent 2 }}"}` |
-| `extraVolumes` | Add additional volumes, e. g. for custom themes | `""` |
-| `extraVolumeMounts` | Add additional volumes mounts, e. g. for custom themes | `""` |
+| `extraVolumes` | Add additional volumes, e. g. for custom themes | `[]` |
+| `extraVolumeMounts` | Add additional volumes mounts, e. g. for custom themes | `[]` |
 | `extraPorts` | Add additional ports, e. g. for admin console or exposing JGroups ports | `[]` |
 | `podDisruptionBudget` | Pod disruption budget | `{}` |
 | `statefulsetAnnotations` | Annotations for the StatefulSet | `{}` |
@@ -652,7 +652,7 @@ The headless service that governs the StatefulSet is used for DNS discovery via 
 
 ### From chart < 14.0.0
 
-Ingress path definitions are extended to describe path and pathType. Previously only the path was configured. Please adapt your configuration as shown below:  
+Ingress path definitions are extended to describe path and pathType. Previously only the path was configured. Please adapt your configuration as shown below:
 
 Old:
 ```yaml
@@ -682,19 +682,19 @@ This allows to configure specific `pathType` configurations, e.g. `pathType: Imp
 
 * Keycloak is updated to 14.0.0
 
-Note that this might not be a seamless upgrade, because the clustering with older Keycloak versions might not work 
+Note that this might not be a seamless upgrade, because the clustering with older Keycloak versions might not work
 due to incompatible infinispan versions.
 
 ### From chart < 12.0.0
 
 * Keycloak is updated to 13.0.1
 
-Note that this might not be a seamless upgrade, because the clustering with older Keycloak versions might not work 
+Note that this might not be a seamless upgrade, because the clustering with older Keycloak versions might not work
 due to incompatible infinispan versions.
 
 One way to perform the upgrade is to run:
 ```
-kubectl delete sts <RELEASE_NAME>-keycloak && helm upgrade --install 
+kubectl delete sts <RELEASE_NAME>-keycloak && helm upgrade --install
 ```
 This ensures that all replicas are restarted with the same version.
 Note that all sessions are lost in this case, and users might need to login again.

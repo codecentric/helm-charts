@@ -69,13 +69,13 @@ securityContext:
   runAsNonRoot: true
 
 # Additional init containers, e. g. for providing custom themes
-extraInitContainers: ""
+extraInitContainers: []
 
 # Additional sidecar containers, e. g. for a database proxy, such as Google's cloudsql-proxy
-extraContainers: ""
+extraContainers: []
 
 # Lifecycle hooks for the Keycloak container
-lifecycleHooks: |
+lifecycleHooks: {}
 #  postStart:
 #    exec:
 #      command:
@@ -96,18 +96,18 @@ command: []
 args: []
 
 # Additional environment variables for Keycloak
-extraEnv: ""
-  # - name: KEYCLOAK_LOGLEVEL
-  #   value: DEBUG
-  # - name: WILDFLY_LOGLEVEL
-  #   value: DEBUG
-  # - name: CACHE_OWNERS_COUNT
-  #   value: "2"
-  # - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
-  #   value: "2"
+extraEnv: []
+#  - name: KEYCLOAK_LOGLEVEL
+#    value: DEBUG
+#  - name: WILDFLY_LOGLEVEL
+#    value: DEBUG
+#  - name: CACHE_OWNERS_COUNT
+#    value: "2"
+#  - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
+#    value: "2"
 
 # Additional environment variables for Keycloak mapped from Secret or ConfigMap
-extraEnvFrom: ""
+extraEnvFrom: []
 
 #  Pod priority class name
 priorityClassName: ""
@@ -151,7 +151,7 @@ podLabels: {}
 podAnnotations: {}
 
 # Liveness probe configuration
-livenessProbe: |
+livenessProbe:
   httpGet:
     path: /auth/
     port: http
@@ -159,7 +159,7 @@ livenessProbe: |
   timeoutSeconds: 5
 
 # Readiness probe configuration
-readinessProbe: |
+readinessProbe:
   httpGet:
     path: /auth/realms/master
     port: http
@@ -167,7 +167,7 @@ readinessProbe: |
   timeoutSeconds: 1
 
 # Startup probe configuration
-startupProbe: |
+startupProbe:
   httpGet:
     path: /auth/
     port: http
@@ -196,10 +196,10 @@ startupScripts:
   # echo 'Hello from my custom startup script!'
 
 # Add additional volumes, e. g. for custom themes
-extraVolumes: ""
+extraVolumes: []
 
 # Add additional volumes mounts, e. g. for custom themes
-extraVolumeMounts: ""
+extraVolumeMounts: []
 
 # Add additional ports, e. g. for admin console or exposing JGroups ports
 extraPorts: []
