@@ -72,6 +72,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `extraEnvFrom` | Additional environment variables for Keycloak mapped from a Secret or ConfigMap | `""` |
 | `priorityClassName` | Pod priority class name | `""` |
 | `affinity` | Pod affinity | Hard node and soft zone anti-affinity |
+| `topologySpreadConstraints` | Topology spread constraints | Constraints used to spread pods |
 | `nodeSelector` | Node labels for Pod assignment | `{}` |
 | `tolerations` | Node taints to tolerate | `[]` |
 | `podLabels` | Additional Pod labels | `{}` |
@@ -210,6 +211,7 @@ It is used for the following values:
 * `livenessProbe`
 * `readinessProbe`
 * `startupProbe`
+* `topologySpreadConstraints`
 
 Additionally, custom labels and annotations can be set on various resources the values of which being passed through `tpl` as well.
 
