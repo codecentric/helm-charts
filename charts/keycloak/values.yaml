@@ -268,6 +268,8 @@ service:
 ingress:
   # If `true`, an Ingress is created
   enabled: false
+  # The name of the Ingress Class associated with this ingress
+  ingressClassName: ""
   # The Service port targeted by the Ingress
   servicePort: http
   # Ingress annotations
@@ -297,6 +299,8 @@ ingress:
   console:
     # If `true`, an Ingress is created for console path only
     enabled: false
+    # The name of Ingress Class associated with the console ingress only
+    ingressClassName: ""
     # Ingress annotations for console ingress only
     # Useful to set nginx.ingress.kubernetes.io/whitelist-source-range particularly
     annotations: {}
