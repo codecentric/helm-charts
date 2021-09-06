@@ -112,6 +112,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `ingress.rules[0].paths[0].pathType` | Path Type for the Ingress rule | `Prefix` |
 | `ingress.servicePort` | The Service port targeted by the Ingress | `http` |
 | `ingress.annotations` | Ingress annotations | `{}` |
+| `ingress.ingressClassName` | The name of the Ingress Class associated with the ingress | `""` |
 | `ingress.labels` | Additional Ingress labels | `{}` |
 | `ingress.tls` | TLS configuration | see below |
 | `ingress.tls[0].hosts` | List of TLS hosts | `[keycloak.example.com]` |
@@ -123,6 +124,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `ingress.console.rules[0].paths[0].path` | Path for the Ingress rule for the console | `[/auth/admin]` |
 | `ingress.console.rules[0].paths[0].pathType` | Path Type for the Ingress rule for the console | `Prefix` |
 | `ingress.console.annotations` | Ingress annotations for the console | `{}` |
+| `ingress.console.ingressClassName` | The name of the Ingress Class associated with the console ingress | `""` |
 | `networkPolicy.enabled` | If true, the ingress network policy is deployed | `false`
 | `networkPolicy.extraFrom` | Allows to define allowed external traffic (see Kubernetes doc for network policy `from` format) | `[]`
 | `route.enabled` | If `true`, an OpenShift Route is created | `false` |
