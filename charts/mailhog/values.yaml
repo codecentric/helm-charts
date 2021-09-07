@@ -46,9 +46,10 @@ containerSecurityContext:
   capabilities:
     drop:
       - ALL
-
 ingress:
   enabled: false
+  spec:
+    # ingressClassName: nginx
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
