@@ -138,6 +138,9 @@ affinity: |
                   - test
           topologyKey: failure-domain.beta.kubernetes.io/zone
 
+# Topology spread constraints template
+topologySpreadConstraints:
+
 # Node labels for Pod assignment
 nodeSelector: {}
 
