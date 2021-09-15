@@ -69,6 +69,7 @@ Parameter | Description | Default
 `service.nodePort.smtp` | If `service.type` is `NodePort` and this is non-empty, sets the smtp node port of the service | `""`
 `securityContext` | Pod security context | `{ runAsUser: 1000, fsGroup: 1000, runAsNonRoot: true }`
 `ingress.enabled` | If `true`, an ingress is created | `false`
+`ingress.ingressClassName` | If set the created Ingress resource will have this class name. kubernetes.io/ingress.class is [deprecated](https://kubernetes.io/docs/concepts/services-networking/ingress/#deprecated-annotation) | `nil`
 `ingress.annotations` | Annotations for the ingress | `{}`
 `ingress.labels` | Labels for the ingress | `{}`
 `ingress.hosts` | A list of ingress hosts | `{ host: mailhog.example.com, paths: ["/"] }`
