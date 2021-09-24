@@ -56,7 +56,10 @@ ingress:
   labels: {}
   hosts:
     - host: mailhog.example.com
-      paths: ["/"]
+      paths:
+        - path: "/"
+          pathType: Prefix
+
 
   tls: []
   #  - secretName: chart-example-tls
