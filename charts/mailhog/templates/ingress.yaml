@@ -1,6 +1,6 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "mailhog.fullname" . -}}
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: {{ include "mailhog.ingressAPIVersion" . }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}
@@ -15,6 +15,9 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+{{- if .Values.ingress.ingressClassName }}
+  ingressClassName: {{ .Values.ingress.ingressClassName }}
+{{- end }}
 {{- if .Values.ingress.tls }}
   tls:
   {{- range .Values.ingress.tls }}
@@ -33,10 +36,19 @@ spec:
       http:
         paths:
         {{- range .paths }}
-          - path: {{ . }}
+          - path: {{ .path }}
+            {{- if $.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+            pathType: {{ .pathType }}
+            backend:
+              service:
+                name: {{ $fullName }}
+                port:
+                  name: http
+            {{- else }}
             backend:
               serviceName: {{ $fullName }}
               servicePort: http
+            {{- end }}
         {{- end }}
   {{- end }}
 {{- end }}

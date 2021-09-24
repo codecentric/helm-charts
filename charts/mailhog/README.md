@@ -69,8 +69,39 @@ Parameter | Description | Default
 `service.nodePort.smtp` | If `service.type` is `NodePort` and this is non-empty, sets the smtp node port of the service | `""`
 `securityContext` | Pod security context | `{ runAsUser: 1000, fsGroup: 1000, runAsNonRoot: true }`
 `ingress.enabled` | If `true`, an ingress is created | `false`
+`ingress.ingressClassName` | If set the created Ingress resource will have this class name. kubernetes.io/ingress.class is [deprecated](https://kubernetes.io/docs/concepts/services-networking/ingress/#deprecated-annotation) | `nil`
 `ingress.annotations` | Annotations for the ingress | `{}`
 `ingress.labels` | Labels for the ingress | `{}`
-`ingress.hosts` | A list of ingress hosts | `{ host: mailhog.example.com, paths: ["/"] }`
+`ingress.hosts` | A list of ingress hosts | `{ host: mailhog.example.com, paths: [{ path: "/", pathType: Prefix }] }`
 `ingress.tls` | A list of [IngressTLS](https://v1-8.docs.kubernetes.io/docs/api-reference/v1.8/#ingresstls-v1beta1-extensions) items | `[]`
 `extraEnv` | Additional environment variables, see [CONFIG.md](https://github.com/mailhog/MailHog/blob/master/docs/CONFIG.md) | `{}`
+
+## Upgrading
+
+### From chart < 5.0.0
+
+ Ingress path definitions are extended to describe path and pathType. Previously only the path was configured. Please adapt your configuration as shown below:
+
+ Old:
+ ```yaml
+ ingress:
+   # ...
+   hosts:
+     - host: mailhog.example.com
+       # Paths for the host
+       paths:
+         - /
+ ```
+ New:
+ ```yaml
+ ingress:
+   # ...
+   hosts:
+     - host: mailhog.example.com
+       # Paths for the host
+       paths:
+         - path: /
+           pathType: Prefix
+ ```
+
+ This allows to configure specific `pathType` configurations, e.g. `pathType: ImplementationSpecific` for [GKE Ingress on Google Cloud Platform](https://cloud.google.com/kubernetes-engine/docs/concepts/ingress#default_backend).
