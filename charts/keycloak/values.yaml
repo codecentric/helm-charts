@@ -268,6 +268,9 @@ service:
 ingress:
   # If `true`, an Ingress is created
   enabled: false
+  # Adjust as necessary for your current K8s version.
+  # If using K8s >= 1.22.x, change to networking.k8s.io/v1
+  apiVersion: networking.k8s.io/v1beta1
   # The name of the Ingress Class associated with this ingress
   ingressClassName: ""
   # The Service port targeted by the Ingress
