@@ -1,15 +1,16 @@
 {{- $ingress := .Values.ingress -}}
 {{- if $ingress.enabled -}}
 {{- $apiV1 := false -}}
+{{- $apiVersion := "extensions/v1beta1" -}}
 {{- if and (.Capabilities.APIVersions.Has "networking.k8s.io/v1") (semverCompare ">= v1.19.0-0" .Capabilities.KubeVersion.Version) -}}
-  {{- $apiVersion := networking.k8s.io/v1 -}}
+  {{- $apiVersion := "networking.k8s.io/v1" -}}
   {{- $apiV1 = true -}}
 {{- else if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" -}}
-  {{- $apiVersion := networking.k8s.io/v1beta1 -}}
+  {{- $apiVersion := "networking.k8s.io/v1beta1" -}}
 {{- else -}}
-  {{- $apiVersion := extensions/v1beta1 -}}
+  {{- $apiVersion := "extensions/v1beta1" -}}
 {{- end }}
-apiVersion: {{ $apiVersion }}
+apiVersion: {{ $apiVersion | quote }}
 kind: Ingress
 metadata:
   name: {{ include "keycloak.fullname" . }}
