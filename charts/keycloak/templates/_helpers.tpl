@@ -74,14 +74,3 @@ Create the service DNS name.
 {{- define "keycloak.serviceDnsName" -}}
 {{ include "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
 {{- end }}
-
-{{/*
-Return the appropriate apiVersion for ingress.
-*/}}
-{{- define "keycloak.ingressAPIVersion" -}}
-{{- if .Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" -}}
-{{- print "networking.k8s.io/v1" -}}
-{{- else -}}
-{{- print "networking.k8s.io/v1beta1" -}}
-{{- end -}}
-{{- end -}}

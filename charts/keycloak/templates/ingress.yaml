@@ -1,6 +1,16 @@
 {{- $ingress := .Values.ingress -}}
 {{- if $ingress.enabled -}}
-apiVersion: {{ include "keycloak.ingressAPIVersion" . }}
+{{- $apiV1 := false -}}
+{{- $apiVersion := "extensions/v1beta1" -}}
+{{- if and (.Capabilities.APIVersions.Has "networking.k8s.io/v1") (semverCompare ">= v1.19.0-0" .Capabilities.KubeVersion.Version) -}}
+  {{- $apiVersion = "networking.k8s.io/v1" -}}
+  {{- $apiV1 = true -}}
+{{- else if .Capabilities.APIVersions.Has "networking.k8s.io/v1beta1" -}}
+  {{- $apiVersion = "networking.k8s.io/v1beta1" -}}
+{{- else -}}
+  {{- $apiVersion = "extensions/v1beta1" -}}
+{{- end }}
+apiVersion: {{ $apiVersion }}
 kind: Ingress
 metadata:
   name: {{ include "keycloak.fullname" . }}
@@ -38,7 +48,7 @@ spec:
         paths:
           {{- range .paths }}
           - path: {{ .path }}
-            {{- if $.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+            {{- if $apiV1 }}
             pathType: {{ .pathType }}
             backend:
               service:
@@ -54,7 +64,7 @@ spec:
     {{- end }}
 {{- if $ingress.console.enabled }}
 ---
-apiVersion: {{ include "keycloak.ingressAPIVersion" . }}
+apiVersion: {{ $apiVersion }}
 kind: Ingress
 metadata:
   name: {{ include "keycloak.fullname" . }}-console
@@ -92,7 +102,7 @@ spec:
         paths:
           {{- range .paths }}
           - path: {{ .path }}
-            {{- if $.Capabilities.APIVersions.Has "networking.k8s.io/v1/Ingress" }}
+            {{- if $apiV1 }}
             pathType: {{ .pathType }}
             backend:
               service:
