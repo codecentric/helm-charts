@@ -41,6 +41,7 @@ spec:
         {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 8 }}
         {{- end }}
     spec:
+    {{- if not .Values.skipInitContainers }}
       {{- if or .Values.postgresql.enabled .Values.extraInitContainers }}
       initContainers:
         {{- if .Values.postgresql.enabled }}
@@ -67,6 +68,7 @@ spec:
         {{- tpl . $ | nindent 8 }}
         {{- end }}
       {{- end }}
+    {{- end }}
       containers:
         - name: keycloak
           securityContext:

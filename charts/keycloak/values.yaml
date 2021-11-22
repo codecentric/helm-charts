@@ -71,6 +71,12 @@ securityContext:
 # Additional init containers, e. g. for providing custom themes
 extraInitContainers: ""
 
+# When using service meshes which rely on a sidecar, it may be necessary to skip init containers altogether, 
+# since the sidecar doesn't start until the init containers are done, and the sidecar may be required 
+# for network access.
+# For example, Istio in strict mTLS mode prevents the pgchecker init container from ever completing
+skipInitContainers: false
+
 # Additional sidecar containers, e. g. for a database proxy, such as Google's cloudsql-proxy
 extraContainers: ""
 
