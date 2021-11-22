@@ -65,6 +65,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `podSecurityContext` | SecurityContext for the entire Pod. Every container running in the Pod will inherit this SecurityContext. This might be relevant when other components of the environment inject additional containers into running Pods (service meshes are the most prominent example for this) | `{"fsGroup":1000}` |
 | `securityContext` | SecurityContext for the Keycloak container | `{"runAsNonRoot":true,"runAsUser":1000}` |
 | `extraInitContainers` | Additional init containers, e. g. for providing custom themes | `[]` |
+| `skipInitContainers` | Skip all init containers (to avoid issues with service meshes which require sidecar proxies for connectivity) | `false`
 | `extraContainers` | Additional sidecar containers, e. g. for a database proxy, such as Google's cloudsql-proxy | `[]` |
 | `lifecycleHooks` | Lifecycle hooks for the Keycloak container | `{}` |
 | `terminationGracePeriodSeconds` | Termination grace period in seconds for Keycloak shutdown. Clusters with a large cache might need to extend this to give Infinispan more time to rebalance | `60` |
