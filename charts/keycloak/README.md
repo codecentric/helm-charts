@@ -99,7 +99,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `service.httpNodePort` | The HTTP Service node port if type is NodePort | `""` |
 | `service.httpsPort` | The HTTPS Service port | `8443` |
 | `service.httpsNodePort` | The HTTPS Service node port if type is NodePort | `""` |
-| `service.httpManagementPort` | The WildFly management Service port | `8443` |
+| `service.httpManagementPort` | The WildFly management Service port | `9990` |
 | `service.httpManagementNodePort` | The WildFly management node port if type is NodePort | `""` |
 | `service.extraPorts` | Additional Service ports, e. g. for custom admin console | `[]` |
 | `service.sessionAffinity` | sessionAffinity for Service, e. g. "ClientIP" | `""` |
