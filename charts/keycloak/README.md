@@ -652,6 +652,16 @@ Using a StatefulSet allows us to truncate to 20 characters leaving room for up t
 Additionally, we get stable values for `jboss.node.name` which can be advantageous for cluster discovery.
 The headless service that governs the StatefulSet is used for DNS discovery via DNS_PING.
 
+## Bad Gateway and Proxy Buffer Size in Nginx
+
+A common issue with Keycloak and nginx is that the proxy buffer may be too small for what Keycloak is trying to send. This will result in a Bad Gateway (502) error. There are [many](https://github.com/kubernetes/ingress-nginx/issues/4637) [issues](https://stackoverflow.com/questions/56126864/why-do-i-get-502-when-trying-to-authenticate) around the internet about this. The solution is to increase the buffer size of nginx. This can be done by creating an annotation in the ingress specification:
+
+```yaml
+ingress:
+  annotations:
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+```
+
 ## Upgrading
 
 ### From chart < 15.0.0
