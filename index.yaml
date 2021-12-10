@@ -409,6 +409,38 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/jenkins-1.0.0/jenkins-1.0.0.tgz
     version: 1.0.0
   keycloak:
+  - apiVersion: v2
+    appVersion: 15.0.2
+    created: "2021-12-10T13:27:16.505480736Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.3.13
+    description: Open Source Identity and Access Management For Modern Applications and Services
+    digest: 40b08c70517b7584c873c9192c2bdfaceeddbf1e2002384af656c306a1f79aec
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    - https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-16.0.0/keycloak-16.0.0.tgz
+    version: 16.0.0
   - apiVersion: v1
     appVersion: 15.0.2
     created: "2021-09-24T15:37:47.598798618Z"
