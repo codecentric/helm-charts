@@ -19,6 +19,9 @@ For more information on Keycloak and its capabilities, see its [documentation](h
 The chart has an optional dependency on the [PostgreSQL](https://github.com/bitnami/charts/tree/master/bitnami/postgresql) chart.
 By default, the PostgreSQL chart requires PV support on underlying infrastructure (may be disabled).
 
+**Important**
+Since Version `v16.0.0` the support for Helm v2 is dropped in favor of to support also the latest postgres Helm Chart Version which requires Helm v3 only.
+
 ## Installing the Chart
 
 To install the chart with the release name `keycloak`:
