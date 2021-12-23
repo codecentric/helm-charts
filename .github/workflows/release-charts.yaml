@@ -1,0 +1,21 @@
+name: Release charts
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'charts/**'
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+jobs:
+  keycloak:
+    uses: mircohaug/helm-charts/.github/workflows/release-chart-base.yaml@master
+    with:
+      chart: keycloak
+  mailhog:
+    needs:
+      - keycloak
+    uses: mircohaug/helm-charts/.github/workflows/release-chart-base.yaml@master
+    with:
+      chart: mailhog
