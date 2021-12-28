@@ -59,13 +59,15 @@ spec:
               containerPort: 1025
               protocol: TCP
           livenessProbe:
-            tcpSocket:
-              port: tcp-smtp
+            httpGet:
+              path: /
+              port: http
             initialDelaySeconds: 10
             timeoutSeconds: 1
           readinessProbe:
-            tcpSocket:
-              port: tcp-smtp
+            httpGet:
+              path: /
+              port: http
           {{- if .Values.auth.enabled }}
           volumeMounts:
             - name: authdir
