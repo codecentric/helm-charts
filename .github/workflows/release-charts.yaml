@@ -1,13 +1,13 @@
 name: Release charts
 on:
-  push:
-    branches:
-      - master
-    paths:
-      - 'charts/**'
+#  push:
+#    branches:
+#      - master
+#    paths:
+#      - 'charts/**'
   schedule:
-    # each hour
-    - cron: '0 * * * *'
+    # every friday at 4 o'clock
+    - cron: '0 16 * * 5'
   workflow_dispatch:
 jobs:
   keycloak:
