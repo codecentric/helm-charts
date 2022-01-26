@@ -741,8 +741,15 @@ The following procedure takes care of this:
 
 * Keycloak is updated to 12.0.4
 
-The upgrade should be seemless.
-No special care has to be taken.
+Note that this might not be a seamless upgrade, because the clustering with older Keycloak versions might not work 
+due to incompatible infinispan versions.
+
+One way to perform the upgrade is to run:
+```
+kubectl delete sts <RELEASE_NAME>-keycloak && helm upgrade --install
+```
+This ensures that all replicas are restarted with the same version.
+Note that all sessions are lost in this case, and users might need to login again.
 
 ### From chart versions < 9.0.0
 
