@@ -1,0 +1,13 @@
+{{- if .Values.startupScripts }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "keycloak.fullname" . }}-startup
+  labels:
+    {{- include "keycloak.labels" . | nindent 4 }}
+data:
+  {{- range $key, $value := .Values.startupScripts }}
+  {{ $key }}: |
+    {{- tpl $value $ | nindent 4 }}
+  {{- end }}
+{{- end -}}

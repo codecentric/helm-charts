@@ -1,0 +1,36 @@
+command:
+  - "/opt/keycloak/bin/kc.sh"
+  - "--verbose"
+  - "start-dev"
+
+extraEnv: |
+  - name: KEYCLOAK_ADMIN
+    valueFrom:
+      secretKeyRef:
+        name: {{ include "keycloak.fullname" . }}-admin-creds
+        key: user
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: {{ include "keycloak.fullname" . }}-admin-creds
+        key: password
+  - name: JAVA_OPTS_APPEND
+    value: >-
+      -XX:+UseContainerSupport
+      -XX:MaxRAMPercentage=50.0
+      -Djava.awt.headless=true
+      -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
+
+database:
+  vendor: dev-file
+
+secrets:
+  admin-creds:
+    annotations:
+      my-test-annotation: Test secret for {{ include "keycloak.fullname" . }}
+    stringData:
+      user: admin
+      password: secret
+
+test:
+  enabled: true
