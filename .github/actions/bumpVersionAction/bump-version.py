@@ -30,9 +30,9 @@ def handle_subprocess_error(subprocess_result, error_message):
 
 if __name__ == "__main__":
     chart_name = sys.argv[1]
-    print(f"Bumping version for: {chart_name}")
+    print(f"Bumping chart version for: {chart_name}")
 
-    from_commit_hash_process = subprocess.run(f"git rev-parse ':/^Bump {chart_name} version:'",
+    from_commit_hash_process = subprocess.run(f"git rev-parse ':/^Bump {chart_name} chart version:'",
                                               shell=True,
                                               capture_output=True)
     if from_commit_hash_process.returncode != 0:
