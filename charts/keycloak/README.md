@@ -668,6 +668,12 @@ ingress:
 
 ## Upgrading
 
+### From chart < 16.0.0
+
+* Keycloak is updated to 16.1.1
+
+Please read the additional notes about [Migrating to 16.0.0](https://www.keycloak.org/docs/latest/upgrading/index.html#migrating-to-16-0-0) in the Keycloak documentation.
+
 ### From chart < 15.0.0
 
 * Keycloak is updated to 15.0.2
