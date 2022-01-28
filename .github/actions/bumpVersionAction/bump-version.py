@@ -65,7 +65,7 @@ if __name__ == "__main__":
 
     if upgrade_type == UpgradeType.NONE:
         print("No need for a version bump detected")
-        print("::set-output name=publish::false")
+        print("::set-output name=changes::false")
         exit(0)
 
     print(f"Doing upgrade of type {upgrade_type.value} now")
@@ -76,4 +76,4 @@ if __name__ == "__main__":
                                      capture_output=True)
     handle_subprocess_error(bumpver_process, "Could not execute version bump")
 
-    print("::set-output name=publish::true")
+    print("::set-output name=changes::true")
