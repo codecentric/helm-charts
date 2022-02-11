@@ -411,6 +411,38 @@ entries:
   keycloak:
   - apiVersion: v2
     appVersion: 16.1.1
+    created: "2022-02-11T16:26:28.2673903Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.3.13
+    description: Open Source Identity and Access Management For Modern Applications and Services
+    digest: 08158ab563532c2568a8c2b452cd47f18553be42681d571c12ddda14af65b32b
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    - https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-17.0.2/keycloak-17.0.2.tgz
+    version: 17.0.2
+  - apiVersion: v2
+    appVersion: 16.1.1
     created: "2022-01-28T16:08:04.216109838Z"
     dependencies:
     - condition: postgresql.enabled
@@ -3550,6 +3582,30 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.10.2/keycloak-4.10.2.tgz
     version: 4.10.2
   mailhog:
+  - apiVersion: v2
+    appVersion: v1.0.1
+    created: "2022-02-11T16:26:29.40591136Z"
+    description: An e-mail testing tool for developers
+    digest: 6ab6c1d4ba4ce91b5183a4e0a2d72602c2190db970c1ac1b6aa00d0866b91533
+    home: http://iankent.uk/project/mailhog/
+    icon: https://raw.githubusercontent.com/mailhog/MailHog-UI/master/assets/images/hog.png
+    keywords:
+    - mailhog
+    - mail
+    - smtp
+    - email
+    - e-mail
+    - testing
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: mailhog
+    sources:
+    - https://github.com/mailhog/MailHog
+    type: application
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/mailhog-5.0.5/mailhog-5.0.5.tgz
+    version: 5.0.5
   - apiVersion: v2
     appVersion: v1.0.1
     created: "2022-01-28T16:08:04.482535767Z"
