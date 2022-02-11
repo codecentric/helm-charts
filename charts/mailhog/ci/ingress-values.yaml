@@ -1,0 +1,13 @@
+ingress:
+  enabled: true
+  annotations:
+    test-annotation1: annotationValue1
+    test-annotation2: annotationValue2
+  labels:
+    test-label1: labelValue1
+    test-label2: labelValue2
+  hosts:
+    - host: mailhog.example.com
+      paths:
+        - path: "/"
+          pathType: Prefix

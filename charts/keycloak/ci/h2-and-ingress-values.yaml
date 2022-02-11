@@ -34,5 +34,42 @@ extraVolumes: |
 postgresql:
   enabled: false
 
+
+ingress:
+  enabled: true
+  annotations:
+    test-annotation1: annotationValue1
+    test-annotation2: annotationValue2
+  labels:
+    test-label1: labelValue1
+    test-label2: labelValue2
+  # List of rules for the Ingress
+  rules:
+    -
+      # Ingress host
+      host: '{{ .Release.Name }}.keycloak.example.com'
+      # Paths for the host
+      paths:
+        - path: /
+          pathType: Prefix
+  # TLS configuration
+
+  console:
+    enabled: true
+    annotations:
+      test-annotation1: annotationValue1
+      test-annotation2: annotationValue2
+    labels:
+      test-label1: labelValue1
+      test-label2: labelValue2
+    ingressClassName: ""
+    rules:
+      -
+        host: '{{ .Release.Name }}.keycloak.example.com'
+        # Paths for the host
+        paths:
+          - path: /auth/admin/
+            pathType: Prefix
+
 test:
   enabled: true
