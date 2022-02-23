@@ -129,6 +129,9 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `ingress.console.rules[0].paths[0].pathType` | Path Type for the Ingress rule for the console | `Prefix` |
 | `ingress.console.annotations` | Ingress annotations for the console | `{}` |
 | `ingress.console.ingressClassName` | The name of the Ingress Class associated with the console ingress | `""` |
+| `ingress.console.tls` | TLS configuration | see below |
+| `ingress.console.tls[0].hosts` | List of TLS hosts | `[keycloak.example.com]` |
+| `ingress.console.tls[0].secretName` | Name of the TLS secret | `""` |
 | `networkPolicy.enabled` | If true, the ingress network policy is deployed | `false`
 | `networkPolicy.extraFrom` | Allows to define allowed external traffic (see Kubernetes doc for network policy `from` format) | `[]`
 | `route.enabled` | If `true`, an OpenShift Route is created | `false` |
@@ -741,7 +744,7 @@ The following procedure takes care of this:
 
 * Keycloak is updated to 12.0.4
 
-Note that this might not be a seamless upgrade, because the clustering with older Keycloak versions might not work 
+Note that this might not be a seamless upgrade, because the clustering with older Keycloak versions might not work
 due to incompatible infinispan versions.
 
 One way to perform the upgrade is to run:

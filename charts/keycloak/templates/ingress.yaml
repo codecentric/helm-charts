@@ -86,7 +86,18 @@ spec:
 {{- if $ingress.console.ingressClassName }}
   ingressClassName: {{ $ingress.console.ingressClassName }}
 {{- end }}
-{{- if $ingress.tls }}
+{{- if $ingress.console.tls }}
+  tls:
+    {{- range $ingress.console.tls }}
+    - hosts:
+      {{- range .hosts }}
+        - {{ tpl . $ | quote }}
+      {{- end }}
+      {{- with .secretName }}
+      secretName: {{ tpl . $ }}
+      {{- end }}
+    {{- end }}
+{{ else if $ingress.tls }}
   tls:
     {{- range $ingress.tls }}
     - hosts:

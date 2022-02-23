@@ -318,6 +318,11 @@ ingress:
         paths:
           - path: /auth/admin/
             pathType: Prefix
+    # Console TLS configuration
+    tls: []
+#      - hosts:
+#          - console.keycloak.example.com
+#        secretName: ""
 
 ## Network policy configuration
 networkPolicy:
