@@ -110,3 +110,6 @@ spec:
             secretName: {{ template "mailhog.outgoingSMTPSecret" . }}
         {{- end }}
       {{- end }}
+      {{- if .Values.priorityClassName }}
+      priorityClassName: {{ .Values.priorityClassName }}
+      {{- end }}
