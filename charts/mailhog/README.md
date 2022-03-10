@@ -53,6 +53,7 @@ Parameter | Description | Default
 `podLabels` | Extra labels to add to pod | `{}`
 `resources` | Pod resource requests and limits | `{}`
 `tolerations` | Node taints to tolerate | `[]`
+`priorityClassName` | Name of the existing priority class to be used by Mailhog pod, priority class needs to be created beforehand | `""`
 `serviceAccount.create` | Specifies whether a ServiceAccount should be created | `true` |
 `serviceAccount.name` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template | `""` |
 `serviceAccount.imagePullSecrets` | Image pull secrets that are attached to the ServiceAccount | `[]` |
