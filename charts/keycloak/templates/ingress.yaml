@@ -43,7 +43,7 @@ spec:
 {{- end }}
   rules:
     {{- range .Values.ingress.rules }}
-    - 
+    -
       {{- if .host }}
       host: {{ tpl .host $ | quote }}
       {{- end }}
@@ -57,7 +57,7 @@ spec:
               service:
                 name: {{ include "keycloak.fullname" $ }}-http
                 port:
-                  name: {{ $ingress.servicePort }}
+                  number: {{ $ingress.servicePort }}
             {{- else }}
             backend:
               serviceName: {{ include "keycloak.fullname" $ }}-http
@@ -100,7 +100,7 @@ spec:
 {{- end }}
   rules:
     {{- range .Values.ingress.console.rules }}
-    - 
+    -
       {{- if .host }}
       host: {{ tpl .host $ | quote }}
       {{- end }}
