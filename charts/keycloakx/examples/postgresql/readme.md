@@ -2,12 +2,12 @@
 
 ## Deploy a PostgreSQL database
 ```
-helm install keycloak-db bitnami/postgresql --values ./charts/keycloakx/examples/keycloak-db-values.yaml
+helm install keycloak-db bitnami/postgresql --values ./keycloak-db-values.yaml
 ```
 
 # Deploy Keycloak
 ```
-helm install keycloak codecentric/keycloakx --values ./charts/keycloakx/examples/keycloak-server-values.yaml
+helm install keycloak codecentric/keycloakx --values ./keycloak-server-values.yaml
 ```
 
 # Access Keycloak
