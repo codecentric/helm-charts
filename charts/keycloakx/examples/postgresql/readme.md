@@ -7,7 +7,7 @@ helm install keycloak-db bitnami/postgresql --values ./charts/keycloakx/examples
 
 # Deploy Keycloak
 ```
-helm install keycloak ./charts/keycloakx --values ./charts/keycloakx/examples/keycloak-server-values.yaml
+helm install keycloak codecentric/keycloakx --values ./charts/keycloakx/examples/keycloak-server-values.yaml
 ```
 
 # Access Keycloak
