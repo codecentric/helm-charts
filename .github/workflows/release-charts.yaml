@@ -27,6 +27,11 @@ jobs:
       with:
         chart: keycloak
 
+    - name: Bump Keycloak.X
+      uses: ./.github/actions/bumpVersionAction
+      with:
+        chart: keycloakx
+
     - name: Bump Mailhog
       uses: ./.github/actions/bumpVersionAction
       with:
