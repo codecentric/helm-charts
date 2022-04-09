@@ -4,7 +4,7 @@ metadata:
   name: {{ include "mailhog.fullname" . }}
   labels:
     {{- include "mailhog.labels" . | nindent 4 }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Release.Namespace | quote }}
 spec:
   selector:
     matchLabels:

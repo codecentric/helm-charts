@@ -14,7 +14,7 @@ apiVersion: {{ $apiVersion }}
 kind: Ingress
 metadata:
   name: {{ $fullName }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Release.Namespace | quote }}
   labels:
     {{- include "mailhog.labels" . | nindent 4 }}
   {{- with .Values.ingress.labels }}

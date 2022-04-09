@@ -8,7 +8,7 @@ metadata:
   {{- end }}
   labels:
     {{- include "mailhog.labels" . | nindent 4 }}
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Release.Namespace | quote }}
 spec:
   type: "{{ .Values.service.type }}"
   {{- with .Values.service.clusterIP }}
