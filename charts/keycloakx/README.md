@@ -7,8 +7,31 @@ Note that this chart is the logical successor of the Wildfly based [codecentric/
 ## TL;DR;
 
 ```console
-$ helm install keycloak codecentric/keycloakx
+$ cat << EOF > values.yaml
+command:
+  - "/opt/keycloak/bin/kc.sh"
+  - "start"
+  - "--auto-build"
+  - "--http-enabled=true"
+  - "--http-port=8080"
+  - "--hostname-strict=false"
+  - "--hostname-strict-https=false"
+extraEnv: |
+  - name: KEYCLOAK_ADMIN
+    value: admin
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    value: admin
+  - name: JAVA_OPTS_APPEND
+    value: >-
+      -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
+EOF
+
+$ helm install keycloak codecentric/keycloakx --values ./values.yaml
 ```
+Note that the default configuration is not suitable for production since it uses a h2 file database by default.
+It is strongly recommended to use a dedicated database with Keycloak.
+
+For more examples see the [examples](./examples) folder.
 
 ## Introduction
 

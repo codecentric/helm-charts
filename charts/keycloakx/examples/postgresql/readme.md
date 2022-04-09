@@ -1,4 +1,6 @@
-# Example for using Keycloak.X with PostgreSQL
+# Keycloak.X with PostgreSQL
+
+This example shows how to configure Keycloak.X to use a PostgreSQL database.
 
 # Setup
 
@@ -37,4 +39,5 @@ username: `admin` and password: `secret`.
 
 ```
 helm uninstall keycloak
+helm uninstall keycloak-db
 ```
