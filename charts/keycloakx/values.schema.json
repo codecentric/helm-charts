@@ -397,6 +397,9 @@
           "create": {
             "type": "boolean"
           },
+          "allowReadPods": {
+            "type": "boolean"
+          },
           "imagePullSecrets": {
             "$ref": "#/definitions/imagePullSecrets"
           },
