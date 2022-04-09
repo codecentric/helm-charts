@@ -7,8 +7,31 @@ Note that this chart is the logical successor of the Wildfly based [codecentric/
 ## TL;DR;
 
 ```console
-$ helm install keycloak codecentric/keycloakx
+$ cat << EOF > values.yaml
+command:
+  - "/opt/keycloak/bin/kc.sh"
+  - "start"
+  - "--auto-build"
+  - "--http-enabled=true"
+  - "--http-port=8080"
+  - "--hostname-strict=false"
+  - "--hostname-strict-https=false"
+extraEnv: |
+  - name: KEYCLOAK_ADMIN
+    value: admin
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    value: admin
+  - name: JAVA_OPTS_APPEND
+    value: >-
+      -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
+EOF
+
+$ helm install keycloak codecentric/keycloakx --values ./values.yaml
 ```
+Note that the default configuration is not suitable for production since it uses a h2 file database by default.
+It is strongly recommended to use a dedicated database with Keycloak.
+
+For more examples see the [examples](./examples) folder.
 
 ## Introduction
 
@@ -50,6 +73,7 @@ The following table lists the configurable parameters of the Keycloak-X chart an
 | `podManagementPolicy`                        | Pod management policy. One of `Parallel` or `OrderedReady`                                                                                                                                                                                                                        | `Parallel`                                                                                                                            |
 | `restartPolicy`                              | Pod restart policy. One of `Always`, `OnFailure`, or `Never`                                                                                                                                                                                                                      | `Always`                                                                                                                              |
 | `serviceAccount.create`                      | Specifies whether a ServiceAccount should be created                                                                                                                                                                                                                              | `true`                                                                                                                                |
+| `serviceAccount.allowReadPods`               | Specifies whether the ServiceAccount can get or list pods                                                                                                                                                                                                                         | `false`                                                                                                                               |
 | `serviceAccount.name`                        | The name of the service account to use. If not set and create is true, a name is generated using the fullname template                                                                                                                                                            | `""`                                                                                                                                  |
 | `serviceAccount.annotations`                 | Additional annotations for the ServiceAccount                                                                                                                                                                                                                                     | `{}`                                                                                                                                  |
 | `serviceAccount.labels`                      | Additional labels for the ServiceAccount                                                                                                                                                                                                                                          | `{}`                                                                                                                                  |
@@ -120,9 +144,9 @@ The following table lists the configurable parameters of the Keycloak-X chart an
 | `ingress.console.rules[0].paths[0].pathType` | Path Type for the Ingress rule for the console                                                                                                                                                                                                                                    | `Prefix`                                                                                                                              |
 | `ingress.console.annotations`                | Ingress annotations for the console                                                                                                                                                                                                                                               | `{}`                                                                                                                                  |
 | `ingress.console.ingressClassName`           | The name of the Ingress Class associated with the console ingress                                                                                                                                                                                                                 | `""`                                                                                                                                  |
-| `ingress.console.tls` | TLS configuration | see below |
-| `ingress.console.tls[0].hosts` | List of TLS hosts | `[keycloak.example.com]` |
-| `ingress.console.tls[0].secretName` | Name of the TLS secret | `""` |
+| `ingress.console.tls` | TLS configuration                                                                                                                                                                                                                                                                 | see below                                                                                                                             |
+| `ingress.console.tls[0].hosts` | List of TLS hosts                                                                                                                                                                                                                                                                 | `[keycloak.example.com]`                                                                                                              |
+| `ingress.console.tls[0].secretName` | Name of the TLS secret                                                                                                                                                                                                                                                            | `""`                                                                                                                                  |
 | `networkPolicy.enabled`                      | If true, the ingress network policy is deployed                                                                                                                                                                                                                                   | `false`
 | `networkPolicy.extraFrom`                    | Allows to define allowed external traffic (see Kubernetes doc for network policy `from` format)                                                                                                                                                                                   | `[]`
 | `route.enabled`                              | If `true`, an OpenShift Route is created                                                                                                                                                                                                                                          | `false`                                                                                                                               |

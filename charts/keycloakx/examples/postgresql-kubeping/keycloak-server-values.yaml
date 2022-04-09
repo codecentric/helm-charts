@@ -1,0 +1,71 @@
+# This is an example configuration, for production grade configuration see the Keycloak documentation.
+# See https://www.keycloak.org/server/configuration
+# See https://www.keycloak.org/server/all-config
+command:
+  - "/opt/keycloak/bin/kc.sh"
+  - "--verbose"
+  - "start"
+  - "--auto-build"
+  - "--http-enabled=true"
+  - "--http-port=8080"
+  - "--hostname-strict=false"
+  - "--hostname-strict-https=false"
+  - "--spi-events-listener-jboss-logging-success-level=info"
+  - "--spi-events-listener-jboss-logging-error-level=warn"
+
+# Disable default cache configuration
+cache:
+  stack: custom
+
+image:
+  # The custom image repository
+  repository: thomasdarimont/keycloakx-kubeping
+  # Overrides the Keycloak image tag whose default is the chart appVersion
+  tag: latest
+
+extraEnv: |
+  - name: KC_CACHE_CONFIG_FILE
+    value: cache-ispn-kubeping.xml
+  - name: KEYCLOAK_ADMIN
+    valueFrom:
+      secretKeyRef:
+        name: {{ include "keycloak.fullname" . }}-admin-creds
+        key: user
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: {{ include "keycloak.fullname" . }}-admin-creds
+        key: password
+  - name: JAVA_OPTS_APPEND
+    value: >-
+      -XX:+UseContainerSupport
+      -XX:MaxRAMPercentage=50.0
+      -Djava.awt.headless=true
+      -Dkubeping_namespace={{ .Release.Namespace }}
+      -Dkubeping_label="keycloak-cluster=default"
+
+serviceAccount:
+  create: true
+  allowReadPods: true
+
+podLabels:
+  keycloak-cluster: default
+
+dbchecker:
+  enabled: true
+
+database:
+  vendor: postgres
+  hostname: keycloak-db-postgresql
+  port: 5432
+  username: dbusername
+  password: dbpassword
+  database: keycloak
+
+secrets:
+  admin-creds:
+    annotations:
+      my-test-annotation: Test secret for {{ include "keycloak.fullname" . }}
+    stringData:
+      user: admin
+      password: secret

@@ -37,6 +37,8 @@ restartPolicy: Always
 serviceAccount:
   # Specifies whether a ServiceAccount should be created
   create: true
+  # Specifies whether the ServiceAccount can get and list pods
+  allowReadPods: false
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""

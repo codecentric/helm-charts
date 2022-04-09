@@ -9,3 +9,4 @@ venv
 charts/**/charts
 .cr-*
 /ct_*
+*.jar
