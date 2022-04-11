@@ -368,6 +368,7 @@ database:
   vendor:
   hostname:
   port:
+  database:
   username:
   password:
 

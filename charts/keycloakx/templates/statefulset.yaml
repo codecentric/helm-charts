@@ -108,7 +108,7 @@ spec:
               value: {{ .Values.database.port | quote }}
             {{- end }}
             {{- if .Values.database.database }}
-            - name: KC_DB_DATABASE
+            - name: KC_DB_URL_DATABASE
               value: {{ .Values.database.database }}
             {{- end }}
             {{- if .Values.database.username }}
