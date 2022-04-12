@@ -185,7 +185,7 @@ The following table lists the configurable parameters of the Keycloak chart and 
 | `test.image.pullPolicy` | The image pull policy for the test Pod image                                                                                                                                                                                                                                      | `IfNotPresent` |
 | `test.podSecurityContext` | SecurityContext for the entire test Pod                                                                                                                                                                                                                                           | `{"fsGroup":1000}` |
 | `test.securityContext` | SecurityContext for the test container                                                                                                                                                                                                                                            | `{"runAsNonRoot":true,"runAsUser":1000}` |
-
+| `test.deletionPolicy` | `helm.sh/hook-delete-policy` for the test Pod | `before-hook-creation` |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
