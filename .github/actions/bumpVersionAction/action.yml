@@ -11,5 +11,5 @@ outputs:
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - ${{ inputs.chart }}
+  env:
+    CHART_NAME: ${{ inputs.chart }}
