@@ -158,7 +158,7 @@ podAnnotations: {}
 # Liveness probe configuration
 livenessProbe: |
   httpGet:
-    path: /auth/
+    path: '{{ trimSuffix "/" .Values.http.relativePath}}/'
     port: http
   initialDelaySeconds: 0
   timeoutSeconds: 5
@@ -166,7 +166,7 @@ livenessProbe: |
 # Readiness probe configuration
 readinessProbe: |
   httpGet:
-    path: /auth/realms/master
+    path: '{{ trimSuffix "/" .Values.http.relativePath}}/realms/master'
     port: http
   initialDelaySeconds: 10
   timeoutSeconds: 1
@@ -174,7 +174,7 @@ readinessProbe: |
 # Startup probe configuration
 startupProbe: |
   httpGet:
-    path: /auth/
+    path: '{{ trimSuffix "/" .Values.http.relativePath}}/'
     port: http
   initialDelaySeconds: 15
   timeoutSeconds: 1
@@ -275,7 +275,7 @@ ingress:
       host: '{{ .Release.Name }}.keycloak.example.com'
       # Paths for the host
       paths:
-        - path: /
+        - path: '{{ trimSuffix "/" .Values.http.relativePath}}/'
           pathType: Prefix
   # TLS configuration
   tls:
@@ -283,7 +283,7 @@ ingress:
         - keycloak.example.com
       secretName: ""
 
-  # ingress for console only (/auth/admin)
+  # ingress for console only ({{ trimSuffix "/" .http.relativePath}}/admin)
   console:
     # If `true`, an Ingress is created for console path only
     enabled: false
@@ -298,7 +298,7 @@ ingress:
         host: '{{ .Release.Name }}.keycloak.example.com'
         # Paths for the host
         paths:
-          - path: /auth/admin/
+          - path: '{{ trimSuffix "/" .Values.http.relativePath}}/admin'
             pathType: Prefix
 
     # Console TLS configuration
@@ -403,7 +403,7 @@ serviceMonitor:
   # Timeout for scraping
   scrapeTimeout: 10s
   # The path at which metrics are served
-  path: /auth/metrics
+  path: '{{ trimSuffix "/" .Value.http.relativePath}}/metrics'
   # The Service port at which metrics are served
   port: http
 
@@ -423,7 +423,7 @@ extraServiceMonitor:
   # Timeout for scraping
   scrapeTimeout: 10s
   # The path at which metrics are served
-  path: /auth/realms/master/metrics
+  path: '{{ trimSuffix "/" .Values.http.relativePath}}/realms/master/metrics'
   # The Service port at which metrics are served
   port: http
 
