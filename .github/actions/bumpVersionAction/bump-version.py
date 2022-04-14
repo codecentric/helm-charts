@@ -1,3 +1,4 @@
+import os
 import subprocess
 import sys
 from enum import Enum
@@ -29,13 +30,14 @@ def handle_subprocess_error(subprocess_result, error_message):
 
 
 if __name__ == "__main__":
-    chart_name = sys.argv[1]
+    chart_name = os.getenv("CHART_NAME")
     print(f"Bumping chart version for: {chart_name}")
 
     from_commit_hash_process = subprocess.run(f"git rev-parse ':/^Bump {chart_name} chart version:'",
                                               shell=True,
                                               capture_output=True)
     if from_commit_hash_process.returncode != 0:
+        print(str(from_commit_hash_process.stderr, 'UTF-8'))
         print("Did not find the last bump commit. Assuming PATCH update now")
         upgrade_type = UpgradeType.PATCH
     else:
