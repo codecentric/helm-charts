@@ -283,7 +283,7 @@ ingress:
         - keycloak.example.com
       secretName: ""
 
-  # ingress for console only ({{ trimSuffix "/" .http.relativePath}}/admin)
+  # ingress for console only (/auth/admin)
   console:
     # If `true`, an Ingress is created for console path only
     enabled: false
