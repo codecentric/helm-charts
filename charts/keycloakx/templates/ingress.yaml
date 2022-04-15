@@ -38,7 +38,7 @@ spec:
       http:
         paths:
           {{- range .paths }}
-          - path: {{ .path }}
+          - path: {{ tpl .path $ | quote }}
             pathType: {{ .pathType }}
             backend:
               service:
@@ -97,7 +97,7 @@ spec:
       http:
         paths:
           {{- range .paths }}
-          - path: {{ .path }}
+          - path: {{ tpl .path $ | quote }}
             pathType: {{ .pathType }}
             backend:
               service:

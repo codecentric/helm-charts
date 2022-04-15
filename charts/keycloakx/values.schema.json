@@ -79,6 +79,9 @@
     "hostAliases": {
       "type": "array"
     },
+    "http": {
+      "relativePath": "string"
+    },
     "image": {
       "$ref": "#/definitions/image"
     },
