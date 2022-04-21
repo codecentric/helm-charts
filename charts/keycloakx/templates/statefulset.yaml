@@ -83,7 +83,7 @@ spec:
           env:
             {{- if .Values.http.relativePath }}
             - name: KC_HTTP_RELATIVE_PATH
-              value: {{ .Values.http.relativePath }}
+              value: {{ tpl .Values.http.relativePath $ | trimSuffix "/" }}
             {{- end }}
             {{- if eq .Values.cache.stack "default" }}
             - name: KC_CACHE
