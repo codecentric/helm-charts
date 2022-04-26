@@ -4,6 +4,11 @@ apiVersion: monitoring.coreos.com/v1
 kind: PrometheusRule
 metadata:
   name: {{ include "keycloak.fullname" $ }}
+  {{- with .namespace }}
+  namespace: {{ . }}
+  {{- else }}
+  namespace: {{ $.Release.Namespace }}
+  {{- end }}
   {{- with .annotations }}
   annotations:
   {{- range $key, $value := . }}

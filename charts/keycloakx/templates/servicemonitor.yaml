@@ -8,6 +8,8 @@ metadata:
   name: {{ include "keycloak.fullname" $ }}-{{ $key }}
   {{- with .namespace }}
   namespace: {{ . }}
+  {{- else }}
+  namespace: {{ $.Release.Namespace }}
   {{- end }}
   {{- with .annotations }}
   annotations:
