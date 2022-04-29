@@ -403,7 +403,7 @@ serviceMonitor:
   # Timeout for scraping
   scrapeTimeout: 10s
   # The path at which metrics are served
-  path: '{{ trimSuffix "/" .Value.http.relativePath}}/metrics'
+  path: '{{ trimSuffix "/" .Values.http.relativePath}}/metrics'
   # The Service port at which metrics are served
   port: http
 
