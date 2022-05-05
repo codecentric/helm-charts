@@ -207,6 +207,7 @@ The following table lists the configurable parameters of the Keycloak-X chart an
 | `test.podSecurityContext`                    | SecurityContext for the entire test Pod                                                                                                                                                                                                                                           | `{"fsGroup":1000}`                                                                                                                    |
 | `test.securityContext`                       | SecurityContext for the test container                                                                                                                                                                                                                                            | `{"runAsNonRoot":true,"runAsUser":1000}`                                                                                              |
 | `test.deletionPolicy` | `helm.sh/hook-delete-policy` for the test Pod | `before-hook-creation` |
+| `ExtraDeploy` | Array of extra objects to deploy with the release | `[]` |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
@@ -553,6 +554,11 @@ annotations:
         return 403;
     }
 ```
+
+### Deploy extra resources
+
+There are cases where you may want to deploy extra objects, such a ConfigMap containing your app's configuration or some extra deployment with a micro service used by your app. For covering this case, the chart allows adding the full specification of other objects using the extraDeploy parameter.
+
 
 ## Why StatefulSet?
 
