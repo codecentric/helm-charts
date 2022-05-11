@@ -126,6 +126,10 @@ spec:
             - name: KC_METRICS_ENABLED
               value: "true"
             {{- end }}
+            {{- if .Values.metrics.enabled }}
+            - name: KC_HEALTH_ENABLED
+              value: "true"
+            {{- end }}
             {{- with .Values.extraEnv }}
             {{- tpl . $ | nindent 12 }}
             {{- end }}

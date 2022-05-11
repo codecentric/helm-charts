@@ -250,6 +250,14 @@
           }
         }
       },
+      "health": {
+        "type": "object",
+        "properties": {
+          "enabled": {
+            "type": "boolean"
+          }
+        }
+      },
       "database": {
         "type": "object",
         "properties": {
