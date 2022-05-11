@@ -671,9 +671,15 @@ ingress:
 
 ## Upgrading
 
+### From chart < 18.0.0
+
+* Keycloak is updated to 18.0.0-legacy
+
+Please read the additional notes about [Migrating to 18.0.0](https://www.keycloak.org/docs/latest/upgrading/index.html#migrating-to-18-0-0) in the Keycloak documentation.
+
 ### From chart < 17.0.1
 
-* Keycloak is updated to 17.0.1
+* Keycloak is updated to 17.0.1-legacy
 * Use image from quay.io/keycloak/keycloak
 
 Note that we now need to add the `-legacy` suffix for the `Keycloak Legacy` image for the Wildfly based Keycloak as documented in [this Keycloak Blog Post](https://www.keycloak.org/2022/02/keycloak-1700-released#_migrating_from_the_preview_quarkus_distribution),

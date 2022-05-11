@@ -1,7 +1,7 @@
 apiVersion: v2
 name: keycloak
 version: 18.1.1
-appVersion: 17.0.1-legacy
+appVersion: 18.0.0-legacy
 description: Open Source Identity and Access Management For Modern Applications and Services
 keywords:
   - sso
