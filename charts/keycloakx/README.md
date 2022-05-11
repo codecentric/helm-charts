@@ -172,6 +172,7 @@ The following table lists the configurable parameters of the Keycloak-X chart an
 | `proxy.mode`                                 | The configured proxy mode                                                                                                                                                                                                                                                         | `edge`                                                                                                                                |
 | `http.relativePath`                          | The relative http path (context-path)                                                                                                                                                                                                                                             | `/auth`                                                                                                                               |
 | `metrics.enabled`                            | If `true` then the metrics endpoint is exposed                                                                                                                                                                                                                                    | `true`                                                                                                                                |
+| `health.enabled`                            | If `true` then the health endpoint is exposed                                                                                                                                                                                                                                    | `true`                                                                                                                                |
 | `serviceMonitor.enabled`                     | If `true`, a ServiceMonitor resource for the prometheus-operator is created                                                                                                                                                                                                       | `false`                                                                                                                               |
 | `serviceMonitor.namespace`                   | Optionally sets a target namespace in which to deploy the ServiceMonitor resource                                                                                                                                                                                                 | `""`                                                                                                                                  |
 | `serviceMonitor.namespaceSelector`           | Optionally sets a namespace selector for the ServiceMonitor                                                                                                                                                                                                                       | `{}`                                                                                                                                  |
@@ -571,3 +572,13 @@ ingress:
 ## Upgrading
 
 Notes for upgrading from previous Keycloak chart versions.
+
+### From chart < 18.0.0
+
+* Keycloak is updated to 18.0.0
+* Added new `health.enabled` option.
+
+Keycloak 18.0.0 allows to enable the health endpoint independently of the metrics endpoint via the `health-enabled` setting.
+We reflect that via the new config option `health.enabled`.
+
+Please read the additional notes about [Migrating to 18.0.0](https://www.keycloak.org/docs/latest/upgrading/index.html#migrating-to-18-0-0) in the Keycloak documentation.
