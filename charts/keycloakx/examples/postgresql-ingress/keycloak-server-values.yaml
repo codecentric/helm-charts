@@ -1,0 +1,78 @@
+# This is an example configuration, for production grade configuration see the Keycloak documentation.
+# See https://www.keycloak.org/server/configuration
+# See https://www.keycloak.org/server/all-config
+command:
+  - "/opt/keycloak/bin/kc.sh"
+  - "--verbose"
+  - "start"
+  - "--auto-build"
+  - "--http-enabled=true"
+  - "--http-port=8080"
+  - "--hostname-strict=false"
+  - "--hostname-strict-https=false"
+  - "--spi-events-listener-jboss-logging-success-level=info"
+  - "--spi-events-listener-jboss-logging-error-level=warn"
+  - "--proxy=edge"
+
+# Configure ingress
+ingress:
+  enabled: true
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    ingress.kubernetes.io/affinity: cookie
+  rules:
+    - host: id.acme.test
+      paths:
+        - path: /auth
+          pathType: Prefix
+  tls:
+    - hosts: 
+      - id.acme.test
+      paths:
+        - path: /auth
+          pathType: Prefix
+  console:
+    enabled: true
+    tls:
+      - hosts: 
+        - id.acme.test
+        paths:
+          - path: /auth/admin
+            pathType: Prefix
+
+extraEnv: |
+  - name: KEYCLOAK_ADMIN
+    valueFrom:
+      secretKeyRef:
+        name: {{ include "keycloak.fullname" . }}-admin-creds
+        key: user
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: {{ include "keycloak.fullname" . }}-admin-creds
+        key: password
+  - name: JAVA_OPTS_APPEND
+    value: >-
+      -XX:+UseContainerSupport
+      -XX:MaxRAMPercentage=50.0
+      -Djava.awt.headless=true
+      -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
+
+dbchecker:
+  enabled: true
+
+database:
+  vendor: postgres
+  hostname: keycloak-db-postgresql
+  port: 5432
+  username: dbusername
+  password: dbpassword
+  database: keycloak
+
+secrets:
+  admin-creds:
+    annotations:
+      my-test-annotation: Test secret for {{ include "keycloak.fullname" . }}
+    stringData:
+      user: admin
+      password: secret
