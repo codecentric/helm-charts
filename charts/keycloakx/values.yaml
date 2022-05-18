@@ -364,6 +364,8 @@ dbchecker:
       memory: "32Mi"
 
 database:
+  # don't create secret for db password. Instead use existing k8s secret
+  #existingSecret: "my-existent-dbpass-secret"
   # E.g. dev-file, dev-mem, mariadb, mssql, mysql, oracle or postgres
   vendor:
   hostname:
