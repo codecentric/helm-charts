@@ -573,12 +573,12 @@ ingress:
 
 Notes for upgrading from previous Keycloak chart versions.
 
-### From chart < 18.0.0
+### From chart < 18.0.2
 
-* Keycloak is updated to 18.0.0
+* Keycloak is updated to 18.0.2
 * Added new `health.enabled` option.
 
-Keycloak 18.0.0 allows to enable the health endpoint independently of the metrics endpoint via the `health-enabled` setting.
+Keycloak 18.0.2 allows to enable the health endpoint independently of the metrics endpoint via the `health-enabled` setting.
 We reflect that via the new config option `health.enabled`.
 
 Please read the additional notes about [Migrating to 18.0.0](https://www.keycloak.org/docs/latest/upgrading/index.html#migrating-to-18-0-0) in the Keycloak documentation.
