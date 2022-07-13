@@ -23,6 +23,6 @@ maintainers:
     email: thomas.darimont+github@gmail.com
 dependencies:
   - name: postgresql
-    version: 10.3.13
+    version: 10.16.2
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled
