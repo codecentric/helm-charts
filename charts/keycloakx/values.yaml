@@ -48,6 +48,8 @@ serviceAccount:
   labels: {}
   # Image pull secrets that are attached to the ServiceAccount
   imagePullSecrets: []
+  # Automount API credentials for the Service Account
+  automountServiceAccountToken: true
 
 rbac:
   create: false
