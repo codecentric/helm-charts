@@ -167,6 +167,7 @@ The following table lists the configurable parameters of the Keycloak-X chart an
 | `database.port`                              | Database Port                                                                                                                                                                                                                                                                     | unset                                                                                                                                 |
 | `database.username`                          | Database User                                                                                                                                                                                                                                                                     | unset                                                                                                                                 |
 | `database.password`                          | Database Password                                                                                                                                                                                                                                                                 | unset                                                                                                                                 |
+| `database.existingSecret`                    | Existing Secret containing database password (expects key `password`) | unset                                                                                                                                 |
 | `database.database`                          | Database                                                                                                                                                                                                                                                                          | unset                                                                                                                                 |
 | `cache.stack`                                | Cache / Cluster Discovery, use `custom` to disable automatic configruation.                                                                                                                                                                                                       | `default`                                                                                                                             |
 | `proxy.enabled`                              | If `true`, the `KC_PROXY` env variable will be set to the configured mode                                                                                                                                                                                                         | `true`                                                                                                                                |
@@ -298,8 +299,7 @@ database:
 
 ##### Using an Existing Secret
 
-The following examples uses a PostgreSQL database with a secret.
-Username and password are mounted as files.
+The following examples uses a PostgreSQL database with an existing secret.
 
 ```yaml
 dbchecker:
@@ -310,22 +310,8 @@ database:
   hostname: mypostgres
   port: 5432
   database: mydb
-
-extraEnv: |
-  - name: KC_DB_USERNAME_FILE
-    value: /secrets/db-creds/user
-  - name: KC_DB_PASSWORD_FILE
-    value: /secrets/db-creds/password
-
-extraVolumeMounts: |
-  - name: db-creds
-    mountPath: /secrets/db-creds
-    readOnly: true
-
-extraVolumes: |
-  - name: db-creds
-    secret:
-      secretName: keycloak-db-creds
+  username: db-user
+  existingSecret: byo-db-creds # Password is retrieved via .password
 ```
 
 ### Creating a Keycloak Admin User

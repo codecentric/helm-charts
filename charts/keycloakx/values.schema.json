@@ -278,6 +278,9 @@
           },
           "database": {
             "type": "string"
+          },
+          "existingSecret": {
+            "type": "string"
           }
         }
       },
