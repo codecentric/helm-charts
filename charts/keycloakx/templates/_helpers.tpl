@@ -64,3 +64,15 @@ Create the service DNS name.
 {{- define "keycloak.serviceDnsName" -}}
 {{ include "keycloak.fullname" . }}-headless.{{ .Release.Namespace }}.svc.{{ .Values.clusterDomain }}
 {{- end }}
+
+{{- define "keycloak.databasePasswordEnv" -}}
+{{- if or .Values.database.password .Values.database.existingSecret -}}
+- name: KC_DB_PASSWORD
+  valueFrom:
+    secretKeyRef:
+    {{- if .Values.database.existingSecret }}
+      name: {{ .Values.database.existingSecret | default (printf "%s-database" (include "keycloak.fullname" . ))}}
+    {{- end }}
+      key: password
+  {{- end }}
+{{- end -}}

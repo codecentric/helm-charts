@@ -119,12 +119,8 @@ spec:
             - name: KC_DB_USERNAME
               value: {{ .Values.database.username }}
             {{- end }}
-            {{- if .Values.database.password }}
-            - name: KC_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "keycloak.fullname" $ }}-database
-                  key: password
+            {{- if or .Values.database.password .Values.database.existingSecret -}}
+            {{- include "keycloak.databasePasswordEnv" . | nindent 12 }}
             {{- end }}
             {{- if .Values.metrics.enabled }}
             - name: KC_METRICS_ENABLED
