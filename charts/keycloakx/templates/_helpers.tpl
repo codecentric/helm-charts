@@ -70,9 +70,7 @@ Create the service DNS name.
 - name: KC_DB_PASSWORD
   valueFrom:
     secretKeyRef:
-    {{- if .Values.database.existingSecret }}
       name: {{ .Values.database.existingSecret | default (printf "%s-database" (include "keycloak.fullname" . ))}}
-    {{- end }}
       key: password
   {{- end }}
 {{- end -}}
