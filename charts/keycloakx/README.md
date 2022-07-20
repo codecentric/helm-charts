@@ -320,10 +320,21 @@ database:
 The Keycloak-X Docker image supports creating an initial admin user.
 It must be configured via environment variables:
 
-* `KC_DB_USERNAME` or `KC_DB_USERNAME_FILE`
-* `KC_DB_PASSWORD` or `KC_DB_PASSWORD_FILE`
+* `KEYCLOAK_ADMIN`
+* `KEYCLOAK_ADMIN_PASSWORD`
 
-Please refer to the section on database configuration for how to configure a secret for this.
+This can be done like so in the `values.yaml`, where the `KEYCLOAK_ADMIN` is an insecure example with the value in plaintext.
+The `KEYCLOAK_ADMIN_PASSWORD` is referenced from already existing secret but for testing it can be set with `value` too.
+```yaml
+extraEnv: |
+  - name: KEYCLOAK_ADMIN
+    value: admin
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: keycloak-admin-password
+        key: password
+```
 
 ### High Availability and Clustering
 
