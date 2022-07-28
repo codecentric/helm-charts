@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: {{ include "keycloak.fullname" . }}
+  namespace: {{ .Release.Namespace }}
   {{- with .Values.statefulsetAnnotations }}
   annotations:
     {{- range $key, $value := . }}

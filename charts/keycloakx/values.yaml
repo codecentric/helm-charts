@@ -438,6 +438,8 @@ extraServiceMonitor:
 prometheusRule:
   # If `true`, a PrometheusRule resource for the prometheus-operator is created
   enabled: false
+  # Optionally sets a target namespace in which to deploy the ServiceMonitor resource
+  namespace: ""
   # Annotations for the PrometheusRule
   annotations: {}
   # Additional labels for the PrometheusRule
