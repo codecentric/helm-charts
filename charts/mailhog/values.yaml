@@ -94,6 +94,8 @@ outgoingSMTP:
     #   host: "mail2.example.com"
     #   port: "587"   # NOTE: go requires this port number to be a string... otherwise the container won't start
 
+podReplicas: 1
+
 podAnnotations: {}
 
 podLabels: {}

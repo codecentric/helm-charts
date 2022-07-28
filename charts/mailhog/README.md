@@ -49,6 +49,7 @@ Parameter | Description | Default
 `auth.fileName` | The name of the auth file | `auth.txt`
 `auth.fileContents` | The contents of the auth file | `""`
 `nodeSelector` | Node labels for pod assignment | `{}`
+`podReplicas` | The number of pod replicas | `1`
 `podAnnotations` | Extra annotations to add to pod | `{}`
 `podLabels` | Extra labels to add to pod | `{}`
 `resources` | Pod resource requests and limits | `{}`
