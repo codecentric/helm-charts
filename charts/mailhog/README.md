@@ -40,6 +40,7 @@ The following table lists the configurable parameters of the Mailhog chart and t
 
 Parameter | Description | Default
 --- | --- | ---
+`extraContainers` | Additional containers to be added to the application pod | `[]`
 `image.repository` | Docker image repository | `mailhog/mailhog`
 `image.tag` | Docker image tag whose default is the chart version | `""`
 `image.pullPolicy` | Docker image pull policy | `IfNotPresent`
@@ -62,6 +63,7 @@ Parameter | Description | Default
 `service.annotations` | Annotations for the service | `{}`
 `service.clusterIP` | Internal cluster service IP | `""`
 `service.externalIPs` | Service external IP addresses | `[]`
+`service.extraPorts` | Additional ports to be added service | `[]`
 `service.loadBalancerIP` | IP address to assign to load balancer (if supported) | `""`
 `service.loadBalancerSourceRanges` | List of IP CIDRs allowed access to load balancer (if supported) | `[]`
 `service.type` | Type of service to create | `ClusterIP`
