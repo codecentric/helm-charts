@@ -8,6 +8,8 @@ inputs:
 outputs:
   changes:
     description: Is 'true' if the action made changes, 'false' otherwise.
+  new_version:
+    description: New version number as result of bump2version run
 runs:
   using: 'docker'
   image: 'Dockerfile'

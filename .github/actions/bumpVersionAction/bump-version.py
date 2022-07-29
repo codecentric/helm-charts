@@ -27,6 +27,8 @@ def handle_subprocess_error(subprocess_result, error_message):
         print("STDOUT:")
         print(str(subprocess_result.stdout, "UTF-8"))
         exit(1)
+    else: 
+      return str(subprocess_result.stdout, "UTF-8")
 
 
 if __name__ == "__main__":
@@ -72,10 +74,16 @@ if __name__ == "__main__":
 
     print(f"Doing upgrade of type {upgrade_type.value} now")
 
-    bumpver_process = subprocess.run(f"bump2version {upgrade_type.value}",
+    bumpver_process = subprocess.run(f"bump2version {upgrade_type.value} --list",
                                      shell=True,
                                      cwd=f"./charts/{chart_name}",
                                      capture_output=True)
-    handle_subprocess_error(bumpver_process, "Could not execute version bump")
+
+    new_version=''
+    std_output = handle_subprocess_error(bumpver_process, "Could not execute version bump")
+    for line in std_output.split('\n'):
+        if 'new_version=' in line:
+            new_version = line[line.index('=')+1::]
 
     print("::set-output name=changes::true")
+    print(f"::set-output name=new_version::{new_version}")

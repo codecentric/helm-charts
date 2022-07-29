@@ -1,0 +1,16 @@
+name: 'Helm chart version bumper'
+description: 'Updates the changelog for the specific helm chart'
+inputs:
+  chart:
+    description: 'The chart to update. Must reside inside the charts subdirectory.'
+    required: true
+  new_version:
+    description: 'The new version tag of the helm chart'
+    required: true
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  env:
+    CHART_NAME: ${{ inputs.chart }}
+    NEW_VERSION: ${{ inputs.new_version }}
+
