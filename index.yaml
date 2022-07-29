@@ -3744,6 +3744,33 @@ entries:
   keycloakx:
   - apiVersion: v2
     appVersion: 18.0.0
+    created: "2022-07-29T16:04:03.428942532Z"
+    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    digest: 8d07f7cc33a5ac324e0fa277da37e64ab4799c1b05c41b9e20cc1c020c3a2f78
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - oauth
+    - ldap
+    - keycloakx
+    - quarkus
+    maintainers:
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloakx
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/keycloak/keycloak/tree/main/quarkus/container
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloakx-1.5.0/keycloakx-1.5.0.tgz
+    version: 1.5.0
+  - apiVersion: v2
+    appVersion: 18.0.0
     created: "2022-07-25T06:12:06.987443049Z"
     description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
     digest: e15595fb689306ff8934ab80ae7bd9c3e087aef35fc1e4fec722387d7911c88a
@@ -3986,6 +4013,30 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloakx-1.0.1/keycloakx-1.0.1.tgz
     version: 1.0.1
   mailhog:
+  - apiVersion: v2
+    appVersion: v1.0.1
+    created: "2022-07-29T16:04:03.721645312Z"
+    description: An e-mail testing tool for developers
+    digest: 932c4c7dbddc2658fa465bd4fa6f29c0525b8b3312d6042320b793a72b344fd7
+    home: http://iankent.uk/project/mailhog/
+    icon: https://raw.githubusercontent.com/mailhog/MailHog-UI/master/assets/images/hog.png
+    keywords:
+    - mailhog
+    - mail
+    - smtp
+    - email
+    - e-mail
+    - testing
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: mailhog
+    sources:
+    - https://github.com/mailhog/MailHog
+    type: application
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/mailhog-5.1.0/mailhog-5.1.0.tgz
+    version: 5.1.0
   - apiVersion: v2
     appVersion: v1.0.1
     created: "2022-04-14T14:40:29.387141821Z"
