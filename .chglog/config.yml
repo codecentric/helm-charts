@@ -1,0 +1,18 @@
+style: github
+template: CHANGELOG.tpl.md
+info:
+  title: CHANGELOG
+  repository_url: https://github.com/codecentric/helm-charts
+options:
+  commits:
+    # filters:
+    #   Type: []
+  commit_groups:
+    # title_maps: []
+  header:
+    pattern: "^(.*)$"
+    pattern_maps:
+      - Subject
+  notes:
+    keywords:
+      - BREAKING CHANGE
