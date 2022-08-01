@@ -87,7 +87,7 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.extraContainers }}
-        {{- toYaml . | nindent 6 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
       {{- with .Values.affinity }}
       affinity:
