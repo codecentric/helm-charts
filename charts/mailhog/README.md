@@ -56,6 +56,16 @@ Parameter | Description | Default
 `resources` | Pod resource requests and limits | `{}`
 `tolerations` | Node taints to tolerate | `[]`
 `priorityClassName` | Name of the existing priority class to be used by Mailhog pod, priority class needs to be created beforehand | `""`
+`livenessProbe.failureThreshold` | Failure threshold for livenessProbe | `3`
+`livenessProbe.initialDelaySeconds` | Initial delay seconds for livenessProbe | `10`
+`livenessProbe.periodSeconds` | Period seconds for livenessProbe | `10`
+`livenessProbe.successThreshold` | Success threshold for livenessProbe | `1`
+`livenessProbe.timeoutSeconds` | Timeout seconds for livenessProbe | `1`
+`readinessProbe.failureThreshold` | Failure threshold for readinessProbe | `3`
+`readinessProbe.initialDelaySeconds` | Initial delay seconds for readinessProbe | `10`
+`readinessProbe.periodSeconds` | Period seconds for readinessProbe | `10`
+`readinessProbe.successThreshold` | Success threshold for readinessProbe | `1`
+`readinessProbe.timeoutSeconds` | Timeout seconds for readinessProbe | `1`
 `serviceAccount.create` | Specifies whether a ServiceAccount should be created | `true` |
 `serviceAccount.name` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template | `""` |
 `serviceAccount.imagePullSecrets` | Image pull secrets that are attached to the ServiceAccount | `[]` |

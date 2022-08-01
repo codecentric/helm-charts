@@ -62,12 +62,24 @@ spec:
           livenessProbe:
             tcpSocket:
               port: tcp-smtp
-            initialDelaySeconds: 10
-            timeoutSeconds: 1
+            {{- with .Values.livenessProbe }}
+            failureThreshold: {{ .failureThreshold }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            timeoutSeconds: {{ .timeoutSeconds }}
+            {{- end }}
           readinessProbe:
             tcpSocket:
               port: tcp-smtp
-          {{ if or .Values.auth.enabled .Values.outgoingSMTP.enabled }}
+            {{- with .Values.readinessProbe }}
+            failureThreshold: {{ .failureThreshold }}
+            initialDelaySeconds: {{ .initialDelaySeconds }}
+            periodSeconds: {{ .periodSeconds }}
+            successThreshold: {{ .successThreshold }}
+            timeoutSeconds: {{ .timeoutSeconds }}
+            {{- end }}
+          {{- if or .Values.auth.enabled .Values.outgoingSMTP.enabled }}
           volumeMounts:
             {{- if .Values.auth.enabled }}
             - name: authdir
