@@ -5,6 +5,8 @@ image:
 
 imagePullSecrets: []
 
+extraContainers: []
+
 nameOverride: ""
 fullnameOverride: ""
 
@@ -21,6 +23,7 @@ automountServiceAccountToken: false
 
 service:
   annotations: {}
+  extraPorts: []
   clusterIP: ""
   externalIPs: []
   loadBalancerIP: ""
