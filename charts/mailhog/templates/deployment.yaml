@@ -59,15 +59,13 @@ spec:
             - name: tcp-smtp
               containerPort: 1025
               protocol: TCP
-          livenessProbe:
-            tcpSocket:
-              port: tcp-smtp
-            initialDelaySeconds: 10
-            timeoutSeconds: 1
-          readinessProbe:
-            tcpSocket:
-              port: tcp-smtp
-          {{ if or .Values.auth.enabled .Values.outgoingSMTP.enabled }}
+          {{- with .Values.livenessProbe }}
+          livenessProbe: {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe: {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- if or .Values.auth.enabled .Values.outgoingSMTP.enabled }}
           volumeMounts:
             {{- if .Values.auth.enabled }}
             - name: authdir

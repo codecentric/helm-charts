@@ -56,6 +56,8 @@ Parameter | Description | Default
 `resources` | Pod resource requests and limits | `{}`
 `tolerations` | Node taints to tolerate | `[]`
 `priorityClassName` | Name of the existing priority class to be used by Mailhog pod, priority class needs to be created beforehand | `""`
+`livenessProbe` | The Liveness Probe to add to pod | `{ "initialDelaySeconds": 10, "tcpPort": { "port": "tcp-smtp" }, "timeoutSeconds": 1 }`
+`readinessProbe` | The Readiness Probe to add to pod | `{"tcpPort": { "port": "tcp-smtp" }`
 `serviceAccount.create` | Specifies whether a ServiceAccount should be created | `true` |
 `serviceAccount.name` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template | `""` |
 `serviceAccount.imagePullSecrets` | Image pull secrets that are attached to the ServiceAccount | `[]` |
