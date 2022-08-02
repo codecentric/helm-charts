@@ -59,26 +59,12 @@ spec:
             - name: tcp-smtp
               containerPort: 1025
               protocol: TCP
-          livenessProbe:
-            tcpSocket:
-              port: tcp-smtp
-            {{- with .Values.livenessProbe }}
-            failureThreshold: {{ .failureThreshold }}
-            initialDelaySeconds: {{ .initialDelaySeconds }}
-            periodSeconds: {{ .periodSeconds }}
-            successThreshold: {{ .successThreshold }}
-            timeoutSeconds: {{ .timeoutSeconds }}
-            {{- end }}
-          readinessProbe:
-            tcpSocket:
-              port: tcp-smtp
-            {{- with .Values.readinessProbe }}
-            failureThreshold: {{ .failureThreshold }}
-            initialDelaySeconds: {{ .initialDelaySeconds }}
-            periodSeconds: {{ .periodSeconds }}
-            successThreshold: {{ .successThreshold }}
-            timeoutSeconds: {{ .timeoutSeconds }}
-            {{- end }}
+          {{- with .Values.livenessProbe }}
+          livenessProbe: {{- toYaml . | nindent 12 }}
+          {{- end }}
+          {{- with .Values.readinessProbe }}
+          readinessProbe: {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- if or .Values.auth.enabled .Values.outgoingSMTP.enabled }}
           volumeMounts:
             {{- if .Values.auth.enabled }}

@@ -107,18 +107,14 @@ extraEnv: []
 
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes
 livenessProbe:
-  failureThreshold: 3
+  tcpSocket:
+    port: 1025
   initialDelaySeconds: 10
-  periodSeconds: 10
-  successThreshold: 1
   timeoutSeconds: 1
 
 readinessProbe:
-  failureThreshold: 3
-  initialDelaySeconds: 10
-  periodSeconds: 10
-  successThreshold: 1
-  timeoutSeconds: 1
+  tcpSocket:
+    port: 1025
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
