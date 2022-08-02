@@ -49,6 +49,10 @@ Parameter | Description | Default
 `auth.existingSecret` | If auth is enabled, uses an existing secret with this name; otherwise a secret is created | `""`
 `auth.fileName` | The name of the auth file | `auth.txt`
 `auth.fileContents` | The contents of the auth file | `""`
+`containerPort.http.name` | Configure the Http name of the Mailhog container | `http`
+`containerPort.http.port` | Configure the Http port of the Mailhog container | `8025`
+`containerPort.smtp.name` | Configure the Smtp name of the Mailhog container | `tcp-smtp`
+`containerPort.smtp.port` | Configure the Smtp port of the Mailhog container | `1025`
 `nodeSelector` | Node labels for pod assignment | `{}`
 `podReplicas` | The number of pod replicas | `1`
 `podAnnotations` | Extra annotations to add to pod | `{}`
@@ -56,8 +60,8 @@ Parameter | Description | Default
 `resources` | Pod resource requests and limits | `{}`
 `tolerations` | Node taints to tolerate | `[]`
 `priorityClassName` | Name of the existing priority class to be used by Mailhog pod, priority class needs to be created beforehand | `""`
-`livenessProbe` | The Liveness Probe to add to pod | `{ "initialDelaySeconds": 10, "tcpPort": { "port": "tcp-smtp" }, "timeoutSeconds": 1 }`
-`readinessProbe` | The Readiness Probe to add to pod | `{"tcpPort": { "port": "tcp-smtp" }`
+`livenessProbe` | The Liveness Probe to add to pod | `{ "initialDelaySeconds": 10, "tcpPort": { "port": "1025" }, "timeoutSeconds": 1 }`
+`readinessProbe` | The Readiness Probe to add to pod | `{"tcpPort": { "port": "1025" }`
 `serviceAccount.create` | Specifies whether a ServiceAccount should be created | `true` |
 `serviceAccount.name` | The name of the service account to use. If not set and create is true, a name is generated using the fullname template | `""` |
 `serviceAccount.imagePullSecrets` | Image pull secrets that are attached to the ServiceAccount | `[]` |
@@ -69,6 +73,7 @@ Parameter | Description | Default
 `service.loadBalancerIP` | IP address to assign to load balancer (if supported) | `""`
 `service.loadBalancerSourceRanges` | List of IP CIDRs allowed access to load balancer (if supported) | `[]`
 `service.type` | Type of service to create | `ClusterIP`
+`service.namedTargetPort` | Use named target port for service | `true`
 `service.port.http` | HTTP port of service | `""`
 `service.port.smtp` | SMTP port of service | `""`
 `service.nodePort.http` | If `service.type` is `NodePort` and this is non-empty, sets the http node port of the service | `""`

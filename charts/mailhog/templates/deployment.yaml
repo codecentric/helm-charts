@@ -53,11 +53,11 @@ spec:
             {{- toYaml . | nindent 12 }}
             {{- end }}
           ports:
-            - name: http
-              containerPort: 8025
+            - name: {{ .Values.containerPort.http.name }}
+              containerPort: {{ .Values.containerPort.http.port }}
               protocol: TCP
-            - name: tcp-smtp
-              containerPort: 1025
+            - name: {{ .Values.containerPort.smtp.name }}
+              containerPort: {{ .Values.containerPort.smtp.port }}
               protocol: TCP
           {{- with .Values.livenessProbe }}
           livenessProbe: {{- toYaml . | nindent 12 }}

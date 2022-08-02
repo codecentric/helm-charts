@@ -10,6 +10,14 @@ extraContainers: []
 nameOverride: ""
 fullnameOverride: ""
 
+containerPort:
+  http:
+    name: http
+    port: 8025
+  smtp:
+    name: tcp-smtp
+    port: &containerSmtpPort 1025
+
 serviceAccount:
   # Specifies whether a ServiceAccount should be created
   create: true
@@ -29,6 +37,9 @@ service:
   loadBalancerIP: ""
   loadBalancerSourceRanges: []
   type: ClusterIP
+  # Named target ports are not supported by GCE health checks, so when deploying on GKE
+  # and exposing it via GCE ingress, the health checks fail and the load balancer returns a 502.
+  namedTargetPort: true
   port:
     http: 8025
     smtp: 1025
@@ -108,13 +119,13 @@ extraEnv: []
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes
 livenessProbe:
   tcpSocket:
-    port: 1025
+    port: *containerSmtpPort
   initialDelaySeconds: 10
   timeoutSeconds: 1
 
 readinessProbe:
   tcpSocket:
-    port: 1025
+    port: *containerSmtpPort
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
