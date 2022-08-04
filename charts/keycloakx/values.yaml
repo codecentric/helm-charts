@@ -160,7 +160,7 @@ podAnnotations: {}
 # Liveness probe configuration
 livenessProbe: |
   httpGet:
-    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
+    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/health/live'
     port: http
   initialDelaySeconds: 0
   timeoutSeconds: 5
@@ -168,7 +168,7 @@ livenessProbe: |
 # Readiness probe configuration
 readinessProbe: |
   httpGet:
-    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/realms/master'
+    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/health/ready'
     port: http
   initialDelaySeconds: 10
   timeoutSeconds: 1
@@ -176,7 +176,7 @@ readinessProbe: |
 # Startup probe configuration
 startupProbe: |
   httpGet:
-    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
+    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/health'
     port: http
   initialDelaySeconds: 15
   timeoutSeconds: 1
