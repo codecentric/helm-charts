@@ -127,7 +127,7 @@ spec:
             - name: KC_METRICS_ENABLED
               value: "true"
             {{- end }}
-            {{- if .Values.metrics.enabled }}
+            {{- if .Values.health.enabled }}
             - name: KC_HEALTH_ENABLED
               value: "true"
             {{- end }}
@@ -148,6 +148,7 @@ spec:
             {{- with .Values.extraPorts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+          {{- if .Values.health.enabled }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- tpl . $ | nindent 12 }}
@@ -159,6 +160,7 @@ spec:
           {{- with .Values.startupProbe }}
           startupProbe:
             {{- tpl . $ | nindent 12 }}
+          {{- end }}
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
