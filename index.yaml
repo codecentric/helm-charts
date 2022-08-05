@@ -411,6 +411,38 @@ entries:
   keycloak:
   - apiVersion: v2
     appVersion: 17.0.1-legacy
+    created: "2022-08-05T16:04:28.386198176Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.16.2
+    description: Open Source Identity and Access Management For Modern Applications and Services
+    digest: fa21a73b4e08a635de4f00916519f28961d30f8080d2aa2634f502fcdb21f02a
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    - https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-18.3.0/keycloak-18.3.0.tgz
+    version: 18.3.0
+  - apiVersion: v2
+    appVersion: 17.0.1-legacy
     created: "2022-07-15T14:18:17.791989844Z"
     dependencies:
     - condition: postgresql.enabled
@@ -3744,6 +3776,33 @@ entries:
   keycloakx:
   - apiVersion: v2
     appVersion: 18.0.0
+    created: "2022-08-05T16:04:28.570595223Z"
+    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    digest: 11c5536008f47257ea6255d6129948df1178c7d009519b6a460a35995e74356a
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - oauth
+    - ldap
+    - keycloakx
+    - quarkus
+    maintainers:
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloakx
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/keycloak/keycloak/tree/main/quarkus/container
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloakx-1.6.0/keycloakx-1.6.0.tgz
+    version: 1.6.0
+  - apiVersion: v2
+    appVersion: 18.0.0
     created: "2022-07-29T16:04:03.428942532Z"
     description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
     digest: 8d07f7cc33a5ac324e0fa277da37e64ab4799c1b05c41b9e20cc1c020c3a2f78
@@ -4013,6 +4072,30 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloakx-1.0.1/keycloakx-1.0.1.tgz
     version: 1.0.1
   mailhog:
+  - apiVersion: v2
+    appVersion: v1.0.1
+    created: "2022-08-05T16:04:28.738942806Z"
+    description: An e-mail testing tool for developers
+    digest: 71407b9e951538edb102ba488b8dc69a78227a8cc5d4a7c571ee106e34308a46
+    home: http://iankent.uk/project/mailhog/
+    icon: https://raw.githubusercontent.com/mailhog/MailHog-UI/master/assets/images/hog.png
+    keywords:
+    - mailhog
+    - mail
+    - smtp
+    - email
+    - e-mail
+    - testing
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    name: mailhog
+    sources:
+    - https://github.com/mailhog/MailHog
+    type: application
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/mailhog-5.2.0/mailhog-5.2.0.tgz
+    version: 5.2.0
   - apiVersion: v2
     appVersion: v1.0.1
     created: "2022-07-29T16:04:03.721645312Z"
