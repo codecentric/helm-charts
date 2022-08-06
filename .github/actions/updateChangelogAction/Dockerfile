@@ -5,4 +5,4 @@ WORKDIR /github/workspace
 
 COPY generate-changelog.sh /generate-changelog.sh
 
-RUN generate-changelog.sh
+CMD generate-changelog.sh

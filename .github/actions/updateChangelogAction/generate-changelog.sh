@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 echo "Generating changelog for new version $NEW_VERSION of chart $CHART_NAME"
 
