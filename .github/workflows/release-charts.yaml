@@ -29,11 +29,11 @@ jobs:
         chart: keycloak
 
     - name: Update Keycloak Changelog
-      run: ./github/scripts/generate-changelog.sh
-      env:
-        CHART_NAME: keycloak
-        NEW_VERSION: steps.bump_keycloak.outputs.new_version
-      if: steps.bump_keycloak.outputs.changes == "true" 
+      uses: ./.github/actions/updateChangelogAction
+      with:
+        chart: keycloak
+        new_version: steps.bump_keycloak.outputs.new_version
+      # if: steps.bump_keycloak.outputs.changes == "true" 
   
     - name: Bump Keycloak.X
       id: bump_keycloakx
@@ -42,11 +42,11 @@ jobs:
         chart: keycloakx
   
     - name: Update Keycloak.X Changelog
-      run: ./github/scripts/generate-changelog.sh
-      env:
-        CHART_NAME: keycloakx
-        NEW_VERSION: steps.bump_keycloakx.outputs.new_version
-      if: steps.bump_keycloakx.outputs.changes == "true" 
+      uses: ./.github/actions/updateChangelogAction
+      with:
+        chart: keycloakx
+        new_version: steps.bump_keycloakx.outputs.new_version
+      # if: steps.bump_keycloakx.outputs.changes == "true" 
   
     - name: Bump Mailhog
       id: bump_mailhog
@@ -55,11 +55,11 @@ jobs:
         chart: mailhog
 
     - name: Update Mailhog Changelog
-      run: ./github/scripts/generate-changelog.sh
-      env:
-        CHART_NAME: mailhog
-        NEW_VERSION: steps.bump_mailhog.outputs.new_version
-      if: steps.bump_mailhog.outputs.changes == "true" 
+      uses: ./.github/actions/updateChangelogAction
+      with:
+        chart: mailhog
+        new_version: steps.bump_mailhog.outputs.new_version
+      # if: steps.bump_mailhog.outputs.changes == "true" 
 
     - name: Push Results
       id: pushResults
@@ -73,7 +73,8 @@ jobs:
           echo '::set-output name=publish::true'
         fi
     outputs:
-      publish: ${{ steps.pushResults.outputs.publish }}
+      # publish: ${{ steps.pushResults.outputs.publish }}
+      publish: false
 
   upload:
     runs-on: ubuntu-latest
