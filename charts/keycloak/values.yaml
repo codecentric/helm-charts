@@ -224,6 +224,20 @@ statefulsetAnnotations: {}
 # Additional labels for the StatefulSet
 statefulsetLabels: {}
 
+# Pod DNS policy. Valid values are 'ClusterFirstWithHostNet', 'ClusterFirst', 'Default' or 'None'.
+dnsPolicy: ""
+
+# Pod DNS configuration.
+dnsConfig: {}
+  # nameservers:
+  # - 8.8.8.8
+  # - 8.8.4.4
+  # options:
+  # - name: ndots
+  #   value: "2"
+  # searches:
+  # - example.com
+
 # Configuration for secrets that should be created
 secrets: {}
   # mysecret:
