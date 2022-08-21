@@ -1,7 +1,7 @@
 command:
   - "/opt/keycloak/bin/kc.sh"
   - "--verbose"
-  - "start-dev"
+  - "start"
 
 extraEnv: |
   - name: KEYCLOAK_ADMIN
