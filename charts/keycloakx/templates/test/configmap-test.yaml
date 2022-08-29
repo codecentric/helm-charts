@@ -28,6 +28,7 @@ data:
     base_url = 'http://{{ include "keycloak.fullname" . }}-http{{ if ne 80 (int .Values.service.httpPort) }}:{{ .Values.service.httpPort }}{{ end }}'
 
     print('Opening Keycloak...')
+    print('{0}/admin/'.format(base_url))
     driver.get('{0}{{ tpl .Values.http.relativePath . | trimSuffix "/" }}/admin/'.format(base_url))
 
     username = os.environ['KEYCLOAK_USER']
