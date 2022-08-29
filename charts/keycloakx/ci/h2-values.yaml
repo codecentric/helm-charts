@@ -39,3 +39,26 @@ http:
 
 test:
   enabled: true
+
+livenessProbe: |
+  httpGet:
+    path: '/health/live'
+    port: 8080
+  initialDelaySeconds: 0
+  timeoutSeconds: 5
+
+readinessProbe: |
+  httpGet:
+    path: '/health/ready'
+    port: 8080
+  initialDelaySeconds: 10
+  timeoutSeconds: 1
+
+startupProbe: |
+  httpGet:
+    path: '/health'
+    port: 8080
+  initialDelaySeconds: 15
+  timeoutSeconds: 1
+  failureThreshold: 60
+  periodSeconds: 5
