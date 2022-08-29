@@ -27,7 +27,7 @@ data:
     base_url = 'http://{{ include "keycloak.fullname" . }}-http{{ if ne 80 (int .Values.service.httpPort) }}:{{ .Values.service.httpPort }}{{ end }}'
 
     print('Opening Keycloak...')
-    driver.get('{0}/auth/admin/'.format(base_url))
+    driver.get('{0}{{ tpl .Values.http.relativePath . | trimSuffix "/" }}/admin/'.format(base_url))
 
     username = os.environ['KEYCLOAK_USER']
     password = os.environ['KEYCLOAK_PASSWORD']
@@ -45,7 +45,7 @@ data:
     print('Clicking login button...')
     login_button.click()
 
-    WebDriverWait(driver, 30).until(lambda driver: '/auth/admin/master/console/' in driver.current_url)
+    WebDriverWait(driver, 30).until(lambda driver: '{{ tpl .Values.http.relativePath . | trimSuffix "/" }}/admin/master/console/' in driver.current_url)
 
     print('Admin console visible. Login successful.')
 

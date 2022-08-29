@@ -34,5 +34,8 @@ secrets:
       user: admin
       password: secret
 
+http:
+  relativePath: "/"
+
 test:
   enabled: true
