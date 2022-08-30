@@ -12,6 +12,7 @@ metadata:
 data:
   test.py: |
     import os
+    import urllib.request
     from selenium import webdriver
     from selenium.webdriver.common.by import By
     from selenium.webdriver.support.ui import WebDriverWait
@@ -26,6 +27,10 @@ data:
     driver = webdriver.Chrome(options=chrome_options)
 
     base_url = 'http://{{ include "keycloak.fullname" . }}-http{{ if ne 80 (int .Values.service.httpPort) }}:{{ .Values.service.httpPort }}{{ end }}'
+
+    print('Test liveness probe')
+    page = urllib.request.urlopen('{0}/health/live'.format(base_url))
+    print(page.read())
 
     print('Opening Keycloak...')
     print('{0}/admin/'.format(base_url))
