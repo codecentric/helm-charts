@@ -22,6 +22,7 @@ spec:
       command:
         - python3
       args:
+        - "-v"
         - /tests/test.py
       env:
         - name: KEYCLOAK_USER

@@ -12,19 +12,29 @@ metadata:
 data:
   test.py: |
     import os
+    import urllib.request
     from selenium import webdriver
     from selenium.webdriver.common.by import By
     from selenium.webdriver.support.ui import WebDriverWait
+    from selenium.webdriver.chrome.options import Options
     from selenium.webdriver.support import expected_conditions
-    from urllib.parse import urlparse
 
-    print('Creating PhantomJS driver...')
-    driver = webdriver.PhantomJS(service_log_path='/tmp/ghostdriver.log')
+    print('Creating chrome driver in headless mode')
+    chrome_options = Options()
+    chrome_options.add_argument("--headless")
+    chrome_options.add_argument('--no-sandbox')
+    chrome_options.add_argument('--disable-dev-shm-usage')
+    driver = webdriver.Chrome(options=chrome_options)
 
     base_url = 'http://{{ include "keycloak.fullname" . }}-http{{ if ne 80 (int .Values.service.httpPort) }}:{{ .Values.service.httpPort }}{{ end }}'
 
+    print('Test liveness probe')
+    page = urllib.request.urlopen('{0}/health/live'.format(base_url))
+    print(page.read())
+
     print('Opening Keycloak...')
-    driver.get('{0}/auth/admin/'.format(base_url))
+    print('{0}/admin/'.format(base_url))
+    driver.get('{0}{{ tpl .Values.http.relativePath . | trimSuffix "/" }}/admin/'.format(base_url))
 
     username = os.environ['KEYCLOAK_USER']
     password = os.environ['KEYCLOAK_PASSWORD']
@@ -42,7 +52,7 @@ data:
     print('Clicking login button...')
     login_button.click()
 
-    WebDriverWait(driver, 30).until(lambda driver: '/auth/admin/master/console/' in driver.current_url)
+    WebDriverWait(driver, 30).until(lambda driver: '{{ tpl .Values.http.relativePath . | trimSuffix "/" }}/admin/master/console/' in driver.current_url)
 
     print('Admin console visible. Login successful.')
 
