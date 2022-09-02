@@ -533,7 +533,16 @@ Checkout `values.yaml` for customizing this ServiceMonitor.
 
 Note that the metrics endpoint is exposed on the HTTP port.
 You may want to restrict access to it in your ingress controller configuration.
-For ingress-nginx, this could be done as follows:
+This can be done 
+ - by setting the environment variable [DISABLE_EXTERNAL_ACCESS](https://github.com/aerogear/keycloak-metrics-spi#external-access). This can be done in `values.yaml`:
+```yaml
+# Additional environment variables for Keycloak
+extraEnv: |
+  - name: DISABLE_EXTERNAL_ACCESS
+    value: "true"
+```
+Note: The `/auth/metrics` is still enabled, it can be disabled by setting the keycloak option `--metrics-enabled=false` (but it reduces the [health checks](https://www.keycloak.org/server/health))
+ - or for ingress-nginx, as follows (this solution might not work if fix for [CVE-2021-25742](https://github.com/kubernetes/ingress-nginx/issues/7837) is applied):
 
 ```yaml
 annotations:
@@ -541,7 +550,11 @@ annotations:
     location ~* /auth/realms/[^/]+/metrics {
         return 403;
     }
+    location ~* /auth/metrics {
+        return 403;
+    }
 ```
+
 
 ## Why StatefulSet?
 
