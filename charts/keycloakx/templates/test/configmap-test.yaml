@@ -33,7 +33,6 @@ data:
     print(page.read())
 
     print('Opening Keycloak...')
-    print('{0}/admin/'.format(base_url))
     driver.get('{0}{{ tpl .Values.http.relativePath . | trimSuffix "/" }}/admin/'.format(base_url))
 
     username = os.environ['KEYCLOAK_USER']
