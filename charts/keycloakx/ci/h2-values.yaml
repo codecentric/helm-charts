@@ -22,6 +22,8 @@ extraEnv: |
       -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
   - name: KC_HOSTNAME
     value: keycloak-ci
+  - name: KC_FEATURES_DISABLED
+    value: admin2
 
 database:
   vendor: dev-file
