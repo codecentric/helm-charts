@@ -156,10 +156,12 @@ spec:
           livenessProbe:
             {{- tpl . $ | nindent 12 }}
           {{- end }}
+          {{- if .Values.metrics.enabled }}
           {{- with .Values.readinessProbe }}
           readinessProbe:
             {{- tpl . $ | nindent 12 }}
           {{- end }}
+          {{- end}}
           {{- with .Values.startupProbe }}
           startupProbe:
             {{- tpl . $ | nindent 12 }}
