@@ -523,9 +523,9 @@ test:
   enabled: false
   image:
     # The image for the test Pod
-    repository: docker.io/joyzoursky/python-chromedriver
+    repository: docker.io/seleniarm/standalone-chromium
     # The tag for the test Pod image
-    tag: 3.9-selenium
+    tag: "111.0"
     # The image pull policy for the test Pod image
     pullPolicy: IfNotPresent
   # SecurityContext for the entire test Pod

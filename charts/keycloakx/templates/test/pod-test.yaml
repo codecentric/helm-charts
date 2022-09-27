@@ -20,9 +20,9 @@ spec:
       securityContext:
         {{- toYaml .Values.test.securityContext | nindent 8 }}
       command:
-        - python3
+        - bash
       args:
-        - /tests/test.py
+        - /tests/test.sh
       env:
         - name: KEYCLOAK_USER
           valueFrom:
