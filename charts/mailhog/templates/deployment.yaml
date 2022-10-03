@@ -59,11 +59,17 @@ spec:
             - name: {{ .Values.containerPort.smtp.name }}
               containerPort: {{ .Values.containerPort.smtp.port }}
               protocol: TCP
-          {{- with .Values.livenessProbe }}
-          livenessProbe: {{- toYaml . | nindent 12 }}
+          livenessProbe:
+            tcpSocket:
+              port: {{ .Values.containerPort.smtp.port }}
+          {{- if .Values.livenessProbe }}
+          {{- toYaml .Values.livenessProbe | nindent 12 }}
           {{- end }}
-          {{- with .Values.readinessProbe }}
-          readinessProbe: {{- toYaml . | nindent 12 }}
+          readinessProbe:
+            tcpSocket:
+              port: {{ .Values.containerPort.smtp.port }}
+          {{- if .Values.readinessProbe }}
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
           {{- end }}
           {{- if or .Values.auth.enabled .Values.outgoingSMTP.enabled }}
           volumeMounts:

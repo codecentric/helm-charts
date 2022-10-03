@@ -31,14 +31,14 @@ spec:
     - name: {{ $httpPortName }}
       port: {{ .Values.service.port.http }}
       protocol: TCP
-      targetPort: {{- if .Values.service.namedTargetPort }} {{ $httpPortName }} {{- else }} {{ .Values.containerPort.http }} {{- end }}
+      targetPort: {{- if .Values.service.namedTargetPort }} {{ $httpPortName }} {{- else }} {{ .Values.containerPort.http.port }} {{- end }}
       {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort.http))) }}
       nodePort: {{ .Values.service.nodePort.http }}
       {{- end }}
     - name: {{ $smtpPortName }}
       port: {{ .Values.service.port.smtp }}
       protocol: TCP
-      targetPort: {{- if .Values.service.namedTargetPort }} {{ $smtpPortName }} {{- else }} {{ .Values.containerPort.smtp }} {{- end }}
+      targetPort: {{- if .Values.service.namedTargetPort }} {{ $smtpPortName }} {{- else }} {{ .Values.containerPort.smtp.port }} {{- end }}
       {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort.smtp))) }}
       nodePort: {{ .Values.service.nodePort.smtp }}
       {{- end }}

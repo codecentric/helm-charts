@@ -16,7 +16,7 @@ containerPort:
     port: 8025
   smtp:
     name: tcp-smtp
-    port: &containerSmtpPort 1025
+    port: 1025
 
 serviceAccount:
   # Specifies whether a ServiceAccount should be created
@@ -118,14 +118,10 @@ extraEnv: []
 
 # ref: https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/#configure-probes
 livenessProbe:
-  tcpSocket:
-    port: *containerSmtpPort
   initialDelaySeconds: 10
   timeoutSeconds: 1
 
-readinessProbe:
-  tcpSocket:
-    port: *containerSmtpPort
+readinessProbe: {}
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
