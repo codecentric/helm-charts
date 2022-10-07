@@ -3,6 +3,12 @@ kind: Service
 metadata:
   name: {{ include "keycloak.fullname" . }}-headless
   namespace: {{ .Release.Namespace }}
+  {{- with .Values.serviceHeadless.annotations }}
+  annotations:
+    {{- range $key, $value := . }}
+    {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
+    {{- end }}
+  {{- end }}
   labels:
     {{- include "keycloak.labels" . | nindent 4 }}
     app.kubernetes.io/component: headless
