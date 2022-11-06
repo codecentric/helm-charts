@@ -5,9 +5,9 @@ kind: PrometheusRule
 metadata:
   name: {{ include "keycloak.fullname" $ }}
   {{- with .namespace }}
-  namespace: {{ . }}
+  namespace: {{ . | quote}}
   {{- else }}
-  namespace: {{ $.Release.Namespace }}
+  namespace: {{ $.Release.Namespace | quote}}
   {{- end }}
   {{- with .annotations }}
   annotations:

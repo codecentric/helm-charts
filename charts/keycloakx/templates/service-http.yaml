@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "keycloak.fullname" . }}-http
-  namespace: {{ .Release.Namespace }}
+  namespace: {{ .Release.Namespace | quote }}
   {{- with .Values.service.annotations }}
   annotations:
     {{- range $key, $value := . }}
