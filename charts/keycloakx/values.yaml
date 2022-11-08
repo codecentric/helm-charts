@@ -369,6 +369,7 @@ database:
   # don't create secret for db password. Instead use existing k8s secret
   # existingSecret: "my-existent-dbpass-secret"
   existingSecret: ""
+  existingSecretKey: ""
   # E.g. dev-file, dev-mem, mariadb, mssql, mysql, oracle or postgres
   vendor:
   hostname:
