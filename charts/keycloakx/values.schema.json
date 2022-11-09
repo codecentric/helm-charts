@@ -402,6 +402,14 @@
           }
         }
       },
+      "serviceHeadless": {
+        "type": "object",
+        "properties": {
+          "annotations": {
+            "type": "object"
+          }
+        }
+      },
       "serviceAccount": {
         "type": "object",
         "properties": {

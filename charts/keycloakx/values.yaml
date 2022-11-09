@@ -222,7 +222,7 @@ secrets: {}
   #   data: {}
 
 service:
-  # Annotations for headless and HTTP Services
+  # Annotations for HTTP service
   annotations: {}
   # Additional labels for headless and HTTP Services
   labels: {}
@@ -254,6 +254,10 @@ service:
   sessionAffinity: ""
   # Session affinity config
   sessionAffinityConfig: {}
+
+serviceHeadless:
+  # Annotations for headless service
+  annotations: {}
 
 ingress:
   # If `true`, an Ingress is created
@@ -368,7 +372,9 @@ dbchecker:
 database:
   # don't create secret for db password. Instead use existing k8s secret
   # existingSecret: "my-existent-dbpass-secret"
+  # existingSecretKey: "password"
   existingSecret: ""
+  existingSecretKey: ""
   # E.g. dev-file, dev-mem, mariadb, mssql, mysql, oracle or postgres
   vendor:
   hostname:

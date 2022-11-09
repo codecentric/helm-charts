@@ -71,6 +71,6 @@ Create the service DNS name.
   valueFrom:
     secretKeyRef:
       name: {{ .Values.database.existingSecret | default (printf "%s-database" (include "keycloak.fullname" . ))}}
-      key: password
+      key: {{ .Values.database.existingSecretKey | default "password" }}
   {{- end }}
 {{- end -}}
