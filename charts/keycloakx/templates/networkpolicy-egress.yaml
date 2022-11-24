@@ -1,0 +1,20 @@
+{{- if and .Values.networkPolicy.enabled .Values.networkPolicy.egress }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "keycloak.fullname" . }}-egress
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "keycloak.labels" . | nindent 4 }}
+    {{- range $key, $value := .Values.networkPolicy.labels }}
+    {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
+    {{- end }}
+spec:
+  policyTypes:
+    - Egress
+  podSelector:
+    matchLabels:
+      {{- include "keycloak.selectorLabels" . | nindent 6 }}
+  egress:
+    {{- .Values.networkPolicy.egress | toYaml | nindent 4 }}
+{{- end }}
