@@ -3776,6 +3776,33 @@ entries:
   keycloakx:
   - apiVersion: v2
     appVersion: 19.0.3
+    created: "2022-11-25T16:03:50.760370878Z"
+    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    digest: eb22a22a37ac222881a0c7b530de3ff5bc9924c03aefdb26000d21fda262c59c
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - oauth
+    - ldap
+    - keycloakx
+    - quarkus
+    maintainers:
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloakx
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/keycloak/keycloak/tree/main/quarkus/container
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloakx-1.7.0/keycloakx-1.7.0.tgz
+    version: 1.7.0
+  - apiVersion: v2
+    appVersion: 19.0.3
     created: "2022-11-11T16:03:57.616659094Z"
     description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
     digest: ba85a0dbef0a667fb6fe0ace262e4f81194ca1702c7be61f41c911c6422e6473
