@@ -37,10 +37,16 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: "{{ .Values.image.pullPolicy }}"
           env:
+            {{- $vars := list }}
+            {{- range .Values.extraEnv }}
+            {{- $vars = append $vars .name }}
+            {{- end }}
+            {{- if not (has "MH_HOSTNAME" $vars) }}
             - name: MH_HOSTNAME
               valueFrom:
                 fieldRef:
                   fieldPath: metadata.name
+            {{- end }}
             {{- if .Values.auth.enabled }}
             - name: MH_AUTH_FILE
               value: /authdir/{{ .Values.auth.fileName }}
