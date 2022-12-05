@@ -41,12 +41,12 @@ jobs:
       id: pushResults
       run: |
         if git merge-base --is-ancestor HEAD @{u} ; then
-          echo '::set-output name=publish::false'
+          echo "publish=false" >> $GITHUB_OUTPUT
           echo "No push necesarry"
         else
           echo "Version bumps happened. Pushing now..."
           git push
-          echo '::set-output name=publish::true'
+          echo "publish=true" >> $GITHUB_OUTPUT
         fi
     outputs:
       publish: ${{ steps.pushResults.outputs.publish }}
