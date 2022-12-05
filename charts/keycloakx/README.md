@@ -149,7 +149,8 @@ The following table lists the configurable parameters of the Keycloak-X chart an
 | `ingress.console.tls[0].hosts` | List of TLS hosts                                                                                                                                                                                                                                                                 | `[keycloak.example.com]`                                                                                                              |
 | `ingress.console.tls[0].secretName` | Name of the TLS secret                                                                                                                                                                                                                                                            | `""`                                                                                                                                  |
 | `networkPolicy.enabled`                      | If true, the ingress network policy is deployed                                                                                                                                                                                                                                   | `false`
-| `networkPolicy.extraFrom`                    | Allows to define allowed external traffic (see Kubernetes doc for network policy `from` format)                                                                                                                                                                                   | `[]`
+| `networkPolicy.extraFrom`                    | Allows to define allowed external ingress traffic (see Kubernetes doc for network policy `from` format)                                                                                                                                                                                   | `[]`
+| `networkPolicy.egress`                    | Allows to define allowed egress from Keycloak pods (see Kubernetes doc for network policy `egress` format)                                                                                                                                                                                   | `[]`
 | `route.enabled`                              | If `true`, an OpenShift Route is created                                                                                                                                                                                                                                          | `false`                                                                                                                               |
 | `route.path`                                 | Path for the Route                                                                                                                                                                                                                                                                | `/`                                                                                                                                   |
 | `route.annotations`                          | Route annotations                                                                                                                                                                                                                                                                 | `{}`                                                                                                                                  |
@@ -320,10 +321,21 @@ database:
 The Keycloak-X Docker image supports creating an initial admin user.
 It must be configured via environment variables:
 
-* `KC_DB_USERNAME` or `KC_DB_USERNAME_FILE`
-* `KC_DB_PASSWORD` or `KC_DB_PASSWORD_FILE`
+* `KEYCLOAK_ADMIN`
+* `KEYCLOAK_ADMIN_PASSWORD`
 
-Please refer to the section on database configuration for how to configure a secret for this.
+This can be done like so in the `values.yaml`, where the `KEYCLOAK_ADMIN` is an insecure example with the value in plaintext.
+The `KEYCLOAK_ADMIN_PASSWORD` is referenced from already existing secret but for testing it can be set with `value` too.
+```yaml
+extraEnv: |
+  - name: KEYCLOAK_ADMIN
+    value: admin
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: keycloak-admin-password
+        key: password
+```
 
 ### High Availability and Clustering
 

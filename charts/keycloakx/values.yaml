@@ -314,6 +314,7 @@ ingress:
 #        secretName: ""
 
 ## Network policy configuration
+# https://kubernetes.io/docs/concepts/services-networking/network-policies/
 networkPolicy:
   # If true, the Network policies are deployed
   enabled: false
@@ -322,8 +323,19 @@ networkPolicy:
   labels: {}
 
   # Define all other external allowed source
-  # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#networkpolicypeer-v1-networking-k8s-io
+  # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#networkpolicypeer-v1-networking-k8s-io
   extraFrom: []
+
+  # Define egress networkpolicies for the Keycloak pods (external database for example)
+  # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#networkpolicyegressrule-v1-networking-k8s-io
+  # egress:
+  #   - to:
+  #       - ipBlock:
+  #           cidr: 192.168.1.30/32
+  #     ports:
+  #       - protocol: TCP
+  #         port: 3306
+  egress: []
 
 route:
   # If `true`, an OpenShift Route is created
