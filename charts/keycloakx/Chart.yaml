@@ -1,7 +1,7 @@
 apiVersion: v2
 name: keycloakx
 version: 1.7.0
-appVersion: 19.0.3
+appVersion: 20.0.1
 description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
 keywords:
   - sso
