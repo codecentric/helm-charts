@@ -21,6 +21,9 @@
         },
         "tag": {
           "type": ["string", "integer"]
+        },
+        "digest": {
+          "type": "string"
         }
       }
     },
