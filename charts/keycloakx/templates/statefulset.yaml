@@ -44,7 +44,7 @@ spec:
       initContainers:
         {{- if and .Values.dbchecker.enabled }}
         - name: dbchecker
-          image: "{{ .Values.dbchecker.image.repository }}:{{ .Values.dbchecker.image.tag }}"
+          image: "{{ .Values.dbchecker.image.repository }}{{- if (.Values.dbchecker.image.digest) -}} @{{ .Values.dbchecker.image.digest }}{{- else -}} :{{ .Values.dbchecker.image.tag }} {{- end }}"
           imagePullPolicy: {{ .Values.dbchecker.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.dbchecker.securityContext | nindent 12 }}
@@ -71,7 +71,7 @@ spec:
         - name: keycloak
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          image: "{{ .Values.image.repository }}{{- if (.Values.image.digest) -}} @{{ .Values.image.digest }}{{- else -}}:{{ .Values.image.tag | default .Chart.AppVersion }} {{- end }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           {{- if .Values.command }}
           command:

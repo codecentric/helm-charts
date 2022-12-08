@@ -15,7 +15,7 @@ spec:
     {{- toYaml .Values.test.podSecurityContext | nindent 4 }}
   containers:
     - name: keycloak-test
-      image: "{{ .Values.test.image.repository }}:{{ .Values.test.image.tag }}"
+      image: "{{ .Values.test.image.repository }}{{- if (.Values.test.image.digest) -}} @{{ .Values.test.image.digest }}{{- else -}} :{{ .Values.test.image.tag }} {{- end }}"
       imagePullPolicy: {{ .Values.test.image.pullPolicy }}
       securityContext:
         {{- toYaml .Values.test.securityContext | nindent 8 }}
