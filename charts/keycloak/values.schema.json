@@ -214,6 +214,9 @@
       "podManagementPolicy": {
         "type": "string"
       },
+      "updateStrategy": {
+        "type": "string"
+      },
       "podSecurityContext": {
         "type": "object"
       },
