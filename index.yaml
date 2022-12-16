@@ -411,6 +411,38 @@ entries:
   keycloak:
   - apiVersion: v2
     appVersion: 17.0.1-legacy
+    created: "2022-12-16T16:04:02.511612801Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 10.16.2
+    description: Open Source Identity and Access Management For Modern Applications and Services
+    digest: a4a21bd62406bce7c5b344aa2a110375f7240baa45ea66c41717d98a2f0d7758
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    - https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-18.4.0/keycloak-18.4.0.tgz
+    version: 18.4.0
+  - apiVersion: v2
+    appVersion: 17.0.1-legacy
     created: "2022-08-05T16:04:28.386198176Z"
     dependencies:
     - condition: postgresql.enabled
@@ -3774,6 +3806,33 @@ entries:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.10.2/keycloak-4.10.2.tgz
     version: 4.10.2
   keycloakx:
+  - apiVersion: v2
+    appVersion: 20.0.1
+    created: "2022-12-16T16:04:02.716354992Z"
+    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    digest: cd7c7ae7865b2e8000da5effbecaea5397a0e048baf9e46d698a3ed9a6f38ac6
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - oauth
+    - ldap
+    - keycloakx
+    - quarkus
+    maintainers:
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloakx
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/keycloak/keycloak/tree/main/quarkus/container
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloakx-2.1.0/keycloakx-2.1.0.tgz
+    version: 2.1.0
   - apiVersion: v2
     appVersion: 20.0.1
     created: "2022-12-09T16:04:05.325558945Z"
