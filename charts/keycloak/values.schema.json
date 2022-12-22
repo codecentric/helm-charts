@@ -56,10 +56,10 @@
       "type": "string"
     },
     "extraEnv": {
-      "type": "string"
+      "type": "array"
     },
     "extraEnvFrom": {
-      "type": "string"
+      "type": "array"
     },
     "extraInitContainers": {
       "type": "string"

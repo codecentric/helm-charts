@@ -101,12 +101,12 @@ spec:
                   name: {{ include "keycloak.postgresql.fullname" . }}
                   key: postgresql-password
             {{- end }}
-            {{- with .Values.extraEnv }}
-            {{- tpl . $ | nindent 12 }}
+            {{- if .Values.extraEnv }}
+            {{- .Values.extraEnv | toYaml | nindent 12 }}
             {{- end }}
           envFrom:
-            {{- with .Values.extraEnvFrom }}
-            {{- tpl . $ | nindent 12 }}
+            {{- if .Values.extraEnvFrom }}
+            {{- .Values.extraEnvFrom | toYaml | nindent 12 }}
             {{- end }}
           ports:
             - name: http
