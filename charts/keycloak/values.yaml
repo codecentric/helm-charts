@@ -31,6 +31,9 @@ enableServiceLinks: true
 # Pod management policy. One of `Parallel` or `OrderedReady`
 podManagementPolicy: Parallel
 
+# StatefulSet's update strategy
+updateStrategy: RollingUpdate
+
 # Pod restart policy. One of `Always`, `OnFailure`, or `Never`
 restartPolicy: Always
 

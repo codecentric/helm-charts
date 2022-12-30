@@ -49,6 +49,7 @@ Parameter | Description | Default
 `auth.existingSecret` | If auth is enabled, uses an existing secret with this name; otherwise a secret is created | `""`
 `auth.fileName` | The name of the auth file | `auth.txt`
 `auth.fileContents` | The contents of the auth file | `""`
+`affinity` | Node affinity for pod assignment | `{}`
 `nodeSelector` | Node labels for pod assignment | `{}`
 `podReplicas` | The number of pod replicas | `1`
 `podAnnotations` | Extra annotations to add to pod | `{}`

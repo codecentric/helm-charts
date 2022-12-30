@@ -42,6 +42,7 @@ spec:
       nodePort: {{ .Values.service.httpNodePort }}
       {{- end }}
       protocol: TCP
+      {{- if .Values.service.httpsPort }}
     - name: https
       port: {{ .Values.service.httpsPort }}
       targetPort: https
@@ -49,6 +50,7 @@ spec:
       nodePort: {{ .Values.service.httpsNodePort }}
       {{- end }}
       protocol: TCP
+      {{- end }}
     {{- with .Values.service.extraPorts }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
