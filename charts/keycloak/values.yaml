@@ -298,11 +298,11 @@ ingress:
       paths:
         - path: /
           pathType: Prefix
-  # TLS configuration
-  tls:
-    - hosts:
-        - keycloak.example.com
-      secretName: ""
+# Example TLS configuration
+#   tls:
+#     - hosts:
+#         - keycloak.example.com
+#       secretName: ""
 
   # ingress for console only (/auth/admin)
   console:
