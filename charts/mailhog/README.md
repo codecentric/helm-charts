@@ -49,6 +49,7 @@ Parameter | Description | Default
 `auth.existingSecret` | If auth is enabled, uses an existing secret with this name; otherwise a secret is created | `""`
 `auth.fileName` | The name of the auth file | `auth.txt`
 `auth.fileContents` | The contents of the auth file | `""`
+`affinity` | Node affinity for pod assignment | `{}`
 `containerPort.http.name` | Configure the Http name of the Mailhog container | `http`
 `containerPort.http.port` | Configure the Http port of the Mailhog container | `8025`
 `containerPort.smtp.name` | Configure the Smtp name of the Mailhog container | `tcp-smtp`

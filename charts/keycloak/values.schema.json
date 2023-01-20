@@ -20,7 +20,7 @@
           "type": "string"
         },
         "tag": {
-          "type": "string"
+          "type": ["string", "integer"]
         }
       }
     },
@@ -212,6 +212,9 @@
         "type": "object"
       },
       "podManagementPolicy": {
+        "type": "string"
+      },
+      "updateStrategy": {
         "type": "string"
       },
       "podSecurityContext": {

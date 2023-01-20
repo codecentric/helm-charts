@@ -35,7 +35,7 @@ Common labels
 {{- define "keycloak.labels" -}}
 helm.sh/chart: {{ include "keycloak.chart" . }}
 {{ include "keycloak.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | trunc 63 | quote }}
+app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
@@ -71,6 +71,6 @@ Create the service DNS name.
   valueFrom:
     secretKeyRef:
       name: {{ .Values.database.existingSecret | default (printf "%s-database" (include "keycloak.fullname" . ))}}
-      key: password
+      key: {{ .Values.database.existingSecretKey | default "password" }}
   {{- end }}
 {{- end -}}

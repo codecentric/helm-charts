@@ -20,7 +20,7 @@
           "type": "string"
         },
         "tag": {
-          "type": "string"
+          "type": ["string", "integer"]
         }
       }
     },
@@ -220,6 +220,9 @@
       "podManagementPolicy": {
         "type": "string"
       },
+      "updateStrategy": {
+        "type": "string"
+      },
       "podSecurityContext": {
         "type": "object"
       },
@@ -398,6 +401,14 @@
             "type": "string"
           },
           "sessionAffinityConfig": {
+            "type": "object"
+          }
+        }
+      },
+      "serviceHeadless": {
+        "type": "object",
+        "properties": {
+          "annotations": {
             "type": "object"
           }
         }

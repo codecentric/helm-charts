@@ -11,7 +11,7 @@ image:
   # The Keycloak image repository
   repository: quay.io/keycloak/keycloak
   # Overrides the Keycloak image tag whose default is the chart appVersion
-  tag: "18.0.0"
+  tag: "20.0.1"
   # The Keycloak image pull policy
   pullPolicy: IfNotPresent
 
@@ -30,6 +30,9 @@ enableServiceLinks: true
 
 # Pod management policy. One of `Parallel` or `OrderedReady`
 podManagementPolicy: OrderedReady
+
+# StatefulSet's update strategy
+updateStrategy: RollingUpdate
 
 # Pod restart policy. One of `Always`, `OnFailure`, or `Never`
 restartPolicy: Always
@@ -160,7 +163,7 @@ podAnnotations: {}
 # Liveness probe configuration
 livenessProbe: |
   httpGet:
-    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
+    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/health/live'
     port: http
   initialDelaySeconds: 0
   timeoutSeconds: 5
@@ -168,7 +171,7 @@ livenessProbe: |
 # Readiness probe configuration
 readinessProbe: |
   httpGet:
-    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/realms/master'
+    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/health/ready'
     port: http
   initialDelaySeconds: 10
   timeoutSeconds: 1
@@ -176,7 +179,7 @@ readinessProbe: |
 # Startup probe configuration
 startupProbe: |
   httpGet:
-    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
+    path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/health'
     port: http
   initialDelaySeconds: 15
   timeoutSeconds: 1
@@ -222,7 +225,7 @@ secrets: {}
   #   data: {}
 
 service:
-  # Annotations for headless and HTTP Services
+  # Annotations for HTTP service
   annotations: {}
   # Additional labels for headless and HTTP Services
   labels: {}
@@ -254,6 +257,10 @@ service:
   sessionAffinity: ""
   # Session affinity config
   sessionAffinityConfig: {}
+
+serviceHeadless:
+  # Annotations for headless service
+  annotations: {}
 
 ingress:
   # If `true`, an Ingress is created
@@ -310,6 +317,7 @@ ingress:
 #        secretName: ""
 
 ## Network policy configuration
+# https://kubernetes.io/docs/concepts/services-networking/network-policies/
 networkPolicy:
   # If true, the Network policies are deployed
   enabled: false
@@ -318,8 +326,19 @@ networkPolicy:
   labels: {}
 
   # Define all other external allowed source
-  # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.18/#networkpolicypeer-v1-networking-k8s-io
+  # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#networkpolicypeer-v1-networking-k8s-io
   extraFrom: []
+
+  # Define egress networkpolicies for the Keycloak pods (external database for example)
+  # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#networkpolicyegressrule-v1-networking-k8s-io
+  # egress:
+  #   - to:
+  #       - ipBlock:
+  #           cidr: 192.168.1.30/32
+  #     ports:
+  #       - protocol: TCP
+  #         port: 3306
+  egress: []
 
 route:
   # If `true`, an OpenShift Route is created
@@ -368,7 +387,9 @@ dbchecker:
 database:
   # don't create secret for db password. Instead use existing k8s secret
   # existingSecret: "my-existent-dbpass-secret"
+  # existingSecretKey: "password"
   existingSecret: ""
+  existingSecretKey: ""
   # E.g. dev-file, dev-mem, mariadb, mssql, mysql, oracle or postgres
   vendor:
   hostname:
@@ -500,9 +521,9 @@ test:
   enabled: false
   image:
     # The image for the test Pod
-    repository: docker.io/unguiculus/docker-python3-phantomjs-selenium
+    repository: docker.io/joyzoursky/python-chromedriver
     # The tag for the test Pod image
-    tag: v1
+    tag: 3.9-selenium
     # The image pull policy for the test Pod image
     pullPolicy: IfNotPresent
   # SecurityContext for the entire test Pod

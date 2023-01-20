@@ -24,7 +24,7 @@ spec:
   serviceName: {{ include "keycloak.fullname" . }}-headless
   podManagementPolicy: {{ .Values.podManagementPolicy }}
   updateStrategy:
-    type: RollingUpdate
+    type: {{ .Values.updateStrategy }}
   template:
     metadata:
       annotations:
@@ -86,7 +86,10 @@ spec:
           {{- tpl . $ | nindent 12 }}
           {{- end }}
           env:
-            {{- if .Values.http.relativePath }}
+            {{- if and (.Values.http.relativePath) (eq .Values.http.relativePath "/")  }}
+            - name: KC_HTTP_RELATIVE_PATH
+              value: {{ tpl .Values.http.relativePath $ }}
+            {{ else }}
             - name: KC_HTTP_RELATIVE_PATH
               value: {{ tpl .Values.http.relativePath $ | trimSuffix "/" }}
             {{- end }}
@@ -127,7 +130,7 @@ spec:
             - name: KC_METRICS_ENABLED
               value: "true"
             {{- end }}
-            {{- if .Values.metrics.enabled }}
+            {{- if .Values.health.enabled }}
             - name: KC_HEALTH_ENABLED
               value: "true"
             {{- end }}
@@ -142,23 +145,29 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
+            {{- if .Values.service.httpsPort }}
             - name: https
               containerPort: 8443
               protocol: TCP
+            {{- end }}
             {{- with .Values.extraPorts }}
             {{- toYaml . | nindent 12 }}
             {{- end }}
+          {{- if .Values.health.enabled }}
           {{- with .Values.livenessProbe }}
           livenessProbe:
             {{- tpl . $ | nindent 12 }}
           {{- end }}
+          {{- if .Values.metrics.enabled }}
           {{- with .Values.readinessProbe }}
           readinessProbe:
             {{- tpl . $ | nindent 12 }}
           {{- end }}
+          {{- end}}
           {{- with .Values.startupProbe }}
           startupProbe:
             {{- tpl . $ | nindent 12 }}
+          {{- end }}
           {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

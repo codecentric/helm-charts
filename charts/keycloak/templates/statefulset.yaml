@@ -23,7 +23,7 @@ spec:
   serviceName: {{ include "keycloak.fullname" . }}-headless
   podManagementPolicy: {{ .Values.podManagementPolicy }}
   updateStrategy:
-    type: RollingUpdate
+    type: {{ .Values.updateStrategy }}
   template:
     metadata:
       annotations:
