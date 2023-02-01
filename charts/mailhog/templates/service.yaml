@@ -26,17 +26,19 @@ spec:
     {{- toYaml . | nindent 4 }}
   {{- end }}
   ports:
-    - name: http
+    {{- $httpPortName := .Values.containerPort.http.name }}
+    {{- $smtpPortName := .Values.containerPort.smtp.name }}
+    - name: {{ $httpPortName }}
       port: {{ .Values.service.port.http }}
       protocol: TCP
-      targetPort: http
+      targetPort: {{- if .Values.service.namedTargetPort }} {{ $httpPortName }} {{- else }} {{ .Values.containerPort.http.port }} {{- end }}
       {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort.http))) }}
       nodePort: {{ .Values.service.nodePort.http }}
       {{- end }}
-    - name: tcp-smtp
+    - name: {{ $smtpPortName }}
       port: {{ .Values.service.port.smtp }}
       protocol: TCP
-      targetPort: tcp-smtp
+      targetPort: {{- if .Values.service.namedTargetPort }} {{ $smtpPortName }} {{- else }} {{ .Values.containerPort.smtp.port }} {{- end }}
       {{- if (and (eq .Values.service.type "NodePort") (not (empty .Values.service.nodePort.smtp))) }}
       nodePort: {{ .Values.service.nodePort.smtp }}
       {{- end }}
