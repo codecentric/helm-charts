@@ -491,7 +491,7 @@ prometheusRule:
   #     severity: warning
 
 autoscaling:
-  # If `true`, a autoscaling/v2beta2 HorizontalPodAutoscaler resource is created (requires Kubernetes 1.18 or above)
+  # If `true`, an autoscaling/v2 HorizontalPodAutoscaler resource is created (requires Kubernetes 1.18 or above)
   # Autoscaling seems to be most reliable when using KUBE_PING service discovery (see README for details)
   # This disables the `replicas` field in the StatefulSet
   enabled: false
