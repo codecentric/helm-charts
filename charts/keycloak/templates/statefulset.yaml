@@ -84,6 +84,11 @@ spec:
           {{- tpl . $ | nindent 12 }}
           {{- end }}
           env:
+            - name: KUBERNETES_NAMESPACE
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.namespace
             {{- if .Values.postgresql.enabled }}
             - name: DB_VENDOR
               value: postgres
@@ -101,8 +106,9 @@ spec:
                   name: {{ include "keycloak.postgresql.fullname" . }}
                   key: postgresql-password
             {{- end }}
-            {{- with .Values.extraEnv }}
-            {{- tpl . $ | nindent 12 }}
+            {{- range $key, $value := .Values.extraEnv }}
+            - name: {{ $key }}
+              value: {{ tpl $value }}
             {{- end }}
           envFrom:
             {{- with .Values.extraEnvFrom }}
