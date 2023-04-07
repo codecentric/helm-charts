@@ -239,9 +239,8 @@ Make sure you configure container support.
 This allows you to only configure memory using Kubernetes resources and the JVM will automatically adapt.
 
 ```yaml
-extraEnv: |
-  - name: JAVA_OPTS
-    value: >-
+extraEnv:
+  JAVA_OPTS: >-
       -XX:+UseContainerSupport
       -XX:MaxRAMPercentage=50.0
       -Djava.net.preferIPv4Stack=true
@@ -268,15 +267,11 @@ postgresql:
   # Disable PostgreSQL dependency
   enabled: false
 
-extraEnv: |
-  - name: DB_VENDOR
-    value: postgres
-  - name: DB_ADDR
-    value: mypostgres
-  - name: DB_PORT
-    value: "5432"
-  - name: DB_DATABASE
-    value: mydb
+extraEnv:
+  DB_VENDOR: postgres
+  DB_ADDR: mypostgres
+  DB_PORT: "5432"
+  DB_DATABASE: mydb
 
 extraEnvFrom: |
   - secretRef:
@@ -301,19 +296,13 @@ postgresql:
   # Disable PostgreSQL dependency
   enabled: false
 
-extraEnv: |
-  - name: DB_VENDOR
-    value: postgres
-  - name: DB_ADDR
-    value: mypostgres
-  - name: DB_PORT
-    value: "5432"
-  - name: DB_DATABASE
-    value: mydb
-  - name: DB_USER_FILE
-    value: /secrets/db-creds/user
-  - name: DB_PASSWORD_FILE
-    value: /secrets/db-creds/password
+extraEnv:
+  DB_VENDOR: postgres
+  DB_ADDR: mypostgres
+  DB_PORT: "5432"
+  DB_DATABASE: mydb
+  DB_USER_FILE: /secrets/db-creds/user
+  DB_PASSWORD_FILE: /secrets/db-creds/password
 
 extraVolumeMounts: |
   - name: db-creds
@@ -346,15 +335,11 @@ The chart has a helper template (`keycloak.serviceDnsName`) that creates the DNS
 JGroups discovery via DNS_PING can be configured as follows:
 
 ```yaml
-extraEnv: |
-  - name: JGROUPS_DISCOVERY_PROTOCOL
-    value: dns.DNS_PING
-  - name: JGROUPS_DISCOVERY_PROPERTIES
-    value: 'dns_query={{ include "keycloak.serviceDnsName" . }}'
-  - name: CACHE_OWNERS_COUNT
-    value: "2"
-  - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
-    value: "2"
+extraEnv:
+  JGROUPS_DISCOVERY_PROTOCOL: dns.DNS_PING
+  JGROUPS_DISCOVERY_PROPERTIES: 'dns_query={{ include "keycloak.serviceDnsName" . }}'
+  CACHE_OWNERS_COUNT: "2"
+  CACHE_OWNERS_AUTH_SESSIONS_COUNT: "2"
 ```
 
 #### KUBE_PING Service Discovery
@@ -365,18 +350,10 @@ This requires a little more configuration than DNS_PING but can easily be achiev
 As with DNS_PING some environment variables must be configured as follows:
 
 ```yaml
-extraEnv: |
-  - name: JGROUPS_DISCOVERY_PROTOCOL
-    value: kubernetes.KUBE_PING
-  - name: KUBERNETES_NAMESPACE
-    valueFrom:
-      fieldRef:
-        apiVersion: v1
-        fieldPath: metadata.namespace
-  - name: CACHE_OWNERS_COUNT
-    value: "2"
-  - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
-    value: "2"
+extraEnv:
+  JGROUPS_DISCOVERY_PROTOCOL: kubernetes.KUBE_PING
+  CACHE_OWNERS_COUNT: "2"
+  CACHE_OWNERS_AUTH_SESSIONS_COUNT: "2"
 ```
 
 However, the Keycloak Pods must also get RBAC permissions to `get` and `list` Pods in the namespace which can be configured as follows:
@@ -416,9 +393,8 @@ When running Keycloak behind a reverse proxy, which is the case when using an in
 proxy address forwarding must be enabled as follows:
 
 ```yaml
-extraEnv: |
-  - name: PROXY_ADDRESS_FORWARDING
-    value: "true"
+extraEnv:
+  PROXY_ADDRESS_FORWARDING: "true"
 ```
 
 ### Providing a Custom Theme
@@ -477,9 +453,8 @@ extraVolumeMounts: |
     mountPath: "/realm/"
     readOnly: true
 
-extraEnv: |
-  - name: KEYCLOAK_IMPORT
-    value: /realm/realm.json
+extraEnv:
+  KEYCLOAK_IMPORT: /realm/realm.json
 ```
 
 Alternatively, the realm file could be added to a custom image.
@@ -523,19 +498,13 @@ extraVolumes: |
     secret:
       secretName: cloudsql-instance-credentials
 
-extraEnv: |
-  - name: DB_VENDOR
-    value: postgres
-  - name: DB_ADDR
-    value: "127.0.0.1"
-  - name: DB_PORT
-    value: "5432"
-  - name: DB_DATABASE
-    value: postgres
-  - name: DB_USER
-    value: myuser
-  - name: DB_PASSWORD
-    value: mypassword
+extraEnv:
+  DB_VENDOR: postgres
+  DB_ADDR: "127.0.0.1"
+  DB_PORT: "5432"
+  DB_DATABASE: postgres
+  DB_USER: myuser
+  DB_PASSWORD: mypassword
 ```
 
 ### Changing the Context Path
@@ -600,9 +569,8 @@ WildFly can expose metrics on the management port.
 In order to achieve this, the environment variable `KEYCLOAK_STATISTICS` must be set.
 
 ```yaml
-extraEnv: |
-  - name: KEYCLOAK_STATISTICS
-    value: all
+extraEnv:
+  KEYCLOAK_STATISTICS: all
 ```
 
 Add a ServiceMonitor if using prometheus-operator:

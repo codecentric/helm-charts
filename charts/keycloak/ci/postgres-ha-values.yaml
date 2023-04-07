@@ -25,23 +25,15 @@ lifecycleHooks: |
         - -c
         - echo 'Hello from lifecycle hook!'
 
-extraEnv: |
-  - name: JGROUPS_DISCOVERY_PROTOCOL
-    value: dns.DNS_PING
-  - name: JGROUPS_DISCOVERY_PROPERTIES
-    value: 'dns_query={{ include "keycloak.serviceDnsName" . }}'
-  - name: CACHE_OWNERS_COUNT
-    value: "2"
-  - name: CACHE_OWNERS_AUTH_SESSIONS_COUNT
-    value: "2"
-  - name: KEYCLOAK_USER_FILE
-    value: /secrets/admin-creds/user
-  - name: KEYCLOAK_PASSWORD_FILE
-    value: /secrets/admin-creds/password
-  - name: KEYCLOAK_STATISTICS
-    value: all
-  - name: JAVA_OPTS
-    value: >-
+extraEnv:
+  JGROUPS_DISCOVERY_PROTOCOL: dns.DNS_PING
+  JGROUPS_DISCOVERY_PROPERTIES: 'dns_query={{ include "keycloak.serviceDnsName" . }}'
+  CACHE_OWNERS_COUNT: "2"
+  CACHE_OWNERS_AUTH_SESSIONS_COUNT: "2"
+  KEYCLOAK_USER_FILE: /secrets/admin-creds/user
+  KEYCLOAK_PASSWORD_FILE: /secrets/admin-creds/password
+  KEYCLOAK_STATISTICS: all
+  JAVA_OPTS: >-
       -XX:+UseContainerSupport
       -XX:MaxRAMPercentage=50.0
       -Djava.net.preferIPv4Stack=true
