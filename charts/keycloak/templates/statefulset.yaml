@@ -108,7 +108,7 @@ spec:
             {{- end }}
             {{- range $key, $value := .Values.extraEnv }}
             - name: {{ $key }}
-              value: {{ tpl $value }}
+              value: {{ tpl $value . }}
             {{- end }}
           envFrom:
             {{- with .Values.extraEnvFrom }}
