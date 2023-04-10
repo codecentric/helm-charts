@@ -56,7 +56,7 @@
       "type": "string"
     },
     "extraEnv": {
-      "type": "array"
+      "type": "object"
     },
     "extraEnvFrom": {
       "type": "string"

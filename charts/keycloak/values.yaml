@@ -105,11 +105,17 @@ command: []
 args: []
 
 # Additional environment variables for Keycloak
-extraEnv: ""
+extraEnv: {}
   # KEYCLOAK_LOGLEVEL: DEBUG
   # WILDFLY_LOGLEVEL: DEBUG
   # CACHE_OWNERS_COUNT: "2"
   # CACHE_OWNERS_AUTH_SESSIONS_COUNT: "2"
+# Uncomment if you use a reverse proxy
+  # PROXY_ADDRESS_FORWARDING: "{{ quote true }}"
+  # KEYCLOAK_FRONTEND_URL: https://{{ index (index .Values.ingress.rules 0) "host" }}/auth
+
+
+
 
 # Additional environment variables for Keycloak mapped from Secret or ConfigMap
 extraEnvFrom: ""
