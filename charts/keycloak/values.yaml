@@ -114,9 +114,6 @@ extraEnv: {}
   # PROXY_ADDRESS_FORWARDING: "{{ quote true }}"
   # KEYCLOAK_FRONTEND_URL: https://{{ index (index .Values.ingress.rules 0) "host" }}/auth
 
-
-
-
 # Additional environment variables for Keycloak mapped from Secret or ConfigMap
 extraEnvFrom: ""
 
