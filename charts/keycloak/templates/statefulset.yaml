@@ -56,7 +56,7 @@ spec:
             - |
               echo 'Waiting for PostgreSQL to become ready...'
 
-              until printf "." && nc -z -w 2 {{ include "keycloak.postgresql.fullname" . }} {{ .Values.postgresql.service.port }}; do
+              until printf "." && nc -z -w 2 {{ include "keycloak.postgresql.fullname" . }} {{ .Values.postgresql.primary.service.ports.postgresql }}; do
                   sleep 2;
               done;
 
@@ -90,7 +90,7 @@ spec:
             - name: DB_ADDR
               value: {{ include "keycloak.postgresql.fullname" . }}
             - name: DB_PORT
-              value: {{ .Values.postgresql.service.port | quote }}
+              value: {{ .Values.postgresql.primary.service.ports.postgresql | quote }}
             - name: DB_DATABASE
               value: {{ .Values.postgresql.postgresqlDatabase | quote }}
             - name: DB_USER
