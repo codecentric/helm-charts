@@ -115,6 +115,10 @@ extraEnv: ""
   # - name: KC_LOG_LEVEL
   #   value: DEBUG
 
+# Additional environment variables for Keycloak in map format
+extraEnvMap: {}
+  # KC_LOG_LEVEL: DEBUG
+
 # Additional environment variables for Keycloak mapped from Secret or ConfigMap
 extraEnvFrom: ""
 

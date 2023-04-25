@@ -61,6 +61,9 @@
     "extraEnv": {
       "type": "string"
     },
+    "extraEnvMap": {
+      "type": "object"
+    },
     "extraEnvFrom": {
       "type": "string"
     },

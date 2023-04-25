@@ -137,6 +137,10 @@ spec:
             {{- with .Values.extraEnv }}
             {{- tpl . $ | nindent 12 }}
             {{- end }}
+            {{- range $key, $value := .Values.extraEnvMap }}
+            - name: {{ $key }}
+              value: {{ quote (tpl $value $) }}
+            {{- end }}
           envFrom:
             {{- with .Values.extraEnvFrom }}
             {{- tpl . $ | nindent 12 }}
