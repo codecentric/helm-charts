@@ -80,14 +80,14 @@ jobs:
       - name: Release keycloakx
         uses: helm/chart-releaser-action@v1.5.0
         with:
-          charts_dir: charts/keycloakx
+          charts_dir: charts/keycloakx/
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
     
       - name: Release mailhog
         uses: helm/chart-releaser-action@v1.5.0
         with:
-          charts_dir: charts/mailhog
+          charts_dir: charts/mailhog/
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           
