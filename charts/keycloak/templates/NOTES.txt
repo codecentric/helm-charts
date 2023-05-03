@@ -4,6 +4,12 @@
 *                                                                     *
 ***********************************************************************
 
+!!! IMPORTANT !!!
+
+This chart uses the old keycloak version which ships with wildfly! The support for any wildfly system was deprecated with Keycloak 17 and dropped with Keycloak v20 (see Reference: https://www.keycloak.org/2022/02/keycloak-1700-released.html).
+
+Please consider a migration to the newer keycloakx chart!
+
 {{- if .Values.ingress.enabled }}
 
 Keycloak was installed with an Ingress and can be reached at the following URL(s):
