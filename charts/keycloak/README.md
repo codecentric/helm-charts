@@ -2,6 +2,12 @@
 
 [Keycloak](http://www.keycloak.org/) is an open source identity and access management for modern applications and services.
 
+## IMPORTANT
+
+This chart uses the old keycloak version which ships with wildfly! The support for any wildfly system was deprecated with Keycloak 17 and dropped with Keycloak v20 [Reference](https://www.keycloak.org/2022/02/keycloak-1700-released.html).
+
+Please consider a migration to the newer keycloakx chart!
+
 ## TL;DR;
 
 ```console
