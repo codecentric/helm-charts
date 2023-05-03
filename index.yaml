@@ -411,13 +411,47 @@ entries:
   keycloak:
   - apiVersion: v2
     appVersion: 17.0.1-legacy
+    created: "2023-05-03T06:12:42.152642495Z"
+    dependencies:
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+      version: 10.16.2
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
+    digest: f7a492b0ab6336566160f32b0efbc1ec033e40aeb2b871b055f3e2449e2949f8
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - ldap
+    maintainers:
+    - email: unguiculus@gmail.com
+      name: unguiculus
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloak
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/jboss-dockerfiles/keycloak
+    - https://github.com/bitnami/charts/tree/master/bitnami/postgresql
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloak-18.4.3/keycloak-18.4.3.tgz
+    version: 18.4.3
+  - apiVersion: v2
+    appVersion: 17.0.1-legacy
     created: "2022-12-16T16:04:02.511612801Z"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.16.2
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: a4a21bd62406bce7c5b344aa2a110375f7240baa45ea66c41717d98a2f0d7758
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
@@ -449,7 +483,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.16.2
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: fa21a73b4e08a635de4f00916519f28961d30f8080d2aa2634f502fcdb21f02a
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
@@ -481,7 +516,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.16.2
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 7166e7260b7b8893fbcf85d094fc1da7d8d895e3df67772dd75186eab0ab9010
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
@@ -513,7 +549,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 191a658b0ce2a5b6edc1a0c442cc66898149caaafbc4dcc0ab31b3ed58aa36c5
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
@@ -545,7 +582,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 63889646a16d38ef1cfd1e8041fb010ca125b2dc810b9d3f0e3b9e5462b7856c
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
@@ -577,7 +615,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: b7dbffc54f86c241c69ed3f8d436b98c7e46b641e5eb28d60f7fa5552f48be6b
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
@@ -609,7 +648,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 4ed974d2d29871afd3720e50c9087fe0680de8434db84f1aa39ac07b3b54c24c
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
@@ -641,7 +681,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 08158ab563532c2568a8c2b452cd47f18553be42681d571c12ddda14af65b32b
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_icon_512px.svg
@@ -673,7 +714,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 2aa10dd000ad4a1e29abf0adde1485cbc31ace4674151eedea1aedf0509fccec
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -705,7 +747,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 0aeb9742e2f6a1af4dd91a134ab1254aa9587e6e3f401159a30e642000429d89
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -737,7 +780,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 5db348b3ab151180414f15d23d4148fdcd269fe1365915800c148d7d81fd2472
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -769,7 +813,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 8968cdd2acf54c0f9b5c12493ac8df2e7f560d4d086a5821266917ece47c93b6
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -801,7 +846,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 316bbcdc1050bd6bde825d2dd16f5e460ac02916896ff7ab4c706e33b7172b97
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -833,7 +879,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 4bfd759f6bc970f6fac7e8ebe7253a9f6955186fe878fe428cccc891b89c2865
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -865,7 +912,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 3565e298ac8ff6002819eabc6702f9726d724477a56eca5fc35d0413693de91b
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -897,7 +945,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: f48a16de0cc844c9b0b27303c415aaa5b108b69a00ae79c758c9a89c9b20a12b
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -929,7 +978,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 40b08c70517b7584c873c9192c2bdfaceeddbf1e2002384af656c306a1f79aec
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -961,7 +1011,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 96dee53f2ad54fa248be7d4e13d373fdf1c6e3cb83644cf31b2acac632ad79e1
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -993,7 +1044,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 29eebcae89f732ff15c368606f2631e2db042fa858e88dc78d4d4957ba910cd3
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1025,7 +1077,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 632dfce3b7f2168c0afae1669646a47df6f4babe5a9ca5d4839be48b71e07b6c
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1057,7 +1110,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 00623af1e4723edf77801503ec9b5dbbe6718b7caa2e2ad7f48924b5f128ed14
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1089,7 +1143,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: f3b0021bafd90f70af18f77001302ae24ebb5c86e70f54f2b7bf088df995508e
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1121,7 +1176,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 047cc24fcd6a2cc86bb0513f06cf18ee9afa8f7e2acd04f6a15595a58d089bc6
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1153,7 +1209,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: c584d5430b5da91eeff52eb39498451c102e6a738f3e7a005069907507d01978
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1185,7 +1242,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 0ac524520198498587ee43536d781dc1c253d1dd5a998d8f259b3b2b030eaf40
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1217,7 +1275,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: f59dba7722f55649e6522dcdfb95faa2c03888345bbae0feb397a596304ee374
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1249,7 +1308,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: b36fe2158c2d25cffcacd48d8b1c55808736b44c57c82467c5900b51c74bada4
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1281,7 +1341,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 7b787ef1155bfbb1ae77fbf52c0396a0718b70e25a357df4668b818b26fe99db
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1313,7 +1374,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 10.3.13
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 7858a198a5c2ee1d7e8c803f72cd0146ff452f9e9e5daa76fc005473fc732567
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1345,7 +1407,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: d76efc2ba5be512040b9cf54a5892774c829ff4c1219d28e23ad67d238514b5e
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1377,7 +1440,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 722abbbb4647fbe106c62b5d076f295151d7affaafd670039c480772d63e5824
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1409,7 +1473,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: d14c99e9beee282ae37c9b14cc4efdaa8bc2a7abb7aef2a196402e947c2d3f50
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1441,7 +1506,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: f57a55328c62b9d98a55d215e40f870e4228fa47d7159e88a8fa1140d6d8a513
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1473,7 +1539,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 9280f30658c1209d6577ce47887b7a59af0c6087ddce7a4b5591f4afecb0483f
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1505,7 +1572,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 2387ab4c9ea2411af9c5e92434ca7437c342fa6ede1283715bd8c6d32d2627be
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1537,7 +1605,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 0063feb0668cc8df34caa29b1d0b0e385de8b5c97bf4cf720b420ccc2c6462bb
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1569,7 +1638,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: df8586170925666d8056a11b8fd44e4e5253c46b02743e8a3e4702c81cfa5f13
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1601,7 +1671,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 47e0e5a1e480f0db88a56f7272cfd36e1ec398da5acf0bfad1d2e6d428ff8838
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1633,7 +1704,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: b048437faaf32c8b8fde57dfce6a5a4f26513484a2c00dd473959a142b3e0f39
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1665,7 +1737,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 954d80e731b033535da0020f8e9abeb2596c4fb6c0d98b595b2e99ae432f1d1e
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1697,7 +1770,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: a0305568bec1c083fa28dccd52c5114724fbaa8f598db7c709e2ac100d1a8210
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1729,7 +1803,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: d4338125ed3dcdeee37b430df9b4af05da766a405587264c42e01f7d405076e9
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1761,7 +1836,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 4331afa3bbbb47f80d85e16c1a740d54bbf6f83d5fd3b4205ed8fe28e555d902
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1793,7 +1869,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 644efa001c6eee96843f8785a0c935cfd16535d8466770ae536951fad958eff7
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1825,7 +1902,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 8912b62dc412738f39a2c5274f812cb412bfde0b19d1de7234a7816afa1153ea
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1857,7 +1935,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 3c99c6ce2599d7148cbe8ddc3f8b98c61f367f06fc913a61294470c9cc2c95b0
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1889,7 +1968,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 75f8490fafc657f6dfff09089dd7f278e3974ee60fe468296806ff85678838bf
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1921,7 +2001,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 66e93d5c87d31dc64a4cbd54f151f3335643f34603bfe4140f75abceeb90d61b
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1953,7 +2034,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 5464903c004e9be9b5e84b440eaafcac311e7f20e457a8a9b29ac93b133b2650
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -1985,7 +2067,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 182b4d540eccb3d7e4433963f25e3fd3527e8630a5804f35a0a276738b6fc2f2
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2017,7 +2100,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: eea6ee34d30e3553a3ab93668b12393061e0afda6ca4750abbb081b89c588939
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2049,7 +2133,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 368c64c4a02f33b45bfa4406d851745a3a7f0be4b96a2c4b349bc70e5039326e
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2081,7 +2166,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: f689b4aef3b626731b932de202331da3c00d5855067826d93da83d8f9001929d
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2113,7 +2199,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: cd6910d3fd23f9c2e3c72a0284bfb9b19f328c226eacf93c00bd72c8cea7148b
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2145,7 +2232,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 039114b7dd00a45d79df6ffe82fd79c667c512e15fa1ebc4f050670f92a1c885
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2177,7 +2265,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 76974d2091de4524cd6e01945524e6d892794376ef26b78a6bcfe4409a4089db
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2209,7 +2298,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 1e1fcd902a9d514397f9c080faff1f1ff344076c3ac4f820ad664e1db7df48e8
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2241,7 +2331,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 3f067779f5b2e60ecf371019a0a2b78a323b62faf0cabf9ffe57697ee320f136
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2273,7 +2364,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: c94ef6ea703003317902314f76a992d0e0fe6f5091ff7bc3c2289506b0d897e9
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2305,7 +2397,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: dd7e4e8c7ec57f5c940bb4e918e3a5910dbdaecfc1e61ea0af188ea301045e23
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2337,7 +2430,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 745c1f62281c4fcfd1adabbefc490d103d7f8d054be34157f7f313fad9882f27
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2369,7 +2463,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: a7dbb1ffcdb4ce00442e5634fb661c9403da0595d9600e1d5f14da3415e05d12
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2401,7 +2496,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: e7e68fcf4f8c745844ecb9f9ba22b80c2dd77128624d7fdd9e0dfecac41670ad
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2433,7 +2529,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: c500f27b062a2ce6169a83acd1af6bf3327cd71be0b8f08f6512c3e78b6e5d36
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2465,7 +2562,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: ca57aa2371ca0e539f7325b4ab36d6c66cd82797690b59d28deae5564ab53a32
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2497,7 +2595,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: fb2d881ae56abb06f4781088547f63323621cc1d9399824c48fb78d9d86eda90
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2529,7 +2628,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 9.1.1
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 949ace213ea0b50c46941c82fd177c7b210b15882b3871c70793bc3d53e583e8
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2561,7 +2661,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 8.9.5
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 77f04f3c02acb691df202cf704cae93842d1797e16123dd87e0033abc90b68f1
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2592,7 +2693,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 8.9.5
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: fcbae5dafc63caa7c7e0947c38a54e0099829cd37a22ba1c84c8b104aa3c7acc
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2623,7 +2725,8 @@ entries:
       name: postgresql
       repository: https://charts.bitnami.com/bitnami
       version: 8.9.5
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: b36cb4ec990bd42987b5b8208674ad7ad1f2bf14cc958e8e827dbebc6c8c95af
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2649,7 +2752,8 @@ entries:
   - apiVersion: v1
     appVersion: 10.0.0
     created: "2020-05-22T12:01:58.444461182Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 9e86e3c3ed1496b6083065ae6444e5ef668b698185ea60dc52feb9202d83b7ac
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2675,7 +2779,8 @@ entries:
   - apiVersion: v1
     appVersion: 10.0.0
     created: "2020-05-15T12:07:06.50762251Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 32256409771a604a233b2c349a9a1dc0afcea4636cf409e2ead382ea626eeb33
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2701,7 +2806,8 @@ entries:
   - apiVersion: v1
     appVersion: 10.0.0
     created: "2020-05-08T16:52:55.595373741Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 6c9b728e9c446d144715c82a9fcedce95dc73731c282db6835ebbac8e62964e0
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2727,7 +2833,8 @@ entries:
   - apiVersion: v1
     appVersion: 9.0.2
     created: "2020-05-08T12:40:26.663809481Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: bb8fc89f0a68183b1cd4a5df34f3213c789ceeb0caba349897893138891f52ea
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2753,7 +2860,8 @@ entries:
   - apiVersion: v1
     appVersion: 9.0.2
     created: "2020-04-28T17:22:05.000734723Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 5c203b3d18d93f9a5d466e31a90bbb883a26d041a4e5b44b3b946dad0e3ae6a6
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2779,7 +2887,8 @@ entries:
   - apiVersion: v1
     appVersion: 9.0.2
     created: "2020-04-28T16:59:28.911731815Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: d66c8de1c5e0f5b7cb5c4a17426bdb404199b6c953439812d9dbb184d281bbdb
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2805,7 +2914,8 @@ entries:
   - apiVersion: v1
     appVersion: 9.0.2
     created: "2020-03-26T10:34:24.741034822Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 87c08f0c7de38dbd476b19abd5a452120b6c72fbdda8287cad1feb5fb6204871
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2831,7 +2941,8 @@ entries:
   - apiVersion: v1
     appVersion: 9.0.0
     created: "2020-03-21T14:28:07.583543923Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: be3a4289addff0db19737c00a58d7ea55cb192a43f7327d8396a71df2344770f
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2857,7 +2968,8 @@ entries:
   - apiVersion: v1
     appVersion: 9.0.0
     created: "2020-03-21T14:07:28.871826568Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: feda5e0999b838f852a743935ceebba000540406efb56e9e984fd29944bd17db
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2883,7 +2995,8 @@ entries:
   - apiVersion: v1
     appVersion: 9.0.0
     created: "2020-03-17T16:00:05.252029394Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: abd8d0b5803193211b4f33d90c45f9a3a826413247b6d5a889a39250150e0eba
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2909,7 +3022,8 @@ entries:
   - apiVersion: v1
     appVersion: 8.0.1
     created: "2020-03-13T15:13:04.234380322Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: c7ba5d51c955164fffad92000eb11094bec8df92284d180f5badb3b36926cfd6
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2935,7 +3049,8 @@ entries:
   - apiVersion: v1
     appVersion: 8.0.1
     created: "2020-02-28T15:25:34.215094399Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 8ac54484ab9025577951fc9a841d242209a9afe1e0818dd2ebf27422b097e96b
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2961,7 +3076,8 @@ entries:
   - apiVersion: v1
     appVersion: 8.0.1
     created: "2020-02-28T13:27:51.641062616Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 3d0a78c9584e9589fb04068eecc38fc4cde8667e1852402aa989b3c118ecef74
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -2987,7 +3103,8 @@ entries:
   - apiVersion: v1
     appVersion: 8.0.1
     created: "2020-02-28T10:38:59.619423841Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 07c77fda86d624bb3181245d630fbea99f98ec3d75e691e565f1ba78b53d9444
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3013,7 +3130,8 @@ entries:
   - apiVersion: v1
     appVersion: 8.0.1
     created: "2020-02-14T14:58:33.137357579Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 60542d600f2d50fc2b45543b908a7a19ffb01cd2ce09c6f07def902cdbf74a12
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3039,7 +3157,8 @@ entries:
   - apiVersion: v1
     appVersion: 8.0.1
     created: "2020-01-31T13:52:51.133266721Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 28d982d056830e24362f6dd10d1f9a9fda32200e4f1a5f75619b27036caed587
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3065,7 +3184,8 @@ entries:
   - apiVersion: v1
     appVersion: 8.0.1
     created: "2020-01-31T10:10:16.467526463Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: ee55ba392cf640534e6ddd0fb0f78180d8138308d5796563709ca70c43503870
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3091,7 +3211,8 @@ entries:
   - apiVersion: v1
     appVersion: 8.0.1
     created: "2019-12-19T07:34:53.438593028Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 7faefe1250cf0de364b0c73e755b4650095dd93a4976c435ff6e1c1fee227bf4
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3117,7 +3238,8 @@ entries:
   - apiVersion: v1
     appVersion: 7.0.0
     created: "2019-12-06T08:52:02.29175852Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: c7873689ab3447aeb6272685e6b815dd74894d2d170cac0b738c148b96ff0036
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3143,7 +3265,8 @@ entries:
   - apiVersion: v1
     appVersion: 7.0.0
     created: "2019-11-11T12:07:38.687054388Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 5b3dc2a2592739285b06855665be81fa6d407eb02784ce77a7631b0a6ce1886e
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3169,7 +3292,8 @@ entries:
   - apiVersion: v1
     appVersion: 7.0.0
     created: "2019-11-02T10:42:30.322437687Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 7268a8d69e429adc91e50480e844dfef37434c0cdb7804ba5e149156ce25f148
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3195,7 +3319,8 @@ entries:
   - apiVersion: v1
     appVersion: 7.0.0
     created: "2019-10-29T18:03:12.896991026Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: e6f59fa8c0a9f623cb6f741e9fb1275afe8713fef450c64101cfa5d14c665035
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3218,9 +3343,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-6.0.1/keycloak-6.0.1.tgz
     version: 6.0.1
-  - appVersion: 7.0.0
+  - apiVersion: v1
+    appVersion: 7.0.0
     created: "2019-10-17T18:39:10.656455999Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 3950a8b674629d2c164422db66fe59963a56a35c17f74d731a209cf761302b56
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3243,9 +3370,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-6.0.0/keycloak-6.0.0.tgz
     version: 6.0.0
-  - appVersion: 6.0.1
+  - apiVersion: v1
+    appVersion: 6.0.1
     created: "2019-08-31T12:45:17.652950625Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 49c6a351d218c59846ada0d13370d1675fd7c136e3c08f2298a86fba431b9817
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3268,9 +3397,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.7/keycloak-5.1.7.tgz
     version: 5.1.7
-  - appVersion: 6.0.1
+  - apiVersion: v1
+    appVersion: 6.0.1
     created: "2019-08-15T11:32:08.702946164Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: a2a32b25f873ddd2e29cef369aae13bd165474a21c24975999f531769cc72f85
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3293,9 +3424,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.6/keycloak-5.1.6.tgz
     version: 5.1.6
-  - appVersion: 6.0.1
+  - apiVersion: v1
+    appVersion: 6.0.1
     created: "2019-07-30T15:47:40.159722536Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 743dfc6eeb12cf2241f1ffb2ff2c5c10f989de0ba0220551a5b0a78cba62bc58
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3318,9 +3451,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.5/keycloak-5.1.5.tgz
     version: 5.1.5
-  - appVersion: 6.0.1
+  - apiVersion: v1
+    appVersion: 6.0.1
     created: "2019-07-16T20:04:19.206250492Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: bd2aa879ebf62bd2318d10cdd672fc5943a4a9f341b8610cf59c20654b806afc
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3343,9 +3478,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.4/keycloak-5.1.4.tgz
     version: 5.1.4
-  - appVersion: 6.0.1
+  - apiVersion: v1
+    appVersion: 6.0.1
     created: "2019-07-16T20:04:19.326608538Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: a39a8cd26fe31bff6b03a9e6ab9e31eee662bf9b256135f1914e088aefc26e8f
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3368,9 +3505,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.3/keycloak-5.1.3.tgz
     version: 5.1.3
-  - appVersion: 6.0.1
+  - apiVersion: v1
+    appVersion: 6.0.1
     created: "2019-07-16T20:04:19.487505872Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: d82e2da4c1f0f36ba66d0d98f8c01f7d80675231fd8ed8ec1e8613de3eb018e0
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3393,9 +3532,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.2/keycloak-5.1.2.tgz
     version: 5.1.2
-  - appVersion: 6.0.1
+  - apiVersion: v1
+    appVersion: 6.0.1
     created: "2019-07-16T20:04:19.615202942Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 8585a44a227a243571910a0358e6518f568f3c135b89c1c77ad6777fd1c69fa9
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3418,9 +3559,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.1/keycloak-5.1.1.tgz
     version: 5.1.1
-  - appVersion: 6.0.1
+  - apiVersion: v1
+    appVersion: 6.0.1
     created: "2019-07-16T20:04:19.780841259Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: c2a1c3b2ad22de453e75ace4905377b736795e7daef71592e528e91f52e5b625
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3443,9 +3586,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.1.0/keycloak-5.1.0.tgz
     version: 5.1.0
-  - appVersion: 6.0.1
+  - apiVersion: v1
+    appVersion: 6.0.1
     created: "2019-07-16T20:04:19.929317246Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 2eecd1126c2a24352f5f4b11a4c674c97107b3c8e4bffae8354f969f99c94c2d
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3468,9 +3613,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.0.1/keycloak-5.0.1.tgz
     version: 5.0.1
-  - appVersion: 6.0.1
+  - apiVersion: v1
+    appVersion: 6.0.1
     created: "2019-07-16T20:04:20.047788643Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: a88f3393a267dd90c63bf716ef1b929713b14dc99538b267137744e45dfc71c5
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3493,9 +3640,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-5.0.0/keycloak-5.0.0.tgz
     version: 5.0.0
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:20.339833581Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 10e98549dc8aa4d01a03ae9236b7824a6fa3ba0387593b84b1008384705e5711
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3517,9 +3666,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.16.0/keycloak-4.16.0.tgz
     version: 4.16.0
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:20.536341062Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 4ca77dce30ee7bafaaa31f403d9ba48db4b8df1baab1ddf628ecbd81ecb0ed9e
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3541,9 +3692,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.15.0/keycloak-4.15.0.tgz
     version: 4.15.0
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:20.682830824Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 8d4f4c85c56fccb0928ea619307a834254cdeb42769bb62defacf8667cd22f67
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3565,9 +3718,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.14.2/keycloak-4.14.2.tgz
     version: 4.14.2
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:20.824619137Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: bbfbb89395a367e446e856386eba202d64092da6ff954d68eb1f00502157cea9
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3589,9 +3744,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.14.1/keycloak-4.14.1.tgz
     version: 4.14.1
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:21.581226953Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: d0e53ebc9b1c8b951abb9664aec1c5f8a1d31b63cb1cec245df4b6c29c965455
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3613,9 +3770,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.14.0/keycloak-4.14.0.tgz
     version: 4.14.0
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:21.746971974Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 4db35953bee5a4b93081154d7fc511954e11b89bddbc4fb93c963f2642401328
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3637,9 +3796,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.13.2/keycloak-4.13.2.tgz
     version: 4.13.2
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:22.146274319Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 6c795a77d8ee1da0bbc3838ac085b2b3e1e98df70771e91280d25fd5ce94ed84
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3661,9 +3822,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.13.1/keycloak-4.13.1.tgz
     version: 4.13.1
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:22.284381137Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 4d2b67bbdc371141ef031a5883f046aa8b1c3733e05c54f3e3766254b1887c1a
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3685,9 +3848,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.13.0/keycloak-4.13.0.tgz
     version: 4.13.0
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:22.460908921Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 47fd1943c45dde570dc0282cd0300efd3086a096b9172f345f21ebbaddbeb11d
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3709,9 +3874,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.12.0/keycloak-4.12.0.tgz
     version: 4.12.0
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:22.594329262Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 244eccd4158cddc3c7ce2fdf7f17ee89319fa0290f21b4442b2ca2793ea36bc9
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3733,9 +3900,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.11.2/keycloak-4.11.2.tgz
     version: 4.11.2
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:22.766480405Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 430ad13bc5b7c5e0e8b9b81cb4830a4b7c3840cfb45f63e187b145e6d88f38a7
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3757,9 +3926,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.11.1/keycloak-4.11.1.tgz
     version: 4.11.1
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:22.922837632Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 862d7db3ca0e2f2746145bfbacce4b85dbd73ab60f87093526af8ab1741260a2
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3781,9 +3952,11 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/keycloak-4.11.0/keycloak-4.11.0.tgz
     version: 4.11.0
-  - appVersion: 5.0.0
+  - apiVersion: v1
+    appVersion: 5.0.0
     created: "2019-07-16T20:04:23.224881623Z"
-    description: Open Source Identity and Access Management For Modern Applications and Services
+    description: Open Source Identity and Access Management For Modern Applications
+      and Services
     digest: 6cd562f1ef0c5d10d98163fb0b44bddd04bf51ff0371a4c83729c38ac4546f14
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_480x108.png
@@ -3808,8 +3981,37 @@ entries:
   keycloakx:
   - apiVersion: v2
     appVersion: 20.0.3
+    created: "2023-05-03T06:12:42.303075818Z"
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
+    digest: 734c22dff32e8591af36a0a6bffebcbc3fd5d81d7384d30457b7f81a591f5d79
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - oauth
+    - ldap
+    - keycloakx
+    - quarkus
+    maintainers:
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloakx
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/keycloak/keycloak/tree/main/quarkus/container
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloakx-2.2.1/keycloakx-2.2.1.tgz
+    version: 2.2.1
+  - apiVersion: v2
+    appVersion: 20.0.3
     created: "2023-02-03T16:04:00.033141832Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: 1ae37a17d10d159f793dc6a42ec4182bb230fccadd092badb45a36986fe45d71
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -3836,7 +4038,8 @@ entries:
   - apiVersion: v2
     appVersion: 20.0.1
     created: "2022-12-16T16:04:02.716354992Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: cd7c7ae7865b2e8000da5effbecaea5397a0e048baf9e46d698a3ed9a6f38ac6
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -3863,7 +4066,8 @@ entries:
   - apiVersion: v2
     appVersion: 20.0.1
     created: "2022-12-09T16:04:05.325558945Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: 553bab1b738c2ca453a51961113ac71de4cd5909f752c8ab52e6eccf7eb91c44
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -3890,7 +4094,8 @@ entries:
   - apiVersion: v2
     appVersion: 19.0.3
     created: "2022-11-25T16:03:50.760370878Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: eb22a22a37ac222881a0c7b530de3ff5bc9924c03aefdb26000d21fda262c59c
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -3917,7 +4122,8 @@ entries:
   - apiVersion: v2
     appVersion: 19.0.3
     created: "2022-11-11T16:03:57.616659094Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: ba85a0dbef0a667fb6fe0ace262e4f81194ca1702c7be61f41c911c6422e6473
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -3944,7 +4150,8 @@ entries:
   - apiVersion: v2
     appVersion: 19.0.2
     created: "2022-09-30T16:07:00.706612192Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: 9a29ccf04343b2b1b8a877e9259aa07332606945017d8c17d85702506aac38f3
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -3971,7 +4178,8 @@ entries:
   - apiVersion: v2
     appVersion: 18.0.0
     created: "2022-08-05T16:04:28.570595223Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: 11c5536008f47257ea6255d6129948df1178c7d009519b6a460a35995e74356a
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -3998,7 +4206,8 @@ entries:
   - apiVersion: v2
     appVersion: 18.0.0
     created: "2022-07-29T16:04:03.428942532Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: 8d07f7cc33a5ac324e0fa277da37e64ab4799c1b05c41b9e20cc1c020c3a2f78
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -4025,7 +4234,8 @@ entries:
   - apiVersion: v2
     appVersion: 18.0.0
     created: "2022-07-25T06:12:06.987443049Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: e15595fb689306ff8934ab80ae7bd9c3e087aef35fc1e4fec722387d7911c88a
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -4052,7 +4262,8 @@ entries:
   - apiVersion: v2
     appVersion: 18.0.0
     created: "2022-07-15T14:18:17.969423671Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: 857f80c2bc864668ea809311c791c735b55e8fee4948247d88c4fb5c24d7b637
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -4079,7 +4290,8 @@ entries:
   - apiVersion: v2
     appVersion: 17.0.1
     created: "2022-05-06T16:04:19.07530174Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: b558fc98b92a5f72c00776ab4924e57ebc126bd9d6f45899477d917531c0b644
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -4106,7 +4318,8 @@ entries:
   - apiVersion: v2
     appVersion: 17.0.1
     created: "2022-04-22T16:08:27.314893856Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: 925419564fbbf4001537a15c84bcd3a47e07f193e36260151a3b45b6434bc148
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -4133,7 +4346,8 @@ entries:
   - apiVersion: v2
     appVersion: 17.0.1
     created: "2022-04-16T11:29:24.735298662Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: ad18d2c986b39d56950e924258e56387a72d5639af27ab4193530d8e528c13f7
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -4160,7 +4374,8 @@ entries:
   - apiVersion: v2
     appVersion: 17.0.1
     created: "2022-04-14T14:40:29.267116123Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: 27883f732cea1ee1a71625d2e25a135318989c71a00ebb6bd0a05aea91e14dff
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -4187,7 +4402,8 @@ entries:
   - apiVersion: v2
     appVersion: 17.0.1
     created: "2022-04-11T08:36:22.637613015Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: 2c0babd1d6dc79c41c69af1f496c2bc2e264690f8845831df49331d2a62df30e
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -4214,7 +4430,8 @@ entries:
   - apiVersion: v2
     appVersion: 17.0.1
     created: "2022-04-09T16:09:57.09294489Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: 04f4e3a30750e664b509a2d5d4e8bf9679de104f9f90408599541b96ce03a12c
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -4241,7 +4458,8 @@ entries:
   - apiVersion: v2
     appVersion: 17.0.1
     created: "2022-04-08T17:12:39.768203772Z"
-    description: Keycloak.X - Open Source Identity and Access Management for Modern Applications and Services
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
     digest: cf55416b5e7a5a3e31179eabf2c9bd416aa1230bfd26889a899390a91d06c098
     home: https://www.keycloak.org/
     icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
@@ -4879,4 +5097,4 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/mailhog-3.0.0/mailhog-3.0.0.tgz
     version: 3.0.0
-generated: "2019-07-22T19:58:42.151419723Z"
+generated: "2023-05-03T06:12:42.30372011Z"
