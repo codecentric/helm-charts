@@ -77,10 +77,17 @@ jobs:
         run: |
           helm repo add bitnami https://charts.bitnami.com/bitnami
 
-      - name: Run chart-releaser
+      - name: Release keycloakx
         uses: helm/chart-releaser-action@v1.5.0
         with:
-          charts_dir: charts
+          charts_dir: charts/keycloakx
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-
+    
+      - name: Release mailhog
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: charts/mailhog
+        env:
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          
