@@ -101,6 +101,9 @@ spec:
                   name: {{ include "keycloak.postgresql.fullname" . }}
                   key: postgresql-password
             {{- end }}
+            {{- with .Values.jgroupsDiscovery }}
+            {{- tpl . $ | nindent 12 }}
+            {{- end }}
             {{- with .Values.extraEnv }}
             {{- tpl . $ | nindent 12 }}
             {{- end }}

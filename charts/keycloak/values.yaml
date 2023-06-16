@@ -104,6 +104,13 @@ command: []
 ## Overrides the default args for the Keycloak container
 args: []
 
+# Environment variables for Keycloak to enable Keycloak cluster nodes discovery. The use of these is strongly advised if the chart is deployed with more than 1 replica or if autoscaling is enabled
+jgroupsDiscovery: |
+  - name: JGROUPS_DISCOVERY_PROTOCOL
+    value: "dns.DNS_PING"
+  - name: JGROUPS_DISCOVERY_PROPERTIES
+    value: "dns_query={{ include "keycloak.serviceDnsName" . }}"
+
 # Additional environment variables for Keycloak
 extraEnv: ""
   # - name: KEYCLOAK_LOGLEVEL
