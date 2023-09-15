@@ -1,5 +1,9 @@
 {{- if .Values.autoscaling.enabled }}
-apiVersion: autoscaling/v2beta2
+{{- $apiVersion := "autoscaling/v2beta2" -}}
+{{- if semverCompare ">= v1.23.0-0" .Capabilities.KubeVersion.Version -}}
+  {{- $apiVersion = "autoscaling/v2" -}}
+{{- end }}
+apiVersion: {{ $apiVersion }}
 kind: HorizontalPodAutoscaler
 metadata:
   name: {{ include "keycloak.fullname" . }}
@@ -15,7 +19,7 @@ spec:
     name: {{ include "keycloak.fullname" . }}
   minReplicas: {{ .Values.autoscaling.minReplicas }}
   maxReplicas: {{ .Values.autoscaling.maxReplicas }}
-  metrics: 
+  metrics:
     {{- toYaml .Values.autoscaling.metrics | nindent 4 }}
   behavior:
     {{- toYaml .Values.autoscaling.behavior | nindent 4 }}
