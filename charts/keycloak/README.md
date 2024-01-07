@@ -774,7 +774,7 @@ Configuration is more generic making it easier to use custom Docker images that 
 
 * Values are no longer nested under `keycloak`.
 * Besides setting the node identifier, no CLI changes are performed out of the box
-* Environment variables for the Postresql dependency are set automatically if enabled.
+* Environment variables for the Postgresql dependency are set automatically if enabled.
   Otherwise, no environment variables are set by default.
 * Optionally enables creating RBAC resources with configurable rules (e. g. for KUBE_PING)
 * PostgreSQL chart dependency is updated to 9.1.1
