@@ -268,7 +268,6 @@ extraEnv: |
   - name: JAVA_OPTS
     value: >-
       -XX:MaxRAMPercentage=50.0
-      -Djava.awt.headless=true
 ```
 
 Alternatively one can append custom JVM options by setting the `JAVA_OPTS_APPEND` environment variable.
@@ -276,6 +275,8 @@ Alternatively one can append custom JVM options by setting the `JAVA_OPTS_APPEND
 The parameter `-Djava.net.preferIPv4Stack=true` is [optional](https://github.com/keycloak/keycloak/commit/ee205c8fbc1846f679bd604fa8d25310c117c87e) for [Keycloak >= v22](https://www.keycloak.org/server/configuration-production#_configure_keycloak_server_with_ipv4_or_ipv6).
 
 The parameter `-XX:+UseContainerSupport` is no longer required for [Keycloak >= v21 based on JDK v17](https://github.com/keycloak/keycloak/blob/release/21.0/quarkus/container/Dockerfile#L20).
+
+The parameter `-Djava.awt.headless=true` is no longer required for Quarkus based Keycloak as it is set by [default](https://quarkus.io/guides/building-native-image).
 
 #### Using an External Database
 
