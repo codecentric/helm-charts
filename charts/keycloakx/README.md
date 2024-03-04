@@ -269,13 +269,14 @@ This allows you to only configure memory using Kubernetes resources and the JVM 
 extraEnv: |
   - name: JAVA_OPTS
     value: >-
-      -XX:+UseContainerSupport
       -XX:MaxRAMPercentage=50.0
       -Djava.net.preferIPv4Stack=true
       -Djava.awt.headless=true
 ```
 
 Alternatively one can append custom JVM options by setting the `JAVA_OPTS_APPEND` environment variable.
+
+The parameter `-XX:+UseContainerSupport` is no longer required for [Keycloak >= v21 based on JDK v17](https://github.com/keycloak/keycloak/blob/release/21.0/quarkus/container/Dockerfile#L20).
 
 #### Using an External Database
 
