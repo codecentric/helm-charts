@@ -272,10 +272,11 @@ extraEnv: |
       -XX:+UseContainerSupport
       -XX:MaxRAMPercentage=50.0
       -Djava.net.preferIPv4Stack=true
-      -Djava.awt.headless=true
 ```
 
 Alternatively one can append custom JVM options by setting the `JAVA_OPTS_APPEND` environment variable.
+
+The parameter `-Djava.awt.headless=true` is no longer required for Quarkus based Keycloak as it is set by [default](https://quarkus.io/guides/building-native-image).
 
 #### Using an External Database
 
