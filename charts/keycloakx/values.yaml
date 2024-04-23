@@ -110,6 +110,9 @@ command: []
 ## Overrides the default args for the Keycloak container
 args: []
 
+# Whether the optimized start is used. When set to true, then environment variables specifying build-time options are not set to avoid warnings.
+optimized: false
+
 # Additional environment variables for Keycloak
 extraEnv: ""
   # - name: KC_LOG_LEVEL
