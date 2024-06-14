@@ -105,9 +105,13 @@ terminationGracePeriodSeconds: 60
 clusterDomain: cluster.local
 
 ## Overrides the default entrypoint of the Keycloak container
+## This change also means you cannot invoke kc.sh using a single quoted value of all arguments. 
+## https://www.keycloak.org/docs/latest/upgrading/index.html#kc-sh-and-shell-metacharacters
 command: []
 
 ## Overrides the default args for the Keycloak container
+## This change also means you cannot invoke kc.sh using a single quoted value of all arguments. 
+## https://www.keycloak.org/docs/latest/upgrading/index.html#kc-sh-and-shell-metacharacters
 args: []
 
 # Additional environment variables for Keycloak
