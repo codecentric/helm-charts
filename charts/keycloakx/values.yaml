@@ -415,9 +415,10 @@ cache:
   # Use "custom" to disable automatic cache configuration
   stack: default
 
+# TODO: this might not work anymore as it is turned on by default and if you set to false it will be still be turn on
 metrics:
   enabled: true
-
+# TODO: this might not work anymore as it is turned on by default and if you set to false it will be still be turn on
 health:
   enabled: true
 
