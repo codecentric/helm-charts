@@ -107,6 +107,13 @@ clusterDomain: cluster.local
 ## Overrides the default entrypoint of the Keycloak container
 ## This change also means you cannot invoke kc.sh using a single quoted value of all arguments. 
 ## https://www.keycloak.org/docs/latest/upgrading/index.html#kc-sh-and-shell-metacharacters
+
+## Proxy modes
+# kc.sh (no proxy option set) --> kc.sh
+# kc.sh --proxy none  --> kc.sh
+# kc.sh --proxy edge --> kc.sh --proxy-headers forwarded|xforwarded --http-enabled true
+# kc.sh --proxy passthrough --> kc.sh --hostname-port 80|443 (depending if HTTPS is used)
+# kc.sh --proxy reencrypt --> kc.sh --proxy-headers forwarded|xforwarded
 command: []
 
 ## Overrides the default args for the Keycloak container
@@ -407,10 +414,6 @@ database:
 cache:
   # Use "custom" to disable automatic cache configuration
   stack: default
-
-proxy:
-  enabled: true
-  mode: edge
 
 metrics:
   enabled: true

@@ -99,10 +99,7 @@ spec:
             - name: KC_CACHE_STACK
               value: "kubernetes"
             {{- end }}
-            {{- if .Values.proxy.enabled }}
-            - name: KC_PROXY
-              value: {{ .Values.proxy.mode }}
-            {{- end }}
+
             {{- if .Values.database.vendor }}
             - name: KC_DB
               value: {{ .Values.database.vendor }}
