@@ -86,12 +86,14 @@ spec:
           {{- tpl . $ | nindent 12 }}
           {{- end }}
           env:
+            {{- if not .Values.optimized }}
             {{- if and (.Values.http.relativePath) (eq .Values.http.relativePath "/")  }}
             - name: KC_HTTP_RELATIVE_PATH
               value: {{ tpl .Values.http.relativePath $ }}
             {{ else }}
             - name: KC_HTTP_RELATIVE_PATH
               value: {{ tpl .Values.http.relativePath $ | trimSuffix "/" }}
+            {{- end }}
             {{- end }}
             {{- if eq .Values.cache.stack "default" }}
             - name: KC_CACHE
@@ -103,9 +105,11 @@ spec:
             - name: KC_PROXY
               value: {{ .Values.proxy.mode }}
             {{- end }}
+            {{- if not .Values.optimized }}
             {{- if .Values.database.vendor }}
             - name: KC_DB
               value: {{ .Values.database.vendor }}
+            {{- end }}
             {{- end }}
             {{- if .Values.database.hostname }}
             - name: KC_DB_URL_HOST
@@ -126,6 +130,7 @@ spec:
             {{- if or .Values.database.password .Values.database.existingSecret -}}
             {{- include "keycloak.databasePasswordEnv" . | nindent 12 }}
             {{- end }}
+            {{- if not .Values.optimized }}
             {{- if .Values.metrics.enabled }}
             - name: KC_METRICS_ENABLED
               value: "true"
@@ -133,6 +138,7 @@ spec:
             {{- if .Values.health.enabled }}
             - name: KC_HEALTH_ENABLED
               value: "true"
+            {{- end }}
             {{- end }}
             {{- with .Values.extraEnv }}
             {{- tpl . $ | nindent 12 }}

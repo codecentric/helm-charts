@@ -505,6 +505,9 @@
       "tolerations": {
         "type": "array"
       }
+    },
+    "optimized": {
+      "type": "boolean"
     }
   }
 }
