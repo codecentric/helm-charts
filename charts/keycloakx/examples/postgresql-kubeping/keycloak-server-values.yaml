@@ -5,7 +5,6 @@ command:
   - "/opt/keycloak/bin/kc.sh"
   - "--verbose"
   - "start"
-  - "--http-enabled=true"
   - "--http-port=8080"
   - "--hostname-strict=false"
   - "--spi-events-listener-jboss-logging-success-level=info"

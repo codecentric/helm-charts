@@ -406,7 +406,9 @@ cache:
 
 proxy:
   enabled: true
-  mode: edge
+  mode: forwarded
+  http:
+    enabled: true
 
 metrics:
   enabled: true
