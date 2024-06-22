@@ -145,7 +145,7 @@ spec:
             - name: http
               containerPort: 8080
               protocol: TCP
-            - name: http-internal
+            - name: '{{ .Values.http.internalPort }}'
               containerPort: 9000
               protocol: TCP
             {{- if .Values.service.httpsPort }}
