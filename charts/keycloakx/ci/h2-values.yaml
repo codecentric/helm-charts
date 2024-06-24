@@ -3,7 +3,6 @@ command:
   - "--verbose"
   - "start"
   - --hostname-strict=false
-  - --hostname-strict-https=false
 
 extraEnv: |
   - name: KEYCLOAK_ADMIN

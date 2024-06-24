@@ -100,8 +100,12 @@ spec:
               value: "kubernetes"
             {{- end }}
             {{- if .Values.proxy.enabled }}
-            - name: KC_PROXY
+            - name: KC_PROXY_HEADERS
               value: {{ .Values.proxy.mode }}
+            {{- end }}
+            {{- if .Values.proxy.http.enabled }}
+            - name: KC_HTTP_ENABLED
+              value: "true"
             {{- end }}
             {{- if .Values.database.vendor }}
             - name: KC_DB
@@ -144,6 +148,9 @@ spec:
           ports:
             - name: http
               containerPort: 8080
+              protocol: TCP
+            - name: '{{ .Values.http.internalPort }}'
+              containerPort: 9000
               protocol: TCP
             {{- if .Values.service.httpsPort }}
             - name: https

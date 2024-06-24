@@ -11,10 +11,8 @@ $ cat << EOF > values.yaml
 command:
   - "/opt/keycloak/bin/kc.sh"
   - "start"
-  - "--http-enabled=true"
   - "--http-port=8080"
   - "--hostname-strict=false"
-  - "--hostname-strict-https=false"
 extraEnv: |
   - name: KEYCLOAK_ADMIN
     value: admin
