@@ -257,7 +257,7 @@ See example for Google Cloud Proxy or default affinity configuration in `values.
 ### JVM Settings
 
 Keycloak sets the following system properties by default:
-`-Xms64m -Xmx512m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m -Djava.net.preferIPv4Stack=true`
+`-Xms64m -Xmx512m -XX:MetaspaceSize=96M -XX:MaxMetaspaceSize=256m`
 
 You can override these by setting the `JAVA_OPTS` environment variable.
 Make sure you configure container support.
@@ -269,11 +269,12 @@ extraEnv: |
     value: >-
       -XX:+UseContainerSupport
       -XX:MaxRAMPercentage=50.0
-      -Djava.net.preferIPv4Stack=true
       -Djava.awt.headless=true
 ```
 
 Alternatively one can append custom JVM options by setting the `JAVA_OPTS_APPEND` environment variable.
+
+The parameter `-Djava.net.preferIPv4Stack=true` is [optional](https://github.com/keycloak/keycloak/commit/ee205c8fbc1846f679bd604fa8d25310c117c87e) for [Keycloak >= v22](https://www.keycloak.org/server/configuration-production#_configure_keycloak_server_with_ipv4_or_ipv6).
 
 #### Using an External Database
 
