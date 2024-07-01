@@ -35,7 +35,6 @@ extraEnv: |
         key: password
   - name: JAVA_OPTS_APPEND
     value: >-
-      -XX:+UseContainerSupport
       -XX:MaxRAMPercentage=50.0
       -Djava.awt.headless=true
       -Dkubeping_namespace={{ .Release.Namespace }}
