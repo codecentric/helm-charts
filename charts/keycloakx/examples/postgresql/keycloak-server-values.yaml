@@ -23,7 +23,6 @@ extraEnv: |
         key: password
   - name: JAVA_OPTS_APPEND
     value: >-
-      -XX:+UseContainerSupport
       -XX:MaxRAMPercentage=50.0
       -Djava.awt.headless=true
       -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
