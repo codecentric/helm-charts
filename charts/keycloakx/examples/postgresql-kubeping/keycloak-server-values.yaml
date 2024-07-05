@@ -36,7 +36,6 @@ extraEnv: |
   - name: JAVA_OPTS_APPEND
     value: >-
       -XX:MaxRAMPercentage=50.0
-      -Djava.awt.headless=true
       -Dkubeping_namespace={{ .Release.Namespace }}
       -Dkubeping_label="keycloak-cluster=default"
 
