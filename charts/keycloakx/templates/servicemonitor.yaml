@@ -32,7 +32,7 @@ spec:
       {{- include "keycloak.selectorLabels" $ | nindent 6 }}
       app.kubernetes.io/component: http
   endpoints:
-    - port: {{ .port }}
+    - port: {{ tpl .port $ | quote }}
       path: {{ tpl .path $ | quote }}
       interval: {{ .interval }}
       scrapeTimeout: {{ .scrapeTimeout }}
