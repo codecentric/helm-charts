@@ -83,7 +83,9 @@
       "type": "array"
     },
     "http": {
-      "relativePath": "string"
+      "relativePath": "string",
+      "internalPort": "string",
+      "internalScheme": "string"
     },
     "image": {
       "$ref": "#/definitions/image"
