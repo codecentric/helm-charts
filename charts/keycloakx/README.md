@@ -44,6 +44,12 @@ To install the chart with the release name `keycloakx`:
 $ helm install keycloak codecentric/keycloakx
 ```
 
+or via GitHub Container Registry:
+
+```console
+$ helm install keycloak oci://ghcr.io/codecentric/helm-charts/keycloakx --version <version>
+```
+
 ## Uninstalling the Chart
 
 To uninstall the `keycloakx` deployment:
