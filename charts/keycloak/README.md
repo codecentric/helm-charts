@@ -8,6 +8,12 @@
 $ helm install keycloak codecentric/keycloak
 ```
 
+or via GitHub Container Registry:
+
+```console
+$ helm install keycloak oci://ghcr.io/codecentric/helm-charts/keycloak --version <version>
+```
+
 ## Introduction
 
 This chart bootstraps a [Keycloak](http://www.keycloak.org/) StatefulSet on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.

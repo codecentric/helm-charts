@@ -22,6 +22,12 @@ To install the chart with the release name `mailhog`:
 $ helm install mailhog codecentric/mailhog
 ```
 
+or via GitHub Container Registry:
+
+```console
+$ helm install mailhog oci://ghcr.io/codecentric/helm-charts/mailhog --version <version>
+```
+
 The command deploys Mailhog on the Kubernetes cluster in the default configuration. The [configuration](#configuration)
 section lists the parameters that can be configured during installation.
 
