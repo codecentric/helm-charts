@@ -76,7 +76,7 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v1
         with:
-          version: v3.16.1
+          version: v3.16.3
 
       - name: Add dependency chart repos
         run: |
@@ -102,5 +102,5 @@ jobs:
             if [ -z "${pkg:-}" ]; then
               break
             fi
-            helm push "${pkg}" oci://ghcr.io/jonesbusy/helm-charts
+            helm push "${pkg}" oci://ghcr.io/codecentric/helm-charts
           done
