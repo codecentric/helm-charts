@@ -36,6 +36,9 @@ podManagementPolicy: OrderedReady
 # StatefulSet's update strategy
 updateStrategy: RollingUpdate
 
+# StatefulSet's minReadySeconds configuration
+minReadySeconds: ""
+
 # Pod restart policy. One of `Always`, `OnFailure`, or `Never`
 restartPolicy: Always
 
