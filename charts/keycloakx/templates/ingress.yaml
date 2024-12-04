@@ -43,9 +43,15 @@ spec:
             pathType: {{ .pathType }}
             backend:
               service:
+              {{- if .backendOverride }}
+                name: {{ .backendOverride.name }}
+                port:
+                  name: {{ .backendOverride.port }}
+              {{ else }}
                 name: {{ include "keycloak.fullname" $ }}-http
                 port:
                   name: {{ $ingress.servicePort }}
+              {{- end}}
           {{- end }}
     {{- end }}
 {{- if $ingress.console.enabled }}
