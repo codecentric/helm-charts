@@ -123,6 +123,17 @@
                     },
                     "pathType": {
                       "type": "string"
+                    },
+                    "backendOverride": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "port": {
+                          "type": "string"
+                        }
+                      }
                     }
                   }
                 }
