@@ -1,4 +1,4 @@
-FROM quay.io/keycloak/keycloak:25.0.0
+FROM quay.io/keycloak/keycloak:26.0.7
 
 ENV JGROUPS_KUBERNETES_VERSION 1.0.16.Final
 
