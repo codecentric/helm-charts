@@ -593,3 +593,4 @@ Keycloak 18.0.0 allows to enable the health endpoint independently of the metric
 We reflect that via the new config option `health.enabled`.
 
 Please read the additional notes about [Migrating to 18.0.0](https://www.keycloak.org/docs/latest/upgrading/index.html#migrating-to-18-0-0) in the Keycloak documentation.
+
