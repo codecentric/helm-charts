@@ -22,3 +22,4 @@ Helm chart are also published to GitHub container registry as OCI artifact.
 
 We welcome contributions.
 Please refer to our [contribution guidelines](CONTRIBUTING.md) for details.
+
