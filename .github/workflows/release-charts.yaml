@@ -5,9 +5,9 @@ on:
 #      - master
 #    paths:
 #      - 'charts/**'
-  schedule:
-    # every friday at 4 o'clock
-    - cron: '0 16 * * 5'
+#  schedule:
+#    # every friday at 4 o'clock
+#    - cron: '0 16 * * 5'
   workflow_dispatch:
 
 permissions:
@@ -15,51 +15,54 @@ permissions:
   packages: write
 
 jobs:
-  bump-versions:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Configure Git
-      run: |
-        git config user.name "$GITHUB_ACTOR"
-        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-    - name: Bump Keycloak
-      uses: ./.github/actions/bumpVersionAction
-      with:
-        chart: keycloak
+# We now manually bump the version of the charts by changing the version in the corresponding Chart.yaml
 
-    - name: Bump Keycloak.X
-      uses: ./.github/actions/bumpVersionAction
-      with:
-        chart: keycloakx
-
-    - name: Bump Mailhog
-      uses: ./.github/actions/bumpVersionAction
-      with:
-        chart: mailhog
-
-    - name: Push Results
-      id: pushResults
-      run: |
-        if git merge-base --is-ancestor HEAD @{u} ; then
-          echo "publish=false" >> $GITHUB_OUTPUT
-          echo "No push necesarry"
-        else
-          echo "Version bumps happened. Pushing now..."
-          git push
-          echo "publish=true" >> $GITHUB_OUTPUT
-        fi
-    outputs:
-      publish: ${{ steps.pushResults.outputs.publish }}
+#  bump-versions:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - name: Checkout
+#      uses: actions/checkout@v2
+#      with:
+#        fetch-depth: 0
+#    - name: Configure Git
+#      run: |
+#        git config user.name "$GITHUB_ACTOR"
+#        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+#
+#    - name: Bump Keycloak
+#      uses: ./.github/actions/bumpVersionAction
+#      with:
+#        chart: keycloak
+#
+#    - name: Bump Keycloak.X
+#      uses: ./.github/actions/bumpVersionAction
+#      with:
+#        chart: keycloakx
+#
+#    - name: Bump Mailhog
+#      uses: ./.github/actions/bumpVersionAction
+#      with:
+#        chart: mailhog
+#
+#    - name: Push Results
+#      id: pushResults
+#      run: |
+#        if git merge-base --is-ancestor HEAD @{u} ; then
+#          echo "publish=false" >> $GITHUB_OUTPUT
+#          echo "No push necesarry"
+#        else
+#          echo "Version bumps happened. Pushing now..."
+#          git push
+#          echo "publish=true" >> $GITHUB_OUTPUT
+#        fi
+#    outputs:
+#      publish: ${{ steps.pushResults.outputs.publish }}
 
   upload:
     runs-on: ubuntu-latest
-    needs:
-      - bump-versions
+    # needs:
+    #  - bump-versions
     # if: needs.bump-versions.outputs.publish == 'true'
     steps:
       - name: Checkout
