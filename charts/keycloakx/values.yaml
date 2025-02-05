@@ -440,6 +440,8 @@ serviceMonitor:
   interval: 10s
   # Timeout for scraping
   scrapeTimeout: 10s
+  # Relabelings for the Servicemonitor
+  relabelings: []
   # The path at which metrics are served
   path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/metrics'
   # The Service port at which metrics are served
@@ -460,6 +462,8 @@ extraServiceMonitor:
   interval: 10s
   # Timeout for scraping
   scrapeTimeout: 10s
+  # Relabelings for the Servicemonitor
+  relabelings: []
   # The path at which metrics are served
   path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/metrics'
   # The Service port at which metrics are served
