@@ -37,7 +37,7 @@ Common labels
 {{- define "keycloak.labels" -}}
 helm.sh/chart: {{ include "keycloak.chart" . }}
 {{ include "keycloak.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | trunc 63 | quote }}
+app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | toString | trunc 63 | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
