@@ -319,6 +319,8 @@ ingress:
     # Ingress annotations for console ingress only
     # Useful to set nginx.ingress.kubernetes.io/whitelist-source-range particularly
     annotations: {}
+    # Additional Ingress labels for console path only
+    labels: {}
     rules:
       -
         # Ingress host
