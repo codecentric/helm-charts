@@ -37,7 +37,7 @@ Common labels
 {{- define "mailhog.labels" -}}
 helm.sh/chart: {{ include "mailhog.chart" . }}
 {{ include "mailhog.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | trunc 63 | quote }}
+app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | toString | trunc 63 | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
