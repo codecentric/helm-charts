@@ -11,7 +11,7 @@ image:
   # The Keycloak image repository
   repository: quay.io/keycloak/keycloak
   # Overrides the Keycloak image tag whose default is the chart appVersion
-  tag: "26.0.7"
+  tag: "26.3.2"
   # Overrides the Keycloak image tag with a specific digest
   digest: ""
   # The Keycloak image pull policy
@@ -440,6 +440,10 @@ serviceMonitor:
   interval: 10s
   # Timeout for scraping
   scrapeTimeout: 10s
+  # Relabelings for the Servicemonitor
+  relabelings: []
+  # metricRelabelings for the Servicemonitor
+  metricRelabelings: []
   # The path at which metrics are served
   path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/metrics'
   # The Service port at which metrics are served
@@ -460,6 +464,10 @@ extraServiceMonitor:
   interval: 10s
   # Timeout for scraping
   scrapeTimeout: 10s
+  # Relabelings for the Servicemonitor
+  relabelings: []
+  # metricRelabelings for the Servicemonitor
+  metricRelabelings: []
   # The path at which metrics are served
   path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/metrics'
   # The Service port at which metrics are served

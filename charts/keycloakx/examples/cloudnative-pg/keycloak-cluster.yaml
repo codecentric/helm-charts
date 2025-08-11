@@ -1,0 +1,12 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: keycloak-database
+spec:
+  description: "Keycloak Cluster"
+  imageName: ghcr.io/cloudnative-pg/postgresql:17.5
+  instances: 1
+  bootstrap:
+    initdb:
+      database: keycloak
+      owner: keycloak
