@@ -266,6 +266,8 @@ service:
 serviceHeadless:
   # Annotations for headless service
   annotations: {}
+  # Additional ports to be advertised on the headless service
+  extraPorts: []
 
 ingress:
   # If `true`, an Ingress is created
