@@ -266,7 +266,7 @@ service:
 serviceHeadless:
   # Annotations for headless service
   annotations: {}
-  # Additional ports to be advertised on the headless service
+  # Add additional ports to the headless service, e. g. for admin console or exposing JGroups ports
   extraPorts: []
 
 ingress:
