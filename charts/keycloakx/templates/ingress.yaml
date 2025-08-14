@@ -35,7 +35,10 @@ spec:
 {{- end }}
   rules:
     {{- range .Values.ingress.rules }}
-    - host: {{ tpl .host $ | quote }}
+    -
+      {{- if .host }}
+      host: {{ tpl .host $ | quote }}
+      {{- end }}
       http:
         paths:
           {{- range .paths }}
@@ -95,7 +98,10 @@ spec:
 {{- end }}
   rules:
     {{- range .Values.ingress.console.rules }}
-    - host: {{ tpl .host $ | quote }}
+    -
+      {{- if .host }}
+      host: {{ tpl .host $ | quote }}
+      {{- end }}
       http:
         paths:
           {{- range .paths }}
