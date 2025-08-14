@@ -418,6 +418,9 @@
         "properties": {
           "annotations": {
             "type": "object"
+          },
+          "extraPorts": {
+            "type": "array"
           }
         }
       },
