@@ -203,6 +203,17 @@ resources: {}
 # Add additional volumes, e. g. for custom themes
 extraVolumes: ""
 
+# Add volume claim templates to the StatefulSet, e. g. for dynamic provisioning
+volumeClaimTemplates: ""
+  # - metadata:
+  #     name: themes
+  #   spec:
+  #     accessModes: [ "ReadWriteOncePod" ]
+  #     storageClassName: "my-storage-class"
+  #     resources:
+  #       requests:
+  #         storage: 1Gi
+
 # Add additional volumes mounts, e. g. for custom themes
 extraVolumeMounts: ""
 

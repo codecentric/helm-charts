@@ -233,3 +233,7 @@ spec:
         {{- with .Values.extraVolumes }}
         {{- tpl . $ | nindent 8 }}
         {{- end }}
+  {{- with .Values.volumeClaimTemplates }}
+  volumeClaimTemplates:
+    {{- tpl . $ | nindent 4 }}
+  {{- end }}

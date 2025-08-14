@@ -76,6 +76,9 @@
     "extraVolumes": {
       "type": "string"
     },
+    "volumeClaimTemplates": {
+      "type": "string"
+    },
     "fullnameOverride": {
       "type": "string"
     },
