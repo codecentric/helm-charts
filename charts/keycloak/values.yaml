@@ -406,6 +406,8 @@ serviceMonitor:
   annotations: {}
   # Additional labels for the ServiceMonitor
   labels: {}
+  # RelabelConfigs to apply to samples before scraping
+  relabelings: {}
   # Interval at which Prometheus scrapes metrics
   interval: 10s
   # Timeout for scraping

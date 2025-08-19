@@ -34,6 +34,7 @@ spec:
       path: {{ .path }}
       interval: {{ .interval }}
       scrapeTimeout: {{ .scrapeTimeout }}
+      relabelings: {{ .relabelings }}
 {{- end }}
 {{- end }}
 {{- end }}
