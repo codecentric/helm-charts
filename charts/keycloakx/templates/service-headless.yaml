@@ -20,7 +20,7 @@ spec:
       port: {{ .Values.service.httpPort }}
       targetPort: http
       protocol: TCP
-    {{- range .Values.serviceHeadless.extraPorts }}
+    {{- with .Values.serviceHeadless.extraPorts }}
     {{- toYaml . | nindent 4 }}
     {{- end }}
   selector:
