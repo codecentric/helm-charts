@@ -360,12 +360,25 @@ extraEnv: |
 For high availability, Keycloak must be run with multiple replicas (`replicas > 1`).
 The chart has a helper template (`keycloak.serviceDnsName`) that creates the DNS name based on the headless service.
 
-#### DNS_PING Service Discovery
+### Default Cache Stack
 
-JGroups discovery via DNS_PING is enabled by default but needs an additional JVM setting, which can be configured as follows:
+The default cache stack is now using `jdbc-ping` which leverages a table called `jgroups_ping` in the keycloak database to store the cache and significantly reduces network complexity.  Keycloak has set this [transport stack](https://www.keycloak.org/server/caching#_transport_stacks) as the default starting in 26.1.0 and it is backwards compatible with all 26.X releases.
+
+It is recommended to use the new default value as it works in kubernetes and across multiple cloud providers alike.  Currently all other options have been marked as deprecated.  However, if the original value of `kubernetes` is required in a given environment, it can still be set by using a custom stack:
+
+```yaml
+cache:
+  stack: custom
+```
+
+Addtionally, the following environment variables would need to be added for it to function properly:
 
 ```yaml
 extraEnv: |
+  - name: KC_CACHE
+    value: "ispn"
+  - name: KC_CACHE_STACK
+    value: "kubernetes" 
   - name: JAVA_OPTS_APPEND
     value: >-
       -Djgroups.dns.query={{ include "keycloak.fullname" . }}-headless
