@@ -65,6 +65,8 @@ metadata:
     {{- include "keycloak.labels" . | nindent 4 }}
     {{- range $key, $value := $ingress.labels }}
     {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
+    {{- range $key, $value := $ingress.console.labels }}
+    {{- printf "%s: %s" $key (tpl $value $ | quote) | nindent 4 }}
     {{- end }}
 spec:
 {{- if $ingress.console.ingressClassName }}
