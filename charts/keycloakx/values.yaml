@@ -305,10 +305,10 @@ ingress:
         - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
           pathType: Prefix
   # TLS configuration
-  tls:
-    - hosts:
-        - keycloak.example.com
-      secretName: ""
+  tls: []
+  #  - hosts:
+  #      - keycloak.example.com
+  #    secretName: ""
 
   # ingress for console only (/auth/admin)
   console:
@@ -332,9 +332,9 @@ ingress:
 
     # Console TLS configuration
     tls: []
-#      - hosts:
-#          - console.keycloak.example.com
-#        secretName: ""
+    # - hosts:
+    #     - console.keycloak.example.com
+    #   secretName: ""
 
 ## Network policy configuration
 # https://kubernetes.io/docs/concepts/services-networking/network-policies/
