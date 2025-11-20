@@ -580,6 +580,6 @@ extraManifests: []
   # -   apiVersion: v1
   #     kind: ConfigMap
   #     metadata:
-  #       name: keycloak-cfg
+  #       name: "{{ include \"keycloak.fullname\" . }}-tpl"
   #     data:
   #       foo: bar
