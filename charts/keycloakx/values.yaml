@@ -567,3 +567,19 @@ test:
     runAsNonRoot: true
   # See https://helm.sh/docs/topics/charts_hooks/#hook-deletion-policies
   deletionPolicy: before-hook-creation
+
+## -- Extra Kubernetes objects to deploy with the helm chart
+extraManifests: []
+  # - |
+  #     apiVersion: v1
+  #     kind: ConfigMap
+  #     metadata:
+  #       name: {{ include "keycloak.fullname" . }}-tpl
+  #     data:
+  #       foo: bar
+  # -   apiVersion: v1
+  #     kind: ConfigMap
+  #     metadata:
+  #       name: keycloak-cfg
+  #     data:
+  #       foo: bar
