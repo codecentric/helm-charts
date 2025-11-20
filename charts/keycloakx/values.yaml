@@ -304,6 +304,8 @@ ingress:
       paths:
         - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
           pathType: Prefix
+          # serviceName: ""  # Optional: Override backend service name (e.g., for AWS ALB action annotations)
+          # servicePort: ""  # Optional: Override backend service port name
   # TLS configuration
   tls:
     - hosts:
@@ -329,6 +331,8 @@ ingress:
         paths:
           - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/admin'
             pathType: Prefix
+            # serviceName: ""  # Optional: Override backend service name (e.g., for AWS ALB action annotations)
+            # servicePort: ""  # Optional: Override backend service port name
 
     # Console TLS configuration
     tls: []
