@@ -3,9 +3,69 @@
   "type": "object",
   "required": ["image"],
   "definitions": {
+    "httpRoute": {
+      "type": "object",
+      "properties": {
+        "annotations": {
+          "type": "object"
+        },
+        "enabled": {
+          "type": "boolean"
+        },
+        "labels": {
+          "type": "object"
+        },
+        "parentRefs": {
+          "type": "array",
+          "items": {
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "sectionName": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "hostnames": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "rules": {
+          "type": "array",
+          "items": {
+            "$comment": "don't allow additionalProperties to make sure backendRefs isn't set by the user",
+            "additionalProperties": false,
+            "properties": {
+              "matches": {
+                "type": "array",
+                "items": {
+                  "$comment": "don't allow additionalProperties, only path matcher supported",
+                  "additionalProperties": false,
+                  "properties": {
+                    "path": {
+                      "type": "object"
+                    }
+                  }
+                }
+              },
+              "filters": {
+                "type": "array"
+              }
+            }
+          }
+        }
+      }
+    },
     "image": {
       "type": "object",
-      "required": ["repository", "tag"],
+      "required": [
+        "repository",
+        "tag"
+      ],
       "properties": {
         "pullPolicy": {
           "type": "string",
@@ -322,6 +382,22 @@
         }
       },
       "type": "object"
+    },
+    "httpRoute": {
+      "allOf": [
+        { "$ref": "#/definitions/httpRoute" },
+        {
+          "type": "object",
+          "properties": {
+            "servicePort": {
+              "type": "string"
+            },
+            "console": {
+              "$ref": "#/definitions/httpRoute"
+            }
+          }
+        }
+      ]
     },
     "image": {
       "$ref": "#/definitions/image"
