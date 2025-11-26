@@ -463,6 +463,8 @@ serviceMonitor:
   path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/metrics'
   # The Service port at which metrics are served
   port: '{{ .Values.http.internalPort }}'
+  # The scheme to use for scraping metrics ("http" or "https"); if not set, the `http.internalScheme` value is used
+  scheme: ""
 
 extraServiceMonitor:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
@@ -487,6 +489,8 @@ extraServiceMonitor:
   path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/metrics'
   # The Service port at which metrics are served
   port: '{{ .Values.http.internalPort }}'
+  # The scheme to use for scraping metrics ("http" or "https"); if not set, the `http.internalScheme` value is used
+  scheme: ""
 
 prometheusRule:
   # If `true`, a PrometheusRule resource for the prometheus-operator is created
