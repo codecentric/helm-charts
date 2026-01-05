@@ -98,6 +98,11 @@ spec:
               value: "ispn"
             - name: KC_CACHE_STACK
               value: "jdbc-ping"
+            {{- else if eq .Values.cache.stack "jdbc-ping" }}
+            - name: KC_CACHE
+              value: "ispn"
+            - name: KC_CACHE_STACK
+              value: "jdbc-ping"
             {{- end }}
             {{- if .Values.proxy.enabled }}
             - name: KC_PROXY_HEADERS
@@ -111,24 +116,37 @@ spec:
             - name: KC_DB
               value: {{ .Values.database.vendor }}
             {{- end }}
-            {{- if .Values.database.hostname }}
+            {{- if not .Values.database.existingSecret }}
+              {{- if .Values.database.hostname }}
             - name: KC_DB_URL_HOST
               value: {{ .Values.database.hostname }}
-            {{- end }}
-            {{- if .Values.database.port }}
+              {{- end }}
+              {{- if .Values.database.port }}
             - name: KC_DB_URL_PORT
               value: {{ .Values.database.port | quote }}
-            {{- end }}
-            {{- if .Values.database.database }}
+              {{- end }}
+              {{- if .Values.database.database }}
             - name: KC_DB_URL_DATABASE
               value: {{ .Values.database.database }}
-            {{- end }}
-            {{- if .Values.database.username }}
+              {{- end }}
+              {{- if .Values.database.username }}
             - name: KC_DB_USERNAME
               value: {{ .Values.database.username }}
+              {{- end }}
+            {{- end }}
+            {{- if .Values.database.existingSecret }}
+              {{- if not .Values.database.existingSecretKeys.username }}
+                {{- if .Values.database.username }}
+            - name: KC_DB_USERNAME
+              value: {{ .Values.database.username }}
+                {{- end }}
+              {{- end }}
+            {{- include "keycloak.databaseCredentialEnv" . | nindent 12 }}
             {{- end }}
             {{- if or .Values.database.password .Values.database.existingSecret -}}
+            {{- if not .Values.database.existingSecretKeys.password }}
             {{- include "keycloak.databasePasswordEnv" . | nindent 12 }}
+            {{- end }}
             {{- end }}
             {{- if .Values.metrics.enabled }}
             - name: KC_METRICS_ENABLED
@@ -137,6 +155,64 @@ spec:
             {{- if .Values.health.enabled }}
             - name: KC_HEALTH_ENABLED
               value: "true"
+            {{- end }}
+            {{- if .Values.infinispan.owners.sessions }}
+            - name: KC_CACHE__OWNERS_SESSIONS
+              value: {{ .Values.infinispan.owners.sessions | quote }}
+            {{- end }}
+            {{- if .Values.infinispan.owners.authenticationSessions }}
+            - name: KC_CACHE__OWNERS_AUTHENTICATION_SESSIONS
+              value: {{ .Values.infinispan.owners.authenticationSessions | quote }}
+            {{- end }}
+            {{- if .Values.infinispan.owners.userSessions }}
+            - name: KC_CACHE__OWNERS_USER_SESSIONS
+              value: {{ .Values.infinispan.owners.userSessions | quote }}
+            {{- end }}
+            {{- if .Values.infinispan.owners.offlineSessions }}
+            - name: KC_CACHE__OWNERS_OFFLINE_SESSIONS
+              value: {{ .Values.infinispan.owners.offlineSessions | quote }}
+            {{- end }}
+            {{- if .Values.infinispan.owners.clientSessions }}
+            - name: KC_CACHE__OWNERS_CLIENT_SESSIONS
+              value: {{ .Values.infinispan.owners.clientSessions | quote }}
+            {{- end }}
+            {{- if .Values.infinispan.owners.offlineClientSessions }}
+            - name: KC_CACHE__OWNERS_OFFLINE_CLIENT_SESSIONS
+              value: {{ .Values.infinispan.owners.offlineClientSessions | quote }}
+            {{- end }}
+            {{- if .Values.infinispan.owners.loginFailures }}
+            - name: KC_CACHE__OWNERS_LOGIN_FAILURES
+              value: {{ .Values.infinispan.owners.loginFailures | quote }}
+            {{- end }}
+            {{- if .Values.loadShedding.enabled }}
+              {{- if .Values.loadShedding.httpMaxQueuedRequests }}
+            - name: KC_HTTP_MAX_QUEUED_REQUESTS
+              value: {{ .Values.loadShedding.httpMaxQueuedRequests | quote }}
+              {{- end }}
+              {{- if .Values.loadShedding.httpPoolMaxThreads }}
+            - name: KC_HTTP_POOL_MAX_THREADS
+              value: {{ .Values.loadShedding.httpPoolMaxThreads | quote }}
+              {{- end }}
+            {{- end }}
+            {{- if .Values.threads.autoCalculate }}
+              {{- $replicas := .Values.replicas }}
+              {{- if .Values.autoscaling.enabled }}
+                {{- $replicas = .Values.autoscaling.minReplicas }}
+              {{- end }}
+              {{- $calculatedThreads := div .Values.threads.autoCalculateBase $replicas }}
+            - name: KC_HTTP_POOL_MAX_THREADS
+              value: {{ $calculatedThreads | quote }}
+            {{- else if .Values.threads.http.poolMaxThreads }}
+            - name: KC_HTTP_POOL_MAX_THREADS
+              value: {{ .Values.threads.http.poolMaxThreads | quote }}
+            {{- end }}
+            {{- if .Values.threads.http.queuedRequests }}
+            - name: KC_HTTP_MAX_QUEUED_REQUESTS
+              value: {{ .Values.threads.http.queuedRequests | quote }}
+            {{- end }}
+            {{- if .Values.threads.jgroups.maxThreads }}
+            - name: KC_THREADS_MAX
+              value: {{ .Values.threads.jgroups.maxThreads | quote }}
             {{- end }}
             {{- with .Values.extraEnv }}
             {{- tpl . $ | nindent 12 }}

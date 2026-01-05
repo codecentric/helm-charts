@@ -1,12 +1,9 @@
 # Optionally override the fully qualified name
 fullnameOverride: ""
-
 # Optionally override the name
 nameOverride: ""
-
 # The number of replicas to create (has no effect if autoscaling enabled)
 replicas: 1
-
 image:
   # The Keycloak image repository
   repository: quay.io/keycloak/keycloak
@@ -16,7 +13,6 @@ image:
   digest: ""
   # The Keycloak image pull policy
   pullPolicy: IfNotPresent
-
 # Image pull secrets for the Pod
 imagePullSecrets: []
 # - name: myRegistrKeySecretName
@@ -29,16 +25,12 @@ hostAliases: []
 
 # Indicates whether information about services should be injected into Pod's environment variables, matching the syntax of Docker links
 enableServiceLinks: true
-
 # Pod management policy. One of `Parallel` or `OrderedReady`
 podManagementPolicy: OrderedReady
-
 # StatefulSet's update strategy
 updateStrategy: RollingUpdate
-
 # Pod restart policy. One of `Always`, `OnFailure`, or `Never`
 restartPolicy: Always
-
 serviceAccount:
   # Specifies whether a ServiceAccount should be created
   create: true
@@ -55,7 +47,6 @@ serviceAccount:
   imagePullSecrets: []
   # Automount API credentials for the Service Account
   automountServiceAccountToken: true
-
 rbac:
   create: false
   rules: []
@@ -67,30 +58,24 @@ rbac:
   #    verbs:
   #      - get
   #      - list
-
 # SecurityContext for the entire Pod. Every container running in the Pod will inherit this SecurityContext. This might be relevant when other components of the environment inject additional containers into running Pods (service meshes are the most prominent example for this)
 podSecurityContext:
   fsGroup: 1000
-
 # SecurityContext for the Keycloak container
 securityContext:
   runAsUser: 1000
   runAsNonRoot: true
-
 # Additional init containers, e. g. for providing custom themes
 extraInitContainers: ""
-
 # When using service meshes which rely on a sidecar, it may be necessary to skip init containers altogether,
 # since the sidecar doesn't start until the init containers are done, and the sidecar may be required
 # for network access.
 # For example, Istio in strict mTLS mode prevents the dbchecker init container from ever completing
 skipInitContainers: false
-
 # Additional sidecar containers, e. g. for a database proxy, such as Google's cloudsql-proxy
 extraContainers: ""
-
 # Lifecycle hooks for the Keycloak container
-lifecycleHooks: |
+lifecycleHooks: ""
 #  postStart:
 #    exec:
 #      command:
@@ -100,27 +85,45 @@ lifecycleHooks: |
 
 # Termination grace period in seconds for Keycloak shutdown. Clusters with a large cache might need to extend this to give Infinispan more time to rebalance
 terminationGracePeriodSeconds: 60
-
 # The internal Kubernetes cluster domain
 clusterDomain: cluster.local
-
 ## Overrides the default entrypoint of the Keycloak container
 command: []
-
 ## Overrides the default args for the Keycloak container
 args: []
-
+# Load shedding configuration for handling high load
+loadShedding:
+  # Enable load shedding (default: false)
+  enabled: false
+  # Maximum number of queued HTTP requests (default: 1000)
+  httpMaxQueuedRequests: 1000
+  # Maximum number of threads in HTTP pool (default: 50)
+  httpPoolMaxThreads: 50
+# Thread management configuration
+threads:
+  # Enable automatic thread calculation based on replica count (default: false)
+  autoCalculate: false
+  # Base number for auto-calculation (default: 200)
+  autoCalculateBase: 200
+  # HTTP thread pool configuration
+  http:
+    # Maximum number of threads in HTTP pool
+    poolMaxThreads: 50
+    # Maximum number of queued requests for load shedding
+    queuedRequests: 1000
+  # JGroups thread pool configuration
+  jgroups:
+    # Maximum number of threads for JGroups operations
+    maxThreads: 200
 # Additional environment variables for Keycloak
 extraEnv: ""
-  # - name: KC_LOG_LEVEL
-  #   value: DEBUG
+# - name: KC_LOG_LEVEL
+#   value: DEBUG
 
 # Additional environment variables for Keycloak mapped from Secret or ConfigMap
 extraEnvFrom: ""
-
 #  Pod priority class name
 priorityClassName: ""
-
 # Pod affinity
 affinity: |
   podAntiAffinity:
@@ -146,22 +149,16 @@ affinity: |
                 values:
                   - test
           topologyKey: topology.kubernetes.io/zone
-
 # Topology spread constraints template
 topologySpreadConstraints:
-
 # Node labels for Pod assignment
 nodeSelector: {}
-
 # Node taints to tolerate
 tolerations: []
-
 # Additional Pod labels
 podLabels: {}
-
 # Additional Pod annotations
 podAnnotations: {}
-
 # Liveness probe configuration
 livenessProbe: |
   httpGet:
@@ -170,7 +167,6 @@ livenessProbe: |
     scheme: '{{ .Values.http.internalScheme }}'
   initialDelaySeconds: 0
   timeoutSeconds: 5
-
 # Readiness probe configuration
 readinessProbe: |
   httpGet:
@@ -179,7 +175,6 @@ readinessProbe: |
     scheme: '{{ .Values.http.internalScheme }}'
   initialDelaySeconds: 10
   timeoutSeconds: 1
-
 # Startup probe configuration
 startupProbe: |
   httpGet:
@@ -190,36 +185,32 @@ startupProbe: |
   timeoutSeconds: 1
   failureThreshold: 60
   periodSeconds: 5
-
 # Pod resource requests and limits
 resources: {}
-  # requests:
-  #   cpu: "500m"
-  #   memory: "1024Mi"
-  # limits:
-  #   cpu: "500m"
-  #   memory: "1024Mi"
+# requests:
+#   cpu: "500m"
+#   memory: "1024Mi"
+# limits:
+#   cpu: "500m"
+#   memory: "1024Mi"
 
 # Add additional volumes, e. g. for custom themes
 extraVolumes: ""
-
 # Add volume claim templates to the StatefulSet, e. g. for dynamic provisioning
 volumeClaimTemplates: ""
-  # - metadata:
-  #     name: themes
-  #   spec:
-  #     accessModes: [ "ReadWriteOncePod" ]
-  #     storageClassName: "my-storage-class"
-  #     resources:
-  #       requests:
-  #         storage: 1Gi
+# - metadata:
+#     name: themes
+#   spec:
+#     accessModes: [ "ReadWriteOncePod" ]
+#     storageClassName: "my-storage-class"
+#     resources:
+#       requests:
+#         storage: 1Gi
 
 # Add additional volumes mounts, e. g. for custom themes
 extraVolumeMounts: ""
-
 # Add additional ports, e. g. for admin console or exposing JGroups ports
 extraPorts: []
-
 # Pod disruption budget
 podDisruptionBudget: {}
 #  maxUnavailable: 1
@@ -227,18 +218,16 @@ podDisruptionBudget: {}
 
 # Annotations for the StatefulSet
 statefulsetAnnotations: {}
-
 # Additional labels for the StatefulSet
 statefulsetLabels: {}
-
 # Configuration for secrets that should be created
 secrets: {}
-  # mysecret:
-  #   type: {}
-  #   annotations: {}
-  #   labels: {}
-  #   stringData: {}
-  #   data: {}
+# mysecret:
+#   type: {}
+#   annotations: {}
+#   labels: {}
+#   stringData: {}
+#   data: {}
 
 service:
   # Annotations for HTTP service
@@ -273,13 +262,11 @@ service:
   sessionAffinity: ""
   # Session affinity config
   sessionAffinityConfig: {}
-
 serviceHeadless:
   # Annotations for headless service
   annotations: {}
   # Add additional ports to the headless service, e. g. for admin console or exposing JGroups ports
   extraPorts: []
-
 ingress:
   # If `true`, an Ingress is created
   enabled: false
@@ -289,16 +276,15 @@ ingress:
   servicePort: http
   # Ingress annotations
   annotations: {}
-    ## Resolve HTTP 502 error using ingress-nginx:
-    ## See https://www.ibm.com/support/pages/502-error-ingress-keycloak-response
-    # nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
+  ## Resolve HTTP 502 error using ingress-nginx:
+  ## See https://www.ibm.com/support/pages/502-error-ingress-keycloak-response
+  # nginx.ingress.kubernetes.io/proxy-buffer-size: 128k
 
   # Additional Ingress labels
   labels: {}
-   # List of rules for the Ingress
+  # List of rules for the Ingress
   rules:
-    -
-      # Ingress host
+    - # Ingress host
       host: '{{ .Release.Name }}.keycloak.example.com'
       # Paths for the host
       paths:
@@ -322,33 +308,27 @@ ingress:
     # Additional Ingress labels for console path only
     labels: {}
     rules:
-      -
-        # Ingress host
+      - # Ingress host
         host: '{{ .Release.Name }}.keycloak.example.com'
         # Paths for the host
         paths:
           - path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/admin'
             pathType: Prefix
-
     # Console TLS configuration
     tls: []
     # - hosts:
     #     - console.keycloak.example.com
     #   secretName: ""
-
 ## Network policy configuration
 # https://kubernetes.io/docs/concepts/services-networking/network-policies/
 networkPolicy:
   # If true, the Network policies are deployed
   enabled: false
-
   # Additional Network policy labels
   labels: {}
-
   # Define all other external allowed source
   # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#networkpolicypeer-v1-networking-k8s-io
   extraFrom: []
-
   # Define egress networkpolicies for the Keycloak pods (external database for example)
   # See https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.25/#networkpolicyegressrule-v1-networking-k8s-io
   # egress:
@@ -359,7 +339,6 @@ networkPolicy:
   #       - protocol: TCP
   #         port: 3306
   egress: []
-
 route:
   # If `true`, an OpenShift Route is created
   enabled: false
@@ -379,7 +358,6 @@ route:
     insecureEdgeTerminationPolicy: Redirect
     # TLS termination of the route. Can be `edge`, `passthrough`, or `reencrypt`
     termination: edge
-
 dbchecker:
   enabled: false
   image:
@@ -403,13 +381,21 @@ dbchecker:
     limits:
       cpu: "20m"
       memory: "32Mi"
-
 database:
   # don't create secret for db password. Instead use existing k8s secret
   # existingSecret: "my-existent-dbpass-secret"
   # existingSecretKey: "password"
   existingSecret: ""
   existingSecretKey: ""
+  # Comprehensive database credentials from existing secret
+  # Maps secret keys to database configuration fields
+  existingSecretKeys:
+    username: ""
+    password: ""
+    hostname: ""
+    port: ""
+    database: ""
+    vendor: ""
   # E.g. dev-file, dev-mem, mariadb, mssql, mysql, oracle or postgres
   vendor:
   hostname:
@@ -417,29 +403,51 @@ database:
   database:
   username:
   password:
-
 cache:
   # Use "custom" to disable automatic cache configuration
   stack: default
-
+  # Advanced cache stack configuration for jdbc-ping
+  # When stack is "jdbc-ping", JGroups configuration will be generated
+  jgroups:
+    # JGroups protocol stack configuration (optional)
+    # If not provided, default jdbc-ping configuration will be used
+    config: ""
+    # Additional JGroups properties
+    properties: {}
+# Infinispan session replication configuration
+infinispan:
+  # Number of owners for cache entries (replication factor)
+  owners:
+    # Number of owners for sessions cache (default: 2)
+    sessions: 2
+    # Number of owners for authenticationSessions cache (default: 2)
+    authenticationSessions: 2
+    # Number of owners for userSessions cache (default: 2)
+    userSessions: 2
+    # Number of owners for offlineSessions cache (default: 2)
+    offlineSessions: 2
+    # Number of owners for clientSessions cache (default: 2)
+    clientSessions: 2
+    # Number of owners for offlineClientSessions cache (default: 2)
+    offlineClientSessions: 2
+    # Number of owners for loginFailures cache (default: 2)
+    loginFailures: 2
+  # Additional Infinispan configuration
+  additionalConfig: ""
 proxy:
   enabled: true
   mode: forwarded
   http:
     enabled: true
-
 metrics:
   enabled: true
-
 health:
   enabled: true
-
 http:
   # For backwards compatibility reasons we set this to the value used by previous Keycloak versions.
   relativePath: "/auth"
   internalPort: http-internal
   internalScheme: HTTP
-
 serviceMonitor:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
   enabled: false
@@ -463,7 +471,6 @@ serviceMonitor:
   path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/metrics'
   # The Service port at which metrics are served
   port: '{{ .Values.http.internalPort }}'
-
 extraServiceMonitor:
   # If `true`, a ServiceMonitor resource for the prometheus-operator is created
   enabled: false
@@ -487,7 +494,6 @@ extraServiceMonitor:
   path: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/metrics'
   # The Service port at which metrics are served
   port: '{{ .Values.http.internalPort }}'
-
 prometheusRule:
   # If `true`, a PrometheusRule resource for the prometheus-operator is created
   enabled: false
@@ -519,7 +525,6 @@ prometheusRule:
   #   for: 5m
   #   labels:
   #     severity: warning
-
 autoscaling:
   # If `true`, an autoscaling/v2 HorizontalPodAutoscaler resource is created (requires Kubernetes 1.23 or above)
   # Autoscaling seems to be most reliable when using KUBE_PING service discovery (see README for details)
@@ -547,7 +552,6 @@ autoscaling:
         - type: Pods
           value: 1
           periodSeconds: 300
-
 test:
   # If `true`, test resources are created
   enabled: false

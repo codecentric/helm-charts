@@ -1,0 +1,84 @@
+replicas: 3
+database:
+  vendor: postgres
+  existingSecret: "keycloak-db-credentials"
+  existingSecretKeys:
+    username: "username"
+    password: "password"
+    hostname: "host"
+    port: "port"
+    database: "database"
+    vendor: "vendor"
+cache:
+  stack: jdbc-ping
+infinispan:
+  owners:
+    sessions: 2
+    authenticationSessions: 2
+    userSessions: 2
+    offlineSessions: 2
+loadShedding:
+  enabled: true
+  httpMaxQueuedRequests: 1000
+  httpPoolMaxThreads: 50
+threads:
+  autoCalculate: true
+  autoCalculateBase: 200
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+service:
+  type: ClusterIP
+  httpPort: 80
+  httpsPort: 8443
+ingress:
+  enabled: true
+  ingressClassName: "nginx"
+  annotations:
+    nginx.ingress.kubernetes.io/affinity: "cookie"
+    nginx.ingress.kubernetes.io/session-cookie-name: "keycloak-affinity"
+    nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+  rules:
+    - host: keycloak.example.com
+      paths:
+        - path: /auth
+          pathType: Prefix
+  tls:
+    - hosts:
+        - keycloak.example.com
+      secretName: keycloak-tls
+autoscaling:
+  enabled: true
+  minReplicas: 3
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+podDisruptionBudget:
+  minAvailable: 2
+serviceMonitor:
+  enabled: true
+dbchecker:
+  enabled: trues
+affinity: |
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchLabels:
+            {{- include "keycloak.selectorLabels" . | nindent 12 }}
+        topologyKey: kubernetes.io/hostname
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              {{- include "keycloak.selectorLabels" . | nindent 14 }}
+          topologyKey: topology.kubernetes.io/zone
