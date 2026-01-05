@@ -1,9 +1,5 @@
 # Keycloak.X with JDBC Ping, Infinispan Replication and Load Shedding
 
-This example shows how to configure Keycloak.X to use a PostgreSQL database.
-
-# Setup
-
 ## Deploy Kubernetes Cluster
 
 ## Deploy a PostgreSQL database
