@@ -1,0 +1,81 @@
+replicas: 3
+command:
+  - "/opt/keycloak/bin/kc.sh"
+  - "--verbose"
+  - "start"
+  - "--http-port=8080"
+  - "--hostname-strict=false"
+  - "--db=postgres"
+  - "--spi-events-listener-jboss-logging-success-level=info"
+  - "--spi-events-listener-jboss-logging-error-level=warn"
+database:
+  existingSecret: "keycloak-db-credentials"
+  existingSecretKeys:
+    username: "username"
+    password: "password"
+    hostname: "host"
+    port: "port"
+    database: "database"
+    vendor: "vendor"
+cache:
+  stack: jdbc-ping
+infinispan:
+  owners:
+    sessions: 2
+    authenticationSessions: 2
+    userSessions: 2
+    offlineSessions: 2
+loadShedding:
+  enabled: true
+  httpMaxQueuedRequests: 1000
+threads:
+  http:
+    poolMaxThreads: ""
+  jgroups:
+    maxThreads: ""
+resources:
+  requests:
+    cpu: "500m"
+    memory: "1Gi"
+  limits:
+    cpu: "1000m"
+    memory: "2Gi"
+ingress:
+  enabled: true
+  ingressClassName: ""
+  rules:
+    - host: auth.example.com
+      paths:
+        - path: /auth
+          pathType: Prefix
+autoscaling:
+  enabled: false
+  minReplicas: 3
+  maxReplicas: 6
+  metrics:
+    - type: Resource
+      resource:
+        name: cpu
+        target:
+          type: Utilization
+          averageUtilization: 80
+podDisruptionBudget:
+  minAvailable: 2
+serviceMonitor:
+  enabled: false
+dbchecker:
+  enabled: true
+affinity: |
+  podAntiAffinity:
+    requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchLabels:
+            {{- include "keycloak.selectorLabels" . | nindent 12 }}
+        topologyKey: kubernetes.io/hostname
+    preferredDuringSchedulingIgnoredDuringExecution:
+      - weight: 100
+        podAffinityTerm:
+          labelSelector:
+            matchLabels:
+              {{- include "keycloak.selectorLabels" . | nindent 14 }}
+          topologyKey: topology.kubernetes.io/zone

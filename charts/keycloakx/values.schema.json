@@ -37,6 +37,69 @@
           }
         }
       }
+    },
+    "infinispan": {
+      "type": "object",
+      "properties": {
+        "owners": {
+          "type": "object",
+          "properties": {
+            "sessions": {
+              "type": "integer"
+            },
+            "authenticationSessions": {
+              "type": "integer"
+            },
+            "userSessions": {
+              "type": "integer"
+            },
+            "offlineSessions": {
+              "type": "integer"
+            },
+            "clientSessions": {
+              "type": "integer"
+            },
+            "offlineClientSessions": {
+              "type": "integer"
+            },
+            "loginFailures": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "loadShedding": {
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "type": "boolean"
+        },
+        "httpMaxQueuedRequests": {
+          "type": "integer"
+        }
+      }
+    },
+    "threads": {
+      "type": "object",
+      "properties": {
+        "http": {
+          "type": "object",
+          "properties": {
+            "poolMaxThreads": {
+              "type": "string"
+            }
+          }
+        },
+        "jgroups": {
+          "type": "object",
+          "properties": {
+            "maxThreads": {
+              "type": "string"
+            }
+          }
+        }
+      }
     }
   },
   "properties": {
@@ -239,8 +302,25 @@
         "properties": {
           "stack": {
             "type": "string"
+          },
+          "jgroups": {
+            "type": "object",
+            "properties": {
+              "config": {
+                "type": "string"
+              }
+            }
           }
         }
+      },
+      "infinispan": {
+        "$ref": "#/definitions/infinispan"
+      },
+      "loadShedding": {
+        "$ref": "#/definitions/loadShedding"
+      },
+      "threads": {
+        "$ref": "#/definitions/threads"
       },
       "proxy": {
         "type": "object",
@@ -292,6 +372,29 @@
           },
           "existingSecret": {
             "type": "string"
+          },
+          "existingSecretKeys": {
+            "type": "object",
+            "properties": {
+              "username": {
+                "type": "string"
+              },
+              "password": {
+                "type": "string"
+              },
+              "hostname": {
+                "type": "string"
+              },
+              "port": {
+                "type": "string"
+              },
+              "database": {
+                "type": "string"
+              },
+              "vendor": {
+                "type": "string"
+              }
+            }
           }
         }
       },
