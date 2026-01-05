@@ -66,6 +66,32 @@ Create the service DNS name.
 {{- end }}
 
 {{/*
+Get database hostname from existingSecretKeys or direct value
+*/}}
+{{- define "keycloak.databaseHostname" -}}
+{{- if .Values.database.existingSecretKeys.hostname }}
+{{- .Values.database.existingSecretKeys.hostname }}
+{{- else if .Values.database.hostname }}
+{{- .Values.database.hostname }}
+{{- else }}
+{{- fail "database hostname is required" }}
+{{- end }}
+{{- end }}
+
+{{/*
+Get database port from existingSecretKeys or direct value
+*/}}
+{{- define "keycloak.databasePort" -}}
+{{- if .Values.database.existingSecretKeys.port }}
+{{- .Values.database.existingSecretKeys.port }}
+{{- else if .Values.database.port }}
+{{- .Values.database.port }}
+{{- else }}
+{{- fail "database port is required" }}
+{{- end }}
+{{- end }}
+
+{{/*
 Database password environment variable handling
 */}}
 {{- define "keycloak.databasePasswordEnv" -}}

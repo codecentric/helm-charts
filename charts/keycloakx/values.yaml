@@ -91,30 +91,21 @@ clusterDomain: cluster.local
 command: []
 ## Overrides the default args for the Keycloak container
 args: []
-# Load shedding configuration for handling high load
+# Load shedding configuration for handling high load (recommended by Keycloak)
 loadShedding:
-  # Enable load shedding (default: false)
+  # Enable load shedding to protect against overload
   enabled: false
-  # Maximum number of queued HTTP requests (default: 1000)
+  # Maximum number of queued HTTP requests 
   httpMaxQueuedRequests: 1000
-  # Maximum number of threads in HTTP pool (default: 50)
-  httpPoolMaxThreads: 50
-# Thread management configuration
+# Thread management - LET QUARKUS MANAGE AUTOMATICALLY (recommended)
+# Quarkus automatically optimizes thread pools based on CPU cores and workload
+# Override only if you have specific requirements
 threads:
-  # Enable automatic thread calculation based on replica count (default: false)
-  autoCalculate: false
-  # Base number for auto-calculation (default: 200)
-  autoCalculateBase: 200
-  # HTTP thread pool configuration
+  # Override Quarkus defaults ONLY if necessary
   http:
-    # Maximum number of threads in HTTP pool
-    poolMaxThreads: 50
-    # Maximum number of queued requests for load shedding
-    queuedRequests: 1000
-  # JGroups thread pool configuration
+    poolMaxThreads: "" # Let Quarkus decide (usually CPU cores * 2)
   jgroups:
-    # Maximum number of threads for JGroups operations
-    maxThreads: 200
+    maxThreads: "" # Let Quarkus optimize for clustering
 # Additional environment variables for Keycloak
 extraEnv: ""
 # - name: KC_LOG_LEVEL
@@ -411,6 +402,12 @@ cache:
   jgroups:
     # JGroups protocol stack configuration (optional)
     # If not provided, default jdbc-ping configuration will be used
+    # Use template functions for dynamic database configuration:
+    # config: |
+    #   <stack name="jdbc-ping">
+    #     <TCP bind_port="0"/>
+    #     <JDBC_PING connection_url="jdbc:postgresql://{{ include "keycloak.databaseHostname" . }}:{{ include "keycloak.databasePort" . }}/{{ .Values.database.database }}"/>
+    #   </stack>
     config: ""
     # Additional JGroups properties
     properties: {}

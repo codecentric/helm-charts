@@ -48,13 +48,43 @@ spec:
           imagePullPolicy: {{ .Values.dbchecker.image.pullPolicy }}
           securityContext:
             {{- toYaml .Values.dbchecker.securityContext | nindent 12 }}
+          env:
+            {{- if .Values.database.existingSecret }}
+            # Read hostname from secret
+            {{- if .Values.database.existingSecretKeys.hostname }}
+            - name: DB_HOST
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.existingSecret }}
+                  key: {{ .Values.database.existingSecretKeys.hostname }}
+            {{- else if .Values.database.hostname }}
+            - name: DB_HOST
+              value: {{ .Values.database.hostname | quote }}
+            {{- end }}
+            # Read port from secret
+            {{- if .Values.database.existingSecretKeys.port }}
+            - name: DB_PORT
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.database.existingSecret }}
+                  key: {{ .Values.database.existingSecretKeys.port }}
+            {{- else if .Values.database.port }}
+            - name: DB_PORT
+              value: {{ .Values.database.port | quote }}
+            {{- end }}
+            {{- else }}
+            - name: DB_HOST
+              value: {{ .Values.database.hostname | quote }}
+            - name: DB_PORT
+              value: {{ .Values.database.port | quote }}
+            {{- end }}
           command:
             - sh
             - -c
             - |
               echo 'Waiting for Database to become ready...'
 
-              until printf "." && nc -z -w 2 {{ required ".Values.database.hostname is required if dbchecker is enabled!" .Values.database.hostname }} {{ required ".Values.database.port is required if dbchecker is enabled!" .Values.database.port }}; do
+              until printf "." && nc -z -w 2 "$DB_HOST" "$DB_PORT"; do
                   sleep 2;
               done;
 
@@ -104,6 +134,11 @@ spec:
             - name: KC_CACHE_STACK
               value: "jdbc-ping"
             {{- end }}
+            {{- if and (eq .Values.cache.stack "jdbc-ping") .Values.cache.jgroups.config }}
+            - name: KC_CACHE_STACK_CONFIG
+              value: |
+{{ tpl .Values.cache.jgroups.config . | indent 16 }}
+            {{- end }}
             {{- if .Values.proxy.enabled }}
             - name: KC_PROXY_HEADERS
               value: {{ .Values.proxy.mode }}
@@ -112,7 +147,7 @@ spec:
             - name: KC_HTTP_ENABLED
               value: "true"
             {{- end }}
-            {{- if .Values.database.vendor }}
+            {{- if and .Values.database.vendor (not .Values.database.existingSecretKeys.vendor) }}
             - name: KC_DB
               value: {{ .Values.database.vendor }}
             {{- end }}
@@ -189,28 +224,12 @@ spec:
             - name: KC_HTTP_MAX_QUEUED_REQUESTS
               value: {{ .Values.loadShedding.httpMaxQueuedRequests | quote }}
               {{- end }}
-              {{- if .Values.loadShedding.httpPoolMaxThreads }}
-            - name: KC_HTTP_POOL_MAX_THREADS
-              value: {{ .Values.loadShedding.httpPoolMaxThreads | quote }}
-              {{- end }}
             {{- end }}
-            {{- if .Values.threads.autoCalculate }}
-              {{- $replicas := .Values.replicas }}
-              {{- if .Values.autoscaling.enabled }}
-                {{- $replicas = .Values.autoscaling.minReplicas }}
-              {{- end }}
-              {{- $calculatedThreads := div .Values.threads.autoCalculateBase $replicas }}
-            - name: KC_HTTP_POOL_MAX_THREADS
-              value: {{ $calculatedThreads | quote }}
-            {{- else if .Values.threads.http.poolMaxThreads }}
+            {{- if and .Values.threads.http.poolMaxThreads (ne .Values.threads.http.poolMaxThreads "") }}
             - name: KC_HTTP_POOL_MAX_THREADS
               value: {{ .Values.threads.http.poolMaxThreads | quote }}
             {{- end }}
-            {{- if .Values.threads.http.queuedRequests }}
-            - name: KC_HTTP_MAX_QUEUED_REQUESTS
-              value: {{ .Values.threads.http.queuedRequests | quote }}
-            {{- end }}
-            {{- if .Values.threads.jgroups.maxThreads }}
+            {{- if and .Values.threads.jgroups.maxThreads (ne .Values.threads.jgroups.maxThreads "") }}
             - name: KC_THREADS_MAX
               value: {{ .Values.threads.jgroups.maxThreads | quote }}
             {{- end }}
