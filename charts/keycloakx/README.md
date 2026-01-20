@@ -206,6 +206,7 @@ The following table lists the configurable parameters of the Keycloak-X chart an
 | `serviceMonitor.metricRelabelings`            | metricRelabelings for the  Servicemonitor                                                                                                                                                                                                                                         | `[]`                                                                                                                                                                                    |
 | `serviceMonitor.path`                         | The path at which metrics are served                                                                                                                                                                                                                                              | `{{ tpl .Values.http.relativePath $ \| trimSuffix "/" }}/metrics`                                                                                                                       |
 | `serviceMonitor.port`                         | The Service port at which metrics are served                                                                                                                                                                                                                                      | `http-internal`                                                                                                                                                                         |
+| `serviceMonitor.scheme`                       | The scheme to use for scraping metrics ("http" or "https"); if not set, the `http.internalScheme` value is used                                                                                                                                                                   | `""`                                                                                                                                                                                    |
 | `serviceMonitor.tlsConfig`                    | TLS configuration for the ServiceMonitor, set CA certificates or `insecureSkipVerify` if Keycloak uses https                                                                                                                                                                      | `{}`                                                                                                                                                                                    |
 | `extraServiceMonitor.enabled`                 | If `true`, an additional ServiceMonitor resource for the prometheus-operator is created. Could be used for additional metrics via [Keycloak Metrics SPI](https://github.com/aerogear/keycloak-metrics-spi)                                                                        | `false`                                                                                                                                                                                 |
 | `extraServiceMonitor.namespace`               | Optionally sets a target namespace in which to deploy the additional ServiceMonitor resource                                                                                                                                                                                      | `""`                                                                                                                                                                                    |
@@ -218,6 +219,7 @@ The following table lists the configurable parameters of the Keycloak-X chart an
 | `extraServiceMonitor.metricRelabelings`       | metricRelabelings for the additional ServiceMonitor                                                                                                                                                                                                                               | `[]`                                                                                                                                                                                    |
 | `extraServiceMonitor.path`                    | The path at which metrics are served                                                                                                                                                                                                                                              | `{{ tpl .Values.http.relativePath $ \| trimSuffix "/" }}/metrics`                                                                                                                       |
 | `extraServiceMonitor.port`                    | The Service port at which metrics are served                                                                                                                                                                                                                                      | `http-internal`                                                                                                                                                                         |
+| `extraServiceMonitor.scheme`                  | The scheme to use for scraping metrics ("http" or "https"); if not set, the `http.internalScheme` value is used                                                                                                                                                                   | `""`                                                                                                                                                                                    |
 | `prometheusRule.enabled`                      | If `true`, a PrometheusRule resource for the prometheus-operator is created                                                                                                                                                                                                       | `false`                                                                                                                                                                                 |
 | `prometheusRule.namespace`                    | Optionally sets a target namespace in which to deploy the PrometheusRule resource                                                                                                                                                                                                 | `""`                                                                                                                                                                                    |
 | `prometheusRule.annotations`                  | Annotations for the PrometheusRule                                                                                                                                                                                                                                                | `{}`                                                                                                                                                                                    |
@@ -593,6 +595,32 @@ annotations:
     location ~* /auth/realms/[^/]+/metrics {
         return 403;
     }
+```
+
+### Extra Kubernetes Manifests
+
+It is possible to deploy extra Kubernetes resources (such as ConfigMaps, Secrets, Jobs, or any other Kubernetes objects) alongside the Keycloak chart by using the `extraManifests` value.
+This feature supports Helm templating, allowing you to use chart helpers like `{{ include "keycloak.fullname" . }}` within your manifests.
+
+```yaml
+extraManifests:
+  - |
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: {{ include "keycloak.fullname" . }}-extra-config
+      labels:
+        {{- include "keycloak.labels" . | nindent 8 }}
+    data:
+      custom-key: custom-value
+  - |
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: {{ include "keycloak.fullname" . }}-extra-secret
+    type: Opaque
+    stringData:
+      my-secret-key: my-secret-value
 ```
 
 ## Why StatefulSet?
