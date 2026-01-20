@@ -593,6 +593,32 @@ annotations:
     }
 ```
 
+### Extra Kubernetes Manifests
+
+It is possible to deploy extra Kubernetes resources (such as ConfigMaps, Secrets, Jobs, or any other Kubernetes objects) alongside the Keycloak chart by using the `extraManifests` value.
+This feature supports Helm templating, allowing you to use chart helpers like `{{ include "keycloak.fullname" . }}` within your manifests.
+
+```yaml
+extraManifests:
+  - |
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: {{ include "keycloak.fullname" . }}-extra-config
+      labels:
+        {{- include "keycloak.labels" . | nindent 8 }}
+    data:
+      custom-key: custom-value
+  - |
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: {{ include "keycloak.fullname" . }}-extra-secret
+    type: Opaque
+    stringData:
+      my-secret-key: my-secret-value
+```
+
 ## Why StatefulSet?
 
 The headless service that governs the StatefulSet is used for DNS discovery via DNS_PING.
