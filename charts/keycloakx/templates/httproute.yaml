@@ -51,7 +51,7 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: {{ include "keycloak.fullname" . }}
+  name: {{ include "keycloak.fullname" . }}-console
   labels:
     {{- include "keycloak.labels" . | nindent 4 }}
     {{- range $key, $value := $httpRoute.labels }}
