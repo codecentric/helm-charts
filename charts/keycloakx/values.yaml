@@ -285,13 +285,13 @@ serviceHeadless:
 # (see: https://gateway-api.sigs.k8s.io/guides/)
 httpRoute:
   # HTTPRoute enabled.
-  enabled: false
+  enabled: true
   # Additional HTTPRoute labels
   labels: {}
   # HTTPRoute annotations.
   annotations: {}
-  # The Service port targeted by the HTTPRoute
-  servicePort: http
+  # The Service port targeted by the HTTPRoute, MUST BE AN NUMBER
+  servicePort: 80
   # Which Gateways this Route is attached to.
   parentRefs:
     - name: gateway
@@ -310,7 +310,7 @@ httpRoute:
   # HTTPRoute for console only (/auth/admin)
   console:
     # If `true`, an HTTPRoute is created for console path only
-    enabled: false
+    enabled: true
     # Additional HTTPRoute labels
     labels: {}
     # HTTPRoute annotations.

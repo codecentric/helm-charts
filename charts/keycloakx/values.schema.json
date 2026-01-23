@@ -390,7 +390,7 @@
           "type": "object",
           "properties": {
             "servicePort": {
-              "type": "string"
+              "type": "integer"
             },
             "console": {
               "$ref": "#/definitions/httpRoute"

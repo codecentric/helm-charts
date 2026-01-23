@@ -42,8 +42,7 @@ spec:
     {{- end }}
       backendRefs:
         - name: {{ include "keycloak.fullname" $ }}-http
-          port:
-            name: {{ $httpRoute.servicePort }}
+          port: {{ $httpRoute.servicePort }}
     {{- end }}
 {{- end }}
 ---
@@ -93,7 +92,6 @@ spec:
     {{- end }}
       backendRefs:
         - name: {{ include "keycloak.fullname" $ }}-http
-          port:
-            name: {{ $httpRoute.servicePort }}
+          port: {{ $httpRoute.servicePort }}
     {{- end }}
 {{- end }}
