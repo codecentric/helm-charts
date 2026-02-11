@@ -35,7 +35,7 @@ Common labels
 {{- define "keycloak.labels" -}}
 helm.sh/chart: {{ include "keycloak.chart" . }}
 {{ include "keycloak.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | toString | trunc 63 | quote }}
+app.kubernetes.io/version: {{ include "keycloak.imageVersion" . | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
@@ -84,4 +84,35 @@ Renders a complete tree, even values that contains template.
   {{ else }}
     {{- tpl (.value | toYaml) .context }}
   {{- end }}
+{{- end -}}
+
+{{/*
+Extract version from tag, removing digest suffix if present.
+Supports formats: "1.2.3", "1.2.3@sha256:abc123"
+Returns only the version part (before @) for use in Kubernetes labels.
+*/}}
+{{- define "keycloak.imageVersion" -}}
+{{- $tag := .Values.image.tag | default .Chart.AppVersion | toString -}}
+{{- $parts := splitList "@" $tag -}}
+{{- first $parts | trunc 63 -}}
+{{- end -}}
+
+{{/*
+Build the full image reference.
+Supports multiple formats:
+- tag only: "repository:tag"
+- digest only: "repository@digest" (when image.digest is set)
+- tag@digest in tag field: "repository:tag@digest"
+*/}}
+{{- define "keycloak.image" -}}
+{{- $repository := .Values.image.repository -}}
+{{- $digest := .Values.image.digest | default "" -}}
+{{- if $digest -}}
+  {{- /* Digest field is set - use digest only */ -}}
+  {{- printf "%s@%s" $repository $digest -}}
+{{- else -}}
+  {{- $tag := .Values.image.tag | default .Chart.AppVersion | toString -}}
+  {{- /* Tag may contain digest (tag@digest format from Renovate) */ -}}
+  {{- printf "%s:%s" $repository $tag -}}
+{{- end -}}
 {{- end -}}
