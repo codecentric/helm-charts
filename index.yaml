@@ -4211,6 +4211,34 @@ entries:
     version: 4.10.2
   keycloakx:
   - apiVersion: v2
+    appVersion: 26.5.3
+    created: "2026-02-11T10:12:43.530008687Z"
+    description: Keycloak.X - Open Source Identity and Access Management for Modern
+      Applications and Services
+    digest: f0ff028ac7fa0896930ccd6cc7363f487224206a8c2269c5e2de72a8c6c95c78
+    home: https://www.keycloak.org/
+    icon: https://www.keycloak.org/resources/images/keycloak_logo_200px.svg
+    keywords:
+    - sso
+    - idm
+    - openid connect
+    - saml
+    - kerberos
+    - oauth
+    - ldap
+    - keycloakx
+    - quarkus
+    maintainers:
+    - email: thomas.darimont+github@gmail.com
+      name: thomasdarimont
+    name: keycloakx
+    sources:
+    - https://github.com/codecentric/helm-charts
+    - https://github.com/keycloak/keycloak/tree/main/quarkus/container
+    urls:
+    - https://github.com/codecentric/helm-charts/releases/download/keycloakx-7.1.8/keycloakx-7.1.8.tgz
+    version: 7.1.8
+  - apiVersion: v2
     appVersion: 26.5.1
     created: "2026-01-20T10:30:16.64079034Z"
     description: Keycloak.X - Open Source Identity and Access Management for Modern
@@ -6088,4 +6116,4 @@ entries:
     urls:
     - https://github.com/codecentric/helm-charts/releases/download/mailhog-3.0.0/mailhog-3.0.0.tgz
     version: 3.0.0
-generated: "2026-01-20T10:30:16.642167605Z"
+generated: "2026-02-11T10:12:43.530704994Z"
