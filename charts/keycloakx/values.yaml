@@ -285,7 +285,7 @@ serviceHeadless:
 # (see: https://gateway-api.sigs.k8s.io/guides/)
 httpRoute:
   # HTTPRoute enabled.
-  enabled: true
+  enabled: false
   # Additional HTTPRoute labels
   labels: {}
   # HTTPRoute annotations.
@@ -310,7 +310,7 @@ httpRoute:
   # HTTPRoute for console only (/auth/admin)
   console:
     # If `true`, an HTTPRoute is created for console path only
-    enabled: true
+    enabled: false
     # Additional HTTPRoute labels
     labels: {}
     # HTTPRoute annotations.
