@@ -36,6 +36,9 @@ podManagementPolicy: OrderedReady
 # StatefulSet's update strategy
 updateStrategy: RollingUpdate
 
+# StatefulSet's revision history limit
+revisionHistoryLimit: 10
+
 # Pod restart policy. One of `Always`, `OnFailure`, or `Never`
 restartPolicy: Always
 
