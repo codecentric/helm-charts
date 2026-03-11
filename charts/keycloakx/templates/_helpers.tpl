@@ -35,7 +35,7 @@ Common labels
 {{- define "keycloak.labels" -}}
 helm.sh/chart: {{ include "keycloak.chart" . }}
 {{ include "keycloak.selectorLabels" . }}
-app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | quote }}
+app.kubernetes.io/version: {{ .Values.image.tag | default .Chart.AppVersion | toString | trunc 63 | quote }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end }}
 
@@ -72,6 +72,17 @@ Create the service DNS name.
     secretKeyRef:
       name: {{ .Values.database.existingSecret | default (printf "%s-database" (include "keycloak.fullname" . ))}}
       key: {{ .Values.database.existingSecretKey | default "password" }}
+  {{- end }}
+{{- end -}}
+
+{{/*
+Renders a complete tree, even values that contains template.
+*/}}
+{{- define "keycloak.render" -}}
+  {{- if typeIs "string" .value }}
+    {{- tpl .value .context }}
+  {{ else }}
+    {{- tpl (.value | toYaml) .context }}
   {{- end }}
 {{- end -}}
 

@@ -16,7 +16,10 @@ Once Helm is set up properly, add the repo as follows:
 $ helm repo add codecentric https://codecentric.github.io/helm-charts
 ```
 
+Helm chart are also published to GitHub container registry as OCI artifact.
+
 ## Contributing
 
 We welcome contributions.
 Please refer to our [contribution guidelines](CONTRIBUTING.md) for details.
+

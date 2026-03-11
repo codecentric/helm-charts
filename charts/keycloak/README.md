@@ -1,3 +1,7 @@
+> [!CAUTION]
+> # This Keycloak chart is for the old Wildfly Keycloak distribution. It is no longer maintained. For current and new installations, be sure to use the [Keycloak-X chart](https://github.com/codecentric/helm-charts/tree/master/charts/keycloakx), which we maintain and keep up to date.
+
+
 # Keycloak
 
 [Keycloak](http://www.keycloak.org/) is an open source identity and access management for modern applications and services.
@@ -6,6 +10,12 @@
 
 ```console
 $ helm install keycloak codecentric/keycloak
+```
+
+or via GitHub Container Registry:
+
+```console
+$ helm install keycloak oci://ghcr.io/codecentric/helm-charts/keycloak --version <version>
 ```
 
 ## Introduction

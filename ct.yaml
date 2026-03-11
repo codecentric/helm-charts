@@ -1,7 +1,7 @@
 remote: origin
 target-branch: master
 chart-dirs:
-  - charts
+  - charts/keycloakx
 chart-repos:
   - bitnami=https://charts.bitnami.com/bitnami
 check-version-increment: false

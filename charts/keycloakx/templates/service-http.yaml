@@ -35,6 +35,10 @@ spec:
   {{- end }}
   {{- end }}
   ports:
+    - name: '{{ .Values.http.internalPort }}'
+      port: 9000
+      protocol: TCP
+      targetPort: '{{ .Values.http.internalPort }}'
     - name: http
       port: {{ .Values.service.httpPort }}
       targetPort: http

@@ -22,6 +22,12 @@ To install the chart with the release name `mailhog`:
 $ helm install mailhog codecentric/mailhog
 ```
 
+or via GitHub Container Registry:
+
+```console
+$ helm install mailhog oci://ghcr.io/codecentric/helm-charts/mailhog --version <version>
+```
+
 The command deploys Mailhog on the Kubernetes cluster in the default configuration. The [configuration](#configuration)
 section lists the parameters that can be configured during installation.
 
@@ -84,8 +90,8 @@ Parameter | Description | Default
 `ingress.ingressClassName` | If set the created Ingress resource will have this class name. kubernetes.io/ingress.class is [deprecated](https://kubernetes.io/docs/concepts/services-networking/ingress/#deprecated-annotation) | `nil`
 `ingress.annotations` | Annotations for the ingress | `{}`
 `ingress.labels` | Labels for the ingress | `{}`
-`ingress.hosts` | A list of ingress hosts | `{ host: mailhog.example.com, paths: [{ path: "/", pathType: Prefix }] }`
-`ingress.tls` | A list of [IngressTLS](https://v1-8.docs.kubernetes.io/docs/api-reference/v1.8/#ingresstls-v1beta1-extensions) items | `[]`
+`ingress.hosts` | A list of ingress hosts | `[ { host: mailhog.example.com, paths: [{ path: "/", pathType: Prefix }] } ]`
+`ingress.tls` | A list of [IngressTLS](https://v1-8.docs.kubernetes.io/docs/api-reference/v1.8/#ingresstls-v1beta1-extensions](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.27/#ingresstls-v1-networking-k8s-io) items | `[]`
 `extraEnv` | Additional environment variables, see [CONFIG.md](https://github.com/mailhog/MailHog/blob/master/docs/CONFIG.md) | `{}`
 
 ## Upgrading

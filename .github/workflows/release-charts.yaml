@@ -5,56 +5,64 @@ on:
 #      - master
 #    paths:
 #      - 'charts/**'
-  schedule:
-    # every friday at 4 o'clock
-    - cron: '0 16 * * 5'
+#  schedule:
+#    # every friday at 4 o'clock
+#    - cron: '0 16 * * 5'
   workflow_dispatch:
+
+permissions:
+  contents: write
+  packages: write
+
 jobs:
-  bump-versions:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-      with:
-        fetch-depth: 0
-    - name: Configure Git
-      run: |
-        git config user.name "$GITHUB_ACTOR"
-        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-    - name: Bump Keycloak
-      uses: ./.github/actions/bumpVersionAction
-      with:
-        chart: keycloak
+# We now manually bump the version of the charts by changing the version in the corresponding Chart.yaml
 
-    - name: Bump Keycloak.X
-      uses: ./.github/actions/bumpVersionAction
-      with:
-        chart: keycloakx
-
-    - name: Bump Mailhog
-      uses: ./.github/actions/bumpVersionAction
-      with:
-        chart: mailhog
-
-    - name: Push Results
-      id: pushResults
-      run: |
-        if git merge-base --is-ancestor HEAD @{u} ; then
-          echo "publish=false" >> $GITHUB_OUTPUT
-          echo "No push necesarry"
-        else
-          echo "Version bumps happened. Pushing now..."
-          git push
-          echo "publish=true" >> $GITHUB_OUTPUT
-        fi
-    outputs:
-      publish: ${{ steps.pushResults.outputs.publish }}
+#  bump-versions:
+#    runs-on: ubuntu-latest
+#    steps:
+#    - name: Checkout
+#      uses: actions/checkout@v2
+#      with:
+#        fetch-depth: 0
+#    - name: Configure Git
+#      run: |
+#        git config user.name "$GITHUB_ACTOR"
+#        git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
+#
+#    - name: Bump Keycloak
+#      uses: ./.github/actions/bumpVersionAction
+#      with:
+#        chart: keycloak
+#
+#    - name: Bump Keycloak.X
+#      uses: ./.github/actions/bumpVersionAction
+#      with:
+#        chart: keycloakx
+#
+#    - name: Bump Mailhog
+#      uses: ./.github/actions/bumpVersionAction
+#      with:
+#        chart: mailhog
+#
+#    - name: Push Results
+#      id: pushResults
+#      run: |
+#        if git merge-base --is-ancestor HEAD @{u} ; then
+#          echo "publish=false" >> $GITHUB_OUTPUT
+#          echo "No push necesarry"
+#        else
+#          echo "Version bumps happened. Pushing now..."
+#          git push
+#          echo "publish=true" >> $GITHUB_OUTPUT
+#        fi
+#    outputs:
+#      publish: ${{ steps.pushResults.outputs.publish }}
 
   upload:
     runs-on: ubuntu-latest
-    needs:
-      - bump-versions
+    # needs:
+    #  - bump-versions
     # if: needs.bump-versions.outputs.publish == 'true'
     steps:
       - name: Checkout
@@ -71,15 +79,33 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v1
         with:
-          version: v3.5.1
+          version: v3.16.3
 
       - name: Add dependency chart repos
         run: |
           helm repo add bitnami https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Release charts
         uses: helm/chart-releaser-action@v1.5.0
         with:
           charts_dir: charts
         env:
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"          
+          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_GENERATE_RELEASE_NOTES: true
+          CR_SKIP_EXISTING: true
+
+      - name: Push Chart to GHCR
+        run: |
+          for pkg in .cr-release-packages/*; do
+            if [ -z "${pkg:-}" ]; then
+              break
+            fi
+            helm push "${pkg}" oci://ghcr.io/${{ github.repository }}
+          done
