@@ -246,7 +246,7 @@ secrets: {}
 service:
   # Annotations for HTTP service
   annotations: {}
-  # Additional labels for headless and HTTP Services
+  # Additional labels for HTTP Service
   labels: {}
   # key: value
   # The Service type
@@ -280,6 +280,8 @@ service:
 serviceHeadless:
   # Annotations for headless service
   annotations: {}
+  # Additional labels for headless service
+  labels: {}
   # Add additional ports to the headless service, e. g. for admin console or exposing JGroups ports
   extraPorts: []
 
