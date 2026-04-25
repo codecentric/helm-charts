@@ -1,4 +1,5 @@
 {{- if and .Values.updateHook.enabled (gt (int .Values.replicas) 1) }}
+---
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -26,7 +27,7 @@ spec:
               TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
               NAMESPACE="$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)"
               CACERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
-              KUBERNETES_API="{{ .Values.updateHook.kubernetesApi.url }}:{{ .Values.updateHook.kubernetesApi.port }}"
+              KUBERNETES_API="https://{{ .Values.updateHook.kubernetesApi.ip }}:{{ .Values.updateHook.kubernetesApi.port }}"
 
               curl --fail --silent --show-error \
                 --cacert "${CACERT}" \
