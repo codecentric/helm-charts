@@ -1,0 +1,41 @@
+{{- if and .Values.updateHook.enabled (gt (int .Values.replicas) 1) }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: "{{ include "keycloak.fullname" . }}-scale-down"
+  annotations:
+    "helm.sh/hook": pre-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+    "helm.sh/hook-weight": "-10"
+spec:
+  template:
+    spec:
+      serviceAccountName: "{{ include "keycloak.fullname" . }}-scale-down"
+      restartPolicy: Never
+      securityContext:
+        {{- toYaml .Values.updateHook.podSecurityContext | nindent 8 }}
+      containers:
+        - name: kubectl
+          image: "{{ .Values.updateHook.image }}"
+          securityContext:
+            {{- toYaml .Values.updateHook.securityContext | nindent 12 }}
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+              NAMESPACE="$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace)"
+              CACERT="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+              KUBERNETES_API="{{ .Values.updateHook.kubernetesApi.url }}:{{ .Values.updateHook.kubernetesApi.port }}"
+
+              curl --fail --silent --show-error \
+                --cacert "${CACERT}" \
+                -H "Authorization: Bearer ${TOKEN}" \
+                -H "Content-Type: application/merge-patch+json" \
+                -X PATCH \
+                "${KUBERNETES_API}/apis/apps/v1/namespaces/${NAMESPACE}/statefulsets/{{ include "keycloak.fullname" . }}/scale" \
+                --data '{"spec":{"replicas":1}}'
+          resources:
+            {{- toYaml .Values.updateHook.resources | nindent 12 }}
+  backoffLimit: 0
+{{- end }}
