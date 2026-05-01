@@ -238,7 +238,14 @@ The following table lists the configurable parameters of the Keycloak-X chart an
 | `test.image.pullPolicy`                       | The image pull policy for the test Pod image                                                                                                                                                                                                                                      | `IfNotPresent`                                                                                                                                                                          |
 | `test.podSecurityContext`                     | SecurityContext for the entire test Pod                                                                                                                                                                                                                                           | `{"fsGroup":1000}`                                                                                                                                                                      |
 | `test.securityContext`                        | SecurityContext for the test container                                                                                                                                                                                                                                            | `{"runAsNonRoot":true,"runAsUser":1000}`                                                                                                                                                |
-| `test.deletionPolicy`                         | `helm.sh/hook-delete-policy` for the test Pod                                                                                                                                                                                                                                     | `before-hook-creation`                                                                                                                                                                  | | `before-hook-creation`                                                                                                                                                                  |
+| `test.deletionPolicy`                         | `helm.sh/hook-delete-policy` for the test Pod                                                                                                                                                                                                                                     | `before-hook-creation`                                                                                                                                                                  |
+| `updateHook.enabled`                          | If `true`, enables the update hook that runs before statefulset updates                                                                                                                                                                                                           | `false`                                                                                                                                                                                 |
+| `updateHook.image`                            | The image used for the update hook                                                                                                                                                                                                                                                | `docker.io/curlimages/curl`                                                                                                                                                             |
+| `updateHook.podSecurityContext`               | SecurityContext for the update hook Pod                                                                                                                                                                                                                                           | `{"fsGroup":1000,"runAsNonRoot":true,"seccompProfile":{"type":"RuntimeDefault"}}                                                                                                        |
+| `updateHook.securityContext`                  | SecurityContext for the update hook container                                                                                                                                                                                                                                     | `{"allowPrivilegeEscalation":false,"capabilities":{"drop":["ALL"]},"readOnlyRootFilesystem":true,"runAsGroup":1000,"runAsUser":1000}                                                    |
+| `updateHook.resources`                        | Resource requests and limits for the update hook container                                                                                                                                                                                                                        | `{"limits":{"cpu":"20m","memory":"32Mi"},"requests":{"cpu":"20m","memory":"32Mi"}}`                                                                                                     |
+| `updateHook.kubernetesApi.port`               | Kubernetes API port for the update hook (Required if updateHook is enabled)                                                                                                                                                                                                       | `""`                                                                                                                                                                                    |
+| `updateHook.kubernetesApi.ip`                 | Kubernetes API IP for the update hook (Required if updateHook and networkpolicy are enabled)                                                                                                                                                                                      | `""`                                                                                                                                                                                    |
 
 Specify each parameter using the `--set key=value[,key=value]` argument to `helm install`. For example:
 
@@ -371,6 +378,25 @@ extraEnv: |
 
 For high availability, Keycloak must be run with multiple replicas (`replicas > 1`).
 The chart has a helper template (`keycloak.serviceDnsName`) that creates the DNS name based on the headless service.
+
+#### Updating Minor and Major Versions in Cluster Mode
+
+Keycloak does **not** support minor or major version upgrades while running in cluster mode. Only patch updates are supported.
+(Refer to the official Keycloak documentation for more details.)
+
+If you attempt such an upgrade in cluster mode, you may encounter errors due to JGroups version mismatches, for example:
+
+> WARN [org.jgroups.protocols.TCP] (TcpServer.Acceptor[7800]-1,keycloakx-1-2180(v=16.0.8)) JGRP000006: 10.151.254.47:7800: failed accepting connection from peer SSLSocket[hostname=127.0.0.6, port=51749, Session(1776862509121|TLS_AES_256_GCM_SHA384)]: java.io.IOException: 10.151.254.47:7800: readPeerAddress(): packet from /127.0.0.6:51749 has different version (5.3.16) from ours (5.5.1); discarding it
+
+Because of this limitation, **downtime is required** to perform minor or major version upgrades.
+
+**Recommended upgrade procedure:**
+
+1. Scale down the StatefulSet to a single replica to disable cluster mode.
+2. Perform the version upgrade.
+3. Once the upgrade is complete, scale the StatefulSet back to its original number of replicas.
+
+To simplify this process, the chart includes an `updateHook` parameter that automates these steps.
 
 ### Default Cache Stack
 
