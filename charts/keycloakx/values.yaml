@@ -11,7 +11,7 @@ image:
   # The Keycloak image repository
   repository: quay.io/keycloak/keycloak
   # Overrides the Keycloak image tag whose default is the chart appVersion
-  tag: "26.5.6"
+  tag: ""
   # Overrides the Keycloak image tag with a specific digest
   digest: ""
   # The Keycloak image pull policy
@@ -646,3 +646,30 @@ extraManifests: []
   #       name: "{{ include \"keycloak.fullname\" . }}-tpl"
   #     data:
   #       foo: bar
+
+updateHook:
+  enabled: false
+  image: docker.io/curlimages/curl
+  podSecurityContext:
+    fsGroup: 1000
+    runAsNonRoot: true
+    seccompProfile:
+      type: RuntimeDefault
+  securityContext:
+    allowPrivilegeEscalation: false
+    readOnlyRootFilesystem: true
+    capabilities:
+      drop:
+        - ALL
+    runAsGroup: 1000
+    runAsUser: 1000
+  resources:
+    requests:
+      cpu: "20m"
+      memory: "32Mi"
+    limits:
+      cpu: "20m"
+      memory: "32Mi"
+  # kubernetesApi:
+  #   ip: 10.20.30.40
+  #   port: 8443
