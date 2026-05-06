@@ -47,7 +47,7 @@ spec:
     {{- end }}
 {{- end }}
 ---
-{{- if $httpRoute.console.enabled -}}
+{{- if $httpRoute.console.enabled }}
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
