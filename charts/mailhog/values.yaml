@@ -71,14 +71,23 @@ ingress:
   hosts:
     - host: mailhog.example.com
       paths:
-        - path: "/"
+        - path: /
           pathType: Prefix
 
-
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+gatewayapi:
+  enabled: false
+  gateway:
+    name: envoy-gateway 
+    namespace: ""       # defaults to Release.Namespace if omitted
+    httpPort: 80        # optional, default 80
+    httpsPort: 443      # optional, default 443
+  labels: {}
+  annotations: {}
+  hosts:
+    - host: mailhog.example.com
+      paths:
+        - path: /
+          pathType: PathPrefix
 
 auth:
   enabled: false
