@@ -158,6 +158,37 @@
             },
             "console": {
               "$ref": "#/definitions/httpRoute"
+            },
+            "listenerSet": {
+              "type": "object",
+              "properties": {
+                "enabled": {
+                  "type": "boolean"
+                },
+                "annotations": {
+                  "type": "object"
+                },
+                "labels": {
+                  "type": "object"
+                },
+                "parentRef": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "namespace": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "listeners": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              }
             }
           }
         }

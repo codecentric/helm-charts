@@ -312,6 +312,34 @@ httpRoute:
           type: PathPrefix
           value: '{{ tpl .Values.http.relativePath $ | trimSuffix "/" }}/'
 
+  # -- Create a ListenerSet resource to attach listeners to an existing Gateway
+  # without requiring write access to the Gateway resource itself. Useful for
+  # namespace-level configuration where app owners do not have Gateway write access.
+  # When enabled, the HTTPRoute parentRefs are auto-derived from the ListenerSet name,
+  # and hostnames are derived from listener hostnames; httpRoute.parentRefs and
+  # httpRoute.hostnames are unused.
+  listenerSet:
+    # If `true`, a ListenerSet resource is created alongside the HTTPRoute
+    enabled: false
+    # Additional ListenerSet labels
+    labels: {}
+    # ListenerSet annotations
+    annotations: {}
+    # The Gateway this ListenerSet attaches to
+    parentRef:
+      name: gateway
+      # namespace: envoy-gateway-system
+    # Listeners to attach to the Gateway. Passed through as-is.
+    # Listener hostnames are used to populate the HTTPRoute hostnames field.
+    listeners: []
+    # - name: http
+    #   hostname: keycloak.example.com
+    #   port: 80
+    #   protocol: HTTP
+    #   allowedRoutes:
+    #     namespaces:
+    #       from: Same
+
   # HTTPRoute for console only (/auth/admin)
   console:
     # If `true`, an HTTPRoute is created for console path only
