@@ -109,6 +109,9 @@
     "command": {
       "type": "array"
     },
+    "commonLabels": {
+      "type": "object"
+    },
     "enableServiceLinks": {
       "type": "boolean"
     },

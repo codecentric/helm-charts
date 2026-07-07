@@ -7,6 +7,9 @@ nameOverride: ""
 # The number of replicas to create (has no effect if autoscaling enabled)
 replicas: 1
 
+# Additional labels applied to every resource in this chart, and on the StatefulSet's pods
+commonLabels: {}
+
 image:
   # The Keycloak image repository
   repository: quay.io/keycloak/keycloak
