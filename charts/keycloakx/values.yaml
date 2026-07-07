@@ -5,7 +5,7 @@ fullnameOverride: ""
 nameOverride: ""
 
 # Optionally override the namespace for all resources. Useful for umbrella charts that
-# deploy multiple aliased keycloakx instances each into their own namespace.
+# deploy multiple aliased keycloak instances each into their own namespace.
 namespaceOverride: ""
 
 # The number of replicas to create (has no effect if autoscaling enabled)
