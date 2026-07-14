@@ -99,6 +99,14 @@ spec:
             - name: KC_HTTP_RELATIVE_PATH
               value: {{ tpl .Values.http.relativePath $ | trimSuffix "/" }}
             {{- end }}
+            {{- if .Values.http.managementRelativePath }}
+            - name: KC_HTTP_MANAGEMENT_RELATIVE_PATH
+              {{- if eq .Values.http.managementRelativePath "/" }}
+              value: {{ tpl .Values.http.managementRelativePath $ }}
+              {{- else }}
+              value: {{ tpl .Values.http.managementRelativePath $ | trimSuffix "/" }}
+              {{- end }}
+            {{- end }}
             {{- if eq .Values.cache.stack "default" }}
             - name: KC_CACHE
               value: "ispn"

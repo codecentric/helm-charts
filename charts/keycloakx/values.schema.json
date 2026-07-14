@@ -147,6 +147,7 @@
     },
     "http": {
       "relativePath": "string",
+      "managementRelativePath": "string",
       "internalPort": "string",
       "internalScheme": "string"
     },
