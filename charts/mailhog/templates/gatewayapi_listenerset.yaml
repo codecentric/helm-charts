@@ -1,0 +1,57 @@
+{{- if .Values.gatewayapi.enabled -}}
+{{- $fullName := include "mailhog.fullname" . -}}
+apiVersion: gateway.networking.k8s.io/v1
+kind: ListenerSet
+metadata:
+  name: {{ $fullName }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "mailhog.labels" . | nindent 4 }}
+    {{- with .Values.gatewayapi.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.gatewayapi.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  parentRef:
+    group: gateway.networking.k8s.io
+    kind: Gateway
+    name: {{ required "gatewayapi.gateway.name is required" .Values.gatewayapi.gateway.name }}
+    namespace: {{ .Values.gatewayapi.gateway.namespace | default .Release.Namespace | quote }}
+  listeners:
+    - name: {{ printf "%s-http" $fullName }}
+      protocol: HTTP
+      port: {{ .Values.gatewayapi.gateway.httpPort | default 80 }}
+      hostname: {{ (first .Values.gatewayapi.hosts).host | quote }}
+      allowedRoutes:
+        namespaces:
+          from: Same
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: HTTPRoute
+    {{- if .Values.gatewayapi.tls }}
+    - name: {{ printf "%s-https" $fullName }}
+      protocol: HTTPS
+      port: {{ .Values.gatewayapi.gateway.httpsPort | default 443 }}
+      hostname: {{ (first .Values.gatewayapi.hosts).host | quote }}
+      tls:
+        mode: Terminate
+        certificateRefs:
+          {{- range .Values.gatewayapi.tls }}
+          {{- if .secretName }}
+          - group: ""
+            kind: Secret
+            name: {{ .secretName }}
+            namespace: {{ .namespace | default $.Release.Namespace | quote }}
+          {{- end }}
+          {{- end }}
+      allowedRoutes:
+        namespaces:
+          from: Same
+        kinds:
+          - group: gateway.networking.k8s.io
+            kind: HTTPRoute
+    {{- end }}
+{{- end }}

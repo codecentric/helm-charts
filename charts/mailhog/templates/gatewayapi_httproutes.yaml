@@ -1,0 +1,110 @@
+{{- if .Values.gatewayapi.enabled -}}
+{{- $fullName := include "mailhog.fullname" . -}}
+{{- if .Values.gatewayapi.tls }}
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ printf "%s-redirect" $fullName }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "mailhog.labels" . | nindent 4 }}
+    {{- with .Values.gatewayapi.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: ListenerSet
+      name: {{ $fullName }}
+      namespace: {{ .Release.Namespace | quote }}
+      sectionName: {{ printf "%s-http" $fullName }}
+  hostnames:
+    {{- range .Values.gatewayapi.hosts }}
+    - {{ .host | quote }}
+    {{- end }}
+  rules:
+    - filters:
+        - type: RequestRedirect
+          requestRedirect:
+            scheme: https
+            statusCode: 301
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ $fullName }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "mailhog.labels" . | nindent 4 }}
+    {{- with .Values.gatewayapi.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.gatewayapi.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: ListenerSet
+      name: {{ $fullName }}
+      namespace: {{ .Release.Namespace | quote }}
+      sectionName: {{ printf "%s-https" $fullName }}
+  hostnames:
+    {{- range .Values.gatewayapi.hosts }}
+    - {{ .host | quote }}
+    {{- end }}
+  rules:
+    {{- range .Values.gatewayapi.hosts }}
+    {{- range .paths }}
+    - matches:
+        - path:
+            type: {{ .pathType | default "PathPrefix" }}
+            value: {{ .path }}
+      backendRefs:
+        - name: {{ $fullName }}
+          port: 8025
+    {{- end }}
+    {{- end }}
+{{- else }}
+---
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: {{ $fullName }}
+  namespace: {{ .Release.Namespace | quote }}
+  labels:
+    {{- include "mailhog.labels" . | nindent 4 }}
+    {{- with .Values.gatewayapi.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+  {{- with .Values.gatewayapi.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+spec:
+  parentRefs:
+    - group: gateway.networking.k8s.io
+      kind: ListenerSet
+      name: {{ $fullName }}
+      namespace: {{ .Release.Namespace | quote }}
+      sectionName: {{ printf "%s-http" $fullName }}
+  hostnames:
+    {{- range .Values.gatewayapi.hosts }}
+    - {{ .host | quote }}
+    {{- end }}
+  rules:
+    {{- range .Values.gatewayapi.hosts }}
+    {{- range .paths }}
+    - matches:
+        - path:
+            type: {{ .pathType | default "PathPrefix" }}
+            value: {{ .path }}
+      backendRefs:
+        - name: {{ $fullName }}
+          port: 8025
+    {{- end }}
+    {{- end }}
+{{- end }}
+{{- end }}
