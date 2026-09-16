@@ -119,7 +119,10 @@
       "type": "string"
     },
     "extraEnv": {
-      "type": "string"
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array" }
+      ]
     },
     "extraEnvFrom": {
       "type": "string"
