@@ -153,7 +153,11 @@ spec:
               value: "true"
             {{- end }}
             {{- with .Values.extraEnv }}
+            {{- if kindIs "string" . }}
             {{- tpl . $ | nindent 12 }}
+            {{- else }}
+            {{- tpl (toYaml .) $ | nindent 12 }}
+            {{- end }}
             {{- end }}
           envFrom:
             {{- with .Values.extraEnvFrom }}
