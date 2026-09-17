@@ -116,25 +116,43 @@
       "type": "boolean"
     },
     "extraContainers": {
-      "type": "string"
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array" }
+      ]
     },
     "extraEnv": {
-      "type": "string"
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array" }
+      ]
     },
     "extraEnvFrom": {
-      "type": "string"
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array" }
+      ]
     },
     "extraInitContainers": {
-      "type": "string"
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array" }
+      ]
     },
     "extraPorts": {
       "type": "array"
     },
     "extraVolumeMounts": {
-      "type": "string"
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array" }
+      ]
     },
     "extraVolumes": {
-      "type": "string"
+      "oneOf": [
+        { "type": "string" },
+        { "type": "array" }
+      ]
     },
     "volumeClaimTemplates": {
       "type": "string"
