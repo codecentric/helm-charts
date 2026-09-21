@@ -193,7 +193,7 @@ readinessProbe: |
 # Startup probe configuration
 startupProbe: |
   httpGet:
-    path: '{{ tpl (coalesce .Values.http.managementRelativePath .Values.http.relativePath) $ | trimSuffix "/" }}/health'
+    path: '{{ tpl (coalesce .Values.http.managementRelativePath .Values.http.relativePath) $ | trimSuffix "/" }}/health/started'
     port: '{{ .Values.http.internalPort }}'
     scheme: '{{ .Values.http.internalScheme }}'
   initialDelaySeconds: 15
