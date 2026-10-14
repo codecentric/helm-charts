@@ -20,7 +20,7 @@ Keycloak was installed with a Gateway API HTTPRoute attached to:
 
 {{- else if .Values.ingress.enabled }}
 
-Keycloak was installed with an Ingress and an be reached at the following URL(s):
+Keycloak was installed with an Ingress and can be reached at the following URL(s):
 {{ range $unused, $rule := .Values.ingress.rules }}
   {{- range $rule.paths }}
   - http{{ if $.Values.ingress.tls }}s{{ end }}://{{ tpl $rule.host $ }}{{ .path }}
@@ -50,7 +50,7 @@ echo "https://$NODE_IP:$NODE_PORT"
 Keycloak was installed with a Service of type LoadBalancer
 
 NOTE: It may take a few minutes for the LoadBalancer IP to be available.
-     You can watch the status of by running 'kubectl get --namespace {{ include "keycloak.namespace" . }} service -w {{ include "keycloak.fullname" . }}'
+     You can watch the status by running 'kubectl get --namespace {{ include "keycloak.namespace" . }} service -w {{ include "keycloak.fullname" . }}-http'
 
 Get its HTTP URL with the following commands:
 
