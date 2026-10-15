@@ -116,25 +116,25 @@
       "type": "boolean"
     },
     "extraContainers": {
-      "type": "string"
+      "type": ["string", "array"]
     },
     "extraEnv": {
-      "type": "string"
+      "type": ["string", "array"]
     },
     "extraEnvFrom": {
-      "type": "string"
+      "type": ["string", "array"]
     },
     "extraInitContainers": {
-      "type": "string"
+      "type": ["string", "array"]
     },
     "extraPorts": {
       "type": "array"
     },
     "extraVolumeMounts": {
-      "type": "string"
+      "type": ["string", "array"]
     },
     "extraVolumes": {
-      "type": "string"
+      "type": ["string", "array"]
     },
     "volumeClaimTemplates": {
       "type": "string"

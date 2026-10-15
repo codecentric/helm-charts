@@ -88,6 +88,7 @@ securityContext:
   runAsNonRoot: true
 
 # Additional init containers, e. g. for providing custom themes
+# Accepts a string (rendered with `tpl`) or a YAML list.
 extraInitContainers: ""
 
 # When using service meshes which rely on a sidecar, it may be necessary to skip init containers altogether,
@@ -97,6 +98,7 @@ extraInitContainers: ""
 skipInitContainers: false
 
 # Additional sidecar containers, e. g. for a database proxy, such as Google's cloudsql-proxy
+# Accepts a string (rendered with `tpl`) or a YAML list.
 extraContainers: ""
 
 # Lifecycle hooks for the Keycloak container
@@ -121,11 +123,14 @@ command: []
 args: []
 
 # Additional environment variables for Keycloak
+# Accepts a string (rendered with `tpl`) or a YAML list.
 extraEnv: ""
+  # List form, e.g.:
   # - name: KC_LOG_LEVEL
   #   value: DEBUG
 
 # Additional environment variables for Keycloak mapped from Secret or ConfigMap
+# Accepts a string (rendered with `tpl`) or a YAML list.
 extraEnvFrom: ""
 
 #  Pod priority class name
@@ -211,6 +216,7 @@ resources: {}
   #   memory: "1024Mi"
 
 # Add additional volumes, e. g. for custom themes
+# Accepts a string (rendered with `tpl`) or a YAML list.
 extraVolumes: ""
 
 # Add volume claim templates to the StatefulSet, e. g. for dynamic provisioning
@@ -225,6 +231,7 @@ volumeClaimTemplates: ""
   #         storage: 1Gi
 
 # Add additional volumes mounts, e. g. for custom themes
+# Accepts a string (rendered with `tpl`) or a YAML list.
 extraVolumeMounts: ""
 
 # Add additional ports, e. g. for admin console or exposing JGroups ports
