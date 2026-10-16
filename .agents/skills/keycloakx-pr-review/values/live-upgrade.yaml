@@ -1,0 +1,39 @@
+# Values for the live k3d upgrade test.
+#
+# Simulates an existing user installation: standalone Keycloak on an ephemeral
+# H2 dev-file database (no external dependencies, no PVC), admin credentials
+# from a chart-managed secret. The exact same file is used for BOTH the install
+# of the base chart and the upgrade to the PR chart — a PR that requires new
+# values to be set is a backwards-compatibility regression and will fail here.
+
+command:
+  - "/opt/keycloak/bin/kc.sh"
+  - "start"
+  - "--hostname-strict=false"
+
+extraEnv: |
+  - name: KEYCLOAK_ADMIN
+    valueFrom:
+      secretKeyRef:
+        name: {{ include "keycloak.fullname" . }}-admin-creds
+        key: user
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: {{ include "keycloak.fullname" . }}-admin-creds
+        key: password
+  - name: JAVA_OPTS_APPEND
+    value: >-
+      -XX:MaxRAMPercentage=50.0
+
+database:
+  vendor: dev-file
+
+secrets:
+  admin-creds:
+    stringData:
+      user: admin
+      password: review-only
+
+test:
+  enabled: false

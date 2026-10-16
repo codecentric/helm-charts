@@ -1,0 +1,14 @@
+# Points Keycloak at the throw-away PostgreSQL from manifests/postgres.yaml
+# (deployed into the same namespace by `repro.sh install --with-postgres`).
+# Overrides the H2 dev-file database from baseline.yaml.
+
+database:
+  vendor: postgres
+  hostname: postgres
+  port: 5432
+  database: keycloak
+  username: keycloak
+  password: keycloak
+
+dbchecker:
+  enabled: true
