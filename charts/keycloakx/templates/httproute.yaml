@@ -65,8 +65,8 @@ spec:
           port: {{ $httpRoute.servicePort }}
     {{- end }}
 {{- end }}
----
 {{- if and $httpRoute.enabled $httpRoute.console.enabled }}
+---
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
