@@ -1,0 +1,41 @@
+# Baseline values for local issue reproduction.
+#
+# Standalone Keycloak on an ephemeral H2 dev-file database (no external
+# dependencies, no PVC) with admin credentials from a chart-managed secret.
+# Applied FIRST by repro.sh; the reporter's values (-f) are layered on top.
+# KEYCLOAK_ADMIN* (not KC_BOOTSTRAP_ADMIN_*) is used so older chart versions
+# (Keycloak < 26) still work; Keycloak 26 accepts it with a deprecation warning.
+# Use --no-baseline when the reporter's values must be tested verbatim
+# (e.g. the issue is about defaults or about one of these keys).
+
+command:
+  - "/opt/keycloak/bin/kc.sh"
+  - "start"
+  - "--hostname-strict=false"
+
+extraEnv: |
+  - name: KEYCLOAK_ADMIN
+    valueFrom:
+      secretKeyRef:
+        name: {{ include "keycloak.fullname" . }}-admin-creds
+        key: user
+  - name: KEYCLOAK_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: {{ include "keycloak.fullname" . }}-admin-creds
+        key: password
+  - name: JAVA_OPTS_APPEND
+    value: >-
+      -XX:MaxRAMPercentage=50.0
+
+database:
+  vendor: dev-file
+
+secrets:
+  admin-creds:
+    stringData:
+      user: admin
+      password: issue-repro-only
+
+test:
+  enabled: false
