@@ -1,0 +1,228 @@
+# Kitchen-sink render profile: exercises as many conditional template branches
+# of the keycloakx chart as possible.
+#
+# RENDER-ONLY. Some resources below (Route, HTTPRoute, ListenerSet, ServiceMonitor,
+# PrometheusRule, NodePort Service, extra sidecars) are not meant to be applied
+# to a live cluster as-is. This file exists purely so `helm template` output can
+# be diffed between chart versions with feature toggles enabled — dead template
+# branches hide backwards-compat breakage.
+#
+# Uses only long-established values so it renders against older chart versions too
+# (required for the "base" side of a render-diff).
+
+replicas: 2
+
+commonLabels:
+  review-common: "true"
+
+podLabels:
+  review: "true"
+podAnnotations:
+  review: "true"
+
+statefulsetLabels:
+  review: "true"
+statefulsetAnnotations:
+  review: "true"
+
+extraEnv: |
+  - name: REVIEW_ENV
+    value: "{{ .Release.Name }}"
+  - name: REVIEW_TPL
+    value: "{{ tpl .Values.http.relativePath $ }}"
+extraEnvFrom: |
+  - secretRef:
+      name: review-secret
+extraInitContainers: |
+  - name: review-init
+    image: docker.io/busybox:1.37
+    command: ["true"]
+extraContainers: |
+  - name: review-sidecar
+    image: docker.io/busybox:1.37
+    command: ["true"]
+extraVolumes: |
+  - name: review-volume
+    emptyDir: {}
+extraVolumeMounts: |
+  - name: review-volume
+    mountPath: /review
+volumeClaimTemplates: |
+  - metadata:
+      name: review-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 1Gi
+
+lifecycleHooks: |
+  postStart:
+    exec:
+      command: ["true"]
+
+extraPorts:
+  - name: jgroups-extra
+    port: 7800
+    protocol: TCP
+
+podDisruptionBudget:
+  minAvailable: 1
+
+startupScripts:
+  review-startup.groovy: "return true"
+
+secrets:
+  review-secret:
+    annotations:
+      review: "true"
+    stringData:
+      foo: bar
+
+serviceAccount:
+  create: true
+  allowReadPods: true
+  annotations:
+    review: "true"
+  labels:
+    review: "true"
+
+rbac:
+  create: true
+  rules:
+    - apiGroups: [""]
+      resources: ["pods"]
+      verbs: ["get", "list", "watch"]
+
+service:
+  type: NodePort
+  annotations:
+    review: "true"
+  labels:
+    review: "true"
+  extraPorts:
+    - name: jgroups-extra-svc
+      port: 7800
+      protocol: TCP
+
+serviceHeadless:
+  annotations:
+    review: "true"
+  labels:
+    review: "true"
+  extraPorts:
+    - name: jgroups-extra-headless
+      port: 7800
+      protocol: TCP
+
+ingress:
+  enabled: true
+  ingressClassName: nginx
+  annotations:
+    review: "true"
+  labels:
+    review: "true"
+  console:
+    enabled: true
+
+httpRoute:
+  enabled: true
+  annotations:
+    review: "true"
+  console:
+    enabled: true
+  listenerSet:
+    enabled: true
+    parentRef:
+      name: gateway
+    listeners:
+      - name: http
+        hostname: keycloak.review.example.com
+        port: 80
+        protocol: HTTP
+
+route:
+  enabled: true
+  host: keycloak.review.example.com
+  annotations:
+    review: "true"
+
+networkPolicy:
+  enabled: true
+  labels:
+    review: "true"
+  extraFrom:
+    - podSelector:
+        matchLabels:
+          review: "true"
+  egress:
+    - to:
+        - ipBlock:
+            cidr: 10.0.0.0/8
+      ports:
+        - protocol: TCP
+          port: 5432
+
+dbchecker:
+  enabled: true
+
+database:
+  vendor: postgres
+  hostname: review-postgres
+  port: 5432
+  database: review
+  username: review
+  password: review
+
+cache:
+  stack: custom
+
+proxy:
+  enabled: true
+  mode: forwarded
+  http:
+    enabled: true
+
+metrics:
+  enabled: true
+
+health:
+  enabled: true
+
+serviceMonitor:
+  enabled: true
+  labels:
+    review: "true"
+
+extraServiceMonitor:
+  enabled: true
+  labels:
+    review: "true"
+
+prometheusRule:
+  enabled: true
+  rules:
+    - alert: ReviewAlert
+      expr: vector(1)
+      labels:
+        severity: warning
+
+autoscaling:
+  enabled: true
+  minReplicas: 2
+  maxReplicas: 4
+
+extraManifests:
+  - |
+    apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: {{ include "keycloak.fullname" . }}-review-extra
+    data:
+      foo: bar
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: "{{ include \"keycloak.fullname\" . }}-review-extra-object"
+    data:
+      foo: bar
