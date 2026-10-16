@@ -210,9 +210,9 @@ The following table lists the configurable parameters of the Keycloak-X chart an
 | `database.existingSecret`                     | Existing Secret containing database password (expects key `password`)                                                                                                                                                                                                             | `""`                                                                                                                                                                                    |
 | `database.existingSecretKey`                  | Key in existing Secret containing database password                                                                                                                                                                                                                               | `""`
 | `cache.stack`                                 | Cache / Cluster Discovery, use `custom` to disable automatic configuration.                                                                                                                                                                                                       | `default`                                                                                                                                                                               |
-| `proxy.enabled`                               | If `true`, the `KC_PROXY` env variable will be set to the configured mode                                                                                                                                                                                                         | `true`                                                                                                                                                                                  |
-| `proxy.mode`                                  | The configured proxy mode                                                                                                                                                                                                                                                         | `forwarded`                                                                                                                                                                             |
-| `proxy.http.enabled`                          | If `true`, HTTP forwarding is enabled                                                                                                                                                                                                                                             | `true`                                                                                                                                                                                  |
+| `proxy.enabled`                               | If `true`, the `KC_PROXY_HEADERS` env variable will be set to `proxy.mode`, so Keycloak trusts the proxy headers of that type                                                                                                                                                     | `true`                                                                                                                                                                                  |
+| `proxy.mode`                                  | Which proxy headers Keycloak trusts (`KC_PROXY_HEADERS`): `forwarded` (RFC 7239 `Forwarded` header) or `xforwarded` (`X-Forwarded-*` headers)                                                                                                                                     | `forwarded`                                                                                                                                                                             |
+| `proxy.http.enabled`                          | If `true`, the `KC_HTTP_ENABLED` env variable will be set to `true`, enabling the HTTP listener. Independent of `proxy.enabled`                                                                                                                                                   | `true`                                                                                                                                                                                  |
 | `http.relativePath`                           | The relative http path (context-path)                                                                                                                                                                                                                                             | `/auth`                                                                                                                                                                                 |
 | `http.managementRelativePath`                 | The relative path for the management interface (KC_HTTP_MANAGEMENT_RELATIVE_PATH). When empty, Keycloak inherits the value from `http.relativePath`. Set to `/` to serve management endpoints at the root.                                                                          | `""`                                                                                                                                                                                    |
 | `http.internalPort`                           | The port of the internal management interface                                                                                                                                                                                                                                     | `http-internal`                                                                                                                                                                         |
@@ -460,13 +460,22 @@ KUBE_PING service discovery seems to be the most reliable mechanism to use when 
 ### Running Keycloak Behind a Reverse Proxy
 
 When running Keycloak behind a reverse proxy, which is the case when using an ingress controller,
-proxy address forwarding must be enabled as follows:
+Keycloak must trust the headers the proxy sets so that it builds its URLs from the external host and scheme.
+The chart does this through `KC_PROXY_HEADERS`. Set `proxy.mode` to the header type your proxy sends:
 
 ```yaml
-extraEnv: |
-  - name: KC_PROXY
-    value: "passthrough"
+proxy:
+  enabled: true
+  # `forwarded` for the RFC 7239 `Forwarded` header, `xforwarded` for `X-Forwarded-*`
+  mode: xforwarded
 ```
+
+Do not set `KC_PROXY` (for example `edge` or `passthrough`) in `extraEnv`. That option was deprecated in Keycloak 24
+and removed in Keycloak 26. Keycloak 26 still starts with it set, but only logs a warning and keeps ignoring the
+forwarded headers, so the issuer and redirect URLs point at the internal address.
+
+Only trust these headers when the proxy in front of Keycloak overwrites them; otherwise clients can spoof them.
+See the Keycloak [reverse proxy guide](https://www.keycloak.org/server/reverseproxy).
 
 ### Providing a Custom Theme
 
