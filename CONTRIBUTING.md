@@ -62,6 +62,25 @@ Git has a `-s` command line option to append this automatically to your commit m
 $ git commit -s -m 'This is my commit message'
 ```
 
+## Commit Message Format
+
+Commit subjects must follow the [Conventional Commits](https://www.conventionalcommits.org/) format. The `commit-lint` CI check enforces this on every pull request.
+
+Merges use the rebase strategy, so **every commit subject of your PR lands on the history** — all commits in a PR must conform, not just the last one.
+
+```text
+<type>(<scope>): <short lowercase summary, no trailing period>
+```
+
+* Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`
+* The scope is optional and free-form; for chart changes use the chart's name, e.g. `fix(keycloakx): ...`
+* Keep the subject under 100 characters
+* Examples:
+  * `fix(keycloakx): readinessProbe gated on health.enabled, not metrics.enabled`
+  * `docs: make version bumping and releasing a maintainer task`
+
+The checks use the standard `@commitlint/config-conventional` rules; commit bodies and trailers (like the `Signed-off-by:` line) are unaffected apart from a 100-character line-length limit.
+
 ## How to Contribute
 
 1. Fork this repository, develop, and test your changes.
