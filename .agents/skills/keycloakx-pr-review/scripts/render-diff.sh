@@ -213,7 +213,7 @@ output dir:       $OUT_DIR
 profiles changed: $CHANGED/$PROFILES_TOTAL ($CHANGED_LINES diff lines total)
 RESULT: render-diff complete — changed_profiles=$CHANGED changed_lines=$CHANGED_LINES head_render_failures=$HEAD_FAILS base_only_capabilities=$BASE_FAILS_HEAD_OK both_fail=$BOTH_FAIL lint_errors=$LINT_ERRORS
 INTERPRETATION:
-  defaults CHANGED           -> every existing user is affected; must be intentional, version-bumped (major/minor) and documented
+  defaults CHANGED           -> every existing user is affected; must be intentional and documented (maintainer bumps the chart version at release time)
   kitchen-sink / extra       -> inspect each hunk: additive output for opt-in features is fine, changed pre-existing output is not
   head_render_failures > 0   -> regression (BLOCKER)
 SUMMARY
