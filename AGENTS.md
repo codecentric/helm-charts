@@ -42,7 +42,7 @@ ct install --config ct.yaml --charts charts/<chart>
 
 ### Release / Versioning Conventions
 
-- **Version bumps are manual**: edit `version` in the chart's `Chart.yaml` (semver). Every chart change requires a version bump.
+- **Version bumping and releasing is a maintainer task**: never change the chart `version` in `Chart.yaml` in a PR — a maintainer bumps it when cutting a release. `appVersion` updates (shipping a newer Keycloak image) are welcome; `image.tag` in `values.yaml` stays `""` and defaults to `appVersion`.
 - Release is a manual `workflow_dispatch` (`.github/workflows/release-charts.yaml`): chart-releaser to GitHub Pages + `helm push` of `.cr-release-packages/*` to GHCR (`CR_SKIP_EXISTING: true`).
 
 ### Contribution Rules (enforced by CI / convention)

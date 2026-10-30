@@ -95,8 +95,9 @@ Method to attribute an unknown error string ("tool fingerprinting"):
 - Smallest change that fixes the root cause; no drive-by refactors.
 - Backwards compatible for users who don't hit the bug: defaults render the
   same (verify with the keycloakx-pr-review `render-diff.sh`).
-- `Chart.yaml` `version` bump: patch for fixes, minor for new values/features,
-  major for breaking changes.
+- `Chart.yaml` `version` UNCHANGED: version bumping and releasing is a maintainer
+  task — flag the intended bump level (patch/minor/major) in the report so the
+  maintainer applies it when cutting the release.
 - New/changed values: `values.yaml` + `values.schema.json` + README parameter
   table (+ `NOTES.txt` if post-install behavior changes).
 - Regression coverage when it makes sense: a `ci/*-values.yaml` scenario
