@@ -69,12 +69,25 @@ Understand what the PR intends — you cannot judge "breaking" without knowing "
 
 ### 2. Static backwards-compat check
 
+**Chart version gate (repo policy).** The chart `version` in `Chart.yaml` is
+maintainer-only: contributors must not change it — a maintainer bumps it when
+cutting a release (see CONTRIBUTING.md). Check it explicitly:
+
+```bash
+git diff $(git merge-base origin/master <HEAD>) <HEAD> -- charts/keycloakx/Chart.yaml | grep -E '^[+-]version:'
+```
+
+No output → good. Any `+version:` / `-version:` hunk → BLOCKER: ask the author to
+revert the bump; the maintainer picks the version at release time. The grep does
+not match `appVersion` lines — appVersion bumps (new Keycloak image) are welcome;
+`image.tag` in `values.yaml` stays `""` and defaults to `appVersion`.
+
 Manually inspect the files that carry compat risk (details and examples:
 `references/compat-checklist.md`):
 
 | File | What breaks users |
 |---|---|
-| `Chart.yaml` | version not bumped; appVersion/image.tag out of sync |
+| `Chart.yaml` | `version` changed by the contributor (gate above); appVersion/image.tag inconsistencies |
 | `values.yaml` | changed DEFAULTS (affects everyone); removed/renamed values; tpl-values that stopped being strings |
 | `values.schema.json` | new `required`; removed properties; narrowed types; `additionalProperties: false` |
 | `templates/*` | selector/label changes (immutable!); resource/port/env renames; helper output changes |
@@ -96,8 +109,10 @@ Interpret:
 - `defaults: IDENTICAL` (only version labels changed) — good.
 - `defaults: CHANGED` beyond `helm.sh/chart:` / `app.kubernetes.io/version:` /
   `image:` / `checksum/*` noise — every existing user is affected. BLOCKER unless
-  clearly intentional AND version-bumped appropriately (major/minor) AND documented
-  in README (+ `NOTES.txt` if post-install behavior changes).
+  clearly intentional AND documented in README (+ `NOTES.txt` if post-install
+  behavior changes). The PR must not bump the chart version itself — instead flag
+  that the release needs a major/minor bump when the maintainer cuts it. If
+  `helm.sh/chart:` shows up in the diff at all, the version gate above has fired.
 - `kitchen-sink` hunks: additive output for newly enabled opt-in features is fine;
   changed output of previously existing resources is not.
 - `REGRESSION — head fails to render where base succeeded` — BLOCKER, always.
@@ -146,7 +161,7 @@ Format (always include the verdict — the user asked for exactly this):
 ## keycloakx PR #<N> — backwards compatibility review
 
 ### Summary
-<1–3 sentences on what the PR does + chart version before → after>
+<1–3 sentences on what the PR does + chart version (must be unchanged) + appVersion change if any>
 
 ### Static analysis
 - render-diff: <profiles changed, key hunks or "only expected version-label noise">
@@ -169,11 +184,14 @@ Severity ladder (details in `references/compat-checklist.md`):
 - `BLOCKER` — rendered output changed for unchanged values unintentionally; head
   render fails where base rendered; schema rejects previously valid values; values
   removed/renamed without alternative; immutable-field (selector) changes; chart
-  version not bumped; live upgrade fails or pods crash.
+  `version` changed by the PR author (maintainer-only); live upgrade fails or pods
+  crash.
 - `SHOULD-FIX` — README parameter table not updated; NOTES.txt missing for changed
-  post-install behavior; version bump too small for an intentional behavior change;
+  post-install behavior; intentional behavior change without a call-out of its
+  upgrade impact (the maintainer needs this to pick the release version);
   deprecation notice missing.
-- `NOTE` — expected diffs (version labels, image tag, checksums); additive opt-in features.
+- `NOTE` — expected diffs (`app.kubernetes.io/version` label and image tag when
+  `appVersion` changed, checksums); additive opt-in features.
 
 Verdict:
 
