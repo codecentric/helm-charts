@@ -73,13 +73,13 @@ ct install --config ct.yaml --charts charts/keycloakx
 
 ## Versioning & Release for this Chart
 
-- **Version bumps are manual**: edit `version` in `Chart.yaml` (semver; breaking value/template changes → major/minor, fixes → patch).
-- **Keycloak upgrades**: update **both** `Chart.yaml appVersion` **and** `values.yaml image.tag` — values.yaml pins the tag explicitly (do not rely on the `appVersion` default), so `appVersion` alone does NOT change the deployed image. Keep the two identical; `keycloak.labels` uses `image.tag | default .Chart.AppVersion`.
+- **Version bumping is a maintainer task**: never change `version` in `Chart.yaml` as part of a change — a maintainer bumps it when cutting a release (semver; breaking value/template changes → major/minor, fixes → patch).
+- **Keycloak upgrades**: update `Chart.yaml appVersion` only — `image.tag` in `values.yaml` stays `""` and defaults to `appVersion` (`keycloak.labels` uses `image.tag | default .Chart.AppVersion`), so `appVersion` alone drives the deployed image. Also update example files referencing the version (e.g. `examples/postgresql-kubeping/Dockerfile`).
 - Release is manual `workflow_dispatch` (root `.github/workflows/release-charts.yaml`): chart-releaser to GitHub Pages + `helm push` to GHCR.
 
 ## Gotchas
 
-- `image.tag` default is **not** the chart version (README wording is historical) — it is `appVersion`, but current values.yaml pins it explicitly (see above).
+- `image.tag` default is **not** the chart version — it is `appVersion` (values.yaml keeps it `""`; users override with `image.tag` or pin `image.digest`).
 - `httpRoute.servicePort` must be an **integer** (schema enforces), while `ingress.servicePort` is a port **name** string (`http`). Don't mix them up.
 - `httpRoute.rules` schema uses `additionalProperties: false` — users cannot set `backendRefs`; the chart always points at `<fullname>-http`.
 - `podDisruptionBudget` renders whenever the value is non-empty — setting any key creates the resource.

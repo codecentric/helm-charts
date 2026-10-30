@@ -181,7 +181,9 @@ git worktree add ../helm-charts-issue-<N> -b fix/keycloakx-issue-<N> origin/mast
 
 In `../helm-charts-issue-<N>`:
 1. Make the minimal fix (templates / schema / values).
-2. Bump `charts/keycloakx/Chart.yaml` `version` (patch for fixes, minor for new values).
+2. Do NOT change `charts/keycloakx/Chart.yaml` `version` — version bumping and
+   releasing is a maintainer task; flag the intended bump level (patch/minor/major)
+   in the report instead. `appVersion` updates for a newer Keycloak image are fine.
 3. Update README parameter table / `NOTES.txt` if values or post-install behaviour change.
 4. Add regression coverage where sensible (e.g. a `charts/keycloakx/ci/<topic>-values.yaml`
    that would have failed before; it must install on kind with H2).
@@ -229,8 +231,9 @@ Brief for the reviewing agent (adjust placeholders, deliver verbatim):
 > 2. Review the diff: does it fix the actual trigger (see
 >    `/tmp/kcx-issue-<N>/values-minimal.yaml`)? Is it the minimal change? What else
 >    renders differently now (values, templates, NOTES) that it should not touch?
-> 3. Check conventions: `Chart.yaml` version bump (patch = fix, minor = new value),
->    `values.schema.json`, README parameter table, `NOTES.txt` for post-install changes.
+> 3. Check conventions: `Chart.yaml` `version` UNCHANGED (maintainer-only;
+>    bump level flagged in the report), `values.schema.json`, README parameter
+>    table, `NOTES.txt` for post-install changes.
 > 4. Backwards compatibility — from the repo root:
 >    `(cd ../helm-charts-issue-<N> && bash "$OLDPWD/.agents/skills/keycloakx-pr-review/scripts/render-diff.sh" origin/master WORKTREE)`
 >    Defaults must render identically apart from version labels unless the change is
