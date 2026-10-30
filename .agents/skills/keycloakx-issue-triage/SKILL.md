@@ -187,6 +187,10 @@ In `../helm-charts-issue-<N>`:
 3. Update README parameter table / `NOTES.txt` if values or post-install behaviour change.
 4. Add regression coverage where sensible (e.g. a `charts/keycloakx/ci/<topic>-values.yaml`
    that would have failed before; it must install on kind with H2).
+5. Use a Conventional Commits subject for every commit (`fix(keycloakx): ...`),
+   including intermediate ones — the `commit-lint` CI check enforces it on every
+   PR commit, and merges to master are rebase merges, so every subject lands on
+   the history.
 
 Verify the fix:
 
