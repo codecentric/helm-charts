@@ -1,0 +1,25 @@
+name: commit-lint
+
+# Enforces Conventional Commits on every commit of a pull request.
+# Merges into master are rebase merges, so every commit subject of a PR
+# lands on the history — all commits must conform, not just the last one.
+# The push trigger additionally lints commits pushed directly to master.
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      # No config file: the action falls back to @commitlint/config-conventional
+      # (standard types, optional free-form scope, 100-char header limit).
+      - uses: wagoid/commitlint-github-action@v6
