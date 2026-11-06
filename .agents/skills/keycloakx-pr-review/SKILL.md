@@ -70,8 +70,11 @@ Understand what the PR intends — you cannot judge "breaking" without knowing "
 ### 2. Static backwards-compat check
 
 **Chart version gate (repo policy).** The chart `version` in `Chart.yaml` is
-maintainer-only: contributors must not change it — a maintainer bumps it when
-cutting a release (see CONTRIBUTING.md). Check it explicitly:
+maintainer-only: contributors must not change it — releases are cut
+periodically by a maintainer, who derives the new chart version from the
+conventional-commit types accumulated since the last release (`chore`/`fix` →
+patch, `feat` → minor, breaking → major; see CONTRIBUTING.md). A missing
+version bump in a PR is therefore never a finding. Check it explicitly:
 
 ```bash
 git diff $(git merge-base origin/master <HEAD>) <HEAD> -- charts/keycloakx/Chart.yaml | grep -E '^[+-]version:'

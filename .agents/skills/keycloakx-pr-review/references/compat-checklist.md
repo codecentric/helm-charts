@@ -26,10 +26,12 @@ tells you what a diff hunk *means*.
   `appVersion`, so it needs no edit; an explicitly pinned `image.tag` that
   differs from `appVersion` deserves a NOTE.
 - Release-side semver guidance for the maintainer (NOT the PR author's job):
-  fix → patch; new opt-in feature → minor; breaking (defaults changed, values
-  renamed/removed, new required values, template output changed for unchanged
-  values) → major (semver) — the repo has used minor for these historically,
-  so at minimum flag the mismatch in the review.
+  releases are cut periodically, with the new version derived from the
+  conventional-commit types accumulated since the last release — `chore`/`fix`
+  → patch, `feat` (new opt-in feature) → minor, breaking (defaults changed,
+  values renamed/removed, new required values, template output changed for
+  unchanged values) → major (semver). The repo has used minor for breaking
+  changes historically, so at minimum flag the mismatch in the review.
 
 ## 2. values.yaml — defaults and value surface
 
