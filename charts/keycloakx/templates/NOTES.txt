@@ -18,6 +18,13 @@ Keycloak was installed with a Gateway API HTTPRoute attached to:
   - Gateway: {{ .name }}{{ with .sectionName }}, section: {{ . }}{{ end }}
 {{- end }}
 
+{{- else if .Values.httpRoute.console.enabled }}
+
+Keycloak was installed with a Gateway API HTTPRoute for the admin console only
+(httpRoute.enabled is false — the main HTTPRoute is not managed by this chart).
+The console route {{ include "keycloak.fullname" . }}-console attaches to the
+parentRefs configured in httpRoute.console.parentRefs (or the ListenerSet).
+
 {{- else if .Values.ingress.enabled }}
 
 Keycloak was installed with an Ingress and can be reached at the following URL(s):

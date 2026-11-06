@@ -336,7 +336,8 @@ httpRoute:
   # and hostnames are derived from listener hostnames; httpRoute.parentRefs and
   # httpRoute.hostnames are unused.
   listenerSet:
-    # If `true`, a ListenerSet resource is created alongside the HTTPRoute
+    # If `true`, a ListenerSet resource is created alongside the enabled
+    # HTTPRoute(s) — the main route and/or the console route (httpRoute.console)
     enabled: false
     # Additional ListenerSet labels
     labels: {}
@@ -359,7 +360,9 @@ httpRoute:
 
   # HTTPRoute for console only (/auth/admin)
   console:
-    # If `true`, an HTTPRoute is created for console path only
+    # If `true`, an HTTPRoute is created for console path only — independent of
+    # `httpRoute.enabled` (useful for split exposure: console on a protected
+    # Gateway, public paths exposed elsewhere)
     enabled: false
     # Additional HTTPRoute labels
     labels: {}

@@ -1,6 +1,6 @@
 {{- $httpRoute := .Values.httpRoute -}}
 {{- $listenerSet := $httpRoute.listenerSet -}}
-{{- if and $httpRoute.enabled $listenerSet.enabled -}}
+{{- if and (or $httpRoute.enabled $httpRoute.console.enabled) $listenerSet.enabled -}}
 apiVersion: gateway.networking.k8s.io/v1
 kind: ListenerSet
 metadata:
